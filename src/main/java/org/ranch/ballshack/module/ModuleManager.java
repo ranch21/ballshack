@@ -1,6 +1,6 @@
 package org.ranch.ballshack.module;
 
-import org.ranch.ballshack.BallsLogger;
+import org.ranch.ballshack.module.modules.Boatfly;
 import org.ranch.ballshack.module.modules.ClickGui;
 import org.ranch.ballshack.module.modules.TestModule;
 
@@ -11,7 +11,8 @@ public class ModuleManager {
 
 	static List<Module> modules = Arrays.asList(
 			new TestModule(),
-			new ClickGui()
+			new ClickGui(),
+			new Boatfly()
 	);
 
 	public static List<Module> getModules() {
@@ -31,11 +32,6 @@ public class ModuleManager {
 		for (Module module : modules) {
 			if (module.getBind() == key) {
 				module.toggle();
-				if (module.isEnabled()) {
-					BallsLogger.info("Enabled module " + module.getName());
-				} else {
-					BallsLogger.info("Disabled module " + module.getName());
-				}
 			}
 		}
 	}
