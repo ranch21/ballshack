@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "id": "ballshack",
+  "version": "${version}",
+  "name": "BallsHack",
+  "description": "",
+  "authors": [],
+  "contact": {},
+  "license": "All-Rights-Reserved",
+  "icon": "assets/ballshack/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "main": [
+      "org.ranch.ballshack.BallsHack"
+    ]
+  },
+  "mixins": [
+    "ballshack.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}
