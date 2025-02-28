@@ -5,6 +5,8 @@ import org.ranch.ballshack.BallsHack;
 import org.ranch.ballshack.BallsLogger;
 import org.ranch.ballshack.setting.ModuleSettings;
 
+import java.util.ArrayList;
+
 public class Module {
 
 	protected MinecraftClient mc = MinecraftClient.getInstance();
@@ -12,15 +14,18 @@ public class Module {
 	private String name;
 	private ModuleCategory category;
 	private Boolean subscribed;
-	private int bind;
 
-	public boolean enabled;
+	private boolean enabled;
 
 	public Module(String name, ModuleCategory category, int bind) {
+		this(name, category, bind, new ModuleSettings(new ArrayList<>()));
+	}
+
+	public Module(String name, ModuleCategory category, int bind, ModuleSettings settings) {
 		this.name = name;
 		this.category = category;
-		this.bind = bind;
-		//this.settings = settings;
+		settings.getBind().setValue(bind);
+		this.settings = settings;
 	}
 
 	public void onEnable() {
@@ -38,7 +43,7 @@ public class Module {
 	}
 
 	public int getBind() {
-		return bind;
+		return settings.getBind().getValue();
 	}
 
 	public ModuleCategory getCategory() {

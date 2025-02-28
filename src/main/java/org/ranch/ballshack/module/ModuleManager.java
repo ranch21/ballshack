@@ -2,6 +2,7 @@ package org.ranch.ballshack.module;
 
 import org.ranch.ballshack.module.modules.Boatfly;
 import org.ranch.ballshack.module.modules.ClickGui;
+import org.ranch.ballshack.module.modules.NoFall;
 import org.ranch.ballshack.module.modules.TestModule;
 
 import java.util.Arrays;
@@ -12,7 +13,8 @@ public class ModuleManager {
 	static List<Module> modules = Arrays.asList(
 			new TestModule(),
 			new ClickGui(),
-			new Boatfly()
+			new Boatfly(),
+			new NoFall()
 	);
 
 	public static List<Module> getModules() {

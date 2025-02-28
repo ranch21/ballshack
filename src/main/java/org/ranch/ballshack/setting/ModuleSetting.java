@@ -1,10 +1,18 @@
 package org.ranch.ballshack.setting;
 
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.text.Text;
 
 public abstract class ModuleSetting<T> {
 
 	private String name;
+
+	protected int x;
+	protected int y;
+	protected int width;
+	protected int height;
 
 	private T value;
 
@@ -13,7 +21,24 @@ public abstract class ModuleSetting<T> {
 		this.value = value;
 	}
 
-	public abstract void render(DrawContext context, int mouseX, int mouseY, float delta);
+	public abstract int render(DrawContext context, int x, int y, int width, int height, int mouseX, int mouseY);
+
+	public boolean mouseClicked(double mouseX, double mouseY, int button) {
+		return false;
+	}
+
+	public void mouseReleased(double mouseX, double mouseY, int button) {
+
+	}
+
+	public void keyPressed(int keyCode, int scanCode, int modifiers) {
+
+	}
+
+	protected void drawValue(DrawContext context) {
+		TextRenderer textRend = MinecraftClient.getInstance().textRenderer;
+		context.drawText(textRend, Text.literal(this.getName() + ": " + this.getValue()),x + 2,y + 2,0xFFFFFFFF,true);
+	}
 
 	public T getValue() {
 		return value;

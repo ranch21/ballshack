@@ -7,6 +7,8 @@ import net.minecraft.text.Text;
 import org.lwjgl.glfw.GLFW;
 import org.ranch.ballshack.gui.ClickGuiScreen;
 import org.ranch.ballshack.gui.Colors;
+import org.ranch.ballshack.gui.DrawUtil;
+import org.ranch.ballshack.gui.GuiUtil;
 import org.ranch.ballshack.module.Module;
 import org.ranch.ballshack.module.ModuleCategory;
 import org.ranch.ballshack.module.ModuleManager;
@@ -19,10 +21,10 @@ public class CategoryWindow {
 	public int x;
 	public int y;
 
-	public int width = 50;
-	public int height = 15;
+	public int width = 70;
+	public int height = 11;
 
-	public int moduleInset = 4;
+	public int moduleInset = 0;
 
 	public String title;
 
@@ -57,7 +59,6 @@ public class CategoryWindow {
 	}
 
 	public void render(DrawContext context, int mouseX, int mouseY, float delta, ClickGuiScreen screen) {
-		TextRenderer textRend = MinecraftClient.getInstance().textRenderer;
 
 		if (dragging) {
 			x = mouseX - dragX;
@@ -71,42 +72,79 @@ public class CategoryWindow {
 
 		int addedHeight = 0;
 
-		for (ModuleWidget moduleWidget : moduleWidgets) {
-			int newY = y + addedHeight + height;
-			context.fill(x, newY, x + width, newY + height + moduleInset / 2, Colors.CLICKGUI_1.hashCode());
-
-			addedHeight += moduleWidget.render(context, x + moduleInset / 2, y + height + addedHeight, width - moduleInset, height, mouseX, mouseY);
+		if (opened) {
+			for (ModuleWidget moduleWidget : moduleWidgets) {
+				addedHeight += moduleWidget.render(context, x, y + height + addedHeight, width, height, mouseX, mouseY);
+			}
 		}
 
-		context.fill(x, y, x + width, y + height, Colors.CLICKGUI_1.hashCode());
+		//context.fill(x, y, x + width, y + height, Colors.CLICKGUI_1.hashCode());
+		DrawUtil.drawHorizontalGradient(context, x, y, width, height, Colors.CLICKGUI_TITLE_START, Colors.CLICKGUI_TITLE_END, 20);
+
+		int bottomY = y + height + addedHeight;
+
+		context.drawHorizontalLine(x, x + width - 1, y - 1, Colors.BORDER.hashCode()); // top
+		context.drawHorizontalLine(x, x + width - 1, bottomY, Colors.BORDER.hashCode()); // bottom
+		context.drawVerticalLine(x - 1, y - 1, bottomY, Colors.BORDER.hashCode()); // left
+		context.drawVerticalLine(x + width, y - 1, bottomY, Colors.BORDER.hashCode()); // right
 
 		/* window title */
-		context.drawText(textRend, Text.literal(title),x + 2,y + 2,0xFFFFFFFF,true);
+		TextRenderer textRend = MinecraftClient.getInstance().textRenderer;
+		int textInset = (height - textRend.fontHeight) / 2;
+		context.drawText(textRend, Text.literal(title),x + 2,y + textInset,0xFFFFFFFF,true);
+		// collapsed thinger
+		context.drawText(textRend, Text.literal(opened ? "-" : "+"),x + width - 8,y + textInset, 0xFFFFFFFF,true);
 	}
 
-	public void mouseClicked(double mouseX, double mouseY, int button) {
+	public boolean mouseClicked(double mouseX, double mouseY, int button) {
 
-		for (ModuleWidget moduleWidget : moduleWidgets) {
-			moduleWidget.mouseClicked(mouseX, mouseY, button);
+		if (opened) {
+			for (ModuleWidget moduleWidget : moduleWidgets) {
+				if (moduleWidget.mouseClicked(mouseX, mouseY, button)) {
+					return true;
+				}
+			}
 		}
 
 		if (button == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
-			if (mouseX > x && mouseX < x + width && mouseY > y && mouseY < y + height) {
+			if (GuiUtil.mouseOverlap(mouseX, mouseY, x, y, width, height)) {
 				dragging = true;
 				dragX = (int) mouseX - x;
 				dragY = (int) mouseY - y;
+				return true;
 			}
 		}
+
+		if (button == GLFW.GLFW_MOUSE_BUTTON_RIGHT) {
+			if (GuiUtil.mouseOverlap(mouseX, mouseY, x, y, width, height)) {
+				if (opened) {
+					opened = false;
+				} else {
+					opened = true;
+				}
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public void mouseReleased(double mouseX, double mouseY, int button) {
-
-		for (ModuleWidget moduleWidget : moduleWidgets) {
-			moduleWidget.mouseReleased(mouseX, mouseY, button);
+		if (opened) {
+			for (ModuleWidget moduleWidget : moduleWidgets) {
+				moduleWidget.mouseReleased(mouseX, mouseY, button);
+			}
 		}
 
 		if (button == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
 			dragging = false;
+		}
+	}
+
+	public void keyPressed(int keyCode, int scanCode, int modifiers) {
+		if (opened) {
+			for (ModuleWidget moduleWidget : moduleWidgets) {
+				moduleWidget.keyPressed(keyCode, scanCode, modifiers);
+			}
 		}
 	}
 }

@@ -7,16 +7,19 @@ import org.ranch.ballshack.event.EventSubscribe;
 import org.ranch.ballshack.event.events.EventTick;
 import org.ranch.ballshack.module.Module;
 import org.ranch.ballshack.module.ModuleCategory;
+import org.ranch.ballshack.setting.ModuleSettings;
+import org.ranch.ballshack.setting.settings.SettingSlider;
+
+import java.util.List;
 
 public class Boatfly extends Module {
 
 	public Boatfly() {
-
 		super(
 			"BoatFly",
 			ModuleCategory.MOVEMENT,
-			GLFW.GLFW_KEY_G
-			//new ModuleSettings(List.of(new SettingSlider(1, "Vertical Speed")))
+			GLFW.GLFW_KEY_G,
+			new ModuleSettings(List.of(new SettingSlider(2, "Vspeed", 1, 4, 0.5)))
 		);
 	}
 
@@ -32,7 +35,7 @@ public class Boatfly extends Module {
 		double yVel = 0;
 		double zVel = velocity.z;
 
-		int verticalSpeed = (int) this.getSettings().getSetting(0).getValue();
+		double verticalSpeed = (double) this.getSettings().getSetting(0).getValue() / 3;
 
 		if (mc.options.jumpKey.isPressed()) {
 			yVel = verticalSpeed;

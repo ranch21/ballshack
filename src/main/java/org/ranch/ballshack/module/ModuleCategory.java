@@ -5,5 +5,5 @@ public enum ModuleCategory {
 	RENDER,
 	COMBAT,
 	MOVEMENT,
-	MISC
+	WORLD
 }
