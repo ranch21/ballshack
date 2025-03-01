@@ -4,6 +4,7 @@ import net.minecraft.client.MinecraftClient;
 import org.ranch.ballshack.BallsHack;
 import org.ranch.ballshack.BallsLogger;
 import org.ranch.ballshack.setting.ModuleSettings;
+import org.ranch.ballshack.setting.SaveHelper;
 
 import java.util.ArrayList;
 
@@ -32,6 +33,7 @@ public class Module {
 		BallsLogger.info("Enabled module " + name);
 		subscribed = BallsHack.eventBus.subscribe(this);
 		enabled = true;
+		SaveHelper.SCHEDULE_SAVE_MODULES.set(true);
 	}
 
 	public void onDisable() {
@@ -40,6 +42,7 @@ public class Module {
 			subscribed = !BallsHack.eventBus.unsubscribe(this);
 		}
 		enabled = false;
+		SaveHelper.SCHEDULE_SAVE_MODULES.set(true);
 	}
 
 	public int getBind() {

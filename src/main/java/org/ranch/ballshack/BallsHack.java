@@ -3,6 +3,7 @@ package org.ranch.ballshack;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.client.option.KeyBinding;
 import org.ranch.ballshack.event.EventBus;
+import org.ranch.ballshack.setting.SaveHelper;
 
 public class BallsHack implements ModInitializer {
 
@@ -14,6 +15,7 @@ public class BallsHack implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-
+		SaveHelper.init();
+		SaveHelper.readModules();
 	}
 }

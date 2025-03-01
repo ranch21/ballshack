@@ -1,22 +1,24 @@
 package org.ranch.ballshack.module.modules;
 
-import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
+import org.lwjgl.glfw.GLFW;
 import org.ranch.ballshack.event.EventSubscribe;
 import org.ranch.ballshack.event.events.EventTick;
 import org.ranch.ballshack.module.Module;
 import org.ranch.ballshack.module.ModuleCategory;
 
-public class NoFall extends Module {
-	public NoFall() {
-		super("NoFall", ModuleCategory.PLAYER, 0);
+public class Flight extends Module {
+	public Flight() {
+		super("Flight", ModuleCategory.MOVEMENT, GLFW.GLFW_KEY_F);
 	}
 
 	@EventSubscribe
 	public void onTick(EventTick event) {
+		mc.player.getAbilities().flying = true;
+	}
 
-		if (mc.player.isCreative()) return;
-
-		mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.OnGroundOnly(true));
-
+	@Override
+	public void onDisable() {
+		super.onDisable();
+		mc.player.getAbilities().flying = false;
 	}
 }

@@ -4,8 +4,10 @@
   "package": "org.ranch.ballshack.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "BlockCollisionSpliteratorMixin"
   ],
   "client": [
+    "ClientPlayerInteractionManagerMixin",
     "ClientWorldMixin",
     "KeyboardMixin"
   ],

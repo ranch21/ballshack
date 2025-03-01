@@ -3,6 +3,8 @@ package org.ranch.ballshack.gui.window;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.sound.PositionedSoundInstance;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import org.lwjgl.glfw.GLFW;
 import org.ranch.ballshack.gui.ClickGuiScreen;
@@ -79,7 +81,7 @@ public class CategoryWindow {
 		}
 
 		//context.fill(x, y, x + width, y + height, Colors.CLICKGUI_1.hashCode());
-		DrawUtil.drawHorizontalGradient(context, x, y, width, height, Colors.CLICKGUI_TITLE_START, Colors.CLICKGUI_TITLE_END, 20);
+		DrawUtil.drawHorizontalGradient(context, x, y, width, height, Colors.CLICKGUI_TITLE_START, Colors.CLICKGUI_TITLE_END, 10);
 
 		int bottomY = y + height + addedHeight;
 
@@ -98,9 +100,12 @@ public class CategoryWindow {
 
 	public boolean mouseClicked(double mouseX, double mouseY, int button) {
 
+		MinecraftClient mc = MinecraftClient.getInstance();
+
 		if (opened) {
 			for (ModuleWidget moduleWidget : moduleWidgets) {
 				if (moduleWidget.mouseClicked(mouseX, mouseY, button)) {
+					mc.getSoundManager().play(PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK, 1.0F));
 					return true;
 				}
 			}
@@ -122,6 +127,7 @@ public class CategoryWindow {
 				} else {
 					opened = true;
 				}
+				mc.getSoundManager().play(PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK, 1.0F));
 				return true;
 			}
 		}

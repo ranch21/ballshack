@@ -29,11 +29,11 @@ public class SettingBind extends ModuleSetting<Integer> {
 		/* setting name and value */
 		TextRenderer textRend = MinecraftClient.getInstance().textRenderer;
 		String keyName = GLFW.glfwGetKeyName(this.getValue(), 0);
-		if (keyName == null) {
-			drawValue(context);
-		} else if (this.getValue() == 0) {
+		if (this.getValue() == 0) {
 			context.drawText(textRend, Text.literal(this.getName() + ": " + "None"),x + 2,y + 2,0xFFFFFFFF,true);
-		} else {
+		} else if (keyName == null) {
+			drawValue(context);
+		}  else {
 			context.drawText(textRend, Text.literal(this.getName() + ": " + keyName),x + 2,y + 2,0xFFFFFFFF,true);
 		}
 
@@ -52,8 +52,13 @@ public class SettingBind extends ModuleSetting<Integer> {
 	@Override
 	public void keyPressed(int keyCode, int scanCode, int modifiers) {
 		if (selected) {
-			this.setValue(keyCode);
-			selected = false;
+			if (keyCode == GLFW.GLFW_KEY_BACKSPACE) {
+				this.setValue(0);
+				selected = false;
+			} else {
+				this.setValue(keyCode);
+				selected = false;
+			}
 		}
 	}
 }

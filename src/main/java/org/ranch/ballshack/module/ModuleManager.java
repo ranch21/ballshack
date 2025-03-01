@@ -1,9 +1,6 @@
 package org.ranch.ballshack.module;
 
-import org.ranch.ballshack.module.modules.Boatfly;
-import org.ranch.ballshack.module.modules.ClickGui;
-import org.ranch.ballshack.module.modules.NoFall;
-import org.ranch.ballshack.module.modules.TestModule;
+import org.ranch.ballshack.module.modules.*;
 
 import java.util.Arrays;
 import java.util.List;
@@ -14,7 +11,12 @@ public class ModuleManager {
 			new TestModule(),
 			new ClickGui(),
 			new Boatfly(),
-			new NoFall()
+			new NoFall(),
+			new Reach(),
+			new Flight(),
+			new BouncyGround(),
+			new KillAura(),
+			new Jesus()
 	);
 
 	public static List<Module> getModules() {

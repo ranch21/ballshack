@@ -37,7 +37,8 @@ public abstract class ModuleSetting<T> {
 
 	protected void drawValue(DrawContext context) {
 		TextRenderer textRend = MinecraftClient.getInstance().textRenderer;
-		context.drawText(textRend, Text.literal(this.getName() + ": " + this.getValue()),x + 2,y + 2,0xFFFFFFFF,true);
+		int textInset = (height - textRend.fontHeight) / 2;
+		context.drawText(textRend, Text.literal(this.getName() + ": " + this.getValue()),x + 2,y + textInset,0xFFFFFFFF,true);
 	}
 
 	public T getValue() {
@@ -46,6 +47,7 @@ public abstract class ModuleSetting<T> {
 
 	public void setValue(T value) {
 		this.value = value;
+		SaveHelper.SCHEDULE_SAVE_MODULES.set(true);
 	}
 
 	public String getName() {

@@ -1,6 +1,7 @@
 package org.ranch.ballshack.module.modules;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import org.lwjgl.glfw.GLFW;
 import org.ranch.ballshack.event.EventSubscribe;
@@ -19,7 +20,10 @@ public class Boatfly extends Module {
 			"BoatFly",
 			ModuleCategory.MOVEMENT,
 			GLFW.GLFW_KEY_G,
-			new ModuleSettings(List.of(new SettingSlider(2, "Vspeed", 1, 4, 0.5)))
+			new ModuleSettings(List.of(
+					new SettingSlider(2, "Vspeed", 1, 4, 0.5),
+					new SettingSlider(2,"Hspeed",1,10,0.5)
+			))
 		);
 	}
 
@@ -36,11 +40,21 @@ public class Boatfly extends Module {
 		double zVel = velocity.z;
 
 		double verticalSpeed = (double) this.getSettings().getSetting(0).getValue() / 3;
+		double horizontalSpeed = (double) this.getSettings().getSetting(1).getValue() / 3;
 
 		if (mc.options.jumpKey.isPressed()) {
 			yVel = verticalSpeed;
 		} else if (mc.options.sprintKey.isPressed()) {
 			yVel = -verticalSpeed;
+		}
+
+		if(mc.options.forwardKey.isPressed())
+		{
+			double speed = horizontalSpeed;
+			float yawRad = boat.getYaw() * MathHelper.RADIANS_PER_DEGREE;
+
+			xVel = MathHelper.sin(-yawRad) * speed;
+			zVel = MathHelper.cos(yawRad) * speed;
 		}
 
 		boat.setVelocity(xVel, yVel, zVel);

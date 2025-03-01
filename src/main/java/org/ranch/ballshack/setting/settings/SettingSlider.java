@@ -8,13 +8,13 @@ import org.ranch.ballshack.setting.ModuleSetting;
 
 public class SettingSlider extends ModuleSetting<Double> {
 
-	private int min;
-	private int max;
+	private double min;
+	private double max;
 	private double step;
 
 	private boolean holding = false;
 
-	public SettingSlider(double startingValue, String name, int min, int max, double step) {
+	public SettingSlider(double startingValue, String name, double min, double max, double step) {
 		super(name, startingValue);
 		this.min = min;
 		this.max = max;

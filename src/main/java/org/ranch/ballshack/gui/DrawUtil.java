@@ -18,9 +18,9 @@ public class DrawUtil {
 				context.drawVerticalLine(cX,y,y+height,blendColor(startColor, endColor, (float) blend / width).hashCode());
 				cX++;
 				i++;
-				blend++;
 				if (i >= width) return;
 			}
+			blend += resolution;
 		}
 	}
 

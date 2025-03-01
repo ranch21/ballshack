@@ -57,12 +57,12 @@ public class ModuleWidget {
 		int textInset = (height - textRend.fontHeight) / 2;
 
 		context.drawText(textRend, Text.literal(module.getName()),x + 2,y + textInset,0xFFFFFFFF,true);
-		if (settingsOpen & !module.isEnabled()) {
+		if (settingsOpen && !module.isEnabled()) {
 			context.drawText(textRend, Text.literal("*"),x + width - 8,y + textInset, 0xFFFFFFFF,true);
-		} else if (settingsOpen & module.isEnabled()) {
+		} else if (settingsOpen && module.isEnabled()) {
 			context.drawText(textRend, Text.literal("*"),x + width - 16,y + textInset, 0xFFFFFFFF,true);
 			context.drawText(textRend, Text.literal("#"),x + width - 8,y + textInset, 0xFFFFFFFF,true);
-		} else if (!settingsOpen & module.isEnabled()) {
+		} else if (!settingsOpen && module.isEnabled()) {
 			context.drawText(textRend, Text.literal("#"),x + width - 8,y + textInset, 0xFFFFFFFF,true);
 		}
 

@@ -27,7 +27,7 @@ public class BallsLogger {
 	}
 
 	public static void info(Text info) {
-		logger.info(info);
+		logger.info(info.getString());
 		ClientPlayerEntity player = MinecraftClient.getInstance().player;
 		if (player != null) {
 			player.sendMessage(addBallText(info, INFO_COLOR));
@@ -39,7 +39,7 @@ public class BallsLogger {
 	}
 
 	public static void warn(Text warn) {
-		logger.warn(warn);
+		logger.warn(warn.getString());
 		ClientPlayerEntity player = MinecraftClient.getInstance().player;
 		if (player != null) {
 			player.sendMessage(addBallText(warn, WARN_COLOR));
@@ -51,7 +51,7 @@ public class BallsLogger {
 	}
 
 	public static void error(Text error) {
-		logger.info(error);
+		logger.info(error.getString());
 		ClientPlayerEntity player = MinecraftClient.getInstance().player;
 		if (player != null) {
 			player.sendMessage(addBallText(error, ERROR_COLOR));

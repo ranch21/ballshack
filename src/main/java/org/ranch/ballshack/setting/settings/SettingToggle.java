@@ -1,6 +1,9 @@
 package org.ranch.ballshack.setting.settings;
 
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.text.Text;
 import org.lwjgl.glfw.GLFW;
 import org.ranch.ballshack.gui.Colors;
 import org.ranch.ballshack.gui.GuiUtil;
@@ -25,7 +28,10 @@ public class SettingToggle extends ModuleSetting<Boolean> {
 		}
 
 		/* setting name and value */
-		drawValue(context);
+		TextRenderer textRend = MinecraftClient.getInstance().textRenderer;
+		int textInset = (height - textRend.fontHeight) / 2;
+		context.drawText(textRend, Text.literal(this.getName()),x + 2,y + textInset,0xFFFFFFFF,true);
+		context.drawText(textRend, Text.literal(this.getValue() ? "#" : " "), x + width - 8,y + textInset,0xFFFFFFFF,true);
 
 		return height;
 	}
