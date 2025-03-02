@@ -18,6 +18,6 @@ public class Reach extends Module {
 
 	@EventSubscribe
 	public void onReach(EventReach event) {
-		event.setReach(((Double) getSettings().getSetting(0).getValue()).floatValue());
+		event.reach = ((Double) getSettings().getSetting(0).getValue()).floatValue();
 	}
 }

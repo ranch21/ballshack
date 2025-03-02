@@ -35,10 +35,16 @@ public abstract class ModuleSetting<T> {
 
 	}
 
-	protected void drawValue(DrawContext context) {
+	protected void drawText(DrawContext context, String text) {
 		TextRenderer textRend = MinecraftClient.getInstance().textRenderer;
 		int textInset = (height - textRend.fontHeight) / 2;
-		context.drawText(textRend, Text.literal(this.getName() + ": " + this.getValue()),x + 2,y + textInset,0xFFFFFFFF,true);
+		context.drawText(textRend, Text.literal(text),x + 2,y + textInset,0xFFFFFFFF,true);
+	}
+
+	protected void drawTextRightAligned(DrawContext context, String text) {
+		TextRenderer textRend = MinecraftClient.getInstance().textRenderer;
+		int textInset = (height - textRend.fontHeight) / 2;
+		context.drawText(textRend, Text.literal(text), x + width - textRend.getWidth(text) - 2,y + textInset,0xFFFFFFFF,true);
 	}
 
 	public T getValue() {

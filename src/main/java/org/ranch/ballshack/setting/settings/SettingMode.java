@@ -6,9 +6,15 @@ import org.ranch.ballshack.gui.Colors;
 import org.ranch.ballshack.gui.GuiUtil;
 import org.ranch.ballshack.setting.ModuleSetting;
 
-public class SettingToggle extends ModuleSetting<Boolean> {
-	public SettingToggle(boolean startingValue, String name) {
-		super(name, startingValue);
+import java.util.List;
+
+public class SettingMode extends ModuleSetting<Integer> {
+
+	private List<String> modes;
+
+	public SettingMode(int value, String name, List<String> modes) {
+		super(name, value);
+		this.modes = modes;
 	}
 
 	@Override
@@ -18,15 +24,12 @@ public class SettingToggle extends ModuleSetting<Boolean> {
 		this.width = width;
 		this.height = height;
 
-		if (this.getValue()) {
-			context.fill(x, y, x+width, y+height, Colors.CLICKGUI_3.brighter().hashCode());
-		} else {
-			context.fill(x, y, x+width, y+height, Colors.CLICKGUI_3.hashCode());
-		}
+		context.fill(x, y, x+width, y+height, Colors.CLICKGUI_3.hashCode());
 
 		/* setting name and value */
-		drawText(context, this.getName());
-		drawTextRightAligned(context, this.getValue() ? "[#]" : "[ ]");
+		String mode = modes.get(this.getValue());
+		drawText(context, this.getName() + ": ");
+		drawTextRightAligned(context, mode);
 
 		return height;
 	}
@@ -34,7 +37,13 @@ public class SettingToggle extends ModuleSetting<Boolean> {
 	@Override
 	public boolean mouseClicked(double mouseX, double mouseY, int button) {
 		if (GuiUtil.mouseOverlap(mouseX, mouseY, x, y, width, height) && button == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
-			this.setValue(!this.getValue());
+			int i = this.getValue();
+			i++;
+			if (i >= this.modes.size()) {
+				i = 0;
+			}
+
+			this.setValue(i);
 			return true;
 		}
 		return false;

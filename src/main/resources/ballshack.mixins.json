@@ -9,7 +9,9 @@
   "client": [
     "ClientPlayerInteractionManagerMixin",
     "ClientWorldMixin",
-    "KeyboardMixin"
+    "KeyboardMixin",
+    "MouseMixin",
+    "WorldRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1

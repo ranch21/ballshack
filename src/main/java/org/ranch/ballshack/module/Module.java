@@ -72,4 +72,8 @@ public class Module {
 	public boolean isEnabled() {
 		return enabled;
 	}
+
+	public boolean isSubscribed() {
+		return subscribed;
+	}
 }

@@ -1,9 +1,6 @@
 package org.ranch.ballshack.setting.settings;
 
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.text.Text;
 import org.lwjgl.glfw.GLFW;
 import org.ranch.ballshack.gui.Colors;
 import org.ranch.ballshack.gui.GuiUtil;
@@ -31,17 +28,20 @@ public class DropDown extends ModuleSetting<Boolean> {
 
 		if (this.getValue()) {
 			for (ModuleSetting<?> setting : settings) {
-				addedHeight += setting.render(context, x, y + height + addedHeight, width, height, mouseX, mouseY);
+				addedHeight += setting.render(context, x + 2, y + height + addedHeight, width - 2, height, mouseX, mouseY);
 			}
+
+			int bY = y + height;
+
+			context.drawVerticalLine(x, bY - 1, bY + addedHeight, Colors.CLICKGUI_3.hashCode()); // indent thinger
+			context.drawVerticalLine(x + 1, bY - 1, bY + addedHeight, Colors.BORDER.hashCode());
 		}
 
 		context.fill(x, y, x+width, y+height, Colors.CLICKGUI_3.hashCode());
 
 		/* setting name and arrow */
-		TextRenderer textRend = MinecraftClient.getInstance().textRenderer;
-		int textInset = (height - textRend.fontHeight) / 2;
-		context.drawText(textRend, Text.literal(this.getName()),x + 2,y + 2,0xFFFFFFFF,true);
-		context.drawText(textRend, Text.literal(this.getValue() ? "-" : "+"),x + width - 8,y + textInset, 0xFFFFFFFF,true);
+		drawText(context, this.getName());
+		drawTextRightAligned(context, this.getValue() ? "-" : "+");
 
 		return height + addedHeight;
 	}

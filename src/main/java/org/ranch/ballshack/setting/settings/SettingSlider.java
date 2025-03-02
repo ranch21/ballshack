@@ -5,6 +5,7 @@ import org.lwjgl.glfw.GLFW;
 import org.ranch.ballshack.gui.Colors;
 import org.ranch.ballshack.gui.GuiUtil;
 import org.ranch.ballshack.setting.ModuleSetting;
+import org.ranch.ballshack.util.TextUtil;
 
 public class SettingSlider extends ModuleSetting<Double> {
 
@@ -43,7 +44,8 @@ public class SettingSlider extends ModuleSetting<Double> {
 		context.fill(x, y, x + notchPos, y+height, Colors.SELECTABLE.hashCode());
 
 		/* setting name and value */
-		drawValue(context);
+		drawText(context, this.getName() + ": " + TextUtil.formatDecimal(this.getValue()));
+		//drawText(context, TextUtil.formatDecimal(this.getValue()), true);
 
 		return height;
 	}

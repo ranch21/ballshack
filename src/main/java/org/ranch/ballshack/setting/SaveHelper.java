@@ -5,6 +5,7 @@ import net.minecraft.client.MinecraftClient;
 import org.ranch.ballshack.BallsLogger;
 import org.ranch.ballshack.module.Module;
 import org.ranch.ballshack.module.ModuleManager;
+import org.ranch.ballshack.setting.settings.DropDown;
 
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -13,6 +14,7 @@ import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -50,6 +52,29 @@ public class SaveHelper {
 		startExecutor();
 	}
 
+	private static JsonObject getSettings(List<ModuleSetting<?>> settings) {
+		JsonObject settingsJson = new JsonObject();
+		for (ModuleSetting<?> setting : settings) {
+			Object value = setting.getValue(); // Capture the generic value
+
+			if (setting instanceof DropDown) {
+				settingsJson.add(setting.getName(), getSettings(((DropDown) setting).getSettings()));
+				continue;
+			}
+
+			if (value instanceof String) {
+				settingsJson.addProperty(setting.getName(), (String) value);
+			} else if (value instanceof Number) {
+				settingsJson.addProperty(setting.getName(), (Number) value);
+			} else if (value instanceof Boolean) {
+				settingsJson.addProperty(setting.getName(), (Boolean) value);
+			} else {
+				settingsJson.addProperty(setting.getName(), value.toString()); // Fallback to string
+			}
+		}
+		return settingsJson;
+	}
+
 	public static void saveModules() {
 		JsonObject json = new JsonObject();
 
@@ -60,20 +85,7 @@ public class SaveHelper {
 				modjson.addProperty("enabled", mod.isEnabled());
 			}
 
-			JsonObject settingsJson = new JsonObject();
-			for (ModuleSetting<?> setting : mod.getSettings().getSettings()) {
-				Object value = setting.getValue(); // Capture the generic value
-
-				if (value instanceof String) {
-					settingsJson.addProperty(setting.getName(), (String) value);
-				} else if (value instanceof Number) {
-					settingsJson.addProperty(setting.getName(), (Number) value);
-				} else if (value instanceof Boolean) {
-					settingsJson.addProperty(setting.getName(), (Boolean) value);
-				} else {
-					settingsJson.addProperty(setting.getName(), value.toString()); // Fallback to string
-				}
-			}
+			JsonObject settingsJson = getSettings(mod.getSettings().getSettings());
 
 			if (settingsJson.size() != 0)
 				modjson.add("settings", settingsJson);
@@ -87,7 +99,31 @@ public class SaveHelper {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
 
+	private static void setSettings(JsonObject settingsJson, Module mod) {
+		BallsLogger.info(settingsJson.toString());
+		for (ModuleSetting<?> setting : mod.getSettings().getSettingsUnpacked()) {
+			String settingName = setting.getName();
+
+			if (settingsJson.has(settingName)) {
+				JsonElement element = settingsJson.get(settingName);
+
+				//BallsLogger.info(element.toString());
+
+				if (element.isJsonObject()) {
+					BallsLogger.info(element.getAsJsonObject().toString());
+					setSettings(element.getAsJsonObject(), mod);
+					continue;
+				}
+
+				Object value = getTypedValue(element, setting.getValue());
+
+				if (value != null) {
+					setSettingValue(setting, value);
+				}
+			}
+		}
 	}
 
 	public static void readModules() {
@@ -112,18 +148,7 @@ public class SaveHelper {
 				if (modjson.has("settings")) {
 					JsonObject settingsJson = modjson.getAsJsonObject("settings");
 
-					for (ModuleSetting<?> setting : mod.getSettings().getSettings()) {
-						String settingName = setting.getName();
-
-						if (settingsJson.has(settingName)) {
-							JsonElement element = settingsJson.get(settingName);
-							Object value = getTypedValue(element, setting.getValue());
-
-							if (value != null) {
-								setSettingValue(setting, value);
-							}
-						}
-					}
+					setSettings(settingsJson, mod);
 				}
 				BallsLogger.info("Loaded settings for " + modName);
 			}

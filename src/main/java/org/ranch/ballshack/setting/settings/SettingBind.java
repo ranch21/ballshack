@@ -3,7 +3,6 @@ package org.ranch.ballshack.setting.settings;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.text.Text;
 import org.lwjgl.glfw.GLFW;
 import org.ranch.ballshack.gui.Colors;
 import org.ranch.ballshack.gui.GuiUtil;
@@ -29,12 +28,13 @@ public class SettingBind extends ModuleSetting<Integer> {
 		/* setting name and value */
 		TextRenderer textRend = MinecraftClient.getInstance().textRenderer;
 		String keyName = GLFW.glfwGetKeyName(this.getValue(), 0);
+		drawText(context, this.getName() + ": ");
 		if (this.getValue() == 0) {
-			context.drawText(textRend, Text.literal(this.getName() + ": " + "None"),x + 2,y + 2,0xFFFFFFFF,true);
+			drawTextRightAligned(context, "None");
 		} else if (keyName == null) {
-			drawValue(context);
+			drawTextRightAligned(context, getValue().toString());
 		}  else {
-			context.drawText(textRend, Text.literal(this.getName() + ": " + keyName),x + 2,y + 2,0xFFFFFFFF,true);
+			drawTextRightAligned(context, keyName);
 		}
 
 		return height;

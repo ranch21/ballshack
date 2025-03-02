@@ -1,5 +1,6 @@
 package org.ranch.ballshack.setting;
 
+import org.ranch.ballshack.setting.settings.DropDown;
 import org.ranch.ballshack.setting.settings.SettingBind;
 
 import java.util.ArrayList;
@@ -16,6 +17,24 @@ public class ModuleSettings {
 
 	public List<ModuleSetting<?>> getSettings() {
 		List<ModuleSetting<?>> merged = new ArrayList<>(settings);
+		merged.add(bind);
+		return new ArrayList<>(merged);
+	}
+
+	private List<ModuleSetting<?>> unpackSettings(List<ModuleSetting<?>> settings) {
+		List<ModuleSetting<?>> list = new ArrayList<>();
+		for (ModuleSetting<?> setting : settings) {
+			list.add(setting);
+			if (setting instanceof DropDown) {
+				list.addAll(unpackSettings(((DropDown) setting).getSettings()));
+			}
+		}
+		return list;
+	}
+
+	public List<ModuleSetting<?>> getSettingsUnpacked() {
+		//List<ModuleSetting<?>> merged = new ArrayList<>(settings);
+		List<ModuleSetting<?>> merged = new ArrayList<>(unpackSettings(settings));
 		merged.add(bind);
 		return new ArrayList<>(merged);
 	}

@@ -16,7 +16,10 @@ public class ModuleManager {
 			new Flight(),
 			new BouncyGround(),
 			new KillAura(),
-			new Jesus()
+			new Jesus(),
+			new AimAssist(),
+			new AimBot(),
+			new TriggerBot()
 	);
 
 	public static List<Module> getModules() {

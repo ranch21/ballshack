@@ -6,9 +6,9 @@ import net.minecraft.util.shape.VoxelShape;
 import org.ranch.ballshack.event.Event;
 
 public class EventBlockShape extends Event {
-	private BlockState state;
-	private BlockPos pos;
-	private VoxelShape shape;
+	public BlockState state;
+	public BlockPos pos;
+	public VoxelShape shape;
 
 	public EventBlockShape(BlockState blockState, BlockPos pos, VoxelShape shape) {
 		this.state = blockState;
@@ -16,6 +16,7 @@ public class EventBlockShape extends Event {
 		this.shape = shape;
 	}
 
+	/*
 	public BlockState getState() {
 		return state;
 	}
@@ -38,5 +39,5 @@ public class EventBlockShape extends Event {
 
 	public void setShape(VoxelShape shape) {
 		this.shape = shape;
-	}
+	}*/
 }

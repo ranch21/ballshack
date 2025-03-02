@@ -20,14 +20,14 @@ public class Jesus extends Module {
 
 	@EventSubscribe
 	public void onBlockShape(EventBlockShape event) {
-		if (!mc.world.getFluidState(event.getPos()).isEmpty() // event is water
+		if (!mc.world.getFluidState(event.pos).isEmpty() // event is water
 				&& !mc.player.isSneaking() // not sneaking
 				&& !mc.player.isTouchingWater() // not touching water
 		) {
 			if ((boolean) getSettings().getSetting(0).getValue()) {
-				event.setShape(VoxelShapes.cuboid(0, 0, 0, 1, 0.9, 1));
-			} else if(mc.player.getY() >= event.getPos().getY() + 0.9) { // above water
-				event.setShape(VoxelShapes.cuboid(0, 0, 0, 1, 0.9, 1));
+				event.shape = VoxelShapes.cuboid(0, 0, 0, 1, 0.9, 1);
+			} else if(mc.player.getY() >= event.pos.getY() + 0.9) { // above water
+				event.shape = VoxelShapes.cuboid(0, 0, 0, 1, 0.9, 1);
 			}
 		}
 	}

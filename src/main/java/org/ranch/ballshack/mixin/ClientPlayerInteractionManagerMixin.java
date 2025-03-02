@@ -18,6 +18,6 @@ public class ClientPlayerInteractionManagerMixin {
 
 		//BallsLogger.info(event.getReach() + "");
 
-		cir.setReturnValue(event.getReach());
+		cir.setReturnValue(event.reach);
 	}
 }

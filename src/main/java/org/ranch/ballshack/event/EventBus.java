@@ -2,12 +2,12 @@ package org.ranch.ballshack.event;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class EventBus {
 
-	private final Map<Class<?>, Map<Object, Method>> subscribers = new HashMap<>();
+	private final Map<Class<?>, Map<Object, Method>> subscribers = new ConcurrentHashMap<>();
 
 	public boolean subscribe(Object subscriber) {
 		for (Method method : subscriber.getClass().getDeclaredMethods()) {
@@ -15,7 +15,7 @@ public class EventBus {
 
 				Class<?> eventType = method.getParameterTypes()[0];
 				subscribers
-						.computeIfAbsent(eventType, k -> new HashMap<>()) // Ensure the inner map exists
+						.computeIfAbsent(eventType, k -> new ConcurrentHashMap<>()) // Ensure the inner map exists
 						.put(subscriber, method); // Map the instance to its method
 				return true;
 

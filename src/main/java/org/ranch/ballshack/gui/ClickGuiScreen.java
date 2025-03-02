@@ -8,8 +8,11 @@ import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.util.NarratorManager;
 import org.apache.commons.lang3.StringUtils;
 import org.ranch.ballshack.BallsHack;
+import org.ranch.ballshack.gui.balls.BallHandler;
 import org.ranch.ballshack.gui.window.CategoryWindow;
 import org.ranch.ballshack.module.ModuleCategory;
+import org.ranch.ballshack.setting.ModuleSettings;
+import org.ranch.ballshack.setting.settings.DropDown;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -19,6 +22,9 @@ public class ClickGuiScreen extends Screen {
 
 	ButtonWidget button;
 	List<CategoryWindow> windows = new ArrayList<>();
+
+	BallHandler ballHandler;
+	boolean ballsEnabled = false;
 
 	public ClickGuiScreen() {
 		super(NarratorManager.EMPTY);
@@ -33,12 +39,44 @@ public class ClickGuiScreen extends Screen {
 	}
 
 	protected void init() {
+		ballHandler = new BallHandler();
+		ballHandler.spawnBalls(50, this.width, this.height);
 		windows.clear();
 		loadCategories();
 	}
 
+	public void setSettings(ModuleSettings settings) {
+		DropDown dropDown = (DropDown) settings.getSetting(0);
+
+		boolean balls = (boolean) dropDown.getSetting(0).getValue();
+		int amount = (int) (double) dropDown.getSetting(1).getValue();
+		double gravity = (double) dropDown.getSetting(2).getValue();
+		double bounce = (double) dropDown.getSetting(3).getValue();
+
+		ballHandler.gravity = gravity * 2;
+		ballHandler.bounce = bounce;
+		ballsEnabled = balls;
+
+		if (ballHandler.getBallCount() != amount) {
+			ballHandler.clearBalls();
+			ballHandler.spawnBalls(amount, this.width, this.height);
+		}
+	}
+
+	@Override
+	public void tick() {
+		super.tick();
+		MinecraftClient mc = MinecraftClient.getInstance();
+	}
+
 	@Override
 	public void render(DrawContext context, int mouseX, int mouseY, float delta) {
+
+		if (ballsEnabled) {
+			ballHandler.render(context);
+			ballHandler.update(this.width, this.height, delta);
+		}
+
 		super.render(context, mouseX, mouseY, delta);
 		for (CategoryWindow window : windows) {
 			window.render(context, mouseX, mouseY, delta, this);
