@@ -55,7 +55,7 @@ public class SettingBind extends ModuleSetting<Integer> {
 			if (keyCode == GLFW.GLFW_KEY_BACKSPACE) {
 				this.setValue(0);
 				selected = false;
-			} else {
+			} else if (keyCode != GLFW.GLFW_KEY_ESCAPE) {
 				this.setValue(keyCode);
 				selected = false;
 			}

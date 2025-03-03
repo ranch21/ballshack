@@ -53,4 +53,19 @@ public class PlayerUtil {
 
 		return new Rotation((float) Math.toDegrees(Math.atan2(diffZ, diffX)) - 90f, (float) -Math.toDegrees(Math.atan2(diffY, diffXZ)));
 	}
+
+	public static float getAngleDiff(Entity entity) {
+		Vec3d center = entity.getBoundingBox().getCenter();
+
+		double diffX = center.x - mc.player.getX();
+		double diffY = center.y - mc.player.getEyeY();
+		double diffZ = center.z - mc.player.getZ();
+
+		double diffXZ = Math.sqrt(diffX * diffX + diffZ * diffZ);
+
+		float yaw = (float) Math.toDegrees(Math.atan2(diffZ, diffX)) - 90F;
+		float pitch = (float) -Math.toDegrees(Math.atan2(diffY, diffXZ));
+
+		return Math.abs(MathHelper.wrapDegrees(yaw - mc.player.getYaw())) + Math.abs(MathHelper.wrapDegrees(pitch - mc.player.getPitch()));
+	}
 }

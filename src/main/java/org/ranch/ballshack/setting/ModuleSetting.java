@@ -3,7 +3,9 @@ package org.ranch.ballshack.setting;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.text.Text;
+import org.ranch.ballshack.gui.DrawUtil;
+
+import java.awt.*;
 
 public abstract class ModuleSetting<T> {
 
@@ -38,13 +40,13 @@ public abstract class ModuleSetting<T> {
 	protected void drawText(DrawContext context, String text) {
 		TextRenderer textRend = MinecraftClient.getInstance().textRenderer;
 		int textInset = (height - textRend.fontHeight) / 2;
-		context.drawText(textRend, Text.literal(text),x + 2,y + textInset,0xFFFFFFFF,true);
+		DrawUtil.drawText(context, textRend, text,x + 2,y + textInset, Color.WHITE,true);
 	}
 
 	protected void drawTextRightAligned(DrawContext context, String text) {
 		TextRenderer textRend = MinecraftClient.getInstance().textRenderer;
 		int textInset = (height - textRend.fontHeight) / 2;
-		context.drawText(textRend, Text.literal(text), x + width - textRend.getWidth(text) - 2,y + textInset,0xFFFFFFFF,true);
+		DrawUtil.drawText(context, textRend, text, x + width - textRend.getWidth(text) - 2,y + textInset, Color.WHITE,true);
 	}
 
 	public T getValue() {

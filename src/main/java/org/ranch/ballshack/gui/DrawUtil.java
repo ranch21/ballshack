@@ -1,6 +1,8 @@
 package org.ranch.ballshack.gui;
 
+import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.text.Text;
 
 import java.awt.*;
 
@@ -32,5 +34,24 @@ public class DrawUtil {
 		float blue =  color1.getBlue()  * ratio   +   color2.getBlue()  * inverse_blending;
 
 		return new Color (red / 255, green / 255, blue / 255);
+	}
+
+	public static void drawText(DrawContext context, TextRenderer textRend, Text text, int x, int y, Color color, boolean shadow) {
+		drawText(context, textRend, text.getString(), x, y, color, shadow);
+	}
+
+	public static void drawText(DrawContext context, TextRenderer textRend, String text, int x, int y, Color color, boolean shadow) {
+		textRend.draw(
+				text,
+				x,
+				y,
+				color.hashCode(),
+				shadow,
+				context.getMatrices().peek().getPositionMatrix(),
+				context.getVertexConsumers(),
+				TextRenderer.TextLayerType.SEE_THROUGH,
+				0,
+				15728880
+		);
 	}
 }

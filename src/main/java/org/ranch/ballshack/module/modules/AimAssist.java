@@ -8,6 +8,7 @@ import org.ranch.ballshack.module.ModuleCategory;
 import org.ranch.ballshack.setting.ModuleSettings;
 import org.ranch.ballshack.setting.settings.SettingSlider;
 import org.ranch.ballshack.setting.settings.SettingToggle;
+import org.ranch.ballshack.setting.settings.SortMode;
 import org.ranch.ballshack.setting.settings.TargetsDropDown;
 import org.ranch.ballshack.util.EntityUtil;
 import org.ranch.ballshack.util.PlayerUtil;
@@ -23,7 +24,8 @@ public class AimAssist extends Module {
 				new SettingSlider(4, "Range", 1, 8, 0.5),
 				new SettingSlider(8, "Speed", 1, 25, 1),
 				new SettingToggle(true, "Random"),
-				new TargetsDropDown("Targets")
+				new TargetsDropDown("Targets"),
+				new SortMode("Sort")
 		)));
 	}
 
@@ -38,7 +40,9 @@ public class AimAssist extends Module {
 
 		TargetsDropDown targets = (TargetsDropDown) getSettings().getSetting(3);
 
-		List<Entity> entities = EntityUtil.getEntities(distance, targets);
+		SortMode mode = (SortMode) getSettings().getSetting(4);
+
+		List<Entity> entities = EntityUtil.getEntities(distance, targets, mode.getComparator());
 
 		if (entities.isEmpty()) return;
 

@@ -5,7 +5,6 @@ import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.sound.PositionedSoundInstance;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.text.Text;
 import org.lwjgl.glfw.GLFW;
 import org.ranch.ballshack.gui.ClickGuiScreen;
 import org.ranch.ballshack.gui.Colors;
@@ -15,6 +14,7 @@ import org.ranch.ballshack.module.Module;
 import org.ranch.ballshack.module.ModuleCategory;
 import org.ranch.ballshack.module.ModuleManager;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +23,7 @@ public class CategoryWindow {
 	public int x;
 	public int y;
 
-	public int width = 70;
+	public int width = 75;
 	public int height = 11;
 
 	public int moduleInset = 0;
@@ -33,11 +33,11 @@ public class CategoryWindow {
 	public boolean opened;
 	public boolean selected;
 
+	ModuleCategory category;
+
 	private boolean dragging;
 	private int dragX;
 	private int dragY;
-
-	private ModuleCategory category;
 
 	public List<ModuleWidget> moduleWidgets = new ArrayList<ModuleWidget>();
 
@@ -93,9 +93,9 @@ public class CategoryWindow {
 		/* window title */
 		TextRenderer textRend = MinecraftClient.getInstance().textRenderer;
 		int textInset = (height - textRend.fontHeight) / 2;
-		context.drawText(textRend, Text.literal(title),x + 2,y + textInset,0xFFFFFFFF,true);
+		DrawUtil.drawText(context, textRend, title,x + 2,y + textInset, Color.WHITE,true);
 		// collapsed thinger
-		context.drawText(textRend, Text.literal(opened ? "-" : "+"),x + width - 8,y + textInset, 0xFFFFFFFF,true);
+		DrawUtil.drawText(context, textRend, opened ? "-" : "+",x + width - 8,y + textInset, Color.WHITE,true);
 	}
 
 	public boolean mouseClicked(double mouseX, double mouseY, int button) {

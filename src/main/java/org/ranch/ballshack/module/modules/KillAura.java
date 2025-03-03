@@ -25,7 +25,8 @@ public class KillAura extends Module {
 				)),
 				new TargetsDropDown("Targets"),
 				new SettingMode(0, "Rotate", Arrays.asList("None", "Packet", "True")),
-				new SettingToggle(true, "Swing")
+				new SettingToggle(true, "Swing"),
+				new SortMode("Sort")
 		)));
 	}
 
@@ -39,7 +40,9 @@ public class KillAura extends Module {
 
 			TargetsDropDown targets = (TargetsDropDown) getSettings().getSetting(2);
 
-			for (Entity e : EntityUtil.getEntities(distance, targets)) {
+			SortMode sort = (SortMode) getSettings().getSetting(5);
+
+			for (Entity e : EntityUtil.getEntities(distance, targets, sort.getComparator())) {
 
 				int mode = (int) getSettings().getSetting(3).getValue();
 

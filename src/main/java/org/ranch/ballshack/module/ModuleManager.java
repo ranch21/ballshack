@@ -18,8 +18,9 @@ public class ModuleManager {
 			new KillAura(),
 			new Jesus(),
 			new AimAssist(),
-			new AimBot(),
-			new TriggerBot()
+			new TriggerBot(),
+			new AutoTotem(),
+			new ModuleList()
 	);
 
 	public static List<Module> getModules() {

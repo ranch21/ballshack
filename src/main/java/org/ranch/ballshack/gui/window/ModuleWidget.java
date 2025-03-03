@@ -3,13 +3,15 @@ package org.ranch.ballshack.gui.window;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.text.Text;
 import org.lwjgl.glfw.GLFW;
 import org.ranch.ballshack.gui.Colors;
+import org.ranch.ballshack.gui.DrawUtil;
 import org.ranch.ballshack.gui.GuiUtil;
 import org.ranch.ballshack.module.Module;
 import org.ranch.ballshack.setting.ModuleSetting;
 import org.ranch.ballshack.setting.ModuleSettings;
+
+import java.awt.*;
 
 public class ModuleWidget {
 	
@@ -56,14 +58,14 @@ public class ModuleWidget {
 
 		int textInset = (height - textRend.fontHeight) / 2;
 
-		context.drawText(textRend, Text.literal(module.getName()),x + 2,y + textInset,0xFFFFFFFF,true);
+		DrawUtil.drawText(context, textRend, module.getName(),x + 2,y + textInset, Color.WHITE,true);
 		if (settingsOpen && !module.isEnabled()) {
-			context.drawText(textRend, Text.literal("*"),x + width - 8,y + textInset, 0xFFFFFFFF,true);
+			DrawUtil.drawText(context, textRend, "*",x + width - 8,y + textInset, Color.WHITE,true);
 		} else if (settingsOpen && module.isEnabled()) {
-			context.drawText(textRend, Text.literal("*"),x + width - 16,y + textInset, 0xFFFFFFFF,true);
-			context.drawText(textRend, Text.literal("#"),x + width - 8,y + textInset, 0xFFFFFFFF,true);
+			DrawUtil.drawText(context, textRend, "*",x + width - 16,y + textInset, Color.WHITE,true);
+			DrawUtil.drawText(context, textRend, "#",x + width - 8,y + textInset, Color.WHITE,true);
 		} else if (!settingsOpen && module.isEnabled()) {
-			context.drawText(textRend, Text.literal("#"),x + width - 8,y + textInset, 0xFFFFFFFF,true);
+			DrawUtil.drawText(context, textRend, "#",x + width - 8,y + textInset, Color.WHITE,true);
 		}
 
 		return height + addedHeight;

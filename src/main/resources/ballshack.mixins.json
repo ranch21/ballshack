@@ -9,6 +9,7 @@
   "client": [
     "ClientPlayerInteractionManagerMixin",
     "ClientWorldMixin",
+    "InGameHudMixin",
     "KeyboardMixin",
     "MouseMixin",
     "WorldRendererMixin"

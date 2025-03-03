@@ -1,6 +1,7 @@
 package org.ranch.ballshack.util;
 
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
 
 public class RotationUtil {
@@ -39,5 +40,9 @@ public class RotationUtil {
 		change = MathHelper.clamp(change, -maxChange, maxChange);
 
 		return current + change;
+	}
+
+	public static Rotation getRotation(Entity e) {
+		return new Rotation(e.getYaw(), e.getPitch());
 	}
 }

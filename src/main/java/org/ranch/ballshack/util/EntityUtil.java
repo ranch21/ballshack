@@ -59,12 +59,10 @@ public class EntityUtil {
 				|| (EntityUtil.isAnimal(e) && t.getPassive());
 	}
 
-	public static List<Entity> getEntities(double distance, TargetsDropDown targetsDropDown) {
+	public static List<Entity> getEntities(double distance, TargetsDropDown targetsDropDown, Comparator<Entity> comparator) {
 		Stream<Entity> targets;
 
 		targets = Streams.stream(mc.world.getEntities());
-
-		Comparator<Entity> comparator = Comparator.comparing(mc.player::distanceTo);
 
 		return targets.filter(
 						e -> EntityUtil.isAttackable(e)

@@ -90,8 +90,8 @@ public class ClickGuiScreen extends Screen {
 	@Override
 	public boolean mouseClicked(double mouseX, double mouseY, int button) {
 
-		for (CategoryWindow window : windows) {
-			if (window.mouseClicked(mouseX, mouseY, button)) {
+		for (int i = windows.size() - 1; i >= 0; i--) {
+			if (windows.get(i).mouseClicked(mouseX, mouseY, button)) {
 				break; // if one window uses click, stop sending click
 			}
 		}
