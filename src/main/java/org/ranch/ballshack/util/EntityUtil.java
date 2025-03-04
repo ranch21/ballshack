@@ -16,6 +16,7 @@ import net.minecraft.entity.projectile.ShulkerBulletEntity;
 import net.minecraft.util.math.Vec3d;
 import org.ranch.ballshack.setting.settings.TargetsDropDown;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -61,6 +62,8 @@ public class EntityUtil {
 
 	public static List<Entity> getEntities(double distance, TargetsDropDown targetsDropDown, Comparator<Entity> comparator) {
 		Stream<Entity> targets;
+
+		if (mc.world == null) return new ArrayList<Entity>();
 
 		targets = Streams.stream(mc.world.getEntities());
 

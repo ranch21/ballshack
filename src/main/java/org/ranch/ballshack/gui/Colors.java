@@ -14,7 +14,31 @@ public class Colors {
 	public static final Color CLICKGUI_2 = new Color(50, 50, 50, 200);
 	public static final Color CLICKGUI_3 = new Color(0, 0, 0, 150);
 
+	public static final Color[] CATEGORY_COLORS = new Color[] {
+		Color.BLUE, // PLAYER
+		Color.YELLOW, // RENDER
+		Color.RED, // COMBAT
+		Color.MAGENTA, // MOVEMENT
+		Color.ORANGE, // WORLD
+		Color.GREEN, // FUN
+	};
+
+	public static final Color BACKDROP = new Color(0, 0, 0, 50);
+
 	public static final Color SELECTABLE = PALLETE_2;
 
 	public static final Color BORDER = Color.WHITE;
+
+	public static float globalRainbowSpeed = 1.0f;
+	public static float globalRainbowSaturation = 0.3f;
+	public static float globalRainbowBrightness = 1f;
+
+	public static Color getRainbowColor(float tick, float speed, float saturation, float brightness) {
+		float hue = (float) ((Math.ceil(tick * speed) % 360) / 360f);
+		return Color.getHSBColor(hue, saturation, brightness);
+	}
+
+	public static Color getRainbowColorGlobal(float tick) {
+		return getRainbowColor(tick, globalRainbowSpeed, globalRainbowSaturation, globalRainbowBrightness);
+	}
 }

@@ -34,7 +34,6 @@ public class SettingSlider extends ModuleSetting<Double> {
 		if (holding) {
 			double mousePercent = (mouseX - x) / (double) width;
 			this.setValue(roundToStep(Math.max(Math.min(mousePercent * (max - min) + min, max), min)));
-			System.out.println(mousePercent);
 		}
 
 		double valuePercent = (this.getValue() - min) / (double) (max - min);

@@ -6,11 +6,9 @@ import org.ranch.ballshack.event.events.EventTick;
 import org.ranch.ballshack.module.Module;
 import org.ranch.ballshack.module.ModuleCategory;
 import org.ranch.ballshack.setting.ModuleSettings;
-import org.ranch.ballshack.setting.settings.DropDown;
-import org.ranch.ballshack.setting.settings.SettingMode;
-import org.ranch.ballshack.setting.settings.SettingSlider;
-import org.ranch.ballshack.setting.settings.SettingToggle;
+import org.ranch.ballshack.setting.settings.*;
 
+import java.awt.*;
 import java.util.Arrays;
 
 public class TestModule extends Module {
@@ -26,7 +24,8 @@ public class TestModule extends Module {
 										new SettingToggle(true, "depth3")
 								))
 						))
-				))
+				)),
+				new SettingColor("t", Color.BLUE)
 		)));
 	}
 

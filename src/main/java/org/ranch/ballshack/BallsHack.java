@@ -11,7 +11,7 @@ public class BallsHack implements ModInitializer {
 	private static KeyBinding keyBinding;
 
 	public static String title = "BallsHack";
-	public static String version = "1.14";
+	public static String version = "1.15";
 
 	@Override
 	public void onInitialize() {

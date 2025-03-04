@@ -1,8 +1,7 @@
-package org.ranch.ballshack.gui;
+package org.ranch.ballshack.util;
 
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.text.Text;
 
 import java.awt.*;
 
@@ -26,18 +25,37 @@ public class DrawUtil {
 		}
 	}
 
-	public static Color blendColor(Color color1, Color color2, float ratio) {
-		float inverse_blending = 1 - ratio;
+	public static void drawVerticalGradient(DrawContext context, int x, int y, int width, int height, Color startColor, Color endColor, int resolution) {
+		// forgive me
+		width += 1;
+		height += 1;
+		y -= 1;
 
-		float red =   color1.getRed()   * ratio   +   color2.getRed()   * inverse_blending;
-		float green = color1.getGreen() * ratio   +   color2.getGreen() * inverse_blending;
-		float blue =  color1.getBlue()  * ratio   +   color2.getBlue()  * inverse_blending;
-
-		return new Color (red / 255, green / 255, blue / 255);
+		int cY = y;
+		int i = 0;
+		int blend = 0;
+		for (;;) {
+			for (int j = 0; j < resolution; j++) {
+				context.drawHorizontalLine(x,x + width,cY,blendColor(startColor, endColor, (float) blend / height).hashCode());
+				cY++;
+				i++;
+				if (i >= height) return;
+			}
+			blend += resolution;
+		}
 	}
 
-	public static void drawText(DrawContext context, TextRenderer textRend, Text text, int x, int y, Color color, boolean shadow) {
-		drawText(context, textRend, text.getString(), x, y, color, shadow);
+	public static Color blendColor(Color color1, Color color2, float ratio) {
+
+		int red = (int) (color1.getRed() * (1 - ratio) + color2.getRed() * ratio);
+		int green = (int) (color1.getGreen() * (1 - ratio) + color2.getGreen() * ratio);
+		int blue = (int) (color1.getBlue() * (1 - ratio) + color2.getBlue() * ratio);
+
+		return new Color(Math.min(red, 255), Math.min(green, 255), Math.min(blue, 255));
+	}
+
+	public static void drawTextRight(DrawContext context, TextRenderer textRend, String text, int x, int y, Color color, boolean shadow) {
+		drawText(context, textRend, text, x - textRend.getWidth(text), y, color, shadow);
 	}
 
 	public static void drawText(DrawContext context, TextRenderer textRend, String text, int x, int y, Color color, boolean shadow) {

@@ -3,7 +3,7 @@ package org.ranch.ballshack.setting;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
-import org.ranch.ballshack.gui.DrawUtil;
+import org.ranch.ballshack.util.DrawUtil;
 
 import java.awt.*;
 
@@ -16,7 +16,7 @@ public abstract class ModuleSetting<T> {
 	protected int width;
 	protected int height;
 
-	private T value;
+	protected T value;
 
 	public ModuleSetting(String name, T value) {
 		this.name = name;

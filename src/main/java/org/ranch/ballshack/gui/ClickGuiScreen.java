@@ -25,6 +25,7 @@ public class ClickGuiScreen extends Screen {
 
 	BallHandler ballHandler;
 	boolean ballsEnabled = false;
+	boolean darken = true;
 
 	public ClickGuiScreen() {
 		super(NarratorManager.EMPTY);
@@ -52,10 +53,12 @@ public class ClickGuiScreen extends Screen {
 		int amount = (int) (double) dropDown.getSetting(1).getValue();
 		double gravity = (double) dropDown.getSetting(2).getValue();
 		double bounce = (double) dropDown.getSetting(3).getValue();
+		boolean darken = (boolean) settings.getSetting(1).getValue();
 
 		ballHandler.gravity = gravity * 2;
 		ballHandler.bounce = bounce;
 		ballsEnabled = balls;
+		this.darken = darken;
 
 		if (ballHandler.getBallCount() != amount) {
 			ballHandler.clearBalls();
@@ -72,19 +75,23 @@ public class ClickGuiScreen extends Screen {
 	@Override
 	public void render(DrawContext context, int mouseX, int mouseY, float delta) {
 
+		if (darken) {
+			context.fill(0, 0, width, height, Colors.CLICKGUI_3.hashCode());
+		}
+
 		if (ballsEnabled) {
 			ballHandler.render(context);
 			ballHandler.update(this.width, this.height, delta);
 		}
 
+		TextRenderer textRend = MinecraftClient.getInstance().textRenderer;
+		context.drawText(textRend, BallsHack.title, 5, 5,Colors.PALLETE_1.hashCode(),true);
+		context.drawText(textRend, BallsHack.version, 5 + textRend.getWidth(BallsHack.title + " "), 5, Color.WHITE.hashCode(),true);
+
 		super.render(context, mouseX, mouseY, delta);
 		for (CategoryWindow window : windows) {
 			window.render(context, mouseX, mouseY, delta, this);
 		}
-
-		TextRenderer textRend = MinecraftClient.getInstance().textRenderer;
-		context.drawText(textRend, BallsHack.title, 5, 5,Colors.PALLETE_1.hashCode(),true);
-		context.drawText(textRend, BallsHack.version, 5 + textRend.getWidth(BallsHack.title + " "), 5, Color.WHITE.hashCode(),true);
 	}
 
 	@Override

@@ -25,7 +25,8 @@ public class ClickGui extends Module {
 						new SettingSlider(50,"Amount", 1, 250, 5),
 						new SettingSlider(1,"Gravity", 0.25, 10, 0.25),
 						new SettingSlider(0.6,"Bounce", 0.25, 4, 0.1)
-				))
+				)),
+				new SettingToggle(true, "Darken")
 		)));
 	}
 

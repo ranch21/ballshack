@@ -5,7 +5,7 @@ import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import org.lwjgl.glfw.GLFW;
 import org.ranch.ballshack.gui.Colors;
-import org.ranch.ballshack.gui.DrawUtil;
+import org.ranch.ballshack.util.DrawUtil;
 import org.ranch.ballshack.gui.GuiUtil;
 import org.ranch.ballshack.module.Module;
 import org.ranch.ballshack.setting.ModuleSetting;
