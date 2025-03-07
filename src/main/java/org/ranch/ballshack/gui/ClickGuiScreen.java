@@ -75,6 +75,8 @@ public class ClickGuiScreen extends Screen {
 	@Override
 	public void render(DrawContext context, int mouseX, int mouseY, float delta) {
 
+		super.render(context, mouseX, mouseY, delta);
+
 		if (darken) {
 			context.fill(0, 0, width, height, Colors.CLICKGUI_3.hashCode());
 		}
@@ -88,7 +90,6 @@ public class ClickGuiScreen extends Screen {
 		context.drawText(textRend, BallsHack.title, 5, 5,Colors.PALLETE_1.hashCode(),true);
 		context.drawText(textRend, BallsHack.version, 5 + textRend.getWidth(BallsHack.title + " "), 5, Color.WHITE.hashCode(),true);
 
-		super.render(context, mouseX, mouseY, delta);
 		for (CategoryWindow window : windows) {
 			window.render(context, mouseX, mouseY, delta, this);
 		}

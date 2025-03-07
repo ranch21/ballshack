@@ -4,9 +4,9 @@ import org.ranch.ballshack.event.Event;
 
 public class EventReach extends Event {
 
-	public float reach;
+	public double reach;
 
-	public EventReach(float reach) {
+	public EventReach(double reach) {
 		this.reach = reach;
 	}
 	/*

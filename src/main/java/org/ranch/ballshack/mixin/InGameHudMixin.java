@@ -2,6 +2,7 @@ package org.ranch.ballshack.mixin;
 
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
+import net.minecraft.client.render.RenderTickCounter;
 import org.ranch.ballshack.BallsHack;
 import org.ranch.ballshack.event.events.EventHudRender;
 import org.spongepowered.asm.mixin.Mixin;
@@ -13,8 +14,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class InGameHudMixin {
 
 	@Inject(method = "render", at = @At("TAIL"))
-	private void render(DrawContext context, float tickDelta, CallbackInfo ci) {
-		EventHudRender event = new EventHudRender(context, tickDelta);
+	private void render(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
+		EventHudRender event = new EventHudRender(context, tickCounter.getTickDelta(true));
 		BallsHack.eventBus.post(event);
 	}
 }

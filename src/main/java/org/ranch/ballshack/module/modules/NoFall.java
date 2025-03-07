@@ -16,7 +16,7 @@ public class NoFall extends Module {
 
 		if (mc.player.isCreative()) return;
 
-		mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.OnGroundOnly(true));
+		mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.OnGroundOnly(true, mc.player.horizontalCollision));
 
 	}
 }

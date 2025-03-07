@@ -25,7 +25,7 @@ public class TriggerBot extends Module {
 
 	@EventSubscribe
 	public void onTick(EventTick event) {
-		if (mc.player.getAttackCooldownProgress(mc.getTickDelta()) == 1.0f) {
+		if (mc.player.getAttackCooldownProgress(0.5f) == 1.0f) {
 			HitResult h = mc.crosshairTarget;
 			if (h instanceof EntityHitResult entityHitResult) {
 				Entity e = entityHitResult.getEntity();

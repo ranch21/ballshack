@@ -37,7 +37,7 @@ public class PlayerUtil {
 		mc.player.networkHandler.sendPacket(
 				new PlayerMoveC2SPacket.LookAndOnGround(
 						mc.player.getYaw() + MathHelper.wrapDegrees(rot.yaw - mc.player.getYaw()),
-						mc.player.getPitch() + MathHelper.wrapDegrees(rot.pitch - mc.player.getPitch()), mc.player.isOnGround()));
+						mc.player.getPitch() + MathHelper.wrapDegrees(rot.pitch - mc.player.getPitch()), mc.player.isOnGround(), mc.player.horizontalCollision));
 	}
 
 	public static Rotation getPosRotation(Entity entity, Vec3d p) {

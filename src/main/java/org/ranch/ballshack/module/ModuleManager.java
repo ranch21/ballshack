@@ -20,7 +20,8 @@ public class ModuleManager {
 			new AimAssist(),
 			new TriggerBot(),
 			new AutoTotem(),
-			new ModuleList()
+			new ModuleList(),
+			new TpAura()
 	);
 
 	public static List<Module> getModules() {

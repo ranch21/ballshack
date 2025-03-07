@@ -15,13 +15,12 @@ import org.ranch.ballshack.util.PlayerUtil;
 import java.util.Arrays;
 
 public class KillAura extends Module {
-
 	public KillAura() {
 		super("KillAura", ModuleCategory.COMBAT, GLFW.GLFW_KEY_R, new ModuleSettings(Arrays.asList(
 				new SettingSlider(4, "Range", 1, 8, 0.5),
 				new DropDown("Multi", Arrays.asList(
 						new SettingToggle(true, "Enabled"),
-						new SettingSlider(4,"Targets",2,10, 1)
+						new SettingSlider(4, "Targets", 2, 10, 1)
 				)),
 				new TargetsDropDown("Targets"),
 				new SettingMode(0, "Rotate", Arrays.asList("None", "Packet", "True")),
@@ -32,7 +31,7 @@ public class KillAura extends Module {
 
 	@EventSubscribe
 	public void onTick(EventTick event) {
-		if (mc.player.getAttackCooldownProgress(mc.getTickDelta()) == 1.0f) {
+		if (mc.player.getAttackCooldownProgress(0.5f) == 1.0f) {
 
 			int attacked = 0;
 
@@ -70,7 +69,6 @@ public class KillAura extends Module {
 				}
 			}
 		}
-
 
 	}
 }

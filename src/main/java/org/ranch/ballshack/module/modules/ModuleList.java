@@ -23,7 +23,6 @@ import java.util.Random;
 import java.util.stream.Stream;
 
 public class ModuleList extends ModuleHud {
-
 	float totalTicks = 0;
 
 	public ModuleList() {
@@ -65,16 +64,21 @@ public class ModuleList extends ModuleHud {
 			}
 
 			if (line) {
-				context.drawVerticalLine(x, y-1, y+textR.fontHeight + 1,Colors.PALLETE_1.hashCode());
+				context.drawVerticalLine(x, y - 1, y + textR.fontHeight + 1, Colors.PALLETE_1.hashCode());
 			}
-			DrawUtil.drawText(context, textR, BallsHack.title, sX + 2, y + 1, Colors.PALLETE_1,true);
-			DrawUtil.drawText(context, textR, BallsHack.version, sX + 2 + textR.getWidth(BallsHack.title + " "), y + 1, Color.WHITE,true);
+			DrawUtil.drawText(context, textR, BallsHack.title, sX + 2, y + 1, Colors.PALLETE_1, true);
+			DrawUtil.drawText(context, textR, BallsHack.version, sX + 2 + textR.getWidth(BallsHack.title + " "), y + 1, Color.WHITE, true);
 			i++;
 		}
 
 		Random r = new Random();
 
 		for (Module m : modules.toList()) {
+
+			if (m instanceof ClickGui || m instanceof ModuleHud) {
+				continue;
+			}
+
 			Color col;
 
 			switch (cMode) {
@@ -97,7 +101,7 @@ public class ModuleList extends ModuleHud {
 			}
 
 			if (line) {
-				context.drawVerticalLine(x, y+i*(textR.fontHeight + 1)-1, y+i*(textR.fontHeight + 1)+textR.fontHeight + 1,col.hashCode());
+				context.drawVerticalLine(x, y + i * (textR.fontHeight + 1) - 1, y + i * (textR.fontHeight + 1) + textR.fontHeight + 1, col.hashCode());
 			}
 
 			context.drawText(textR, m.getName(), sX + 2, y + 1 + i * (textR.fontHeight + 1), col.hashCode(), shadow);

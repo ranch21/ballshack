@@ -16,7 +16,7 @@ public class Module {
 	private ModuleCategory category;
 	private Boolean subscribed;
 
-	private boolean enabled;
+	protected boolean enabled;
 
 	public Module(String name, ModuleCategory category, int bind) {
 		this(name, category, bind, new ModuleSettings(new ArrayList<>()));

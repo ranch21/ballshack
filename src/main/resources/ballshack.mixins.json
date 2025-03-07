@@ -7,12 +7,12 @@
     "BlockCollisionSpliteratorMixin"
   ],
   "client": [
-    "ClientPlayerInteractionManagerMixin",
+    "PlayerEntityMixin",
     "ClientWorldMixin",
     "InGameHudMixin",
     "KeyboardMixin",
     "MouseMixin",
-    "WorldRendererMixin"
+    "GameRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1

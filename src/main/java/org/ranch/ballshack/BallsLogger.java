@@ -30,7 +30,7 @@ public class BallsLogger {
 		logger.info(info.getString());
 		ClientPlayerEntity player = MinecraftClient.getInstance().player;
 		if (player != null) {
-			player.sendMessage(addBallText(info, INFO_COLOR));
+			player.sendMessage(addBallText(info, INFO_COLOR), false);
 		}
 	}
 
@@ -42,7 +42,7 @@ public class BallsLogger {
 		logger.warn(warn.getString());
 		ClientPlayerEntity player = MinecraftClient.getInstance().player;
 		if (player != null) {
-			player.sendMessage(addBallText(warn, WARN_COLOR));
+			player.sendMessage(addBallText(warn, WARN_COLOR), false);
 		}
 	}
 
@@ -54,7 +54,7 @@ public class BallsLogger {
 		logger.info(error.getString());
 		ClientPlayerEntity player = MinecraftClient.getInstance().player;
 		if (player != null) {
-			player.sendMessage(addBallText(error, ERROR_COLOR));
+			player.sendMessage(addBallText(error, ERROR_COLOR), false);
 		}
 	}
 }
