@@ -1,4 +1,4 @@
-package org.ranch.ballshack.module.modules;
+package org.ranch.ballshack.module.modules.player;
 
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 import org.ranch.ballshack.event.EventSubscribe;

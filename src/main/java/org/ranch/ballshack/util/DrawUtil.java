@@ -1,7 +1,13 @@
 package org.ranch.ballshack.util;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.font.TextRenderer;
+import net.minecraft.client.gl.ShaderProgramKeys;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.render.*;
+import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.util.math.Box;
+import org.joml.Matrix4f;
 
 import java.awt.*;
 
@@ -74,5 +80,114 @@ public class DrawUtil {
 				0,
 				15728880
 		);*/
+	}
+
+	public static void drawCube(MatrixStack matrices, Box cube, float r, float g, float b, float a) {
+
+		BufferBuilder bufferBuilder = Tessellator.getInstance().begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION);
+
+		float minX = (float) cube.minX;
+		float minY = (float) cube.minY;
+		float minZ = (float) cube.minZ;
+		float maxX = (float) cube.maxX;
+		float maxY = (float) cube.maxY;
+		float maxZ = (float) cube.maxZ;
+
+		Matrix4f matrix = matrices.peek().getPositionMatrix();
+
+		bufferBuilder.vertex(matrix, minX, minY, minZ);
+		bufferBuilder.vertex(matrix, maxX, minY, minZ);
+		bufferBuilder.vertex(matrix, maxX, minY, maxZ);
+		bufferBuilder.vertex(matrix, minX, minY, maxZ);
+
+		bufferBuilder.vertex(matrix, minX, maxY, minZ);
+		bufferBuilder.vertex(matrix, minX, maxY, maxZ);
+		bufferBuilder.vertex(matrix, maxX, maxY, maxZ);
+		bufferBuilder.vertex(matrix, maxX, maxY, minZ);
+
+		bufferBuilder.vertex(matrix, minX, minY, minZ);
+		bufferBuilder.vertex(matrix, minX, maxY, minZ);
+		bufferBuilder.vertex(matrix, maxX, maxY, minZ);
+		bufferBuilder.vertex(matrix, maxX, minY, minZ);
+
+		bufferBuilder.vertex(matrix, maxX, minY, minZ);
+		bufferBuilder.vertex(matrix, maxX, maxY, minZ);
+		bufferBuilder.vertex(matrix, maxX, maxY, maxZ);
+		bufferBuilder.vertex(matrix, maxX, minY, maxZ);
+
+		bufferBuilder.vertex(matrix, minX, minY, maxZ);
+		bufferBuilder.vertex(matrix, maxX, minY, maxZ);
+		bufferBuilder.vertex(matrix, maxX, maxY, maxZ);
+		bufferBuilder.vertex(matrix, minX, maxY, maxZ);
+
+		bufferBuilder.vertex(matrix, minX, minY, minZ);
+		bufferBuilder.vertex(matrix, minX, minY, maxZ);
+		bufferBuilder.vertex(matrix, minX, maxY, maxZ);
+		bufferBuilder.vertex(matrix, minX, maxY, minZ);
+
+		RenderSystem.setShader(ShaderProgramKeys.POSITION);
+		RenderSystem.setShaderColor(r,g,b,a);
+
+		BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
+
+		RenderSystem.setShaderColor(1,1,1,1);
+	}
+
+	public static void drawCubeOutline(MatrixStack matrices, Box cube, float r, float g, float b, float a) {
+
+		BufferBuilder bufferBuilder = Tessellator.getInstance().begin(VertexFormat.DrawMode.DEBUG_LINES, VertexFormats.POSITION);
+
+		float minX = (float) cube.minX;
+		float minY = (float) cube.minY;
+		float minZ = (float) cube.minZ;
+		float maxX = (float) cube.maxX;
+		float maxY = (float) cube.maxY;
+		float maxZ = (float) cube.maxZ;
+
+		Matrix4f matrix = matrices.peek().getPositionMatrix();
+
+		bufferBuilder.vertex(matrix, minX, minY, minZ);
+		bufferBuilder.vertex(matrix, maxX, minY, minZ);
+
+		bufferBuilder.vertex(matrix, maxX, minY, minZ);
+		bufferBuilder.vertex(matrix, maxX, minY, maxZ);
+
+		bufferBuilder.vertex(matrix, maxX, minY, maxZ);
+		bufferBuilder.vertex(matrix, minX, minY, maxZ);
+
+		bufferBuilder.vertex(matrix, minX, minY, maxZ);
+		bufferBuilder.vertex(matrix, minX, minY, minZ);
+
+		bufferBuilder.vertex(matrix, minX, minY, minZ);
+		bufferBuilder.vertex(matrix, minX, maxY, minZ);
+
+		bufferBuilder.vertex(matrix, maxX, minY, minZ);
+		bufferBuilder.vertex(matrix, maxX, maxY, minZ);
+
+		bufferBuilder.vertex(matrix, maxX, minY, maxZ);
+		bufferBuilder.vertex(matrix, maxX, maxY, maxZ);
+
+		bufferBuilder.vertex(matrix, minX, minY, maxZ);
+		bufferBuilder.vertex(matrix, minX, maxY, maxZ);
+
+		bufferBuilder.vertex(matrix, minX, maxY, minZ);
+		bufferBuilder.vertex(matrix, maxX, maxY, minZ);
+
+		bufferBuilder.vertex(matrix, maxX, maxY, minZ);
+		bufferBuilder.vertex(matrix, maxX, maxY, maxZ);
+
+		bufferBuilder.vertex(matrix, maxX, maxY, maxZ);
+		bufferBuilder.vertex(matrix, minX, maxY, maxZ);
+
+		bufferBuilder.vertex(matrix, minX, maxY, maxZ);
+		bufferBuilder.vertex(matrix, minX, maxY, minZ);
+
+		RenderSystem.setShader(ShaderProgramKeys.POSITION);
+
+		RenderSystem.setShaderColor(r,g,b,a);
+
+		BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
+
+		RenderSystem.setShaderColor(1,1,1,1);
 	}
 }

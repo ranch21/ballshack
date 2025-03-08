@@ -10,7 +10,7 @@ import org.apache.logging.log4j.Logger;
 public class BallsLogger {
 	public static Logger logger = LogManager.getFormatterLogger("BallsHack");
 
-	private static Text ballsText = Text.literal("BallsHack");
+	private static final Text ballsText = Text.literal("BallsHack");
 
 	public static int BH_COLOR = Formatting.GREEN.getColorValue();
 

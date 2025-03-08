@@ -1,4 +1,4 @@
-package org.ranch.ballshack.module.modules;
+package org.ranch.ballshack.module.modules.render;
 
 import net.minecraft.client.MinecraftClient;
 import org.lwjgl.glfw.GLFW;

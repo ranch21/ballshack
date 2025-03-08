@@ -1,4 +1,4 @@
-package org.ranch.ballshack.module.modules;
+package org.ranch.ballshack.module.modules.fun;
 
 import org.lwjgl.glfw.GLFW;
 import org.ranch.ballshack.event.EventSubscribe;

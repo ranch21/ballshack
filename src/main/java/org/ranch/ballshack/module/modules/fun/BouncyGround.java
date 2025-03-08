@@ -1,4 +1,4 @@
-package org.ranch.ballshack.module.modules;
+package org.ranch.ballshack.module.modules.fun;
 
 import net.minecraft.util.math.Vec3d;
 import org.ranch.ballshack.event.EventSubscribe;

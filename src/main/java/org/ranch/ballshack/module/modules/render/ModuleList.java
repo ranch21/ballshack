@@ -1,4 +1,4 @@
-package org.ranch.ballshack.module.modules;
+package org.ranch.ballshack.module.modules.render;
 
 import com.google.common.collect.Streams;
 import net.minecraft.client.font.TextRenderer;

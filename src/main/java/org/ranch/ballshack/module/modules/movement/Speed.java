@@ -1,23 +1,19 @@
-package org.ranch.ballshack.module.modules;
+package org.ranch.ballshack.module.modules.movement;
 
 import net.minecraft.util.math.MathHelper;
-import org.lwjgl.glfw.GLFW;
 import org.ranch.ballshack.event.EventSubscribe;
 import org.ranch.ballshack.event.events.EventTick;
 import org.ranch.ballshack.module.Module;
 import org.ranch.ballshack.module.ModuleCategory;
 import org.ranch.ballshack.setting.ModuleSettings;
 import org.ranch.ballshack.setting.settings.SettingSlider;
-import java.util.List;
 
-public class Flight extends Module {
+import java.util.Arrays;
 
-	private int antiKick = 0;
-
-	public Flight() {
-		super("Flight", ModuleCategory.MOVEMENT, GLFW.GLFW_KEY_F, new ModuleSettings(List.of(
-				new SettingSlider(2, "Hspeed", 0.5, 10, 0.5),
-				new SettingSlider(2,"Vspeed",0.5,5,0.5)
+public class Speed extends Module {
+	public Speed() {
+		super("Speed", ModuleCategory.MOVEMENT, 0, new ModuleSettings(Arrays.asList(
+				new SettingSlider(1, "Speed", 0.5, 4, 0.01)
 		)));
 	}
 
@@ -26,17 +22,10 @@ public class Flight extends Module {
 		if (mc.player.hasVehicle()) return;
 
 		double xVel = 0;
-		double yVel = 0;
+		double yVel = mc.player.getVelocity().y;
 		double zVel = 0;
 
 		double horizontalSpeed = (double) this.getSettings().getSetting(0).getValue() / 3;
-		double verticalSpeed = (double) this.getSettings().getSetting(1).getValue() / 3;
-
-		if (mc.options.jumpKey.isPressed()) {
-			yVel = verticalSpeed;
-		} else if (mc.options.sneakKey.isPressed()) {
-			yVel = -verticalSpeed;
-		}
 
 		float yawRad = mc.player.getYaw() * MathHelper.RADIANS_PER_DEGREE;
 
@@ -51,13 +40,5 @@ public class Flight extends Module {
 		}
 
 		mc.player.setVelocity(xVel, yVel, zVel);
-
-		if (antiKick % 2 == 0) {
-			mc.player.setVelocity(mc.player.getVelocity().add(0, -0.08, 0));
-		} else {
-			mc.player.setVelocity(mc.player.getVelocity().add(0, 0.08, 0));
-		}
-
-		antiKick++;
 	}
 }

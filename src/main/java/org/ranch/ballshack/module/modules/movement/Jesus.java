@@ -1,4 +1,4 @@
-package org.ranch.ballshack.module.modules;
+package org.ranch.ballshack.module.modules.movement;
 
 import net.minecraft.util.shape.VoxelShapes;
 import org.lwjgl.glfw.GLFW;

@@ -11,9 +11,9 @@ import java.util.ArrayList;
 public class Module {
 
 	protected MinecraftClient mc = MinecraftClient.getInstance();
-	private ModuleSettings settings;
-	private String name;
-	private ModuleCategory category;
+	private final ModuleSettings settings;
+	private final String name;
+	private final ModuleCategory category;
 	private Boolean subscribed;
 
 	protected boolean enabled;

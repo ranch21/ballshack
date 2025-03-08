@@ -23,6 +23,11 @@ public class Colors {
 		Color.GREEN, // FUN
 	};
 
+	public static final Color HOSTILE = new Color(255, 0, 0, 250);
+	public static final Color PASSIVE = new Color(0, 255, 0, 250);
+	public static final Color PLAYER = new Color(0, 0, 255, 250);
+	public static final Color ELSE = new Color(255, 0, 255, 250);
+
 	public static final Color BACKDROP = new Color(0, 0, 0, 50);
 
 	public static final Color SELECTABLE = PALLETE_2;

@@ -1,4 +1,4 @@
-package org.ranch.ballshack.module.modules;
+package org.ranch.ballshack.module.modules.combat;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.util.Hand;

@@ -1,4 +1,4 @@
-package org.ranch.ballshack.module.modules;
+package org.ranch.ballshack.module.modules.player;
 
 import org.ranch.ballshack.event.EventSubscribe;
 import org.ranch.ballshack.event.events.EventReach;
