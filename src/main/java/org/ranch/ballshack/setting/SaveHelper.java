@@ -81,7 +81,7 @@ public class SaveHelper {
 		for (Module mod: ModuleManager.getModules()) {
 			JsonObject modjson = new JsonObject();
 
-			if (mod.isEnabled() && !mod.getName().equals("ClickGui")) {
+			if (mod.isEnabled() && !mod.getName().equals("ClickGui") && !mod.getName().equals("WindowsGui")) {
 				modjson.addProperty("enabled", mod.isEnabled());
 			}
 

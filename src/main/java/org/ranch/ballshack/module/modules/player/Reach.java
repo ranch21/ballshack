@@ -12,7 +12,7 @@ import java.util.Arrays;
 public class Reach extends Module {
 	public Reach() {
 		super("Reach", ModuleCategory.PLAYER, 0, new ModuleSettings(Arrays.asList(
-				new SettingSlider(4.5, "Dist", 1, 8, 0.5)
+				new SettingSlider(4.5, "Dist", 1, 8, 0.5).featured()
 		)));
 	}
 

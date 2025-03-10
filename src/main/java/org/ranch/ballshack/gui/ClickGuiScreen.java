@@ -11,6 +11,7 @@ import org.ranch.ballshack.BallsHack;
 import org.ranch.ballshack.gui.balls.BallHandler;
 import org.ranch.ballshack.gui.window.CategoryWindow;
 import org.ranch.ballshack.module.ModuleCategory;
+import org.ranch.ballshack.module.ModuleManager;
 import org.ranch.ballshack.setting.ModuleSettings;
 import org.ranch.ballshack.setting.settings.DropDown;
 
@@ -34,6 +35,8 @@ public class ClickGuiScreen extends Screen {
 	private void loadCategories() {
 		int i = 0;
 		for (ModuleCategory category : ModuleCategory.values()) {
+			if (ModuleManager.getModulesByCategory(category).isEmpty()) continue;
+
 			windows.add(new CategoryWindow((110 * i) + 10, 30, StringUtils.capitalize(category.name().toLowerCase()), true, category));
 			i++;
 		}

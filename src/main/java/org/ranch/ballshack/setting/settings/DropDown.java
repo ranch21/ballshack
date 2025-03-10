@@ -41,7 +41,7 @@ public class DropDown extends ModuleSetting<Boolean> {
 
 		/* setting name and arrow */
 		drawText(context, this.getName());
-		drawTextRightAligned(context, this.getValue() ? "-" : "+");
+		drawTextRightAligned(context, getFormattedValue());
 
 		return height + addedHeight;
 	}
@@ -69,6 +69,11 @@ public class DropDown extends ModuleSetting<Boolean> {
 				setting.mouseReleased(mouseX, mouseY, button);
 			}
 		}
+	}
+
+	@Override
+	public String getFormattedValue() {
+		return this.getValue() ? "-" : "+";
 	}
 
 	public List<ModuleSetting<?>> getSettings() {

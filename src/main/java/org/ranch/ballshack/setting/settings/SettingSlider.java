@@ -43,7 +43,7 @@ public class SettingSlider extends ModuleSetting<Double> {
 		context.fill(x, y, x + notchPos, y+height, Colors.SELECTABLE.hashCode());
 
 		/* setting name and value */
-		drawText(context, this.getName() + ": " + TextUtil.formatDecimal(this.getValue()));
+		drawText(context, this.getName() + ": " + getFormattedValue());
 		//drawText(context, TextUtil.formatDecimal(this.getValue()), true);
 
 		return height;
@@ -61,6 +61,11 @@ public class SettingSlider extends ModuleSetting<Double> {
 	@Override
 	public void mouseReleased(double mouseX, double mouseY, int button) {
 		holding = false;
+	}
+
+	@Override
+	public String getFormattedValue() {
+		return TextUtil.formatDecimal(this.getValue());
 	}
 
 	private double roundToStep(double value) {

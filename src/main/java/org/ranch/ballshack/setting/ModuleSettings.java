@@ -33,7 +33,6 @@ public class ModuleSettings {
 	}
 
 	public List<ModuleSetting<?>> getSettingsUnpacked() {
-		//List<ModuleSetting<?>> merged = new ArrayList<>(settings);
 		List<ModuleSetting<?>> merged = new ArrayList<>(unpackSettings(settings));
 		merged.add(bind);
 		return new ArrayList<>(merged);

@@ -140,4 +140,9 @@ public class SettingColor extends ModuleSetting<Color> {
 		holdingSquare = false;
 		holdingBar = false;
 	}
+
+	@Override
+	public String getFormattedValue() {
+		return String.valueOf(value.hashCode());
+	}
 }

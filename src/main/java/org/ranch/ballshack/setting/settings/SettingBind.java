@@ -1,7 +1,5 @@
 package org.ranch.ballshack.setting.settings;
 
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import org.lwjgl.glfw.GLFW;
 import org.ranch.ballshack.gui.Colors;
@@ -26,16 +24,10 @@ public class SettingBind extends ModuleSetting<Integer> {
 		context.fill(x, y, x+width, y+height, Colors.CLICKGUI_3.hashCode());
 
 		/* setting name and value */
-		TextRenderer textRend = MinecraftClient.getInstance().textRenderer;
-		String keyName = GLFW.glfwGetKeyName(this.getValue(), 0);
 		drawText(context, this.getName() + ": ");
-		if (this.getValue() == 0) {
-			drawTextRightAligned(context, "None");
-		} else if (keyName == null) {
-			drawTextRightAligned(context, getValue().toString());
-		}  else {
-			drawTextRightAligned(context, keyName);
-		}
+
+		drawTextRightAligned(context, getFormattedValue());
+
 
 		return height;
 	}
@@ -59,6 +51,18 @@ public class SettingBind extends ModuleSetting<Integer> {
 				this.setValue(keyCode);
 				selected = false;
 			}
+		}
+	}
+
+	@Override
+	public String getFormattedValue() {
+		String keyName = GLFW.glfwGetKeyName(this.getValue(), 0);
+		if (this.getValue() == 0) {
+			return "None";
+		} else if (keyName == null) {
+			return getValue().toString();
+		}  else {
+			return keyName;
 		}
 	}
 }

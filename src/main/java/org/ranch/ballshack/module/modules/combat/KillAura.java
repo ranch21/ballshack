@@ -23,7 +23,7 @@ public class KillAura extends Module {
 						new SettingSlider(4, "Targets", 2, 10, 1)
 				)),
 				new TargetsDropDown("Targets"),
-				new SettingMode(0, "Rotate", Arrays.asList("None", "Packet", "True")),
+				new SettingMode(0, "Rotate", Arrays.asList("None", "Packet", "True")).featured(),
 				new SettingToggle(true, "Swing"),
 				new SortMode("Sort")
 		)));

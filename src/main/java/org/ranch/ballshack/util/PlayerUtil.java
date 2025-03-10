@@ -2,6 +2,7 @@ package org.ranch.ballshack.util;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
@@ -40,6 +41,32 @@ public class PlayerUtil {
 						mc.player.getPitch() + MathHelper.wrapDegrees(rot.pitch - mc.player.getPitch()), mc.player.isOnGround(), mc.player.horizontalCollision));
 	}
 
+	public static Vec3d getMovementVector(double horizontalSpeed, double verticalSpeed) {
+		double xVel = 0;
+		double yVel = 0;
+		double zVel = 0;
+
+		if (mc.options.jumpKey.isPressed()) {
+			yVel = verticalSpeed;
+		} else if (mc.options.sprintKey.isPressed()) {
+			yVel = -verticalSpeed;
+		}
+
+		float yawRad = mc.player.getYaw() * MathHelper.RADIANS_PER_DEGREE;
+
+		float sideways = mc.player.input.movementSideways;
+		float forwards = mc.player.input.movementForward;
+
+		if (!(sideways == 0 && forwards == 0))  {
+			float moveAngle = (float) Math.atan2(sideways, forwards);
+
+			xVel = MathHelper.sin(-yawRad + moveAngle) * horizontalSpeed;
+			zVel = MathHelper.cos(-yawRad + moveAngle) * horizontalSpeed;
+		}
+
+		return new Vec3d(xVel, yVel, zVel);
+	}
+
 	public static Rotation getPosRotation(Entity entity, Vec3d p) {
 		return getPosRotation(entity, p.x, p.y, p.z);
 	}
@@ -67,5 +94,22 @@ public class PlayerUtil {
 		float pitch = (float) -Math.toDegrees(Math.atan2(diffY, diffXZ));
 
 		return Math.abs(MathHelper.wrapDegrees(yaw - mc.player.getYaw())) + Math.abs(MathHelper.wrapDegrees(pitch - mc.player.getPitch()));
+	}
+
+	public static double getSpeed() {
+		double speed = 0.2873;
+		if (mc.player.hasStatusEffect(StatusEffects.SPEED)) {
+			int amplifier = mc.player.getStatusEffect(StatusEffects.SPEED).getAmplifier();
+			speed *= 1.0 + 0.2 * (amplifier + 1);
+		}
+		if (mc.player.hasStatusEffect(StatusEffects.SLOWNESS)) {
+			int amplifier = mc.player.getStatusEffect(StatusEffects.SLOWNESS).getAmplifier();
+			speed /= 1.0 + 0.2 * (amplifier + 1);
+		}
+		return speed;
+	}
+
+	public static boolean isMoving() {
+		return mc.player.forwardSpeed != 0 || mc.player.sidewaysSpeed != 0;
 	}
 }

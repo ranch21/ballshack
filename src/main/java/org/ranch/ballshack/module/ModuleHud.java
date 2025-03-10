@@ -4,13 +4,10 @@ import org.ranch.ballshack.setting.ModuleSettings;
 
 public class ModuleHud extends Module {
 
-	protected int x;
-	protected int y;
+	public int x, y;
 
 	public ModuleHud(String name, ModuleCategory category, int bind, int x, int y) {
 		super(name, category, bind);
-		this.x = x;
-		this.y = y;
 	}
 
 	public ModuleHud(String name, ModuleCategory category, int bind, int x, int y, ModuleSettings settings) {
@@ -19,11 +16,11 @@ public class ModuleHud extends Module {
 		this.y = y;
 	}
 
-	public int getX() {
-		return x;
+	public int getWidth() {
+		return 0;
 	}
 
-	public int getY() {
-		return y;
+	public int getHeight() {
+		return 0;
 	}
 }

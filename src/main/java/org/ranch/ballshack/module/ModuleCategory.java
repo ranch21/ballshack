@@ -6,5 +6,6 @@ public enum ModuleCategory {
 	COMBAT,
 	MOVEMENT,
 	WORLD,
-	FUN
+	FUN,
+	HUD
 }

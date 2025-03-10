@@ -3,16 +3,16 @@ package org.ranch.ballshack.gui.window;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.sound.PositionedSoundInstance;
 import net.minecraft.sound.SoundEvents;
 import org.lwjgl.glfw.GLFW;
-import org.ranch.ballshack.gui.ClickGuiScreen;
 import org.ranch.ballshack.gui.Colors;
-import org.ranch.ballshack.util.DrawUtil;
 import org.ranch.ballshack.gui.GuiUtil;
 import org.ranch.ballshack.module.Module;
 import org.ranch.ballshack.module.ModuleCategory;
 import org.ranch.ballshack.module.ModuleManager;
+import org.ranch.ballshack.util.DrawUtil;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -26,12 +26,9 @@ public class CategoryWindow {
 	public int width = 75;
 	public int height = 11;
 
-	public int moduleInset = 0;
-
 	public String title;
 
 	public boolean opened;
-	public boolean selected;
 
 	ModuleCategory category;
 
@@ -60,7 +57,9 @@ public class CategoryWindow {
 		}
 	}
 
-	public void render(DrawContext context, int mouseX, int mouseY, float delta, ClickGuiScreen screen) {
+	public void render(DrawContext context, int mouseX, int mouseY, float delta, Screen screen) {
+
+		int addedHeight = 0;
 
 		if (dragging) {
 			x = mouseX - dragX;
@@ -71,8 +70,6 @@ public class CategoryWindow {
 		y = Math.max(y, 0);
 		x = Math.min(x, screen.width - width);
 		y = Math.min(y, screen.height - height);
-
-		int addedHeight = 0;
 
 		if (opened) {
 			for (ModuleWidget moduleWidget : moduleWidgets) {
@@ -105,7 +102,6 @@ public class CategoryWindow {
 		if (opened) {
 			for (ModuleWidget moduleWidget : moduleWidgets) {
 				if (moduleWidget.mouseClicked(mouseX, mouseY, button)) {
-					mc.getSoundManager().play(PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK, 1.0F));
 					return true;
 				}
 			}

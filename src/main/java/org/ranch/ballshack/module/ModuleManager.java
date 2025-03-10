@@ -3,6 +3,7 @@ package org.ranch.ballshack.module;
 import org.ranch.ballshack.module.modules.combat.*;
 import org.ranch.ballshack.module.modules.fun.BouncyGround;
 import org.ranch.ballshack.module.modules.fun.TestModule;
+import org.ranch.ballshack.module.modules.hud.ModuleList;
 import org.ranch.ballshack.module.modules.movement.Boatfly;
 import org.ranch.ballshack.module.modules.movement.Flight;
 import org.ranch.ballshack.module.modules.movement.Jesus;
@@ -11,9 +12,9 @@ import org.ranch.ballshack.module.modules.player.NoFall;
 import org.ranch.ballshack.module.modules.player.Reach;
 import org.ranch.ballshack.module.modules.render.ClickGui;
 import org.ranch.ballshack.module.modules.render.ESP;
-import org.ranch.ballshack.module.modules.render.ModuleList;
 import org.ranch.ballshack.module.modules.render.Tracers;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -41,6 +42,16 @@ public class ModuleManager {
 
 	public static List<Module> getModules() {
 		return modules;
+	}
+
+	public static List<Module> getModulesByCategory(ModuleCategory category) {
+		List<Module> m = new ArrayList<>();
+		for (Module module : modules) {
+			if (module.getCategory() == category) {
+				m.add(module);
+			}
+		}
+		return m;
 	}
 
 	public static Module getModuleByName(String name) {

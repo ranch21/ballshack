@@ -14,7 +14,7 @@ import java.util.Arrays;
 public class Jesus extends Module {
 	public Jesus() {
 		super("Jesus", ModuleCategory.MOVEMENT, GLFW.GLFW_KEY_J, new ModuleSettings(Arrays.asList(
-				new SettingToggle(true, "Sides")
+				new SettingToggle(true, "Sides").featured()
 		)));
 	}
 

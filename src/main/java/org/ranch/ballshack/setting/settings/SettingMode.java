@@ -27,9 +27,8 @@ public class SettingMode extends ModuleSetting<Integer> {
 		context.fill(x, y, x+width, y+height, Colors.CLICKGUI_3.hashCode());
 
 		/* setting name and value */
-		String mode = modes.get(this.getValue());
 		drawText(context, this.getName() + ": ");
-		drawTextRightAligned(context, mode);
+		drawTextRightAligned(context, getFormattedValue());
 
 		return height;
 	}
@@ -47,5 +46,10 @@ public class SettingMode extends ModuleSetting<Integer> {
 			return true;
 		}
 		return false;
+	}
+
+	@Override
+	public String getFormattedValue() {
+		return this.modes.get(this.getValue());
 	}
 }

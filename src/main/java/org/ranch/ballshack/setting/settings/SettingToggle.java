@@ -39,4 +39,9 @@ public class SettingToggle extends ModuleSetting<Boolean> {
 		}
 		return false;
 	}
+
+	@Override
+	public String getFormattedValue() {
+		return String.valueOf(value);
+	}
 }

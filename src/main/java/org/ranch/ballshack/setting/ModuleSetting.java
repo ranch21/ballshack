@@ -11,6 +11,8 @@ public abstract class ModuleSetting<T> {
 
 	private String name;
 
+	private boolean featured;
+
 	protected int x;
 	protected int y;
 	protected int width;
@@ -61,4 +63,15 @@ public abstract class ModuleSetting<T> {
 	public String getName() {
 		return name;
 	}
+
+	public boolean isFeatured() {
+		return featured;
+	}
+
+	public ModuleSetting<T> featured() {
+		featured = true;
+		return this;
+	}
+
+	public abstract String getFormattedValue();
 }

@@ -25,7 +25,7 @@ public class AimAssist extends Module {
 				new SettingSlider(8, "Speed", 1, 25, 1),
 				new SettingToggle(true, "Random"),
 				new TargetsDropDown("Targets"),
-				new SortMode("Sort")
+				new SortMode("Sort").featured()
 		)));
 	}
 

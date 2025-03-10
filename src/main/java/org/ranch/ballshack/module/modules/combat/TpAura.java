@@ -22,7 +22,7 @@ public class TpAura extends Module {
 		super("TpAura", ModuleCategory.COMBAT, 0, new ModuleSettings(Arrays.asList(
 				new SettingSlider(4, "Range", 2, 20, 1),
 				new TargetsDropDown("Targets"),
-				new SettingMode(0, "Rotate", Arrays.asList("None", "Packet", "True")),
+				new SettingMode(0, "Rotate", Arrays.asList("None", "Packet", "True")).featured(),
 				new SettingToggle(true, "Swing"),
 				new SortMode("Sort"),
 				new SettingSlider(2, "Delay", 1, 4, 1)
