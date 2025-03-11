@@ -3,6 +3,7 @@ package org.ranch.ballshack.setting;
 import com.google.gson.*;
 import net.minecraft.client.MinecraftClient;
 import org.ranch.ballshack.BallsLogger;
+import org.ranch.ballshack.command.CommandManager;
 import org.ranch.ballshack.command.commands.GPTCommand;
 import org.ranch.ballshack.module.Module;
 import org.ranch.ballshack.module.ModuleManager;
@@ -76,13 +77,24 @@ public class SettingSaver {
 		return settingsJson;
 	}
 
+	private static JsonObject saveCommands() {
+		JsonObject commands = new JsonObject();
+		commands.addProperty("api-key", GPTCommand.api_key);
+		commands.addProperty("prefix", CommandManager.prefix);
+		return commands;
+	}
+
+	private static void loadCommands(JsonObject settings) {
+		JsonObject gpt = settings.get("commands").getAsJsonObject();
+		GPTCommand.api_key = gpt.getAsJsonPrimitive("api-key").getAsString();
+		CommandManager.prefix = gpt.getAsJsonPrimitive("prefix").getAsString();
+	}
+
 	public static void saveSettings() {
 		JsonObject json = new JsonObject();
 
-		JsonObject gptJson = new JsonObject();
-		gptJson.addProperty("key", GPTCommand.api_key);
-		json.add("gpt", gptJson);
-
+		JsonObject commands = saveCommands();
+		json.add("commands", commands);
 		JsonObject modulesJson = new JsonObject();
 
 		for (Module mod: ModuleManager.getModules()) {
@@ -144,9 +156,8 @@ public class SettingSaver {
 		try (FileReader reader = new FileReader(saveDir.resolve("settings.json").toFile())) {
 
 			JsonObject settings = JsonParser.parseReader(reader).getAsJsonObject();
+			loadCommands(settings);
 			JsonObject modules = settings.get("modules").getAsJsonObject();
-			JsonObject gpt = settings.get("gpt").getAsJsonObject();
-			GPTCommand.api_key = gpt.getAsJsonPrimitive("key").getAsString();
 
 			for (String modName : modules.keySet()) {
 				JsonObject modjson = modules.getAsJsonObject(modName);

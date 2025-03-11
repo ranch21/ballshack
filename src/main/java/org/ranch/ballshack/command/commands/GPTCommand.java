@@ -3,7 +3,6 @@ package org.ranch.ballshack.command.commands;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import net.minecraft.text.Text;
 import org.ranch.ballshack.command.Command;
 import org.ranch.ballshack.setting.SettingSaver;
 
@@ -37,16 +36,17 @@ public class GPTCommand extends Command {
 		} else {
 			if (api_key.equals("none")) {
 
-				mc.player.sendMessage(Text.literal("Api key is not set"), false);
+				log("Api key is not set", true);
 
 			} else {
 
 				String[] prompt = Arrays.copyOfRange(args, 1, args.length);
 
-				getResponse(String.join(" ", prompt)).thenAccept(response -> {
-					mc.player.sendMessage(Text.literal("BallsGPT: " + response), false);
-				});
+				log("Prompting", true);
 
+				getResponse(String.join(" ", prompt)).thenAccept(response -> {
+					log(response, true);
+				});
 			}
 		}
 	}

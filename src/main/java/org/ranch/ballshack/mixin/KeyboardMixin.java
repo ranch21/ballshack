@@ -2,9 +2,11 @@ package org.ranch.ballshack.mixin;
 
 import net.minecraft.client.Keyboard;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.screen.ChatScreen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import org.lwjgl.glfw.GLFW;
 import org.ranch.ballshack.BallsHack;
+import org.ranch.ballshack.command.CommandManager;
 import org.ranch.ballshack.event.events.EventKeyPress;
 import org.ranch.ballshack.module.ModuleManager;
 import org.spongepowered.asm.mixin.Mixin;
@@ -22,6 +24,11 @@ public class KeyboardMixin {
 		if (action == GLFW.GLFW_PRESS && (mc.currentScreen == null || !(mc.currentScreen.getFocused() instanceof TextFieldWidget))) {
 			ModuleManager.handleKeyPress(key);
 			BallsHack.eventBus.post(new EventKeyPress(key));
+
+			String keyName = GLFW.glfwGetKeyName(key, 0);
+			if (keyName != null && keyName.equals(CommandManager.prefix)) {
+				mc.setScreen(new ChatScreen(""));
+			}
 		}
 	}
 }

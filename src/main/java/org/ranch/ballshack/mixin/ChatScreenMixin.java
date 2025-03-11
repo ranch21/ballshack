@@ -12,7 +12,7 @@ public class ChatScreenMixin {
 	@Inject(method = "sendMessage", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/ChatHud;addToMessageHistory(Ljava/lang/String;)V", ordinal = 0), cancellable = true)
 	public void sendMessage(String chatText, boolean addToHistory, CallbackInfo ci) {
 		if (chatText.startsWith(CommandManager.prefix)) {
-			CommandManager.onCommand(chatText.substring(1));
+			CommandManager.onCommand(chatText.substring(CommandManager.prefix.length()));
 			ci.cancel();
 		}
 	}
