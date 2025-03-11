@@ -3,6 +3,7 @@ package org.ranch.ballshack.setting;
 import com.google.gson.*;
 import net.minecraft.client.MinecraftClient;
 import org.ranch.ballshack.BallsLogger;
+import org.ranch.ballshack.command.commands.GPTCommand;
 import org.ranch.ballshack.module.Module;
 import org.ranch.ballshack.module.ModuleManager;
 import org.ranch.ballshack.setting.settings.DropDown;
@@ -20,7 +21,7 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class SaveHelper {
+public class SettingSaver {
 
 	private static ScheduledExecutorService scheduler;
 
@@ -35,7 +36,7 @@ public class SaveHelper {
 			scheduler = new ScheduledThreadPoolExecutor(1);
 
 		scheduler.scheduleAtFixedRate(() -> {
-			if (SCHEDULE_SAVE_MODULES.getAndSet(false)) saveModules();
+			if (SCHEDULE_SAVE_MODULES.getAndSet(false)) saveSettings();
 		}, 0, 5, TimeUnit.SECONDS);
 	}
 
@@ -75,8 +76,14 @@ public class SaveHelper {
 		return settingsJson;
 	}
 
-	public static void saveModules() {
+	public static void saveSettings() {
 		JsonObject json = new JsonObject();
+
+		JsonObject gptJson = new JsonObject();
+		gptJson.addProperty("key", GPTCommand.api_key);
+		json.add("gpt", gptJson);
+
+		JsonObject modulesJson = new JsonObject();
 
 		for (Module mod: ModuleManager.getModules()) {
 			JsonObject modjson = new JsonObject();
@@ -91,8 +98,10 @@ public class SaveHelper {
 				modjson.add("settings", settingsJson);
 
 			if (modjson.size() != 0)
-				json.add(mod.getName(), modjson);
+				modulesJson.add(mod.getName(), modjson);
 		}
+
+		json.add("modules", modulesJson);
 
 		try (Writer writer = new FileWriter(saveDir.resolve("settings.json").toFile())) {
 			gson.toJson(json, writer);
@@ -133,10 +142,14 @@ public class SaveHelper {
 		}
 
 		try (FileReader reader = new FileReader(saveDir.resolve("settings.json").toFile())) {
-			JsonObject json = JsonParser.parseReader(reader).getAsJsonObject();
 
-			for (String modName : json.keySet()) {
-				JsonObject modjson = json.getAsJsonObject(modName);
+			JsonObject settings = JsonParser.parseReader(reader).getAsJsonObject();
+			JsonObject modules = settings.get("modules").getAsJsonObject();
+			JsonObject gpt = settings.get("gpt").getAsJsonObject();
+			GPTCommand.api_key = gpt.getAsJsonPrimitive("key").getAsString();
+
+			for (String modName : modules.keySet()) {
+				JsonObject modjson = modules.getAsJsonObject(modName);
 				Module mod = ModuleManager.getModuleByName(modName);
 
 				if (mod == null) continue;

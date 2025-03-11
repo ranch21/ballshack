@@ -1,0 +1,15 @@
+package org.ranch.ballshack.command.commands;
+
+import org.ranch.ballshack.BallsLogger;
+import org.ranch.ballshack.command.Command;
+
+public class TestCommand extends Command {
+	public TestCommand() {
+		super("test");
+	}
+
+	@Override
+	public void onCall(String[] args) {
+		BallsLogger.info(getName() + " called");
+	}
+}

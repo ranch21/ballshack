@@ -1,6 +1,8 @@
 # User-specific stuff
 .idea/
 
+gource.mp4
+
 *.iml
 *.ipr
 *.iws

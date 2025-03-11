@@ -18,7 +18,7 @@ public class Speed extends Module {
 
 	public Speed() {
 		super("Speed", ModuleCategory.MOVEMENT, 0, new ModuleSettings(Arrays.asList(
-				new SettingSlider(1, "Speed", 0.5, 2, 0.25)
+				new SettingSlider(1, "Speed", 0.25, 4, 0.25)
 		)));
 	}
 
@@ -39,7 +39,7 @@ public class Speed extends Module {
 			case 0:
 				if (PlayerUtil.isMoving()) {
 					stage++;
-					speed = 1.18f * PlayerUtil.getSpeed() - 0.01;
+					speed = PlayerUtil.getSpeed();
 				}
 				//BallsLogger.info(String.valueOf(PlayerUtil.isMoving()));
 				break;
