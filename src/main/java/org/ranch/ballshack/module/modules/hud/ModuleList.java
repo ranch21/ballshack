@@ -11,7 +11,7 @@ import org.ranch.ballshack.event.events.EventHudRender;
 import org.ranch.ballshack.gui.Colors;
 import org.ranch.ballshack.module.*;
 import org.ranch.ballshack.module.Module;
-import org.ranch.ballshack.module.modules.render.ClickGui;
+import org.ranch.ballshack.module.modules.client.ClickGui;
 import org.ranch.ballshack.setting.ModuleSetting;
 import org.ranch.ballshack.setting.ModuleSettings;
 import org.ranch.ballshack.setting.settings.SettingMode;
@@ -105,7 +105,7 @@ public class ModuleList extends ModuleHud {
 					break;
 				case 1:
 					r.setSeed(m.getName().hashCode());
-					col = new Color(r.nextInt(256), r.nextInt(256), r.nextInt(256));
+					col = Color.getHSBColor(r.nextFloat(), 0.7f, 1.0f);
 					break;
 				case 2:
 					col = Colors.getRainbowColorGlobal(totalTicks + i * 10);

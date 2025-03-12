@@ -1,4 +1,4 @@
-package org.ranch.ballshack.module.modules.render;
+package org.ranch.ballshack.module.modules.client;
 
 import net.minecraft.client.MinecraftClient;
 import org.lwjgl.glfw.GLFW;
@@ -19,7 +19,7 @@ public class ClickGui extends Module {
 	private ClickGuiScreen screen;
 
 	public ClickGui() {
-		super("ClickGui", ModuleCategory.RENDER, GLFW.GLFW_KEY_RIGHT_SHIFT, new ModuleSettings(Arrays.asList(
+		super("ClickGui", ModuleCategory.CLIENT, GLFW.GLFW_KEY_RIGHT_SHIFT, new ModuleSettings(Arrays.asList(
 				new DropDown("Balls", Arrays.asList(
 						new SettingToggle(true, "Enabled"),
 						new SettingSlider(50,"Amount", 1, 250, 5),

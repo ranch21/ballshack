@@ -77,8 +77,7 @@ public class CategoryWindow {
 			}
 		}
 
-		//context.fill(x, y, x + width, y + height, Colors.CLICKGUI_1.hashCode());
-		DrawUtil.drawHorizontalGradient(context, x, y, width, height, Colors.CLICKGUI_TITLE_START, Colors.CLICKGUI_TITLE_END, 10);
+		DrawUtil.drawHorizontalGradient(context, x, y, width, height, Colors.CLICKGUI_TITLE_START, Colors.CLICKGUI_TITLE_END, width/8);
 
 		int bottomY = y + height + addedHeight;
 

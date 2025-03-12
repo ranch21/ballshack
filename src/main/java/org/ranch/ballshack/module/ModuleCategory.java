@@ -7,5 +7,6 @@ public enum ModuleCategory {
 	MOVEMENT,
 	WORLD,
 	FUN,
-	HUD
+	HUD,
+	CLIENT
 }

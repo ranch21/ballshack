@@ -37,7 +37,7 @@ public class ClickGuiScreen extends Screen {
 		for (ModuleCategory category : ModuleCategory.values()) {
 			if (ModuleManager.getModulesByCategory(category).isEmpty()) continue;
 
-			windows.add(new CategoryWindow((110 * i) + 10, 30, StringUtils.capitalize(category.name().toLowerCase()), true, category));
+			windows.add(new CategoryWindow((78 * i) + 2, 30, StringUtils.capitalize(category.name().toLowerCase()), true, category));
 			i++;
 		}
 	}
@@ -81,7 +81,7 @@ public class ClickGuiScreen extends Screen {
 		super.render(context, mouseX, mouseY, delta);
 
 		if (darken) {
-			context.fill(0, 0, width, height, Colors.CLICKGUI_3.hashCode());
+			context.fill(0, 0, width, height, Colors.CLICKGUI_BACKGROUND.hashCode());
 		}
 
 		if (ballsEnabled) {

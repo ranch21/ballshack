@@ -1,8 +1,8 @@
 package org.ranch.ballshack.gui.balls;
 
 import net.minecraft.client.gui.DrawContext;
-
-import java.awt.*;
+import net.minecraft.client.render.RenderLayer;
+import net.minecraft.util.Identifier;
 
 public class Ball {
 
@@ -12,16 +12,16 @@ public class Ball {
 	private double xVel;
 	private double yVel;
 
-	private int size = 12;
+	private int size = 16;
 
-	private Color color;
+	private Identifier texture;
 
-	public Ball(double x, double y, double xVel, double yVel, Color color) {
+	public Ball(double x, double y, double xVel, double yVel, Identifier texture) {
 		this.x = x;
 		this.y = y;
 		this.xVel = xVel;
 		this.yVel = yVel;
-		this.color = color;
+		this.texture = texture;
 	}
 
 	public void update(int width, int height, double deltaT, double gravity, double bounce) {
@@ -49,15 +49,6 @@ public class Ball {
 	}
 
 	public void render(DrawContext context) {
-
-		int x1 = (int) x;
-		int y1 = (int) y;
-		int x2 = (int) (x + size);
-		int y2 = (int) (y + size);
-
-		context.fill(x1 + 2, y1, x2 - 2, y2, color.darker().hashCode());
-		context.fill(x1, y1 + 2, x2, y2 - 2, color.darker().hashCode());
-
-		context.fill(x1 + 2, y1 + 2, x1 + 5, y1 + 5, color.brighter().hashCode());
+		context.drawTexture(RenderLayer::getGuiTextured, texture, (int) x, (int) y, 0, 0, 16, 16, 16, 16);
 	}
 }

@@ -1,5 +1,6 @@
 package org.ranch.ballshack.module;
 
+import org.ranch.ballshack.module.modules.client.Rainbow;
 import org.ranch.ballshack.module.modules.combat.*;
 import org.ranch.ballshack.module.modules.fun.BouncyGround;
 import org.ranch.ballshack.module.modules.fun.TestModule;
@@ -8,9 +9,11 @@ import org.ranch.ballshack.module.modules.movement.Boatfly;
 import org.ranch.ballshack.module.modules.movement.Flight;
 import org.ranch.ballshack.module.modules.movement.Jesus;
 import org.ranch.ballshack.module.modules.movement.Speed;
+import org.ranch.ballshack.module.modules.player.AntiHunger;
 import org.ranch.ballshack.module.modules.player.NoFall;
 import org.ranch.ballshack.module.modules.player.Reach;
-import org.ranch.ballshack.module.modules.render.ClickGui;
+import org.ranch.ballshack.module.modules.render.ChestESP;
+import org.ranch.ballshack.module.modules.client.ClickGui;
 import org.ranch.ballshack.module.modules.render.ESP;
 import org.ranch.ballshack.module.modules.render.Tracers;
 
@@ -19,6 +22,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public class ModuleManager {
+
+	public static boolean printToggle = false;
 
 	static List<Module> modules = Arrays.asList(
 			new TestModule(),
@@ -37,7 +42,10 @@ public class ModuleManager {
 			new TpAura(),
 			new ESP(),
 			new Tracers(),
-			new Speed()
+			new Speed(),
+			new AntiHunger(),
+			new ChestESP(),
+			new Rainbow()
 	);
 
 	public static List<Module> getModules() {

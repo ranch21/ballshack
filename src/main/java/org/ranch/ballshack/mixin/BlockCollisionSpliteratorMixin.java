@@ -20,7 +20,6 @@ public class BlockCollisionSpliteratorMixin {
 		VoxelShape shape = instance.getCollisionShape(blockState, collisionView, blockPos);
 		EventBlockShape event = new EventBlockShape(blockState, blockPos, shape);
 		BallsHack.eventBus.post(event);
-
 		return event.shape;
 	}
 }

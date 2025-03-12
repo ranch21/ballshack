@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class Module {
 
 	protected MinecraftClient mc = MinecraftClient.getInstance();
-	private final ModuleSettings settings;
+	protected final ModuleSettings settings;
 	private final String name;
 	private final ModuleCategory category;
 	private Boolean subscribed;
@@ -30,14 +30,14 @@ public class Module {
 	}
 
 	public void onEnable() {
-		BallsLogger.info("Enabled module " + name);
+		if (ModuleManager.printToggle) BallsLogger.info("Enabled module " + name);
 		subscribed = BallsHack.eventBus.subscribe(this);
 		enabled = true;
 		SettingSaver.SCHEDULE_SAVE_MODULES.set(true);
 	}
 
 	public void onDisable() {
-		BallsLogger.info("Disabled module " + name);
+		if (ModuleManager.printToggle) BallsLogger.info("Enabled module " + name);
 		if (subscribed) {
 			subscribed = !BallsHack.eventBus.unsubscribe(this);
 		}

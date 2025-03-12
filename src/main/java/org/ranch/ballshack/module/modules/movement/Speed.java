@@ -31,6 +31,10 @@ public class Speed extends Module {
 
 	@EventSubscribe
 	public void onTick(EventTick event) {
+
+		if (mc.player.isTouchingWater() ||
+			mc.player.getAbilities().flying) return;
+
 		distance = Math.sqrt((mc.player.getX() - mc.player.prevX) * (mc.player.getX() - mc.player.prevX) + (mc.player.getZ() - mc.player.prevZ) * (mc.player.getZ() - mc.player.prevZ));
 
 		double speedM = (Double) getSettings().getSetting(0).getValue();
