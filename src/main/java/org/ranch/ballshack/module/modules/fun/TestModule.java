@@ -31,6 +31,6 @@ public class TestModule extends Module {
 
 	@EventSubscribe
 	public void onTick(EventTick event) {
-		mc.player.setYaw(mc.player.getYaw() + 1.0f);
+		mc.player.setYaw(mc.player.getYaw() + 1.0f); //the first thing a module did
 	}
 }
