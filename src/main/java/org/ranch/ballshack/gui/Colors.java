@@ -44,6 +44,7 @@ public class Colors {
 			new Color(160, 82, 45) // BARREL
 	};
 
+	public static final Color WARN = new Color(200, 50, 100, 255);
 	public static final Color HOSTILE = new Color(255, 0, 0, 250);
 	public static final Color PASSIVE = new Color(0, 255, 0, 250);
 	public static final Color PLAYER = new Color(0, 0, 255, 250);

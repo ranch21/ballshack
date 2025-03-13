@@ -14,6 +14,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.AbstractFireballEntity;
 import net.minecraft.entity.projectile.ShulkerBulletEntity;
 import net.minecraft.util.math.Vec3d;
+import org.ranch.ballshack.FriendManager;
 import org.ranch.ballshack.setting.settings.TargetsDropDown;
 
 import java.util.ArrayList;
@@ -46,6 +47,13 @@ public class EntityUtil {
 		return e instanceof PlayerEntity && e != MinecraftClient.getInstance().player;
 	}
 
+	public static boolean isFriend(Entity e) {
+		if (isPlayer(e)) {
+			return FriendManager.has(e.getName().getString());
+		}
+		return false;
+	}
+
 	public static boolean isAnimal(Entity e) {
 		return e instanceof PassiveEntity
 				|| e instanceof AmbientEntity
@@ -55,7 +63,7 @@ public class EntityUtil {
 	}
 
 	public static boolean filterByType(Entity e, TargetsDropDown t) {
-		return (EntityUtil.isPlayer(e) && t.getPlayers())
+		return (EntityUtil.isPlayer(e) && t.getPlayers() && !(EntityUtil.isFriend(e) && t.getFriends()))
 				|| (EntityUtil.isMob(e) && t.getMobs())
 				|| (EntityUtil.isAnimal(e) && t.getPassive());
 	}

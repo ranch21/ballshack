@@ -57,7 +57,7 @@ public abstract class ModuleSetting<T> {
 
 	public void setValue(T value) {
 		this.value = value;
-		SettingSaver.SCHEDULE_SAVE_MODULES.set(true);
+		SettingSaver.SCHEDULE_SAVE.set(true);
 	}
 
 	public String getName() {

@@ -1,5 +1,6 @@
 package org.ranch.ballshack.command;
 
+import org.ranch.ballshack.command.commands.FriendCommand;
 import org.ranch.ballshack.command.commands.GPTCommand;
 import org.ranch.ballshack.command.commands.PrefixCommand;
 import org.ranch.ballshack.command.commands.TestCommand;
@@ -12,10 +13,11 @@ public class CommandManager {
 
 	public static String prefix = ".";
 
-	static List<Command> commands = new ArrayList<>(Arrays.asList(
+	static List<Command> commands = new ArrayList<Command>(Arrays.asList(
 			new TestCommand(),
 			new GPTCommand(),
-			new PrefixCommand()
+			new PrefixCommand(),
+			new FriendCommand()
 	));
 
 	public static void onCommand(String command) {

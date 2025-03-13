@@ -3,6 +3,7 @@ package org.ranch.ballshack.setting;
 import com.google.gson.*;
 import net.minecraft.client.MinecraftClient;
 import org.ranch.ballshack.BallsLogger;
+import org.ranch.ballshack.FriendManager;
 import org.ranch.ballshack.command.CommandManager;
 import org.ranch.ballshack.command.commands.GPTCommand;
 import org.ranch.ballshack.module.Module;
@@ -16,6 +17,7 @@ import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
@@ -26,7 +28,7 @@ public class SettingSaver {
 
 	private static ScheduledExecutorService scheduler;
 
-	public static AtomicBoolean SCHEDULE_SAVE_MODULES = new AtomicBoolean();
+	public static AtomicBoolean SCHEDULE_SAVE = new AtomicBoolean();
 
 	private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
@@ -37,7 +39,7 @@ public class SettingSaver {
 			scheduler = new ScheduledThreadPoolExecutor(1);
 
 		scheduler.scheduleAtFixedRate(() -> {
-			if (SCHEDULE_SAVE_MODULES.getAndSet(false)) saveSettings();
+			if (SCHEDULE_SAVE.getAndSet(false)) saveSettings();
 		}, 0, 5, TimeUnit.SECONDS);
 	}
 
@@ -90,11 +92,28 @@ public class SettingSaver {
 		CommandManager.prefix = gpt.getAsJsonPrimitive("prefix").getAsString();
 	}
 
+	private static JsonObject saveFriends() {
+		JsonObject friends = new JsonObject();
+		friends.add("friends", gson.toJsonTree(FriendManager.getFriends()));
+		return friends;
+	}
+
+	private static void loadFriends(JsonObject settings) {
+		JsonObject friends = settings.get("friends").getAsJsonObject();
+		JsonArray array = friends.get("friends").getAsJsonArray();
+		List<String> list = new ArrayList<>();
+		for (JsonElement friend : array) {
+			FriendManager.add(friend.getAsString());
+		}
+	}
+
 	public static void saveSettings() {
 		JsonObject json = new JsonObject();
 
 		JsonObject commands = saveCommands();
 		json.add("commands", commands);
+		JsonObject friends = saveFriends();
+		json.add("friends", friends);
 		JsonObject modulesJson = new JsonObject();
 
 		for (Module mod: ModuleManager.getModules()) {
@@ -149,7 +168,7 @@ public class SettingSaver {
 
 	public static void readModules() {
 		if (!Files.exists(saveDir.resolve("settings.json"))) {
-			BallsLogger.info("No settings file found, skipping loading.");
+			BallsLogger.warn("No settings file found, skipping loading.");
 			return;
 		}
 
@@ -157,6 +176,7 @@ public class SettingSaver {
 
 			JsonObject settings = JsonParser.parseReader(reader).getAsJsonObject();
 			loadCommands(settings);
+			loadFriends(settings);
 			JsonObject modules = settings.get("modules").getAsJsonObject();
 
 			for (String modName : modules.keySet()) {

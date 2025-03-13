@@ -3,7 +3,6 @@ package org.ranch.ballshack.module.modules.combat;
 import net.minecraft.network.packet.c2s.play.PlayerInteractEntityC2SPacket;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 import net.minecraft.util.math.Vec3d;
-import org.ranch.ballshack.BallsLogger;
 import org.ranch.ballshack.event.EventSubscribe;
 import org.ranch.ballshack.event.events.EventPacketSend;
 import org.ranch.ballshack.module.Module;
@@ -18,7 +17,6 @@ public class Criticals extends Module {
 	public void onPacketSent(EventPacketSend event) {
 		if (mc.player == null) return;
 
-		BallsLogger.info(event.packet.getClass().getName());
 		if (event.packet instanceof PlayerInteractEntityC2SPacket packet) {
 			sendPacket(0.062);
 			sendPacket(0);

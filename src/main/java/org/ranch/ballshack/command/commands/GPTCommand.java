@@ -32,7 +32,7 @@ public class GPTCommand extends Command {
 
 		if (args[1].equals("set-key")) {
 			api_key = args[2];
-			SettingSaver.SCHEDULE_SAVE_MODULES.set(true);
+			SettingSaver.SCHEDULE_SAVE.set(true);
 		} else {
 			if (api_key.equals("none")) {
 

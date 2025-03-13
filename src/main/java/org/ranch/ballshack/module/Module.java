@@ -33,7 +33,7 @@ public class Module {
 		if (ModuleManager.printToggle) BallsLogger.info("Enabled module " + name);
 		subscribed = BallsHack.eventBus.subscribe(this);
 		enabled = true;
-		SettingSaver.SCHEDULE_SAVE_MODULES.set(true);
+		SettingSaver.SCHEDULE_SAVE.set(true);
 	}
 
 	public void onDisable() {
@@ -42,7 +42,7 @@ public class Module {
 			subscribed = !BallsHack.eventBus.unsubscribe(this);
 		}
 		enabled = false;
-		SettingSaver.SCHEDULE_SAVE_MODULES.set(true);
+		SettingSaver.SCHEDULE_SAVE.set(true);
 	}
 
 	public int getBind() {

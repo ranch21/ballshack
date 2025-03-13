@@ -7,7 +7,6 @@ import net.minecraft.util.math.Vec3d;
 import org.lwjgl.opengl.GL11;
 import org.ranch.ballshack.event.EventSubscribe;
 import org.ranch.ballshack.event.events.EventWorldRender;
-import org.ranch.ballshack.gui.Colors;
 import org.ranch.ballshack.module.Module;
 import org.ranch.ballshack.module.ModuleCategory;
 import org.ranch.ballshack.setting.ModuleSettings;
@@ -44,17 +43,14 @@ public class ESP extends Module {
 		for (Entity e : mc.world.getEntities()) {
 			if (e != mc.player) {
 
-				Color c;
+				Color c = DrawUtil.getEspColor(e);
 
 				if (EntityUtil.isAnimal(e)) {
 					if (!targets.getPassive()) continue;
-					c = Colors.PASSIVE;
 				} else if (EntityUtil.isMob(e)) {
 					if (!targets.getMobs()) continue;
-					c = Colors.HOSTILE;
 				} else if (EntityUtil.isPlayer(e)) {
 					if (!targets.getPlayers()) continue;
-					c = Colors.PLAYER;
 				} else {
 					continue;
 				}

@@ -6,8 +6,11 @@ import net.minecraft.client.gl.ShaderProgramKeys;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.entity.Entity;
 import net.minecraft.util.math.Box;
 import org.joml.Matrix4f;
+import org.ranch.ballshack.FriendManager;
+import org.ranch.ballshack.gui.Colors;
 
 import java.awt.*;
 
@@ -189,5 +192,24 @@ public class DrawUtil {
 		BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
 
 		RenderSystem.setShaderColor(1,1,1,1);
+	}
+
+	public static Color getEspColor(Entity e) {
+		Color c;
+
+		if (EntityUtil.isAnimal(e)) {
+			c = Colors.PASSIVE;
+		} else if (EntityUtil.isMob(e)) {
+			c = Colors.HOSTILE;
+		} else if (EntityUtil.isPlayer(e)) {
+			if (FriendManager.has(e.getName().getString())) {
+				c = Colors.PLAYER;
+			} else {
+				c = Colors.WARN;
+			}
+		} else {
+			return Colors.ELSE;
+		}
+		return c;
 	}
 }
