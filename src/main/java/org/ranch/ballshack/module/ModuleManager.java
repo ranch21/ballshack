@@ -45,7 +45,8 @@ public class ModuleManager {
 			new Speed(),
 			new AntiHunger(),
 			new ChestESP(),
-			new Rainbow()
+			new Rainbow(),
+			new Criticals()
 	);
 
 	public static List<Module> getModules() {

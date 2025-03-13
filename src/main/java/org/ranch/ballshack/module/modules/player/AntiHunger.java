@@ -2,6 +2,7 @@ package org.ranch.ballshack.module.modules.player;
 
 import net.minecraft.network.packet.c2s.play.ClientCommandC2SPacket;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
+import org.ranch.ballshack.BallsLogger;
 import org.ranch.ballshack.event.EventSubscribe;
 import org.ranch.ballshack.event.events.EventPacketSend;
 import org.ranch.ballshack.event.events.EventTick;
@@ -28,6 +29,10 @@ public class AntiHunger extends Module {
 	@EventSubscribe
 	public void onPacket(EventPacketSend event) {
 
+		BallsLogger.info("ho");
+
+		if (mc.player == null) return;
+
 		boolean sprint = (boolean) settings.getSetting(0).getValue();
 		boolean onGround = (boolean) settings.getSetting(1).getValue();
 
@@ -48,7 +53,7 @@ public class AntiHunger extends Module {
 	}
 
 	@EventSubscribe
-	private void onTick(EventTick event) {
+	public void onTick(EventTick event) {
 
 		boolean onGround = (boolean) settings.getSetting(1).getValue();
 
