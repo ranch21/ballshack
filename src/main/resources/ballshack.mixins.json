@@ -15,7 +15,8 @@
     "InGameHudMixin",
     "KeyboardMixin",
     "MouseMixin",
-    "PlayerEntityMixin"
+    "PlayerEntityMixin",
+    "WorldRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1

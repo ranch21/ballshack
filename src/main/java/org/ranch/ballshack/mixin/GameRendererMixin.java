@@ -30,7 +30,7 @@ public class GameRendererMixin {
 	{
 		MatrixStack matrixStack = new MatrixStack();
 		matrixStack.multiplyPositionMatrix(matrix4f3);
-		EventWorldRender event = new EventWorldRender(matrixStack, tickCounter.getTickDelta(false));
+		EventWorldRender.Post event = new EventWorldRender.Post(matrixStack, tickCounter);
 
 		BallsHack.eventBus.post(event);
 		if (event.isCancelled()) {

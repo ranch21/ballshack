@@ -12,10 +12,8 @@ import org.ranch.ballshack.module.modules.movement.Speed;
 import org.ranch.ballshack.module.modules.player.AntiHunger;
 import org.ranch.ballshack.module.modules.player.NoFall;
 import org.ranch.ballshack.module.modules.player.Reach;
-import org.ranch.ballshack.module.modules.render.ChestESP;
+import org.ranch.ballshack.module.modules.render.*;
 import org.ranch.ballshack.module.modules.client.ClickGui;
-import org.ranch.ballshack.module.modules.render.ESP;
-import org.ranch.ballshack.module.modules.render.Tracers;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -46,7 +44,9 @@ public class ModuleManager {
 			new AntiHunger(),
 			new ChestESP(),
 			new Rainbow(),
-			new Criticals()
+			new Criticals(),
+			new BlockHighlight(),
+			new Trajectories()
 	);
 
 	public static List<Module> getModules() {

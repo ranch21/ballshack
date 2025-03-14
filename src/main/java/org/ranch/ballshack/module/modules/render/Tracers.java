@@ -30,7 +30,7 @@ public class Tracers extends Module {
 	}
 
 	@EventSubscribe
-	public void onWorldRender(EventWorldRender event) {
+	public void onWorldRender(EventWorldRender.Post event) {
 
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
@@ -82,17 +82,12 @@ public class Tracers extends Module {
 
 				Matrix4f matrix = matrices.peek().getPositionMatrix();
 
-				//BallsLogger.info(String.valueOf(cameraPos.x));
-
 				bufferBuilder.vertex(matrix, (float) tracerStart.x, (float) tracerStart.y, (float) tracerStart.z);
 				bufferBuilder.vertex(matrix, (float) pos.x, (float) pos.y, (float) pos.z);
 
-				//bufferBuilder.vertex(matrix, 0, 0, 0);
-				//bufferBuilder.vertex(matrix, 1, 1, 1);
-
 				RenderSystem.setShader(ShaderProgramKeys.POSITION);
 
-				RenderSystem.setShaderColor(r,g,b,1);
+				RenderSystem.setShaderColor(r,g,b, (float) alpha);
 
 				BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
 

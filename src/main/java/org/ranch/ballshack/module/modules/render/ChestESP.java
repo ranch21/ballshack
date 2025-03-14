@@ -28,7 +28,7 @@ public class ChestESP extends Module {
 	}
 
 	@EventSubscribe
-	public void onWorldRender(EventWorldRender event) {
+	public void onWorldRender(EventWorldRender.Post event) {
 
 		Stream<BlockEntity> blockEntities = WorldUtil.getLoadedChunks().flatMap(chunk -> chunk.getBlockEntities().values().stream());
 

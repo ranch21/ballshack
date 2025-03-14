@@ -13,6 +13,7 @@ import org.ranch.ballshack.util.EntityUtil;
 import org.ranch.ballshack.util.PlayerUtil;
 
 import java.util.Arrays;
+import java.util.List;
 
 public class TpAura extends Module {
 
@@ -38,7 +39,11 @@ public class TpAura extends Module {
 
 		SortMode sort = (SortMode) getSettings().getSetting(4);
 
-		Entity e = EntityUtil.getEntities(distance, targets, sort.getComparator()).get(0);
+		List<Entity> ents = EntityUtil.getEntities(distance, targets, sort.getComparator());
+
+		if (ents.isEmpty()) return;
+
+		Entity e = ents.get(0);
 
 		int mode = (int) getSettings().getSetting(2).getValue();
 

@@ -1,21 +1,32 @@
 package org.ranch.ballshack.event.events;
 
+import net.minecraft.client.render.RenderTickCounter;
+import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.util.math.MatrixStack;
 import org.ranch.ballshack.event.Event;
 
 public class EventWorldRender extends Event {
 
-	//public final Matrix4f positionMatrix;
-	//public final Matrix4f projectionMatrix;
 	public MatrixStack matrixStack;
-	public final float tickDelta;
-	//public final VertexConsumerProvider consumers;
+	public float tickDelta;
 
-	public EventWorldRender(MatrixStack matrixStack, float tickDelta) {
-		//this.positionMatrix = positionMatrix;
-		//this.projectionMatrix = projectionMatrix;
-		this.matrixStack = matrixStack;
-		this.tickDelta = tickDelta;
-		//this.consumers = consumers;
+	public static class Post extends EventWorldRender {
+		public Post(MatrixStack matrixStack, RenderTickCounter renderTickCounter) {
+			this.matrixStack = matrixStack;
+			this.tickDelta = renderTickCounter.getTickDelta(true);
+		}
+	}
+
+	public static class Outline extends EventWorldRender {
+
+		public boolean translucent;
+		public VertexConsumerProvider.Immediate vertexConsumers;
+
+		public Outline(MatrixStack matrixStack, RenderTickCounter renderTickCounter, boolean translucent, VertexConsumerProvider.Immediate vertexConsumers) {
+			this.matrixStack = matrixStack;
+			this.tickDelta = renderTickCounter.getTickDelta(true);
+			this.translucent = translucent;
+			this.vertexConsumers = vertexConsumers;
+		}
 	}
 }
