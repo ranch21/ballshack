@@ -5,10 +5,7 @@ import org.ranch.ballshack.module.modules.combat.*;
 import org.ranch.ballshack.module.modules.fun.BouncyGround;
 import org.ranch.ballshack.module.modules.fun.TestModule;
 import org.ranch.ballshack.module.modules.hud.ModuleList;
-import org.ranch.ballshack.module.modules.movement.Boatfly;
-import org.ranch.ballshack.module.modules.movement.Flight;
-import org.ranch.ballshack.module.modules.movement.Jesus;
-import org.ranch.ballshack.module.modules.movement.Speed;
+import org.ranch.ballshack.module.modules.movement.*;
 import org.ranch.ballshack.module.modules.player.AntiHunger;
 import org.ranch.ballshack.module.modules.player.NoFall;
 import org.ranch.ballshack.module.modules.player.Reach;
@@ -46,7 +43,9 @@ public class ModuleManager {
 			new Rainbow(),
 			new Criticals(),
 			new BlockHighlight(),
-			new Trajectories()
+			new Trajectories(),
+			new ProjectileEvade(),
+			new Debug()
 	);
 
 	public static List<Module> getModules() {

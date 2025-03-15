@@ -37,7 +37,7 @@ public class ClickGuiScreen extends Screen {
 		for (ModuleCategory category : ModuleCategory.values()) {
 			if (ModuleManager.getModulesByCategory(category).isEmpty()) continue;
 
-			windows.add(new CategoryWindow((78 * i) + 2, 30, StringUtils.capitalize(category.name().toLowerCase()), true, category));
+			windows.add(new CategoryWindow(((CategoryWindow.width + 3) * i) + 2, 30, StringUtils.capitalize(category.name().toLowerCase()), true, category));
 			i++;
 		}
 	}

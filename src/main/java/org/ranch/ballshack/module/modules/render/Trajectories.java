@@ -7,10 +7,8 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
-import org.apache.commons.lang3.tuple.Triple;
 import org.joml.Matrix4f;
 import org.lwjgl.opengl.GL11;
 import org.ranch.ballshack.event.EventSubscribe;
@@ -30,7 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Trajectories extends Module {
-	private final List<Triple<List<Vec3d>, Entity, BlockPos>> trajectories = new ArrayList<>();
+	private final List<ProjectileSim.Trajectory> trajectories = new ArrayList<>();
 
 	public Trajectories() {
 		super("Trajectories", ModuleCategory.RENDER, 0, new ModuleSettings(List.of(
@@ -39,8 +37,11 @@ public class Trajectories extends Module {
 		)));
 	}
 
-	@EventSubscribe
-	public void onTick(EventTick event) {
+	public List<ProjectileSim.Trajectory> getTrajectories() {
+		return trajectories;
+	}
+
+	public void setTrajectories() {
 		trajectories.clear();
 
 		boolean players = (boolean) settings.getSetting(0).getValue();
@@ -48,7 +49,7 @@ public class Trajectories extends Module {
 		ProjectileEntity ent = ProjectileSim.prepareSim(mc.player);
 
 		if (ent != null) {
-			trajectories.add(ProjectileSim.simulate(ent));
+			trajectories.add(ProjectileSim.simulate(ent, true, mc.player));
 		}
 
 		if (players) {
@@ -56,17 +57,21 @@ public class Trajectories extends Module {
 				ProjectileEntity ent2 = ProjectileSim.prepareSim(player);
 
 				if (ent != null) {
-					trajectories.add(ProjectileSim.simulate(ent2));
+					trajectories.add(ProjectileSim.simulate(ent2, true, player));
 				}
 			}
 		}
 
 		for (Entity e : mc.world.getEntities()) {
 			if (e instanceof ProjectileEntity) {
-				trajectories.add(ProjectileSim.simulate((ProjectileEntity) e));
+				trajectories.add(ProjectileSim.simulate((ProjectileEntity) e, false, null));
 			}
 		}
+	}
 
+	@EventSubscribe
+	public void onTick(EventTick event) {
+		setTrajectories();
 	}
 
 	@EventSubscribe
@@ -87,7 +92,7 @@ public class Trajectories extends Module {
 
 		matrices.translate(-cameraPos.x, -cameraPos.y, -cameraPos.z);
 
-		for (Triple<List<Vec3d>, Entity, BlockPos> traj : trajectories) {
+		for (ProjectileSim.Trajectory traj : trajectories) {
 
 			Color c = Colors.PALLETE_1;
 
@@ -97,7 +102,7 @@ public class Trajectories extends Module {
 
 			Vec3d prevPos = null;
 
-			for (Vec3d pos : traj.getLeft()) {
+			for (Vec3d pos : traj.getPositions()) {
 
 				if (prevPos == null) {
 					prevPos = pos;
@@ -106,7 +111,7 @@ public class Trajectories extends Module {
 
 				Matrix4f matrix = matrices.peek().getPositionMatrix();
 
-				if (pos == traj.getLeft().get(traj.getLeft().size() - 1)) {
+				if (pos == traj.getPositions().get(traj.getPositions().size() - 1)) {
 					Box box = new Box(pos.subtract(0.1), pos.add(0.1));
 					DrawUtil.drawCube(matrices, box, r, g, b, 0.2f);
 					DrawUtil.drawCubeOutline(matrices, box, r, g, b, 0.7f);

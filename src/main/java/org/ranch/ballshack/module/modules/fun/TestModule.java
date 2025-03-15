@@ -1,5 +1,6 @@
 package org.ranch.ballshack.module.modules.fun;
 
+import net.minecraft.util.math.Vec3d;
 import org.lwjgl.glfw.GLFW;
 import org.ranch.ballshack.event.EventSubscribe;
 import org.ranch.ballshack.event.events.EventTick;
@@ -7,6 +8,7 @@ import org.ranch.ballshack.module.Module;
 import org.ranch.ballshack.module.ModuleCategory;
 import org.ranch.ballshack.setting.ModuleSettings;
 import org.ranch.ballshack.setting.settings.*;
+import org.ranch.ballshack.util.PlayerUtil;
 
 import java.awt.*;
 import java.util.Arrays;
@@ -32,5 +34,7 @@ public class TestModule extends Module {
 	@EventSubscribe
 	public void onTick(EventTick event) {
 		mc.player.setYaw(mc.player.getYaw() + 1.0f); //the first thing a module did
+
+		PlayerUtil.setMovement(new Vec3d(0, 0, 1));
 	}
 }

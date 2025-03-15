@@ -5,7 +5,11 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec2f;
 import net.minecraft.util.math.Vec3d;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class PlayerUtil {
 
@@ -111,5 +115,54 @@ public class PlayerUtil {
 
 	public static boolean isMoving() {
 		return mc.player.forwardSpeed != 0 || mc.player.sidewaysSpeed != 0;
+	}
+
+	public static void setMovement(Vec3d movement) {
+		if (movement.y > 0) {
+			mc.player.input.playerInput.jump();
+		}
+
+		clearMovement();
+
+		double yawRads = -Math.toRadians(mc.player.getYaw());
+
+		Vec2f desiredDir = new Vec2f((float) movement.z, (float) movement.x);
+
+		double forwardDot = desiredDir.x * Math.cos(yawRads) + desiredDir.y * Math.sin(yawRads);
+		double backwardDot = -forwardDot;
+		double rightDot = desiredDir.x * Math.sin(yawRads) - desiredDir.y * Math.cos(yawRads);
+		double leftDot = -rightDot;
+
+		List<MoveDirection> activeDirections = new ArrayList<>();
+
+		double maxDot = Math.max(Math.max(forwardDot, backwardDot), Math.max(rightDot, leftDot));
+
+		if (forwardDot >= 0.7 * maxDot) activeDirections.add(MoveDirection.FORWARD);
+		if (backwardDot >= 0.7 * maxDot) activeDirections.add(MoveDirection.BACKWARD);
+		if (rightDot >= 0.7 * maxDot) activeDirections.add(MoveDirection.RIGHT); //thanks gpt
+		if (leftDot >= 0.7 * maxDot) activeDirections.add(MoveDirection.LEFT);
+
+		// Apply movement without conflicting directions
+		for (MoveDirection dir : activeDirections) {
+			switch (dir) {
+				case FORWARD -> mc.options.forwardKey.setPressed(true);
+				case BACKWARD -> mc.options.backKey.setPressed(true);
+				case RIGHT -> mc.options.rightKey.setPressed(true);
+				case LEFT -> mc.options.leftKey.setPressed(true);
+			}
+		}
+		//mc.player.input.playerInput. = (float) rMovement.x;
+		//mc.player.input.movementForward = (float) rMovement.z;
+	}
+
+	public static void clearMovement() {
+		mc.options.rightKey.setPressed(false);
+		mc.options.leftKey.setPressed(false);
+		mc.options.forwardKey.setPressed(false);
+		mc.options.backKey.setPressed(false);
+	}
+
+	public enum MoveDirection {
+		FORWARD, BACKWARD, LEFT, RIGHT
 	}
 }

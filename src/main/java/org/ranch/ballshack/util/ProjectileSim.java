@@ -20,7 +20,7 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.RaycastContext;
-import org.apache.commons.lang3.tuple.Triple;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -86,7 +86,7 @@ public class ProjectileSim {
 		e.setVelocity(thrower, thrower.getPitch() + addPitch, thrower.getYaw(), 0.0f, strength, 0);
 	}
 
-	public static Triple<List<Vec3d>, Entity, BlockPos> simulate(ProjectileEntity e) {
+	public static Trajectory simulate(ProjectileEntity e, boolean fake, @Nullable Entity thrower) {
 		List<Vec3d> traj = new ArrayList<>();
 
 		Projectile proj = new Projectile(e);
@@ -100,7 +100,7 @@ public class ProjectileSim {
 					EntityPredicates.VALID_LIVING_ENTITY.and(en -> en != mc.player && en != e));
 
 			if (!entities.isEmpty()) {
-				return Triple.of(traj, entities.get(0), null);
+				return new Trajectory(traj, entities.get(0), null, fake, thrower, proj);
 			}
 
 			BlockHitResult blockHit = mc.world.raycast(
@@ -108,7 +108,7 @@ public class ProjectileSim {
 
 			if (blockHit.getType() != HitResult.Type.MISS) {
 				traj.add(blockHit.getPos());
-				return Triple.of(traj, null, blockHit.getBlockPos());
+				return new Trajectory(traj, null, blockHit.getBlockPos(), fake, thrower, proj);
 			}
 
 			float prevPitch = proj.pitch;
@@ -126,7 +126,7 @@ public class ProjectileSim {
 			traj.add(proj.pos);
 		}
 
-		return Triple.of(traj, null, null);
+		return new Trajectory(traj, null, null, fake, thrower, proj);
 	}
 
 	public static double getGravity(ProjectileEntity e) {
@@ -145,6 +145,48 @@ public class ProjectileSim {
 		}
 	}
 
+	public static class Trajectory {
+		private List<Vec3d> positions;
+		private Entity entity;
+		private Projectile projectile;
+		private Entity thrower;
+		private BlockPos pos;
+		private boolean fake;
+
+		public Trajectory(List<Vec3d> positions, @Nullable Entity entity, @Nullable BlockPos pos, boolean isFake, @Nullable Entity thrower, Projectile projectile) {
+			this.positions = positions;
+			this.entity = entity;
+			this.pos = pos;
+			this.fake = isFake;
+			this.thrower = thrower;
+			this.projectile = projectile;
+		}
+
+		public List<Vec3d> getPositions() {
+			return positions;
+		}
+
+		public Entity getEntity() {
+			return entity;
+		}
+
+		public BlockPos getPos() {
+			return pos;
+		}
+
+		public boolean isFake() {
+			return fake;
+		}
+
+		public Entity getThrower() {
+			return thrower;
+		}
+
+		public Projectile getProjectile() {
+			return projectile;
+		}
+	}
+
 	public static class Projectile {
 		public Vec3d velocity;
 		public Vec3d pos;
@@ -157,6 +199,8 @@ public class ProjectileSim {
 
 		public float width;
 		public float height;
+
+		public Entity orig;
 
 		public final float DRAG = 0.99f;
 
