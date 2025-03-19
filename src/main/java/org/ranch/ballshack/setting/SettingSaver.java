@@ -2,10 +2,14 @@ package org.ranch.ballshack.setting;
 
 import com.google.gson.*;
 import net.minecraft.client.MinecraftClient;
+import org.ranch.ballshack.BallsHack;
 import org.ranch.ballshack.BallsLogger;
 import org.ranch.ballshack.FriendManager;
 import org.ranch.ballshack.command.CommandManager;
 import org.ranch.ballshack.command.commands.GPTCommand;
+import org.ranch.ballshack.gui.WindowScreen;
+import org.ranch.ballshack.gui.window.widgets.TextFieldWidget;
+import org.ranch.ballshack.gui.window.windows.SettingsWindow;
 import org.ranch.ballshack.module.Module;
 import org.ranch.ballshack.module.ModuleManager;
 import org.ranch.ballshack.setting.settings.DropDown;
@@ -110,6 +114,8 @@ public class SettingSaver {
 	public static void saveSettings() {
 		JsonObject json = new JsonObject();
 
+		json.addProperty("watermark", ((TextFieldWidget) WindowScreen.getWindow(SettingsWindow.class).widgets.get(0)).getText());
+
 		JsonObject commands = saveCommands();
 		json.add("commands", commands);
 		JsonObject friends = saveFriends();
@@ -119,7 +125,7 @@ public class SettingSaver {
 		for (Module mod: ModuleManager.getModules()) {
 			JsonObject modjson = new JsonObject();
 
-			if (mod.isEnabled() && !mod.getName().equals("ClickGui") && !mod.getName().equals("WindowsGui")) {
+			if (mod.isEnabled() && !mod.getName().equals("ClickGui") && !mod.getName().equals("WinGui")) {
 				modjson.addProperty("enabled", mod.isEnabled());
 			}
 
@@ -175,6 +181,8 @@ public class SettingSaver {
 		try (FileReader reader = new FileReader(saveDir.resolve("settings.json").toFile())) {
 
 			JsonObject settings = JsonParser.parseReader(reader).getAsJsonObject();
+			String watermark = settings.get("watermark").getAsString();
+			BallsHack.title = watermark;
 			loadCommands(settings);
 			loadFriends(settings);
 			JsonObject modules = settings.get("modules").getAsJsonObject();

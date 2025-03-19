@@ -28,7 +28,6 @@ public class SettingBind extends ModuleSetting<Integer> {
 
 		drawTextRightAligned(context, getFormattedValue());
 
-
 		return height;
 	}
 

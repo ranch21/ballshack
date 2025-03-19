@@ -1,6 +1,7 @@
 package org.ranch.ballshack.module;
 
 import org.ranch.ballshack.module.modules.client.Rainbow;
+import org.ranch.ballshack.module.modules.client.WindowGui;
 import org.ranch.ballshack.module.modules.combat.*;
 import org.ranch.ballshack.module.modules.fun.BouncyGround;
 import org.ranch.ballshack.module.modules.fun.TestModule;
@@ -45,7 +46,7 @@ public class ModuleManager {
 			new BlockHighlight(),
 			new Trajectories(),
 			new ProjectileEvade(),
-			new Debug()
+			new WindowGui()
 	);
 
 	public static List<Module> getModules() {

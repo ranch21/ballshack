@@ -22,7 +22,7 @@ import java.util.List;
 public class ClickGuiScreen extends Screen {
 
 	ButtonWidget button;
-	List<CategoryWindow> windows = new ArrayList<>();
+	private static List<CategoryWindow> windows = new ArrayList<>();
 
 	BallHandler ballHandler;
 	boolean ballsEnabled = false;
@@ -45,8 +45,9 @@ public class ClickGuiScreen extends Screen {
 	protected void init() {
 		ballHandler = new BallHandler();
 		ballHandler.spawnBalls(50, this.width, this.height);
-		windows.clear();
-		loadCategories();
+		if (windows.isEmpty()) {
+			loadCategories();
+		}
 	}
 
 	public void setSettings(ModuleSettings settings) {

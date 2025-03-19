@@ -3,7 +3,6 @@ package org.ranch.ballshack.mixin;
 import net.minecraft.client.Keyboard;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ChatScreen;
-import net.minecraft.client.gui.widget.TextFieldWidget;
 import org.lwjgl.glfw.GLFW;
 import org.ranch.ballshack.BallsHack;
 import org.ranch.ballshack.command.CommandManager;
@@ -21,7 +20,7 @@ public class KeyboardMixin {
 
 		MinecraftClient mc = MinecraftClient.getInstance();
 
-		if (action == GLFW.GLFW_PRESS && (mc.currentScreen == null || !(mc.currentScreen.getFocused() instanceof TextFieldWidget))) {
+		if (action == GLFW.GLFW_PRESS && mc.currentScreen == null) {
 			ModuleManager.handleKeyPress(key);
 			BallsHack.eventBus.post(new EventKeyPress(key));
 

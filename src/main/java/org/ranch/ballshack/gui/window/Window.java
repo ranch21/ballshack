@@ -10,8 +10,13 @@ import org.ranch.ballshack.gui.GuiUtil;
 import org.ranch.ballshack.util.DrawUtil;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class Window {
+
+	public List<Widget> widgets = new ArrayList<>();
+
 	public int x;
 	public int y;
 
@@ -21,6 +26,7 @@ public abstract class Window {
 	public int barHeight = 11;
 
 	public String title;
+	public boolean opened;
 
 	protected boolean dragging;
 	protected int dragX;
@@ -32,38 +38,54 @@ public abstract class Window {
 		this.title = title;
 		this.width = width;
 		this.height = height;
+		this.opened = true;
+		setup();
 	}
 
-	public void render(DrawContext context, int mouseX, int mouseY, float delta, Screen screen) {
+	public abstract void setup();
+
+	public void render(DrawContext context, int mouseX, int mouseY, Screen screen) {
+
+		if (!opened) return;
 
 		handleDrag(mouseX, mouseY, screen);
 
 		//context.fill(x, y, x + width, y + height, Colors.CLICKGUI_1.hashCode());
-		DrawUtil.drawHorizontalGradient(context, x, y, width, barHeight, Colors.CLICKGUI_TITLE_START, Colors.CLICKGUI_TITLE_END, width/10);
+		DrawUtil.drawHorizontalGradient(context, x, y - barHeight, width, barHeight, Colors.CLICKGUI_TITLE_START, Colors.CLICKGUI_TITLE_END, width/10);
 
-		int bottomY = y + height;
 
-		context.drawHorizontalLine(x, x + width - 1, y - 1, Colors.BORDER.hashCode()); // top
-		context.drawHorizontalLine(x, x + width - 1, bottomY, Colors.BORDER.hashCode()); // bottom
-		context.drawVerticalLine(x - 1, y - 1, bottomY, Colors.BORDER.hashCode()); // left
-		context.drawVerticalLine(x + width, y - 1, bottomY, Colors.BORDER.hashCode()); // right
+		DrawUtil.drawOutline(context, x, y - barHeight, width, height + barHeight);
 
 		/* window title */
 		TextRenderer textRend = MinecraftClient.getInstance().textRenderer;
 		int textInset = (barHeight - textRend.fontHeight) / 2;
-		DrawUtil.drawText(context, textRend, title,x + 2,y + textInset, Color.WHITE,true);
+		DrawUtil.drawText(context, textRend, title,x + 2,y + textInset - barHeight, Color.WHITE,true);
+
+		context.fill(x,y,x + width,y + height,Colors.CLICKGUI_3.hashCode());
+
+		context.enableScissor(x, y, x + width, y + height);
+
+		for (Widget widget : widgets) {
+			widget.render(context, mouseX, mouseY, x, y);
+		}
+
+		context.disableScissor();
 	}
 
 	public boolean mouseClicked(double mouseX, double mouseY, int button) {
 
+		if (!opened) return false;
+
 		if (button == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
-			if (GuiUtil.mouseOverlap(mouseX, mouseY, x, y, width, barHeight)) {
+			if (GuiUtil.mouseOverlap(mouseX, mouseY, x, y - barHeight, width, barHeight)) {
 				dragging = true;
 				dragX = (int) mouseX - x;
 				dragY = (int) mouseY - y;
 				return true;
 			} else if (GuiUtil.mouseOverlap(mouseX, mouseY, x, y, width, height)) {
-				return true;
+				for (Widget widget : widgets) {
+					widget.mouseClicked(mouseX, mouseY, button);
+				}
 			}
 		}
 
@@ -74,9 +96,16 @@ public abstract class Window {
 		if (button == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
 			dragging = false;
 		}
+		for (Widget widget : widgets) {
+			widget.mouseReleased(mouseX, mouseY, button);
+		}
 	}
 
-	public void keyPressed(int keyCode, int scanCode, int modifiers) {}
+	public void keyPressed(int keyCode, int scanCode, int modifiers) {
+		for (Widget widget : widgets) {
+			widget.keyPressed(keyCode, scanCode, modifiers);
+		}
+	}
 
 	protected void handleDrag(int mouseX, int mouseY, Screen screen) {
 		if (dragging) {
@@ -85,7 +114,7 @@ public abstract class Window {
 		}
 
 		x = Math.max(x, 0);
-		y = Math.max(y, 0);
+		y = Math.max(y, barHeight);
 		x = Math.min(x, screen.width - width);
 		y = Math.min(y, screen.height - height);
 	}
