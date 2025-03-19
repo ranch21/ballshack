@@ -8,6 +8,7 @@ import net.minecraft.client.util.NarratorManager;
 import org.ranch.ballshack.BallsHack;
 import org.ranch.ballshack.gui.window.Window;
 import org.ranch.ballshack.gui.window.windows.SettingsWindow;
+import org.ranch.ballshack.util.DrawUtil;
 
 import java.awt.*;
 import java.util.Arrays;
@@ -41,8 +42,8 @@ public class WindowScreen extends Screen {
 		context.fill(0, 0, width, height, Colors.CLICKGUI_BACKGROUND.hashCode());
 
 		TextRenderer textRend = MinecraftClient.getInstance().textRenderer;
-		context.drawText(textRend, BallsHack.title.getValue(), 5, 5,Colors.PALLETE_1.hashCode(),true);
-		context.drawText(textRend, BallsHack.version, 5 + textRend.getWidth(BallsHack.title.getValue() + " "), 5, Color.WHITE.hashCode(),true);
+		DrawUtil.drawText(context,textRend, BallsHack.title.getValue(), 5, 5,Colors.PALLETE_1,true);
+		DrawUtil.drawText(context,textRend, BallsHack.version, 5 + textRend.getWidth(BallsHack.title.getValue() + " "), 5, Color.WHITE,true);
 
 		for (Window window : windows) {
 			window.render(context, mouseX, mouseY, this);

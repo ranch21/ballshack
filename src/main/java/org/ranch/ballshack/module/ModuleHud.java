@@ -1,17 +1,28 @@
 package org.ranch.ballshack.module;
 
+import org.jetbrains.annotations.Nullable;
 import org.ranch.ballshack.setting.ModuleSettings;
+
+import java.util.ArrayList;
 
 public class ModuleHud extends Module {
 
 	public int x, y;
 
 	public ModuleHud(String name, ModuleCategory category, int bind, int x, int y) {
-		super(name, category, bind);
+		this(name, category, bind, x, y, new ModuleSettings(new ArrayList<>()), null);
+	}
+
+	public ModuleHud(String name, ModuleCategory category, int bind, int x, int y, String tooltip) {
+		this(name, category, bind, x, y, new ModuleSettings(new ArrayList<>()), tooltip);
 	}
 
 	public ModuleHud(String name, ModuleCategory category, int bind, int x, int y, ModuleSettings settings) {
-		super(name, category, bind, settings);
+		this(name, category, bind, x, y, settings, null);
+	}
+
+	public ModuleHud(String name, ModuleCategory category, int bind, int x, int y, ModuleSettings settings, @Nullable String tooltip) {
+		super(name, category, bind, settings, tooltip);
 		this.x = x;
 		this.y = y;
 	}

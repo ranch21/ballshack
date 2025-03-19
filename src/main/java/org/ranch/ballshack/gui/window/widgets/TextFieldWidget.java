@@ -40,7 +40,7 @@ public class TextFieldWidget extends Widget {
 		TextRenderer textRend = MinecraftClient.getInstance().textRenderer;
 		int yInset = (height - textRend.fontHeight) / 2;
 		boolean line = selected && (counter / 100) % 2 == 0;
-		context.drawText(textRend, line ? text + "|" : text, x + 1, y + yInset + 1, Color.WHITE.hashCode(), true);
+		DrawUtil.drawText(context, textRend, line ? text + "|" : text, x + 1, y + yInset + 1, Color.WHITE, true);
 
 	}
 

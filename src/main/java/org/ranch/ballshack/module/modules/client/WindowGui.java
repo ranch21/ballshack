@@ -9,7 +9,7 @@ import org.ranch.ballshack.module.ModuleCategory;
 public class WindowGui extends Module {
 
 	public WindowGui() {
-		super("WinGui", ModuleCategory.CLIENT, GLFW.GLFW_KEY_RIGHT_CONTROL);
+		super("WinGui", ModuleCategory.CLIENT, GLFW.GLFW_KEY_RIGHT_CONTROL, "Window 11 confirmed");
 	}
 
 	@Override

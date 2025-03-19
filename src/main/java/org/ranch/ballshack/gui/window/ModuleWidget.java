@@ -68,6 +68,10 @@ public class ModuleWidget {
 			DrawUtil.drawText(context, textRend, "#",x + width - 8,y + textInset, Color.WHITE,true);
 		}
 
+		if (GuiUtil.mouseOverlap(mouseX, mouseY, x, y, width, height)) {
+			DrawUtil.queueTooltip(x + width + 1, y, module.getTooltip());
+		}
+
 		return height + addedHeight;
 	}
 

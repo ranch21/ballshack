@@ -40,11 +40,7 @@ public class SettingColor extends ModuleSetting<Color> {
 	}
 
 	@Override
-	public int render(DrawContext context, int x, int y, int width, int height, int mouseX, int mouseY) {
-		this.x = x;
-		this.y = y;
-		this.width = width;
-		this.height = height;
+	public int render(int mouseX, int mouseY) {
 
 		int addedHeight = 0;
 

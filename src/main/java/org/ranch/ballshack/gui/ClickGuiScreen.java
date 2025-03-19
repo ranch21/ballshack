@@ -14,6 +14,7 @@ import org.ranch.ballshack.module.ModuleCategory;
 import org.ranch.ballshack.module.ModuleManager;
 import org.ranch.ballshack.setting.ModuleSettings;
 import org.ranch.ballshack.setting.moduleSettings.DropDown;
+import org.ranch.ballshack.util.DrawUtil;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -95,12 +96,15 @@ public class ClickGuiScreen extends Screen {
 		}
 
 		TextRenderer textRend = MinecraftClient.getInstance().textRenderer;
-		context.drawText(textRend, BallsHack.title.getValue(), 5, 5,Colors.PALLETE_1.hashCode(),true);
-		context.drawText(textRend, BallsHack.version, 5 + textRend.getWidth(BallsHack.title.getValue() + " "), 5, Color.WHITE.hashCode(),true);
+		DrawUtil.drawText(context, textRend, BallsHack.title.getValue(), 5, 5,Colors.PALLETE_1,true);
+		DrawUtil.drawText(context, textRend, BallsHack.version, 5 + textRend.getWidth(BallsHack.title.getValue() + " "), 5, Color.WHITE,true);
 
 		for (CategoryWindow window : windows) {
 			window.render(context, mouseX, mouseY, delta, this);
 		}
+
+		DrawUtil.drawTooltip(context);
+		DrawUtil.clearTooltip();
 	}
 
 	@Override

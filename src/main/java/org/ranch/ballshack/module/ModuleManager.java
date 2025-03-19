@@ -46,7 +46,8 @@ public class ModuleManager {
 			new BlockHighlight(),
 			new Trajectories(),
 			new ProjectileEvade(),
-			new WindowGui()
+			new WindowGui(),
+			new SafeWalk()
 	);
 
 	public static List<Module> getModules() {

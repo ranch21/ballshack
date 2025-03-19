@@ -10,7 +10,7 @@ import org.ranch.ballshack.util.InvUtil;
 
 public class AutoTotem extends Module {
 	public AutoTotem() {
-		super("AutoTotem", ModuleCategory.COMBAT, 0);
+		super("AutoTotem", ModuleCategory.COMBAT, 0, "God mode (requires totems to run)");
 	}
 
 	@EventSubscribe

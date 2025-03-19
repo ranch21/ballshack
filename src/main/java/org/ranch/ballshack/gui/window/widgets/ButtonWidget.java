@@ -32,7 +32,7 @@ public class ButtonWidget extends Widget {
 		TextRenderer textRend = MinecraftClient.getInstance().textRenderer;
 		int yInset = (height - textRend.fontHeight) / 2;
 		int xInset = (width - textRend.getWidth(text)) / 2;
-		context.drawText(textRend, text, x + xInset, y + yInset, Color.WHITE.hashCode(), true);
+		DrawUtil.drawText(context, textRend, text, x + xInset, y + yInset, Color.WHITE, true);
 	}
 
 	@Override

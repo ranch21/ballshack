@@ -22,7 +22,7 @@ public class ProjectileEvade extends Module {
 		super("ProjEvade", ModuleCategory.MOVEMENT, 0, new ModuleSettings(Arrays.asList(
 				new SettingToggle(true, "Legit"),
 				new SettingSlider(0.25, "HitboxExpand", 0, 1, 0.1)
-		)));
+		)), "endredman");
 	}
 
 	boolean prevInDanger = false;

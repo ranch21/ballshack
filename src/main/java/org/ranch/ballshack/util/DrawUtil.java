@@ -1,6 +1,7 @@
 package org.ranch.ballshack.util;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gl.ShaderProgramKeys;
 import net.minecraft.client.gui.DrawContext;
@@ -9,8 +10,10 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.Box;
 import org.joml.Matrix4f;
+import org.joml.Vector2i;
 import org.ranch.ballshack.FriendManager;
 import org.ranch.ballshack.gui.Colors;
+import org.ranch.ballshack.mixin.DrawContextAccessor;
 
 import java.awt.*;
 
@@ -69,20 +72,20 @@ public class DrawUtil {
 
 	public static void drawText(DrawContext context, TextRenderer textRend, String text, int x, int y, Color color, boolean shadow) {
 
-		context.drawText(textRend, text, x, y, color.hashCode(), shadow);
+		//context.drawText(textRend, text, x, y, color.hashCode(), shadow);
 
-		/*textRend.draw(
+		textRend.draw(
 				text,
 				x,
 				y,
 				color.hashCode(),
 				shadow,
 				context.getMatrices().peek().getPositionMatrix(),
-				context.get(),
+				((DrawContextAccessor)context).getVertexConsumers(),
 				TextRenderer.TextLayerType.SEE_THROUGH,
 				0,
 				15728880
-		);*/
+		);
 	}
 
 	public static void drawCube(MatrixStack matrices, Box cube, float r, float g, float b, float a) {
@@ -218,5 +221,28 @@ public class DrawUtil {
 		context.drawHorizontalLine(x, x + width - 1, y + height, Colors.BORDER.hashCode()); // bottom
 		context.drawVerticalLine(x - 1, y - 1, y + height, Colors.BORDER.hashCode()); // left
 		context.drawVerticalLine(x + width, y - 1, y + height, Colors.BORDER.hashCode()); // right
+	}
+
+	public static Vector2i tPos; // idk what im doing
+	public static String tTip;
+
+	public static void queueTooltip(int x, int y, String tooltip) {
+		if (tooltip == null) return;
+		tPos = new Vector2i(x, y);
+		tTip = tooltip;
+	}
+
+	public static void clearTooltip() {
+		tPos = null;
+		tTip = null;
+	}
+
+	public static void drawTooltip(DrawContext context) {
+		if (tTip == null) return;
+		TextRenderer textRend = MinecraftClient.getInstance().textRenderer;
+		int tWidth = textRend.getWidth(tTip) + 2;
+		int tHeight = textRend.fontHeight + 2;
+		context.fill(tPos.x, tPos.y, tPos.x + tWidth, tPos.y + tHeight, Color.BLACK.hashCode());
+		context.drawText(textRend, tTip, tPos.x + 1, tPos.y + 1, Color.WHITE.hashCode(), true);
 	}
 }

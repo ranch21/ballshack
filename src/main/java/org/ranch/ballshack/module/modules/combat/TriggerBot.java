@@ -20,7 +20,7 @@ public class TriggerBot extends Module {
 		super("TriggerBot", ModuleCategory.COMBAT, 0, new ModuleSettings(Arrays.asList(
 				new SettingToggle(true , "Swing"),
 				new TargetsDropDown("Targets")
-		)));
+		)), "Monkey in computer press when enemy");
 	}
 
 	@EventSubscribe

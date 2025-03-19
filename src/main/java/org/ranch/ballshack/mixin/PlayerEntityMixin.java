@@ -2,6 +2,7 @@ package org.ranch.ballshack.mixin;
 
 import net.minecraft.entity.player.PlayerEntity;
 import org.ranch.ballshack.BallsHack;
+import org.ranch.ballshack.event.events.EventClipLedge;
 import org.ranch.ballshack.event.events.EventReach;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -23,5 +24,12 @@ public class PlayerEntityMixin {
 		EventReach event = new EventReach(cir.getReturnValueD());
 		BallsHack.eventBus.post(event);
 		cir.setReturnValue(event.reach);
+	}
+
+	@Inject(method = "clipAtLedge", at = @At("RETURN"), cancellable = true)
+	private void clipAtLedge(CallbackInfoReturnable<Boolean> cir) {
+		EventClipLedge event = new EventClipLedge(cir.getReturnValue());
+		BallsHack.eventBus.post(event);
+		cir.setReturnValue(event.clip);
 	}
 }

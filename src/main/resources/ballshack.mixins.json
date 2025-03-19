@@ -17,7 +17,8 @@
     "KeyboardMixin",
     "MouseMixin",
     "PlayerEntityMixin",
-    "WorldRendererMixin"
+    "WorldRendererMixin",
+    "DrawContextAccessor"
   ],
   "injectors": {
     "defaultRequire": 1

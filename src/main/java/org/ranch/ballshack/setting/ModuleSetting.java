@@ -3,6 +3,7 @@ package org.ranch.ballshack.setting;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
+import org.ranch.ballshack.gui.GuiUtil;
 import org.ranch.ballshack.util.DrawUtil;
 
 import java.awt.*;
@@ -10,6 +11,7 @@ import java.awt.*;
 public abstract class ModuleSetting<T> {
 
 	private String name;
+	private String tooltip;
 
 	private boolean featured;
 
@@ -18,6 +20,8 @@ public abstract class ModuleSetting<T> {
 	protected int width;
 	protected int height;
 
+	protected DrawContext context;
+
 	protected T value;
 
 	public ModuleSetting(String name, T value) {
@@ -25,7 +29,20 @@ public abstract class ModuleSetting<T> {
 		this.value = value;
 	}
 
-	public abstract int render(DrawContext context, int x, int y, int width, int height, int mouseX, int mouseY);
+	public int render(DrawContext context, int x, int y, int width, int height, int mouseX, int mouseY) {
+		this.context = context;
+		this.x = x;
+		this.y = y;
+		this.width = width;
+		this.height = height;
+		int added = render(mouseX, mouseY);
+		if (GuiUtil.mouseOverlap(mouseX, mouseY, x, y, width, height)) {
+			DrawUtil.queueTooltip(x + width + 1, y, tooltip);
+		}
+		return added;
+	}
+
+	public abstract int render(int mouseX, int mouseY);
 
 	public boolean mouseClicked(double mouseX, double mouseY, int button) {
 		return false;
@@ -70,6 +87,11 @@ public abstract class ModuleSetting<T> {
 
 	public ModuleSetting<T> featured() {
 		featured = true;
+		return this;
+	}
+
+	public ModuleSetting<T> tooltip(String tooltip) {
+		this.tooltip = tooltip;
 		return this;
 	}
 

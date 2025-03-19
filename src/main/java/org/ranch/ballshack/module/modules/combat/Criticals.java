@@ -10,7 +10,7 @@ import org.ranch.ballshack.module.ModuleCategory;
 
 public class Criticals extends Module {
 	public Criticals() {
-		super("Criticals", ModuleCategory.COMBAT, 0);
+		super("Criticals", ModuleCategory.COMBAT, 0, "Get critical hits");
 	}
 
 	@EventSubscribe

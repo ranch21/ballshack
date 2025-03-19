@@ -30,7 +30,7 @@ public class ClickGui extends Module {
 				)),
 				new SettingToggle(true, "Darken"),
 				new SettingToggle(false, "Legacy")
-		)));
+		)), "The module screeent thing");
 	}
 
 	@EventSubscribe

@@ -26,7 +26,7 @@ public class KillAura extends Module {
 				new SettingMode(0, "Rotate", Arrays.asList("None", "Packet", "True")).featured(),
 				new SettingToggle(true, "Swing"),
 				new SortMode("Sort")
-		)));
+		)), "Repel players");
 	}
 
 	@EventSubscribe

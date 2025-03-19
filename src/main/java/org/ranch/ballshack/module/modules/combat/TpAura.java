@@ -27,7 +27,7 @@ public class TpAura extends Module {
 				new SettingToggle(true, "Swing"),
 				new SortMode("Sort"),
 				new SettingSlider(2, "Delay", 1, 4, 1)
-		)));
+		)), "uhh");
 	}
 
 	@EventSubscribe

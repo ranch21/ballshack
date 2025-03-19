@@ -26,7 +26,7 @@ public class AimAssist extends Module {
 				new SettingToggle(true, "Random"),
 				new TargetsDropDown("Targets"),
 				new SortMode("Sort").featured()
-		)));
+		)), "Controller player mode");
 	}
 
 	@EventSubscribe

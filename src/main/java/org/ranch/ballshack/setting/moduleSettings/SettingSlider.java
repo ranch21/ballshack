@@ -1,6 +1,5 @@
 package org.ranch.ballshack.setting.moduleSettings;
 
-import net.minecraft.client.gui.DrawContext;
 import org.lwjgl.glfw.GLFW;
 import org.ranch.ballshack.gui.Colors;
 import org.ranch.ballshack.gui.GuiUtil;
@@ -23,11 +22,7 @@ public class SettingSlider extends ModuleSetting<Double> {
 	}
 
 	@Override
-	public int render(DrawContext context, int x, int y, int width, int height, int mouseX, int mouseY) {
-		this.x = x;
-		this.y = y;
-		this.width = width;
-		this.height = height;
+	public int render(int mouseX, int mouseY) {
 
 		context.fill(x, y, x+width, y+height, Colors.CLICKGUI_3.hashCode());
 

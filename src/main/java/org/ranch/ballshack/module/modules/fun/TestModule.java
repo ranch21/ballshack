@@ -28,7 +28,7 @@ public class TestModule extends Module {
 						))
 				)),
 				new SettingColor("t", Color.BLUE)
-		)));
+		)), "Testingh ahwdhghfi");
 	}
 
 	@EventSubscribe

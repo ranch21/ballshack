@@ -39,7 +39,7 @@ public class ModuleList extends ModuleHud {
 				new SettingToggle(true, "Line"),
 				new SettingToggle(true, "Watermark"),
 				new SettingToggle(false, "logo")
-		)));
+		)), "Incase you forgor what you enabled");
 	}
 
 	@EventSubscribe
@@ -80,14 +80,14 @@ public class ModuleList extends ModuleHud {
 
 		if (watermark) {
 			if (backdrop) {
-				context.fill(sX, y + addedHeight, sX + textR.getWidth(BallsHack.title + " " + BallsHack.version) + 3, y + textR.fontHeight + 1 + addedHeight, Colors.BACKDROP.hashCode());
+				context.fill(sX, y + addedHeight, sX + textR.getWidth(BallsHack.title.getValue() + " " + BallsHack.version) + 3, y + textR.fontHeight + 1 + addedHeight, Colors.BACKDROP.hashCode());
 			}
 
 			if (line) {
 				context.drawVerticalLine(x, y - 1, y + textR.fontHeight + 1 + addedHeight, Colors.PALLETE_1.hashCode());
 			}
 			DrawUtil.drawText(context, textR, BallsHack.title.getValue(), sX + 2, y + 1 + addedHeight, Colors.PALLETE_1, true);
-			DrawUtil.drawText(context, textR, BallsHack.version, sX + 2 + textR.getWidth(BallsHack.title + " "), y + 1 + addedHeight, Color.WHITE, true);
+			DrawUtil.drawText(context, textR, BallsHack.version, sX + 2 + textR.getWidth(BallsHack.title.getValue() + " "), y + 1 + addedHeight, Color.WHITE, true);
 			i++;
 		}
 
