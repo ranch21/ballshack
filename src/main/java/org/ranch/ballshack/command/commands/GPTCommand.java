@@ -4,7 +4,9 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import org.ranch.ballshack.command.Command;
+import org.ranch.ballshack.setting.Setting;
 import org.ranch.ballshack.setting.SettingSaver;
+import org.ranch.ballshack.setting.SettingsManager;
 
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
@@ -17,13 +19,14 @@ import java.util.concurrent.Executors;
 
 public class GPTCommand extends Command {
 
-	public static String api_key = "none";
+	public static Setting<String> api_key = new Setting<>("none", "api-key");
 	private static final String API_URL = "https://openrouter.ai/api/v1/chat/completions";
 	private static final Gson gson = new Gson();
 	private static final ExecutorService executor = Executors.newCachedThreadPool();
 
 	public GPTCommand() {
 		super("gpt");
+		SettingsManager.registerSetting(api_key);
 	}
 
 	@Override
@@ -31,7 +34,7 @@ public class GPTCommand extends Command {
 		if (args.length <= 1) return;
 
 		if (args[1].equals("set-key")) {
-			api_key = args[2];
+			api_key.setValue(args[2]);
 			SettingSaver.SCHEDULE_SAVE.set(true);
 		} else {
 			if (api_key.equals("none")) {

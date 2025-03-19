@@ -12,13 +12,14 @@ import org.ranch.ballshack.setting.SettingSaver;
 import java.awt.*;
 
 public class SettingsWindow extends Window {
+
 	public SettingsWindow(int x, int y) {
 		super(x, y, 150, 100, "Settings");
 	}
 
 	@Override
 	public void setup() {
-		widgets.add(new TextFieldWidget(60, 5, 80, 10, BallsHack.title));
+		widgets.add(new TextFieldWidget(60, 5, 80, 10, BallsHack.title.getValue()));
 		//widgets.add(new TextFieldWidget(5, 20, 50, 10));
 	}
 
@@ -28,7 +29,7 @@ public class SettingsWindow extends Window {
 		super.render(context, mouseX, mouseY, screen);
 		TextRenderer textRend = MinecraftClient.getInstance().textRenderer;
 		context.drawText(textRend, "Watermark", 6 + x, 5 + y, Color.WHITE.hashCode(), true);
-		BallsHack.title = ((TextFieldWidget)widgets.get(0)).getText();
+		BallsHack.title.setValue(((TextFieldWidget)widgets.get(0)).getText());
 		SettingSaver.SCHEDULE_SAVE.set(true);
 	}
 }

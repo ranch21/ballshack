@@ -1,7 +1,7 @@
 package org.ranch.ballshack.setting;
 
-import org.ranch.ballshack.setting.settings.DropDown;
-import org.ranch.ballshack.setting.settings.SettingBind;
+import org.ranch.ballshack.setting.moduleSettings.DropDown;
+import org.ranch.ballshack.setting.moduleSettings.SettingBind;
 
 import java.util.ArrayList;
 import java.util.List;

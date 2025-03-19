@@ -13,7 +13,7 @@ import org.ranch.ballshack.gui.window.CategoryWindow;
 import org.ranch.ballshack.module.ModuleCategory;
 import org.ranch.ballshack.module.ModuleManager;
 import org.ranch.ballshack.setting.ModuleSettings;
-import org.ranch.ballshack.setting.settings.DropDown;
+import org.ranch.ballshack.setting.moduleSettings.DropDown;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -32,12 +32,16 @@ public class ClickGuiScreen extends Screen {
 		super(NarratorManager.EMPTY);
 	}
 
+
 	private void loadCategories() {
 		int i = 0;
 		for (ModuleCategory category : ModuleCategory.values()) {
 			if (ModuleManager.getModulesByCategory(category).isEmpty()) continue;
 
-			windows.add(new CategoryWindow(((CategoryWindow.width + 3) * i) + 2, 30, StringUtils.capitalize(category.name().toLowerCase()), true, category));
+			CategoryWindow win = new CategoryWindow(((CategoryWindow.width + 3) * i) + 2, 30, StringUtils.capitalize(category.name().toLowerCase()), true, category);
+
+			windows.add(win);
+
 			i++;
 		}
 	}
@@ -91,8 +95,8 @@ public class ClickGuiScreen extends Screen {
 		}
 
 		TextRenderer textRend = MinecraftClient.getInstance().textRenderer;
-		context.drawText(textRend, BallsHack.title, 5, 5,Colors.PALLETE_1.hashCode(),true);
-		context.drawText(textRend, BallsHack.version, 5 + textRend.getWidth(BallsHack.title + " "), 5, Color.WHITE.hashCode(),true);
+		context.drawText(textRend, BallsHack.title.getValue(), 5, 5,Colors.PALLETE_1.hashCode(),true);
+		context.drawText(textRend, BallsHack.version, 5 + textRend.getWidth(BallsHack.title.getValue() + " "), 5, Color.WHITE.hashCode(),true);
 
 		for (CategoryWindow window : windows) {
 			window.render(context, mouseX, mouseY, delta, this);

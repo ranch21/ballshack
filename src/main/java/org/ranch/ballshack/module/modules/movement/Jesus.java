@@ -7,7 +7,7 @@ import org.ranch.ballshack.event.events.EventBlockShape;
 import org.ranch.ballshack.module.Module;
 import org.ranch.ballshack.module.ModuleCategory;
 import org.ranch.ballshack.setting.ModuleSettings;
-import org.ranch.ballshack.setting.settings.SettingToggle;
+import org.ranch.ballshack.setting.moduleSettings.SettingToggle;
 
 import java.util.Arrays;
 

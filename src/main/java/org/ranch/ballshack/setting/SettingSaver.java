@@ -2,17 +2,10 @@ package org.ranch.ballshack.setting;
 
 import com.google.gson.*;
 import net.minecraft.client.MinecraftClient;
-import org.ranch.ballshack.BallsHack;
 import org.ranch.ballshack.BallsLogger;
-import org.ranch.ballshack.FriendManager;
-import org.ranch.ballshack.command.CommandManager;
-import org.ranch.ballshack.command.commands.GPTCommand;
-import org.ranch.ballshack.gui.WindowScreen;
-import org.ranch.ballshack.gui.window.widgets.TextFieldWidget;
-import org.ranch.ballshack.gui.window.windows.SettingsWindow;
 import org.ranch.ballshack.module.Module;
 import org.ranch.ballshack.module.ModuleManager;
-import org.ranch.ballshack.setting.settings.DropDown;
+import org.ranch.ballshack.setting.moduleSettings.DropDown;
 
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -21,7 +14,6 @@ import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
@@ -83,43 +75,7 @@ public class SettingSaver {
 		return settingsJson;
 	}
 
-	private static JsonObject saveCommands() {
-		JsonObject commands = new JsonObject();
-		commands.addProperty("api-key", GPTCommand.api_key);
-		commands.addProperty("prefix", CommandManager.prefix);
-		return commands;
-	}
-
-	private static void loadCommands(JsonObject settings) {
-		JsonObject gpt = settings.get("commands").getAsJsonObject();
-		GPTCommand.api_key = gpt.getAsJsonPrimitive("api-key").getAsString();
-		CommandManager.prefix = gpt.getAsJsonPrimitive("prefix").getAsString();
-	}
-
-	private static JsonObject saveFriends() {
-		JsonObject friends = new JsonObject();
-		friends.add("friends", gson.toJsonTree(FriendManager.getFriends()));
-		return friends;
-	}
-
-	private static void loadFriends(JsonObject settings) {
-		JsonObject friends = settings.get("friends").getAsJsonObject();
-		JsonArray array = friends.get("friends").getAsJsonArray();
-		List<String> list = new ArrayList<>();
-		for (JsonElement friend : array) {
-			FriendManager.add(friend.getAsString());
-		}
-	}
-
-	public static void saveSettings() {
-		JsonObject json = new JsonObject();
-
-		json.addProperty("watermark", ((TextFieldWidget) WindowScreen.getWindow(SettingsWindow.class).widgets.get(0)).getText());
-
-		JsonObject commands = saveCommands();
-		json.add("commands", commands);
-		JsonObject friends = saveFriends();
-		json.add("friends", friends);
+	public static JsonObject saveModules() {
 		JsonObject modulesJson = new JsonObject();
 
 		for (Module mod: ModuleManager.getModules()) {
@@ -138,12 +94,43 @@ public class SettingSaver {
 				modulesJson.add(mod.getName(), modjson);
 		}
 
+		return modulesJson;
+	}
+
+	public static void saveSettings() {
+		JsonObject json = new JsonObject();
+
+		JsonObject modulesJson = saveModules();
+
+		JsonObject settingsJson = SettingsManager.getJson();
+
+		json.add("settings", settingsJson);
 		json.add("modules", modulesJson);
 
 		try (Writer writer = new FileWriter(saveDir.resolve("settings.json").toFile())) {
 			gson.toJson(json, writer);
 		} catch (IOException e) {
 			e.printStackTrace();
+		}
+	}
+
+	public static void loadModules(JsonObject modules) {
+		for (String modName : modules.keySet()) {
+			JsonObject modjson = modules.getAsJsonObject(modName);
+			Module mod = ModuleManager.getModuleByName(modName);
+
+			if (mod == null) continue;
+
+			if (modjson.has("enabled")) {
+				mod.onEnable();
+			}
+
+			if (modjson.has("settings")) {
+				JsonObject settingsJson = modjson.getAsJsonObject("settings");
+
+				setSettings(settingsJson, mod);
+			}
+			BallsLogger.info("Loaded settings for " + modName);
 		}
 	}
 
@@ -154,8 +141,6 @@ public class SettingSaver {
 
 			if (settingsJson.has(settingName)) {
 				JsonElement element = settingsJson.get(settingName);
-
-				//BallsLogger.info(element.toString());
 
 				if (element.isJsonObject()) {
 					BallsLogger.info(element.getAsJsonObject().toString());
@@ -172,7 +157,7 @@ public class SettingSaver {
 		}
 	}
 
-	public static void readModules() {
+	public static void readSettings() {
 		if (!Files.exists(saveDir.resolve("settings.json"))) {
 			BallsLogger.warn("No settings file found, skipping loading.");
 			return;
@@ -181,29 +166,12 @@ public class SettingSaver {
 		try (FileReader reader = new FileReader(saveDir.resolve("settings.json").toFile())) {
 
 			JsonObject settings = JsonParser.parseReader(reader).getAsJsonObject();
-			String watermark = settings.get("watermark").getAsString();
-			BallsHack.title = watermark;
-			loadCommands(settings);
-			loadFriends(settings);
+			JsonObject config = settings.get("settings").getAsJsonObject();
 			JsonObject modules = settings.get("modules").getAsJsonObject();
 
-			for (String modName : modules.keySet()) {
-				JsonObject modjson = modules.getAsJsonObject(modName);
-				Module mod = ModuleManager.getModuleByName(modName);
+			loadModules(modules);
+			SettingsManager.loadSettings(config);
 
-				if (mod == null) continue;
-
-				if (modjson.has("enabled")) {
-					mod.onEnable();
-				}
-
-				if (modjson.has("settings")) {
-					JsonObject settingsJson = modjson.getAsJsonObject("settings");
-
-					setSettings(settingsJson, mod);
-				}
-				BallsLogger.info("Loaded settings for " + modName);
-			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

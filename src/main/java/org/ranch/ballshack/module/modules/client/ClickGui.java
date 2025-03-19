@@ -9,9 +9,9 @@ import org.ranch.ballshack.gui.legacy.LegacyClickGuiScreen;
 import org.ranch.ballshack.module.Module;
 import org.ranch.ballshack.module.ModuleCategory;
 import org.ranch.ballshack.setting.ModuleSettings;
-import org.ranch.ballshack.setting.settings.DropDown;
-import org.ranch.ballshack.setting.settings.SettingSlider;
-import org.ranch.ballshack.setting.settings.SettingToggle;
+import org.ranch.ballshack.setting.moduleSettings.DropDown;
+import org.ranch.ballshack.setting.moduleSettings.SettingSlider;
+import org.ranch.ballshack.setting.moduleSettings.SettingToggle;
 
 import java.util.Arrays;
 

@@ -8,7 +8,7 @@ import net.minecraft.client.util.NarratorManager;
 import org.ranch.ballshack.gui.window.legacy.LegacyCategoryWindow;
 import org.ranch.ballshack.module.ModuleCategory;
 import org.ranch.ballshack.module.ModuleManager;
-import org.ranch.ballshack.setting.settings.SettingToggle;
+import org.ranch.ballshack.setting.moduleSettings.SettingToggle;
 
 import java.awt.*;
 import java.util.ArrayList;

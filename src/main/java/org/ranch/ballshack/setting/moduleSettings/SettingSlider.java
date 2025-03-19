@@ -1,4 +1,4 @@
-package org.ranch.ballshack.setting.settings;
+package org.ranch.ballshack.setting.moduleSettings;
 
 import net.minecraft.client.gui.DrawContext;
 import org.lwjgl.glfw.GLFW;

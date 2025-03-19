@@ -16,8 +16,8 @@ import org.ranch.ballshack.module.ModuleManager;
 import org.ranch.ballshack.module.modules.client.ClickGui;
 import org.ranch.ballshack.setting.ModuleSetting;
 import org.ranch.ballshack.setting.ModuleSettings;
-import org.ranch.ballshack.setting.settings.SettingMode;
-import org.ranch.ballshack.setting.settings.SettingToggle;
+import org.ranch.ballshack.setting.moduleSettings.SettingMode;
+import org.ranch.ballshack.setting.moduleSettings.SettingToggle;
 import org.ranch.ballshack.util.DrawUtil;
 
 import java.awt.*;
@@ -86,7 +86,7 @@ public class ModuleList extends ModuleHud {
 			if (line) {
 				context.drawVerticalLine(x, y - 1, y + textR.fontHeight + 1 + addedHeight, Colors.PALLETE_1.hashCode());
 			}
-			DrawUtil.drawText(context, textR, BallsHack.title, sX + 2, y + 1 + addedHeight, Colors.PALLETE_1, true);
+			DrawUtil.drawText(context, textR, BallsHack.title.getValue(), sX + 2, y + 1 + addedHeight, Colors.PALLETE_1, true);
 			DrawUtil.drawText(context, textR, BallsHack.version, sX + 2 + textR.getWidth(BallsHack.title + " "), y + 1 + addedHeight, Color.WHITE, true);
 			i++;
 		}

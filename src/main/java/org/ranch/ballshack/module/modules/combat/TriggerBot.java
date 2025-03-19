@@ -9,8 +9,8 @@ import org.ranch.ballshack.event.events.EventTick;
 import org.ranch.ballshack.module.Module;
 import org.ranch.ballshack.module.ModuleCategory;
 import org.ranch.ballshack.setting.ModuleSettings;
-import org.ranch.ballshack.setting.settings.SettingToggle;
-import org.ranch.ballshack.setting.settings.TargetsDropDown;
+import org.ranch.ballshack.setting.moduleSettings.SettingToggle;
+import org.ranch.ballshack.setting.moduleSettings.TargetsDropDown;
 import org.ranch.ballshack.util.EntityUtil;
 
 import java.util.Arrays;

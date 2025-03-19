@@ -1,6 +1,6 @@
 package org.ranch.ballshack;
 
-import org.ranch.ballshack.setting.SettingSaver;
+import org.ranch.ballshack.setting.Setting;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,12 +8,13 @@ import java.util.List;
 public class FriendManager {
 
 	private static List<String> friends = new ArrayList<>();
+	public static Setting<List<String>> setting = new Setting<>(friends, "friends");
 
 	public static boolean add(String name) {
 		name = name.toLowerCase();
 		if (!friends.contains(name)) {
 			friends.add(name);
-			SettingSaver.SCHEDULE_SAVE.set(true);
+			setting.setValue(friends);
 			return true;
 		}
 		return false;
@@ -24,7 +25,8 @@ public class FriendManager {
 		if (friends.contains(name)) {
 			String finalName = name;
 			friends.removeIf(s -> s.equals(finalName));
-			SettingSaver.SCHEDULE_SAVE.set(true);
+			setting.setValue(friends);
+
 			return true;
 		}
 		return false;
@@ -32,7 +34,11 @@ public class FriendManager {
 
 	public static void clear() {
 		friends.clear();
-		SettingSaver.SCHEDULE_SAVE.set(true);
+		setting.setValue(friends);
+	}
+
+	public static void set() {
+		friends = setting.getValue();
 	}
 
 	public static boolean has(String name) {

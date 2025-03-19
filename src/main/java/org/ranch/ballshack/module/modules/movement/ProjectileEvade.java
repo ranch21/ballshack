@@ -9,8 +9,8 @@ import org.ranch.ballshack.module.ModuleCategory;
 import org.ranch.ballshack.module.ModuleManager;
 import org.ranch.ballshack.module.modules.render.Trajectories;
 import org.ranch.ballshack.setting.ModuleSettings;
-import org.ranch.ballshack.setting.settings.SettingSlider;
-import org.ranch.ballshack.setting.settings.SettingToggle;
+import org.ranch.ballshack.setting.moduleSettings.SettingSlider;
+import org.ranch.ballshack.setting.moduleSettings.SettingToggle;
 import org.ranch.ballshack.util.PlayerUtil;
 import org.ranch.ballshack.util.ProjectileSim;
 

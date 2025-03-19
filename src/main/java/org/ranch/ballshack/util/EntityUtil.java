@@ -15,7 +15,7 @@ import net.minecraft.entity.projectile.AbstractFireballEntity;
 import net.minecraft.entity.projectile.ShulkerBulletEntity;
 import net.minecraft.util.math.Vec3d;
 import org.ranch.ballshack.FriendManager;
-import org.ranch.ballshack.setting.settings.TargetsDropDown;
+import org.ranch.ballshack.setting.moduleSettings.TargetsDropDown;
 
 import java.util.ArrayList;
 import java.util.Comparator;

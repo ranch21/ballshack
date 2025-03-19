@@ -41,8 +41,8 @@ public class WindowScreen extends Screen {
 		context.fill(0, 0, width, height, Colors.CLICKGUI_BACKGROUND.hashCode());
 
 		TextRenderer textRend = MinecraftClient.getInstance().textRenderer;
-		context.drawText(textRend, BallsHack.title, 5, 5,Colors.PALLETE_1.hashCode(),true);
-		context.drawText(textRend, BallsHack.version, 5 + textRend.getWidth(BallsHack.title + " "), 5, Color.WHITE.hashCode(),true);
+		context.drawText(textRend, BallsHack.title.getValue(), 5, 5,Colors.PALLETE_1.hashCode(),true);
+		context.drawText(textRend, BallsHack.version, 5 + textRend.getWidth(BallsHack.title.getValue() + " "), 5, Color.WHITE.hashCode(),true);
 
 		for (Window window : windows) {
 			window.render(context, mouseX, mouseY, this);
