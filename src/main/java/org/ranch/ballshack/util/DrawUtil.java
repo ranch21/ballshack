@@ -223,7 +223,7 @@ public class DrawUtil {
 		context.drawVerticalLine(x + width, y - 1, y + height, Colors.BORDER.hashCode()); // right
 	}
 
-	public static Vector2i tPos; // idk what im doing
+	public static Vector2i tPos; // IDK what im doing
 	public static String tTip;
 
 	public static void queueTooltip(int x, int y, String tooltip) {
