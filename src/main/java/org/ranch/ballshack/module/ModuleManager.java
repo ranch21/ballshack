@@ -47,7 +47,8 @@ public class ModuleManager {
 			new Trajectories(),
 			new ProjectileEvade(),
 			new WindowGui(),
-			new SafeWalk()
+			new SafeWalk(),
+			new Sprint()
 	);
 
 	public static List<Module> getModules() {

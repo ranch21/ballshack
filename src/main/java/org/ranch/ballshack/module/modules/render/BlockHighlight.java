@@ -31,9 +31,12 @@ public class BlockHighlight extends Module {
 	}
 
 	@EventSubscribe
-	public void onWorldRender(EventWorldRender.Outline event) {
-
+	public void onOutlineRender(EventWorldRender.Outline event) {
 		event.cancel();
+	}
+
+	@EventSubscribe
+	public void onWorldRender(EventWorldRender.Post event) {
 
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
@@ -54,9 +57,9 @@ public class BlockHighlight extends Module {
 				BlockState blockState = mc.world.getBlockState(blockPos);
 				if (!blockState.isAir() && mc.world.getWorldBorder().contains(blockPos)) {
 					boolean bl = RenderLayers.getBlockLayer(blockState).isTranslucent();
-					if (bl != event.translucent) {
-						return;
-					}
+					//if (bl != event.translucent) {
+					//	return;
+					//}
 
 					MatrixStack matrices = event.matrixStack;
 
@@ -82,6 +85,4 @@ public class BlockHighlight extends Module {
 		GL11.glDisable(GL11.GL_LINE_SMOOTH);
 
 	}
-
-
 }

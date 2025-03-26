@@ -17,7 +17,7 @@ import java.util.List;
 public class WindowScreen extends Screen {
 
 	private static List<Window> windows = Arrays.asList(
-			new SettingsWindow(10,10)
+			new SettingsWindow(50,50)
 	);
 
 	public WindowScreen() {
@@ -80,6 +80,14 @@ public class WindowScreen extends Screen {
 		}
 
 		return super.keyPressed(keyCode, scanCode, modifiers);
+	}
+
+	@Override
+	public boolean charTyped(char chr, int modifiers) {
+		for (Window window : windows) {
+			window.charTyped(chr,modifiers);
+		}
+		return super.charTyped(chr, modifiers);
 	}
 
 	public boolean shouldPause() {

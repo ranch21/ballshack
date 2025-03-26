@@ -34,6 +34,8 @@ public abstract class Widget {
 
 	public abstract void keyPressed(int keyCode, int scanCode, int modifiers);
 
+	public abstract void charTyped(char chr, int modifiers);
+
 	public void setX(int x) {
 		this.offX = x;
 	}
@@ -49,4 +51,5 @@ public abstract class Widget {
 	public int getY() {
 		return offY;
 	}
+
 }

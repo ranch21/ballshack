@@ -10,12 +10,12 @@ import org.joml.Matrix4f;
 import org.lwjgl.opengl.GL11;
 import org.ranch.ballshack.event.EventSubscribe;
 import org.ranch.ballshack.event.events.EventWorldRender;
-import org.ranch.ballshack.gui.Colors;
 import org.ranch.ballshack.module.Module;
 import org.ranch.ballshack.module.ModuleCategory;
 import org.ranch.ballshack.setting.ModuleSettings;
 import org.ranch.ballshack.setting.moduleSettings.SettingSlider;
 import org.ranch.ballshack.setting.moduleSettings.TargetsDropDown;
+import org.ranch.ballshack.util.DrawUtil;
 import org.ranch.ballshack.util.EntityUtil;
 
 import java.awt.*;
@@ -38,23 +38,20 @@ public class Tracers extends Module {
 		GL11.glDisable(GL11.GL_DEPTH_TEST);
 		GL11.glEnable(GL11.GL_LINE_SMOOTH);
 
-		double alpha = (double) getSettings().getSetting(0).getValue();
-		TargetsDropDown targets = (TargetsDropDown) getSettings().getSetting(1);
+		double alpha = (double) settings.getSetting(0).getValue();
+		TargetsDropDown targets = (TargetsDropDown) settings.getSetting(1);
 
 		for (Entity e : mc.world.getEntities()) {
 			if (e != mc.player) {
 
-				Color c;
+				Color c = DrawUtil.getEspColor(e);
 
 				if (EntityUtil.isAnimal(e)) {
 					if (!targets.getPassive()) continue;
-					c = Colors.PASSIVE;
 				} else if (EntityUtil.isMob(e)) {
 					if (!targets.getMobs()) continue;
-					c = Colors.HOSTILE;
 				} else if (EntityUtil.isPlayer(e)) {
 					if (!targets.getPlayers()) continue;
-					c = Colors.PLAYER;
 				} else {
 					continue;
 				}

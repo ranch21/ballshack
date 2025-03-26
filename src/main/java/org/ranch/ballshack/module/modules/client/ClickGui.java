@@ -24,9 +24,10 @@ public class ClickGui extends Module {
 		super("ClickGui", ModuleCategory.CLIENT, GLFW.GLFW_KEY_RIGHT_SHIFT, new ModuleSettings(Arrays.asList(
 				new DropDown("Balls", Arrays.asList(
 						new SettingToggle(true, "Enabled"),
-						new SettingSlider(50,"Amount", 1, 250, 5),
-						new SettingSlider(1,"Gravity", 0.25, 10, 0.25),
-						new SettingSlider(0.6,"Bounce", 0.25, 4, 0.1)
+						new SettingSlider(50,"Amount", 1, 1000, 10),
+						new SettingSlider(1,"Gravity", 0, 3, 0.1),
+						new SettingSlider(10,"Size", 1, 32, 1),
+						new SettingToggle(true, "WindowCollide")
 				)),
 				new SettingToggle(true, "Darken"),
 				new SettingToggle(false, "Legacy")

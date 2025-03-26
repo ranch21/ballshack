@@ -1,10 +1,13 @@
 package org.ranch.ballshack.module.modules.render;
 
+import net.minecraft.block.BlockState;
+import net.minecraft.block.ShapeContext;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.shape.VoxelShape;
 import org.lwjgl.opengl.GL11;
 import org.ranch.ballshack.event.EventSubscribe;
 import org.ranch.ballshack.event.events.EventWorldRender;
@@ -38,7 +41,7 @@ public class ChestESP extends Module {
 		GL11.glDisable(GL11.GL_DEPTH_TEST);
 		GL11.glEnable(GL11.GL_LINE_SMOOTH);
 
-		double alpha = (double) getSettings().getSetting(0).getValue();
+		double alpha = (double) settings.getSetting(0).getValue();
 
 		for (BlockEntity bEnt : blockEntities.toList()) {
 
@@ -54,9 +57,9 @@ public class ChestESP extends Module {
 
 			BlockPos blockPos = bEnt.getPos();
 
-			Vec3d pos = new Vec3d(blockPos.getX(), blockPos.getY(), blockPos.getZ());
+			BlockState blockState = mc.world.getBlockState(blockPos);
 
-			Box box = new Box(pos, pos.add(size));
+			VoxelShape shape =  blockState.getOutlineShape(mc.world, blockPos, ShapeContext.of(mc.gameRenderer.getCamera().getFocusedEntity()));
 
 			float r = c.getRed() / 255.0f;
 			float g = c.getGreen() / 255.0f;
@@ -66,8 +69,11 @@ public class ChestESP extends Module {
 			Vec3d cameraPos = mc.gameRenderer.getCamera().getPos();
 			matrices.translate(-cameraPos.x, -cameraPos.y, -cameraPos.z);
 
-			DrawUtil.drawCube(matrices, box, r, g, b, (float) alpha);
-			DrawUtil.drawCubeOutline(matrices, box, r, g, b, 0.7f);
+			for (Box box : shape.getBoundingBoxes()) {
+				box = box.offset(blockPos);
+				DrawUtil.drawCube(matrices, box, r, g,  b, (float) alpha);
+				DrawUtil.drawCubeOutline(matrices, box, r, g, b, 1f);
+			}
 
 			matrices.pop();
 		}

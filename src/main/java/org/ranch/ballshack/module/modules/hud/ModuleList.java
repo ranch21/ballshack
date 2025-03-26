@@ -14,6 +14,7 @@ import org.ranch.ballshack.module.ModuleCategory;
 import org.ranch.ballshack.module.ModuleHud;
 import org.ranch.ballshack.module.ModuleManager;
 import org.ranch.ballshack.module.modules.client.ClickGui;
+import org.ranch.ballshack.module.modules.client.WindowGui;
 import org.ranch.ballshack.setting.ModuleSetting;
 import org.ranch.ballshack.setting.ModuleSettings;
 import org.ranch.ballshack.setting.moduleSettings.SettingMode;
@@ -95,7 +96,7 @@ public class ModuleList extends ModuleHud {
 
 		for (Module m : modules.toList()) {
 
-			if (m instanceof ClickGui || m instanceof ModuleHud) {
+			if (m instanceof ClickGui || m instanceof ModuleHud || m instanceof WindowGui) {
 				continue;
 			}
 

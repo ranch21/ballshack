@@ -53,6 +53,11 @@ public class ButtonWidget extends Widget {
 
 	}
 
+	@Override
+	public void charTyped(char chr, int modifiers) {
+
+	}
+
 	public boolean wasPressed() {
 		if (pressed) {
 			pressed = false;

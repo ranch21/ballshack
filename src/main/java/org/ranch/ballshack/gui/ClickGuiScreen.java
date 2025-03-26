@@ -8,6 +8,7 @@ import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.util.NarratorManager;
 import org.apache.commons.lang3.StringUtils;
 import org.ranch.ballshack.BallsHack;
+import org.ranch.ballshack.gui.balls.Ball;
 import org.ranch.ballshack.gui.balls.BallHandler;
 import org.ranch.ballshack.gui.window.CategoryWindow;
 import org.ranch.ballshack.module.ModuleCategory;
@@ -61,12 +62,15 @@ public class ClickGuiScreen extends Screen {
 		boolean balls = (boolean) dropDown.getSetting(0).getValue();
 		int amount = (int) (double) dropDown.getSetting(1).getValue();
 		double gravity = (double) dropDown.getSetting(2).getValue();
-		double bounce = (double) dropDown.getSetting(3).getValue();
+		//double bounce = (double) dropDown.getSetting(3).getValue();
+		double size = (double) dropDown.getSetting(3).getValue();
+		boolean windowCollide = (boolean) dropDown.getSetting(4).getValue();
 		boolean darken = (boolean) settings.getSetting(1).getValue();
 
 		ballHandler.gravity = gravity * 2;
-		ballHandler.bounce = bounce;
 		ballsEnabled = balls;
+		ballHandler.winCollide = windowCollide;
+		Ball.size = (int) size;
 		this.darken = darken;
 
 		if (ballHandler.getBallCount() != amount) {
@@ -91,8 +95,8 @@ public class ClickGuiScreen extends Screen {
 		}
 
 		if (ballsEnabled) {
+			ballHandler.update(this.width, this.height, delta, windows);
 			ballHandler.render(context);
-			ballHandler.update(this.width, this.height, delta);
 		}
 
 		TextRenderer textRend = MinecraftClient.getInstance().textRenderer;

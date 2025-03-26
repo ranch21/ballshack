@@ -38,4 +38,9 @@ public class TextWidget extends Widget {
 	public void keyPressed(int keyCode, int scanCode, int modifiers) {
 
 	}
+
+	@Override
+	public void charTyped(char chr, int modifiers) {
+
+	}
 }

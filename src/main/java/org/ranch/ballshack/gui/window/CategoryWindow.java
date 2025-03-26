@@ -25,6 +25,7 @@ public class CategoryWindow {
 
 	public static final int width = 80;
 	public static final int height = 11;
+	private int totalHeight = height;
 
 	public String title;
 
@@ -85,6 +86,8 @@ public class CategoryWindow {
 		context.drawHorizontalLine(x, x + width - 1, bottomY, Colors.BORDER.hashCode()); // bottom
 		context.drawVerticalLine(x - 1, y - 1, bottomY, Colors.BORDER.hashCode()); // left
 		context.drawVerticalLine(x + width, y - 1, bottomY, Colors.BORDER.hashCode()); // right
+
+		totalHeight = height + addedHeight;
 
 		/* window title */
 		TextRenderer textRend = MinecraftClient.getInstance().textRenderer;
@@ -147,5 +150,9 @@ public class CategoryWindow {
 				moduleWidget.keyPressed(keyCode, scanCode, modifiers);
 			}
 		}
+	}
+
+	public int getHeight() {
+		return totalHeight;
 	}
 }

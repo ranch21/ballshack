@@ -30,7 +30,7 @@ public abstract class Module {
 	}
 
 	public Module(String name, ModuleCategory category, int bind, ModuleSettings settings) {
-		this(name, category, bind, new ModuleSettings(new ArrayList<>()), null);
+		this(name, category, bind, settings, null);
 	}
 
 	public Module(String name, ModuleCategory category, int bind, ModuleSettings settings, @Nullable String tooltip) {

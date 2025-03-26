@@ -11,7 +11,7 @@ public class BallsHack implements ModInitializer {
 	public static EventBus eventBus = new EventBus();
 
 	public static Setting<String> title = new Setting<>("BallsHack", "watermark");
-	public static String version = "1.28";
+	public static String version = "1.29";
 
 	@Override
 	public void onInitialize() {

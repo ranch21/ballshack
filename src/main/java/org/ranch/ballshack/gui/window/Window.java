@@ -107,6 +107,12 @@ public abstract class Window {
 		}
 	}
 
+	public void charTyped(char chr, int modifiers) {
+		for (Widget widget : widgets) {
+			widget.charTyped(chr,modifiers);
+		}
+	}
+
 	protected void handleDrag(int mouseX, int mouseY, Screen screen) {
 		if (dragging) {
 			x = mouseX - dragX;

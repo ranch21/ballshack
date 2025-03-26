@@ -65,11 +65,13 @@ public class TextFieldWidget extends Widget {
 			} else if (keyCode == GLFW.GLFW_KEY_ESCAPE) {
 				selected = false;
 			}
+		}
+	}
 
-			String keyName = GLFW.glfwGetKeyName(keyCode, scanCode);
-			if (keyName != null) {
-				text = text + keyName;
-			}
+	@Override
+	public void charTyped(char chr, int modifiers) {
+		if (selected) {
+			text = text + chr;
 		}
 	}
 
