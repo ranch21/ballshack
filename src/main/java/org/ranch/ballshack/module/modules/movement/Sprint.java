@@ -13,6 +13,6 @@ public class Sprint extends Module {
 	@EventSubscribe
 	public void onTick(EventTick event) {
 		mc.player.setSprinting(
-				mc.player.input.movementForward > 0 && !mc.player.isSneaking() && mc.player.getHungerManager().getFoodLevel() <= 6);
+				mc.player.input.movementForward > 0 && !mc.player.isSneaking() && mc.player.getHungerManager().getFoodLevel() >= 6);
 	}
 }

@@ -1,5 +1,6 @@
 package org.ranch.ballshack.module;
 
+import org.ranch.ballshack.module.modules.client.HudEditor;
 import org.ranch.ballshack.module.modules.client.Rainbow;
 import org.ranch.ballshack.module.modules.client.WindowGui;
 import org.ranch.ballshack.module.modules.combat.*;
@@ -48,7 +49,9 @@ public class ModuleManager {
 			new ProjectileEvade(),
 			new WindowGui(),
 			new SafeWalk(),
-			new Sprint()
+			new Sprint(),
+			new InfiniteElytraGlide(),
+			new HudEditor()
 	);
 
 	public static List<Module> getModules() {

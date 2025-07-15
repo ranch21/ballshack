@@ -2,6 +2,7 @@ package org.ranch.ballshack.module.modules.movement;
 
 import org.lwjgl.glfw.GLFW;
 import org.ranch.ballshack.event.EventSubscribe;
+import org.ranch.ballshack.event.events.EventSetSneaking;
 import org.ranch.ballshack.event.events.EventTick;
 import org.ranch.ballshack.module.Module;
 import org.ranch.ballshack.module.ModuleCategory;
@@ -37,5 +38,10 @@ public class Flight extends Module {
 		}
 
 		antiKick++;
+	}
+
+	@EventSubscribe
+	public void onSneak(EventSetSneaking event) {
+		event.cancel();
 	}
 }

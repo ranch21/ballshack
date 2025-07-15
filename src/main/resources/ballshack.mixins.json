@@ -5,6 +5,7 @@
   "compatibilityLevel": "JAVA_17",
   "mixins": [
     "BlockCollisionSpliteratorMixin",
+    "EntityMixin",
     "PlayerMoveC2SPacketAccessor"
   ],
   "client": [
@@ -12,13 +13,13 @@
     "ChatScreenMixin",
     "ClientCommonNetworkHandlerMixin",
     "ClientWorldMixin",
+    "DrawContextAccessor",
     "GameRendererMixin",
     "InGameHudMixin",
     "KeyboardMixin",
     "MouseMixin",
     "PlayerEntityMixin",
-    "WorldRendererMixin",
-    "DrawContextAccessor"
+    "WorldRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1
