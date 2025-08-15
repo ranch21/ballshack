@@ -4,8 +4,11 @@ import com.google.gson.*;
 import net.minecraft.client.MinecraftClient;
 import org.ranch.ballshack.BallsLogger;
 import org.ranch.ballshack.module.Module;
+import org.ranch.ballshack.module.ModuleAnchor;
+import org.ranch.ballshack.module.ModuleHud;
 import org.ranch.ballshack.module.ModuleManager;
 import org.ranch.ballshack.setting.moduleSettings.DropDown;
+import org.ranch.ballshack.setting.moduleSettings.SettingHud;
 
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -35,7 +38,8 @@ public class SettingSaver {
 			scheduler = new ScheduledThreadPoolExecutor(1);
 
 		scheduler.scheduleAtFixedRate(() -> {
-			if (SCHEDULE_SAVE.getAndSet(false)) saveSettings();
+			//if (SCHEDULE_SAVE.getAndSet(false)) saveSettings();
+			saveSettings();
 		}, 0, 5, TimeUnit.SECONDS);
 	}
 
@@ -62,6 +66,13 @@ public class SettingSaver {
 				continue;
 			}
 
+			if (setting instanceof SettingHud hsetting) {
+				settingsJson.addProperty("x", hsetting.value.x);
+				settingsJson.addProperty("y", hsetting.value.y);
+				settingsJson.addProperty("anchor", hsetting.value.anchor.ordinal());
+				continue;
+			}
+
 			if (value instanceof String) {
 				settingsJson.addProperty(setting.getName(), (String) value);
 			} else if (value instanceof Number) {
@@ -81,7 +92,7 @@ public class SettingSaver {
 		for (Module mod: ModuleManager.getModules()) {
 			JsonObject modjson = new JsonObject();
 
-			if (mod.isEnabled() && !mod.getName().equals("ClickGui") && !mod.getName().equals("WinGui") && !mod.getName().equals("HudEdit")) {
+			if (mod.isEnabled() && !mod.isMeta()) {
 				modjson.addProperty("enabled", mod.isEnabled());
 			}
 
@@ -154,6 +165,15 @@ public class SettingSaver {
 					setSettingValue(setting, value);
 				}
 			}
+		}
+
+		if (mod instanceof ModuleHud hudMod && settingsJson.has("x")) {
+			int x = settingsJson.get("x").getAsInt();
+			int y = settingsJson.get("y").getAsInt(); //goog goo ga gaa
+			int anchor = settingsJson.get("anchor").getAsInt();
+			hudMod.setAnchorPoint(ModuleAnchor.values()[anchor]);
+			hudMod.offsetx = x;
+			hudMod.offsety = y;
 		}
 	}
 

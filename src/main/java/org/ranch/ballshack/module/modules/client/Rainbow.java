@@ -16,7 +16,7 @@ public class Rainbow extends Module {
 				new SettingSlider(0.5, "Sat", 0, 1, 0.05),
 				new SettingSlider(1, "Bri", 0, 1, 0.05),
 				new SettingSlider(1, "Speed", 0, 5, 0.5)
-		)), "Taste the rainbow");
+		)), "Taste the rainbow", true);
 		onEnable();
 	}
 

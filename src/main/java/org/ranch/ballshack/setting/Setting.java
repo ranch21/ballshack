@@ -1,12 +1,16 @@
 package org.ranch.ballshack.setting;
 
+import java.lang.reflect.Type;
+
 public class Setting<T> {
 	private T value;
 	private String key;
+	private Type type;
 
-	public Setting(T value, String key) {
+	public Setting(T value, String key, Type type) {
 		this.value = value;
 		this.key = key;
+		this.type = type;
 	}
 
 	public T getValue() {
@@ -15,6 +19,10 @@ public class Setting<T> {
 
 	public String getKey() {
 		return key;
+	}
+
+	public Type getType() {
+		return type;
 	}
 
 	public void setValue(T value) {

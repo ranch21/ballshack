@@ -8,6 +8,10 @@ public class RotationUtil {
 
 	private static final MinecraftClient mc = MinecraftClient.getInstance();
 
+	public static float getDegreeChange(float start, float end) {
+		return Math.abs(MathHelper.wrapDegrees(end - start));
+	}
+
 	public static Rotation slowlyTurnTowards(Rotation end, float maxChange)
 	{
 		float startYaw = mc.player.prevYaw;
@@ -15,9 +19,8 @@ public class RotationUtil {
 		float endYaw = end.yaw;
 		float endPitch = end.pitch;
 
-		float yawChange = Math.abs(MathHelper.wrapDegrees(endYaw - startYaw));
-		float pitchChange =
-				Math.abs(MathHelper.wrapDegrees(endPitch - startPitch));
+		float yawChange = getDegreeChange(startYaw, endYaw);
+		float pitchChange = getDegreeChange(startPitch, endPitch);
 
 		float maxChangeYaw = pitchChange == 0 ? maxChange
 				: Math.min(maxChange, maxChange * yawChange / pitchChange);

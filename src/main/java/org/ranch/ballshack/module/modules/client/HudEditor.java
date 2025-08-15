@@ -8,7 +8,7 @@ import org.ranch.ballshack.module.ModuleCategory;
 public class HudEditor extends Module {
 
 	public HudEditor() {
-	super("HudEdit", ModuleCategory.CLIENT, 0, "hud edit wgat is it");
+	super("HudEdit", ModuleCategory.CLIENT, 0, "hud edit wgat is it", true);
 	}
 
 	@Override

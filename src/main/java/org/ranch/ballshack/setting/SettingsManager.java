@@ -28,7 +28,7 @@ public class SettingsManager {
 				} else if (setting.getValue() instanceof Number) {
 					value = jsonEntry.getValue().getAsNumber();
 				} else {
-					value = gson.fromJson(jsonEntry.getValue(), setting.getValue().getClass());
+					value = gson.fromJson(jsonEntry.getValue(), setting.getType());
 				}
 				setSettingValue(setting, value);
 			}

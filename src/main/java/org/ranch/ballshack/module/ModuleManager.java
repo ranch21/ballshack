@@ -6,6 +6,7 @@ import org.ranch.ballshack.module.modules.client.WindowGui;
 import org.ranch.ballshack.module.modules.combat.*;
 import org.ranch.ballshack.module.modules.fun.BouncyGround;
 import org.ranch.ballshack.module.modules.fun.TestModule;
+import org.ranch.ballshack.module.modules.hud.Coordinates;
 import org.ranch.ballshack.module.modules.hud.ModuleList;
 import org.ranch.ballshack.module.modules.movement.*;
 import org.ranch.ballshack.module.modules.player.AntiHunger;
@@ -51,7 +52,8 @@ public class ModuleManager {
 			new SafeWalk(),
 			new Sprint(),
 			new InfiniteElytraGlide(),
-			new HudEditor()
+			new HudEditor(),
+			new Coordinates()
 	);
 
 	public static List<Module> getModules() {

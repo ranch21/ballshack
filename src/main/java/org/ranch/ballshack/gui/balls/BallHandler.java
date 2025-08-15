@@ -2,8 +2,6 @@ package org.ranch.ballshack.gui.balls;
 
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.Box;
-import org.ranch.ballshack.gui.window.CategoryWindow;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +38,7 @@ public class BallHandler {
 		return balls.size();
 	}
 
-	public void update(int width, int height, double deltaT, List<CategoryWindow> wins) {
+	public void update(int width, int height, double deltaT, List<Rect> rects) {
 		for (Ball ball : balls) {
 			ball.update(deltaT, gravity);
 			for (Ball other : balls) {
@@ -48,9 +46,10 @@ public class BallHandler {
 
 				ball.collideOther(other);
 			}
-			for (CategoryWindow window : wins) {
-				Box box = new Box(window.x, window.y, 0, window.x + CategoryWindow.width, window.y + window.getHeight(), 0);
-				ball.collideRect(box);
+			if (winCollide) {
+				for (Rect rect : rects) {
+					ball.collideRect(rect);
+				}
 			}
 			ball.collideWalls(width, height);
 		}

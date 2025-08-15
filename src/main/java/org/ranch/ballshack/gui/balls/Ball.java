@@ -3,7 +3,6 @@ package org.ranch.ballshack.gui.balls;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.Box;
 import org.joml.Vector2d;
 
 public class Ball {
@@ -62,36 +61,35 @@ public class Ball {
 		}
 	}
 
-	public void collideRect(Box box) {
-		if (
-			pos.x + size > box.minX &&
-			pos.x < box.maxX &&
-			pos.y + size > box.minY &&
-			pos.y < box.maxY
+	public void collideRect(Rect rect) {
+		if (pos.x + size > rect.pos.x &&
+			pos.x < rect.farCorner().x &&
+			pos.y + size > rect.pos.y &&
+			pos.y < rect.farCorner().y
 		) {
-			double overlapLeft = (pos.x + size) - box.minX;
-			double overlapRight = box.maxX - pos.x;
+			double overlapLeft = (pos.x + size) - rect.pos.x;
+			double overlapRight = rect.farCorner().x - pos.x;
 			double overlapX = Math.min(overlapLeft, overlapRight);
 
-			double overlapTop = (pos.y + size) - box.minY;
-			double overlapBottom = box.maxY - pos.y;
+			double overlapTop = (pos.y + size) - rect.pos.y;
+			double overlapBottom = rect.farCorner().y - pos.y;
 			double overlapY = Math.min(overlapTop, overlapBottom);
 
 			if (overlapX < overlapY) {
 				if (overlapLeft < overlapRight) {
 					// Collision with left side of the box
-					pos.x = box.minX - size;
+					pos.x = rect.pos.x - size;
 				} else {
 					// Collision with right side of the box
-					pos.x = box.maxX;
+					pos.x = rect.farCorner().x;
 				}
 			} else {
 				if (overlapTop < overlapBottom) {
 					// Collision with top of the box
-					pos.y = box.minY - size;
+					pos.y = rect.pos.y - size;
 				} else {
 					// Collision with bottom of the box
-					pos.y = box.maxY;
+					pos.y = rect.farCorner().y;
 				}
 			}
 		}

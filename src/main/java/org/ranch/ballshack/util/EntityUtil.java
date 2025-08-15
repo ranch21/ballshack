@@ -5,6 +5,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.mob.AmbientEntity;
+import net.minecraft.entity.mob.Angerable;
 import net.minecraft.entity.mob.Monster;
 import net.minecraft.entity.mob.WaterCreatureEntity;
 import net.minecraft.entity.passive.IronGolemEntity;
@@ -17,6 +18,7 @@ import net.minecraft.util.math.Vec3d;
 import org.ranch.ballshack.FriendManager;
 import org.ranch.ballshack.setting.moduleSettings.TargetsDropDown;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -54,6 +56,15 @@ public class EntityUtil {
 		return false;
 	}
 
+	public static EntityType getEntityType(Entity e) {
+		if (isFriend(e)) return EntityType.FRIEND;
+		else if (isPlayer(e)) return EntityType.PLAYER;
+		else if (isAnimal(e)) return EntityType.PASSIVE;
+		else if (e instanceof Angerable) return EntityType.NEUTRAL;
+		else if (isMob(e)) return EntityType.MONSTER;
+		else return EntityType.OTHER;
+	}
+
 	public static boolean isAnimal(Entity e) {
 		return e instanceof PassiveEntity
 				|| e instanceof AmbientEntity
@@ -81,5 +92,24 @@ public class EntityUtil {
 								&& mc.player.distanceTo(e) <= distance).filter(e -> filterByType(e, targetsDropDown))
 				.sorted(comparator)
 				.collect(Collectors.toList());
+	}
+
+	public enum EntityType {
+		PLAYER(new Color(200, 50, 100)),
+		FRIEND(Color.BLUE),
+		PASSIVE(Color.GREEN),
+		NEUTRAL(Color.ORANGE),
+		MONSTER(Color.RED),
+		OTHER(Color.GRAY);
+
+		private final Color color;
+
+		EntityType(Color color) {
+			this.color = color;
+		}
+
+		public Color getColor() {
+			return color;
+		}
 	}
 }

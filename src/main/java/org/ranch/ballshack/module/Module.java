@@ -12,33 +12,43 @@ import java.util.ArrayList;
 public abstract class Module {
 
 	protected MinecraftClient mc = MinecraftClient.getInstance();
-	protected final ModuleSettings settings;
+	protected ModuleSettings settings;
 	private final String name;
 	private final ModuleCategory category;
 	private Boolean subscribed;
+	private boolean isMeta;
 
 	private String tooltip;
 
 	protected boolean enabled;
 
 	public Module(String name, ModuleCategory category, int bind) {
-		this(name, category, bind, new ModuleSettings(new ArrayList<>()), null);
+		this(name, category, bind, new ModuleSettings(new ArrayList<>()), null, false);
 	}
 
 	public Module(String name, ModuleCategory category, int bind, String tooltip) {
-		this(name, category, bind, new ModuleSettings(new ArrayList<>()), tooltip);
+		this(name, category, bind, new ModuleSettings(new ArrayList<>()), tooltip, false);
+	}
+
+	public Module(String name, ModuleCategory category, int bind, String tooltip, boolean isMeta) {
+		this(name, category, bind, new ModuleSettings(new ArrayList<>()), tooltip, isMeta);
 	}
 
 	public Module(String name, ModuleCategory category, int bind, ModuleSettings settings) {
-		this(name, category, bind, settings, null);
+		this(name, category, bind, settings, null, false);
 	}
 
 	public Module(String name, ModuleCategory category, int bind, ModuleSettings settings, @Nullable String tooltip) {
+		this(name, category, bind, settings, tooltip, false);
+	}
+
+	public Module(String name, ModuleCategory category, int bind, ModuleSettings settings, @Nullable String tooltip, boolean isMeta) {
 		this.name = name;
 		this.category = category;
 		settings.getBind().setValue(bind);
 		this.settings = settings;
 		this.tooltip = tooltip;
+		this.isMeta = isMeta;
 	}
 
 	public void onEnable() {
@@ -88,6 +98,11 @@ public abstract class Module {
 	public boolean isEnabled() {
 		return enabled;
 	}
+
+	public boolean isMeta() {
+		return isMeta;
+	}
+
 
 	public boolean isSubscribed() {
 		return subscribed;

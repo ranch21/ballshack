@@ -8,8 +8,8 @@ import java.util.List;
 
 public class ModuleSettings {
 
-	private List<ModuleSetting<?>> settings;
-	private SettingBind bind = new SettingBind(0, "KeyBind");
+	protected List<ModuleSetting<?>> settings;
+	protected SettingBind bind = new SettingBind(0, "KeyBind");
 
 	public ModuleSettings(List<ModuleSetting<?>> settings) {
 		this.settings = settings;
@@ -21,7 +21,7 @@ public class ModuleSettings {
 		return new ArrayList<>(merged);
 	}
 
-	private List<ModuleSetting<?>> unpackSettings(List<ModuleSetting<?>> settings) {
+	protected List<ModuleSetting<?>> unpackSettings(List<ModuleSetting<?>> settings) {
 		List<ModuleSetting<?>> list = new ArrayList<>();
 		for (ModuleSetting<?> setting : settings) {
 			list.add(setting);

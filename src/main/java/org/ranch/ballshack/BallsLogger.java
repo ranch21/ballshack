@@ -22,6 +22,10 @@ public class BallsLogger {
 		return ballsText.copy().styled(s -> s.withColor(BH_COLOR)).append(": ").append(text.copy().styled(s -> s.withColor(color)));
 	}
 
+	public static void info(Object info) {
+		info(Text.literal(String.valueOf(info)));
+	}
+
 	public static void info(String info) {
 		info(Text.literal(info));
 	}
@@ -34,6 +38,10 @@ public class BallsLogger {
 		}
 	}
 
+	public static void warn(Object warn) {
+		warn(Text.literal(String.valueOf(warn)));
+	}
+
 	public static void warn(String warn) {
 		warn(Text.literal(warn));
 	}
@@ -44,6 +52,10 @@ public class BallsLogger {
 		if (player != null) {
 			player.sendMessage(addBallText(warn, WARN_COLOR), false);
 		}
+	}
+
+	public static void error(Object error) {
+		error(Text.literal(String.valueOf(error)));
 	}
 
 	public static void error(String error) {

@@ -18,6 +18,8 @@ import org.ranch.ballshack.mixin.DrawContextAccessor;
 
 import java.awt.*;
 
+import static org.ranch.ballshack.BallsHack.mc;
+
 public class DrawUtil {
 	public static void drawHorizontalGradient(DrawContext context, int x, int y, int width, int height, Color startColor, Color endColor, int resolution) {
 		// forgive me
@@ -37,6 +39,42 @@ public class DrawUtil {
 			blend += resolution;
 		}
 	}
+
+	public static void drawPoint(DrawContext context, int x, int y, Color color) {
+		context.fill(x, y, x+1, y+1, color.hashCode());
+	}
+
+	public static int getScreenWidth() {
+		return mc.getWindow().getScaledWidth();
+	}
+
+	public static int getScreenHeight() {
+		return mc.getWindow().getScaledHeight();
+	}
+
+	public static void drawLine(DrawContext context, int x1, int y1, int x2, int y2, Color color) {
+		int dx = Math.abs(x2 - x1);
+		int dy = Math.abs(y2 - y1);
+		int sx = x1 < x2 ? 1 : -1;
+		int sy = y1 < y2 ? 1 : -1;
+		int err = dx - dy;
+
+		while (true) {
+			drawPoint(context,x1, y1, color);
+
+			if (x1 == x2 && y1 == y2) break;
+			int e2 = 2 * err;
+			if (e2 > -dy) {
+				err -= dy;
+				x1 += sx;
+			}
+			if (e2 < dx) {
+				err += dx;
+				y1 += sy;
+			}
+		}
+	}
+
 
 	public static void drawVerticalGradient(DrawContext context, int x, int y, int width, int height, Color startColor, Color endColor, int resolution) {
 		// forgive me

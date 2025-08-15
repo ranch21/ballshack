@@ -26,15 +26,6 @@ public class Colors {
 	public static final Color CLICKGUI_3 = new Color(90,60,100, 100);
 	public static final Color CLICKGUI_BACKGROUND = new Color(50,20,70, 60);
 
-	public static final Color[] CATEGORY_COLORS = new Color[] {
-		Color.BLUE, // PLAYER
-		Color.YELLOW, // RENDER
-		Color.RED, // COMBAT
-		Color.MAGENTA, // MOVEMENT
-		Color.ORANGE, // WORLD
-		Color.GREEN, // FUN
-	};
-
 	public static final Color[] INVENTORY_COLORS = new Color[] {
 			Color.ORANGE, // CHEST
 			Color.MAGENTA, // ECHEST
@@ -45,11 +36,14 @@ public class Colors {
 	};
 
 	public static final Color WARN = new Color(200, 50, 100, 255);
-	public static final Color HOSTILE = new Color(255, 0, 0, 250);
-	public static final Color PASSIVE = new Color(0, 255, 0, 250);
-	public static final Color PLAYER = new Color(0, 0, 255, 250);
-	public static final Color ELSE = new Color(200, 200, 200, 250);
+	public static final Color HOSTILE = new Color(255, 0, 0, 255);
+	public static final Color PASSIVE = new Color(0, 255, 0, 255);
+	public static final Color PLAYER = new Color(0, 0, 255, 255);
+	public static final Color ELSE = new Color(200, 200, 200, 255);
 
+	public static final Color RED = new Color(255, 74, 66, 255);
+	public static final Color GREEN = new Color(109, 250, 81, 255);
+	public static final Color BLUE = new Color(71, 109, 255, 255);
 	//public static final Color CHEST = new Color(255, 255, 200, 250);
 
 	public static final Color BACKDROP = new Color(0, 0, 0, 50);
