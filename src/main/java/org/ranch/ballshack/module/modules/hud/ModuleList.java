@@ -29,9 +29,7 @@ public class ModuleList extends ModuleHud {
 				new SettingMode(0, "ColMode", Arrays.asList("Cat", "Rand", "Rain")),
 				new SettingToggle(true, "Backdrop"),
 				new SettingToggle(true, "Shadow"),
-				new SettingToggle(true, "Line"),
-				new SettingToggle(true, "Watermark"),
-				new SettingToggle(false, "logo")
+				new SettingToggle(true, "Line")
 		)), "Incase you forgor what you enabled", ModuleAnchor.TOP_LEFT);
 	}
 
@@ -41,8 +39,6 @@ public class ModuleList extends ModuleHud {
 		boolean backdrop = (boolean) getSettings().getSetting(1).getValue();
 		boolean shadow = (boolean) getSettings().getSetting(2).getValue();
 		boolean line = (boolean) getSettings().getSetting(3).getValue();
-		boolean watermark = (boolean) getSettings().getSetting(4).getValue();
-		boolean logo = (boolean) getSettings().getSetting(5).getValue();
 
 		Stream<Module> modules = Streams.stream(ModuleManager.getModules());
 
@@ -63,6 +59,7 @@ public class ModuleList extends ModuleHud {
 		}
 		height = (mc.textRenderer.fontHeight + 1) * index;
 		width = widest;
+		totalTicks++;
 	}
 
 	private void drawLine(DrawContext context, Text text, Color color, boolean line, boolean background, boolean shadow, int widest, int index) {
@@ -78,8 +75,8 @@ public class ModuleList extends ModuleHud {
 
 		if (line) linePadding += getAnchorPoint().isRight() ? -2 : 2;
 
-		int baseX = X() + textPadding + linePadding;
-		int baseY = Y() + (mc.textRenderer.fontHeight + 1) * index + 1;
+		int baseX = X() - xOffset() + textPadding + linePadding;
+		int baseY = Y() - yOffset() + (mc.textRenderer.fontHeight + 1) * index + 1;
 
 		if (background) {
 			context.fill(baseX - 1, baseY - 1, baseX + textWidth + 1, baseY + mc.textRenderer.fontHeight, Colors.BACKDROP.hashCode());
@@ -119,7 +116,7 @@ public class ModuleList extends ModuleHud {
 
 		String feat = getFeaturedSettings(module);
 		if (!feat.isEmpty()) {
-			text.append(Text.of(" [" + feat + "]")).withColor(Color.lightGray.hashCode());
+			text.append(Text.of(" [" + feat + "]").copy().withColor(Colors.GRAY.hashCode()));
 		}
 		return text;
 	}

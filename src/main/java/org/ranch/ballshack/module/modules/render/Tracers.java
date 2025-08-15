@@ -15,10 +15,8 @@ import org.ranch.ballshack.module.ModuleCategory;
 import org.ranch.ballshack.setting.ModuleSettings;
 import org.ranch.ballshack.setting.moduleSettings.SettingSlider;
 import org.ranch.ballshack.setting.moduleSettings.TargetsDropDown;
-import org.ranch.ballshack.util.DrawUtil;
 import org.ranch.ballshack.util.EntityUtil;
 
-import java.awt.*;
 import java.util.Arrays;
 
 public class Tracers extends Module {
@@ -44,25 +42,27 @@ public class Tracers extends Module {
 		for (Entity e : mc.world.getEntities()) {
 			if (e != mc.player) {
 
-				Color c = DrawUtil.getEspColor(e);
+				EntityUtil.EntityType type = EntityUtil.getEntityType(e);
 
-				if (EntityUtil.isAnimal(e)) {
-					if (!targets.getPassive()) continue;
-				} else if (EntityUtil.isMob(e)) {
-					if (!targets.getMobs()) continue;
-				} else if (EntityUtil.isPlayer(e)) {
-					if (!targets.getPlayers()) continue;
-				} else {
-					continue;
+				switch (type) {
+					case PASSIVE -> {
+						if (!targets.getPassive()) continue;
+					}
+					case MONSTER, NEUTRAL -> {
+						if (!targets.getMobs()) continue;
+					}
+					case PLAYER, FRIEND -> {
+						if (!targets.getPlayers()) continue;
+					}
 				}
 
 				MatrixStack matrices = event.matrixStack;
 
 				Vec3d pos = e.getLerpedPos(event.tickDelta);
 
-				float r = c.getRed() / 255.0f;
-				float g = c.getGreen() / 255.0f;
-				float b = c.getBlue() / 255.0f;
+				float r = type.getColor().getRed() / 255.0f;
+				float g = type.getColor().getGreen() / 255.0f;
+				float b = type.getColor().getBlue() / 255.0f;
 
 				matrices.push();
 

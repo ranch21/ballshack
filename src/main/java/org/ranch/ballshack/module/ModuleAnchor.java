@@ -27,6 +27,10 @@ public enum ModuleAnchor {
 		return this == BOTTOM_LEFT || this == BOTTOM_RIGHT || this == BOTTOM_CENTER;
 	}
 
+	public boolean isTop() {
+		return this == TOP_LEFT || this == TOP_RIGHT || this == TOP_CENTER;
+	}
+
 	public int getX(int width) {
 		return switch (this) {
 			case TOP_LEFT, BOTTOM_LEFT -> 0;

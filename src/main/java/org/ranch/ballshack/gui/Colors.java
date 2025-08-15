@@ -41,9 +41,10 @@ public class Colors {
 	public static final Color PLAYER = new Color(0, 0, 255, 255);
 	public static final Color ELSE = new Color(200, 200, 200, 255);
 
-	public static final Color RED = new Color(255, 74, 66, 255);
-	public static final Color GREEN = new Color(109, 250, 81, 255);
-	public static final Color BLUE = new Color(71, 109, 255, 255);
+	public static final Color RED = new Color(255, 124, 119, 255);
+	public static final Color GREEN = new Color(184, 255, 171, 255);
+	public static final Color BLUE = new Color(158, 178, 255, 255);
+	public static final Color GRAY = new Color(170, 170, 170, 255);
 	//public static final Color CHEST = new Color(255, 255, 200, 250);
 
 	public static final Color BACKDROP = new Color(0, 0, 0, 50);

@@ -28,11 +28,13 @@ public class Coordinates extends ModuleHud {
 
 	@EventSubscribe
 	public void onHudRender(EventHudRender event) {
-		int x = X();
-		int y = Y();
+		int x = X() - xOffset();
+		int y = Y() - yOffset();
 		DrawContext context = event.drawContext;
 
 		boolean shadow = (boolean) getSettings().getSetting(1).getValue();
+		boolean backdrop = (boolean) getSettings().getSetting(0).getValue();
+		boolean scaled = (boolean) getSettings().getSetting(2).getValue();
 
 		PlayerEntity player = mc.player;
 
@@ -40,17 +42,20 @@ public class Coordinates extends ModuleHud {
 		data.append(Text.of(player.getBlockY() + " ").copy().withColor(Colors.GREEN.hashCode()));
 		data.append(Text.of(player.getBlockZ() + " ").copy().withColor(Colors.BLUE.hashCode()));
 
-		width = mc.textRenderer.getWidth(data);
-		height = mc.textRenderer.fontHeight;
+		if (scaled) {
+			float mult = mc.world.getDimension().ultrawarm() ? 8.0f : 0.125f;
+			data.append(Text.of("[ ").copy().withColor(Colors.GRAY.hashCode()));
+			data.append(Text.of((int)(player.getBlockX() * mult) + " ").copy().withColor(Colors.RED.hashCode()));
+			data.append(Text.of((int)(player.getBlockY() * mult) + " ").copy().withColor(Colors.GREEN.hashCode()));
+			data.append(Text.of((int)(player.getBlockZ() * mult) + " ").copy().withColor(Colors.BLUE.hashCode()));
+			data.append(Text.of("] ").copy().withColor(Colors.GRAY.hashCode()));
+		}
 
-		context.fill(x, y, x + width, y + height, Colors.BACKDROP.hashCode());
+		width = mc.textRenderer.getWidth(data) - 2;
+		height = mc.textRenderer.fontHeight + 1;
 
-		DrawUtil.drawText(context, mc.textRenderer, data, x, y, Color.WHITE, true);
+		if (backdrop) context.fill(x, y, x + width, y + height, Colors.BACKDROP.hashCode());
 
-		/*if (isOnRight()) {
-			DrawUtil.drawTextRight(context, mc.textRenderer, data, x, y, Color.WHITE, true);
-		} else {
-			DrawUtil.drawText(context, mc.textRenderer, data, x, y, Color.WHITE, true);
-		}*/
+		DrawUtil.drawText(context, mc.textRenderer, data, x + 1, y + 1, Color.WHITE, shadow);
 	}
 }
