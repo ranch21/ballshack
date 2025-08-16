@@ -34,4 +34,13 @@ public class ModuleHud extends Module {
 	public int getHeight() {
 		return 0;
 	}
+
+	public void setPos(int x, int y) {
+		this.x = x;
+		this.y = y;
+	}
+
+	public boolean isOnRight() {
+		return x > mc.getWindow().getScaledWidth() / 2;
+	}
 }

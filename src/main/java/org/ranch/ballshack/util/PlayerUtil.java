@@ -52,7 +52,7 @@ public class PlayerUtil {
 
 		if (mc.options.jumpKey.isPressed()) {
 			yVel = verticalSpeed;
-		} else if (mc.options.sprintKey.isPressed()) {
+		} else if (mc.options.sneakKey.isPressed()) {
 			yVel = -verticalSpeed;
 		}
 

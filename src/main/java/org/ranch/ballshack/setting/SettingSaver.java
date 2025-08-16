@@ -81,7 +81,7 @@ public class SettingSaver {
 		for (Module mod: ModuleManager.getModules()) {
 			JsonObject modjson = new JsonObject();
 
-			if (mod.isEnabled() && !mod.getName().equals("ClickGui") && !mod.getName().equals("WinGui")) {
+			if (mod.isEnabled() && !mod.getName().equals("ClickGui") && !mod.getName().equals("WinGui") && !mod.getName().equals("HudEdit")) {
 				modjson.addProperty("enabled", mod.isEnabled());
 			}
 

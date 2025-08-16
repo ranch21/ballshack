@@ -4,6 +4,8 @@ import com.google.common.collect.Streams;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.RenderLayer;
+import net.minecraft.text.MutableText;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import org.ranch.ballshack.BallsHack;
 import org.ranch.ballshack.event.EventSubscribe;
@@ -31,6 +33,7 @@ public class ModuleList extends ModuleHud {
 	float totalTicks = 0;
 
 	int height = 0;
+	int width = 0;
 
 	public ModuleList() {
 		super("ModuleList", ModuleCategory.HUD, 0, 0, 0, new ModuleSettings(Arrays.asList(
@@ -69,30 +72,41 @@ public class ModuleList extends ModuleHud {
 
 		int i = 0;
 
-		int sX = line ? 1 : 0;
+		int sX = (line ? 1 : 0) + x;
 
 		int addedHeight = 0;
 
 		if (logo) {
 			Identifier texture = Identifier.of("ballshack", "ballshack.png");
-			context.drawTexture(RenderLayer::getGuiTextured, texture, 0, 0, 0, 0, 50, 16, 50, 16);
+			context.drawTexture(RenderLayer::getGuiTextured, texture, isOnRight() ? x - 50 : x, y, 0, 0, 50, 16, 50, 16);
 			addedHeight += 16;
 		}
 
 		if (watermark) {
 			if (backdrop) {
-				context.fill(sX, y + addedHeight, sX + textR.getWidth(BallsHack.title.getValue() + " " + BallsHack.version) + 3, y + textR.fontHeight + 1 + addedHeight, Colors.BACKDROP.hashCode());
+				if (isOnRight()) {
+					context.fill(sX - textR.getWidth(BallsHack.title.getValue() + " " + BallsHack.version) - 3, y + addedHeight, sX, y + textR.fontHeight + 1 + addedHeight, Colors.BACKDROP.hashCode());
+				} else {
+					context.fill(sX , y + addedHeight, sX + textR.getWidth(BallsHack.title.getValue() + " " + BallsHack.version) + 3, y + textR.fontHeight + 1 + addedHeight, Colors.BACKDROP.hashCode());
+				}
 			}
 
 			if (line) {
-				context.drawVerticalLine(x, y - 1, y + textR.fontHeight + 1 + addedHeight, Colors.PALLETE_1.hashCode());
+				context.drawVerticalLine(isOnRight() ? x - 1 : x, y - 1 + addedHeight, y + textR.fontHeight + 1 + addedHeight, Colors.PALLETE_1.hashCode());
 			}
-			DrawUtil.drawText(context, textR, BallsHack.title.getValue(), sX + 2, y + 1 + addedHeight, Colors.PALLETE_1, true);
-			DrawUtil.drawText(context, textR, BallsHack.version, sX + 2 + textR.getWidth(BallsHack.title.getValue() + " "), y + 1 + addedHeight, Color.WHITE, true);
+
+			if (isOnRight()) {
+				DrawUtil.drawTextRight(context, textR, BallsHack.title.getValue(), sX - 3 - textR.getWidth(BallsHack.version + " "), y + 1 + addedHeight, Colors.PALLETE_1, true);
+				DrawUtil.drawTextRight(context, textR, BallsHack.version, sX - 3, y + 1 + addedHeight, Color.WHITE, true);
+			} else {
+				DrawUtil.drawText(context, textR, BallsHack.title.getValue(), sX + 2, y + 1 + addedHeight, Colors.PALLETE_1, true);
+				DrawUtil.drawText(context, textR, BallsHack.version, sX + 2 + textR.getWidth(BallsHack.title.getValue() + " "), y + 1 + addedHeight, Color.WHITE, true);
+			}
 			i++;
 		}
 
 		Random r = new Random();
+		int widest = 0;
 
 		for (Module m : modules.toList()) {
 
@@ -119,23 +133,35 @@ public class ModuleList extends ModuleHud {
 
 			String featured = getFeaturedSetting(m);
 
-			int featureWidth = featured == null ? 0 : textR.getWidth(" [" + featured + "]");
+			MutableText moduleLine = Text.of(m.getName()).copy().withColor(col.hashCode());
+
+			if (featured != null) {
+				moduleLine.append(Text.of(" [" + featured + "]").copy().withColor(Color.lightGray.hashCode()));
+			}
 
 			if (backdrop) {
-				context.fill(sX, y + i * (textR.fontHeight + 1) + addedHeight, sX + textR.getWidth(m.getName()) + 3 + featureWidth, y + textR.fontHeight + i * (textR.fontHeight + 1) + 1 + addedHeight, Colors.BACKDROP.hashCode());
+				if (isOnRight()) {
+					context.fill(sX - textR.getWidth(moduleLine) - 3, y + i * (textR.fontHeight + 1) + addedHeight, sX, y + textR.fontHeight + i * (textR.fontHeight + 1) + 1 + addedHeight, Colors.BACKDROP.hashCode());
+				} else {
+					context.fill(sX, y + i * (textR.fontHeight + 1) + addedHeight, sX + textR.getWidth(moduleLine) + 3, y + textR.fontHeight + i * (textR.fontHeight + 1) + 1 + addedHeight, Colors.BACKDROP.hashCode());
+				}
 			}
 
 			if (line) {
-				context.drawVerticalLine(x, y + i * (textR.fontHeight + 1) - 1 + addedHeight, y + i * (textR.fontHeight + 1) + textR.fontHeight + 1 + addedHeight, col.hashCode());
+				context.drawVerticalLine(isOnRight() ? x - 1 : x, y + i * (textR.fontHeight + 1) - 1 + addedHeight, y + i * (textR.fontHeight + 1) + textR.fontHeight + 1 + addedHeight, col.hashCode());
 			}
 
-			context.drawText(textR, m.getName(), sX + 2, y + 1 + i * (textR.fontHeight + 1) + addedHeight, col.hashCode(), shadow);
-			if (featured != null) {
-				context.drawText(textR, " [" + featured + "]", sX + 2 + textR.getWidth(m.getName()), y + 1 + i * (textR.fontHeight + 1) + addedHeight, Color.lightGray.hashCode(), shadow);
+			if (isOnRight()) {
+				DrawUtil.drawTextRight(context, textR, moduleLine, sX - 3, y + 1 + i * (textR.fontHeight + 1) + addedHeight, col, shadow);
+			} else {
+				context.drawText(textR, moduleLine, sX + 2, y + 1 + i * (textR.fontHeight + 1) + addedHeight, col.hashCode(), shadow);
 			}
+
 			i++;
+			widest = Math.max(textR.getWidth(moduleLine) + 3, widest);
 		}
-		height = y + textR.fontHeight + i * (textR.fontHeight + 1) + 1 + addedHeight;
+		height = textR.fontHeight + i * (textR.fontHeight + 1) + 1 + addedHeight;
+		width = widest;
 	}
 
 	private String getFeaturedSetting(Module module) {
@@ -149,7 +175,7 @@ public class ModuleList extends ModuleHud {
 
 	@Override
 	public int getWidth() {
-		return 50;
+		return isOnRight() ? -width : width;
 	}
 
 	@Override

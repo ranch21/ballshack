@@ -8,6 +8,7 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
+import net.minecraft.text.Text;
 import net.minecraft.util.math.Box;
 import org.joml.Matrix4f;
 import org.joml.Vector2i;
@@ -70,7 +71,29 @@ public class DrawUtil {
 		drawText(context, textRend, text, x - textRend.getWidth(text), y, color, shadow);
 	}
 
+	public static void drawTextRight(DrawContext context, TextRenderer textRend, Text text, int x, int y, Color color, boolean shadow) {
+		drawText(context, textRend, text, x - textRend.getWidth(text), y, color, shadow);
+	}
+
 	public static void drawText(DrawContext context, TextRenderer textRend, String text, int x, int y, Color color, boolean shadow) {
+
+		//context.drawText(textRend, text, x, y, color.hashCode(), shadow);
+
+		textRend.draw(
+				text,
+				x,
+				y,
+				color.hashCode(),
+				shadow,
+				context.getMatrices().peek().getPositionMatrix(),
+				((DrawContextAccessor)context).getVertexConsumers(),
+				TextRenderer.TextLayerType.SEE_THROUGH,
+				0,
+				15728880
+		);
+	}
+
+	public static void drawText(DrawContext context, TextRenderer textRend, Text text, int x, int y, Color color, boolean shadow) {
 
 		//context.drawText(textRend, text, x, y, color.hashCode(), shadow);
 
