@@ -12,6 +12,8 @@ base {
 
 
 repositories {
+    mavenCentral()
+    maven { url 'https://jitpack.io' }
     // Add repositories to retrieve artifacts from in here.
     // You should only use this when depending on other mods because
     // Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
@@ -20,6 +22,9 @@ repositories {
 }
 
 dependencies {
+    implementation 'com.github.JnCrMx:discord-game-sdk4j:v1.0.0'
+    include "com.github.JnCrMx:discord-game-sdk4j:v1.0.0"
+
     // To change the versions see the gradle.properties file
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
     mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
