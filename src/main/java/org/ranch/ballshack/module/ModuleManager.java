@@ -1,5 +1,6 @@
 package org.ranch.ballshack.module;
 
+import org.ranch.ballshack.module.modules.client.DiscordRP;
 import org.ranch.ballshack.module.modules.client.Rainbow;
 import org.ranch.ballshack.module.modules.client.WindowGui;
 import org.ranch.ballshack.module.modules.combat.*;
@@ -48,7 +49,8 @@ public class ModuleManager {
 			new ProjectileEvade(),
 			new WindowGui(),
 			new SafeWalk(),
-			new Sprint()
+			new Sprint(),
+			new DiscordRP()
 	);
 
 	public static List<Module> getModules() {
