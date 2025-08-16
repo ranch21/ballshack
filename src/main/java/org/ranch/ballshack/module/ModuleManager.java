@@ -4,6 +4,7 @@ import org.ranch.ballshack.module.modules.client.DiscordRP;
 import org.ranch.ballshack.module.modules.client.HudEditor;
 import org.ranch.ballshack.module.modules.client.Rainbow;
 import org.ranch.ballshack.module.modules.client.WindowGui;
+import org.ranch.ballshack.module.modules.movement.*;
 import org.ranch.ballshack.module.modules.combat.*;
 import org.ranch.ballshack.module.modules.fun.BouncyGround;
 import org.ranch.ballshack.module.modules.fun.TestModule;
@@ -51,7 +52,7 @@ public class ModuleManager {
 			new WindowGui(),
 			new SafeWalk(),
 			new Sprint(),
-			new DiscordRP().
+			new DiscordRP(),
 			new InfiniteElytraGlide(),
 			new HudEditor()
 	);
