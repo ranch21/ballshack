@@ -11,6 +11,7 @@ import org.ranch.ballshack.setting.SettingsManager;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Scanner;
 import java.util.concurrent.CompletableFuture;
@@ -19,7 +20,8 @@ import java.util.concurrent.Executors;
 
 public class GPTCommand extends Command {
 
-	public static Setting<String> api_key = new Setting<>("none", "api-key",new TypeToken<String>(){}.getType());
+	public static Setting<String> api_key = new Setting<>("none", "api-key", new TypeToken<String>() {
+	}.getType());
 	private static final String API_URL = "https://openrouter.ai/api/v1/chat/completions";
 	private static final Gson gson = new Gson();
 	private static final ExecutorService executor = Executors.newCachedThreadPool();
@@ -87,12 +89,12 @@ public class GPTCommand extends Command {
 
 				// Send JSON request
 				try (OutputStream os = conn.getOutputStream()) {
-					byte[] inputBytes = gson.toJson(requestBody).getBytes("utf-8");
+					byte[] inputBytes = gson.toJson(requestBody).getBytes(StandardCharsets.UTF_8);
 					os.write(inputBytes, 0, inputBytes.length);
 				}
 
 				// Read response
-				Scanner scanner = new Scanner(conn.getInputStream(), "utf-8");
+				Scanner scanner = new Scanner(conn.getInputStream(), StandardCharsets.UTF_8);
 				String response = scanner.useDelimiter("\\A").next();
 				scanner.close();
 

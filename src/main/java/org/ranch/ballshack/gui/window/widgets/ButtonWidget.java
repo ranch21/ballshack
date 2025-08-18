@@ -26,9 +26,9 @@ public class ButtonWidget extends Widget {
 	@Override
 	public void render(DrawContext context, int mouseX, int mouseY) {
 
-		DrawUtil.drawOutline(context,x,y,width,height);
-		Color c = GuiUtil.mouseOverlap(mouseX,mouseY,x,y,width,height) ? Colors.SELECTABLE.brighter() : Colors.SELECTABLE;
-		context.fill(x,y,x+width,y+height, c.hashCode());
+		DrawUtil.drawOutline(context, x, y, width, height);
+		Color c = GuiUtil.mouseOverlap(mouseX, mouseY, x, y, width, height) ? Colors.SELECTABLE.brighter() : Colors.SELECTABLE;
+		context.fill(x, y, x + width, y + height, c.hashCode());
 		TextRenderer textRend = MinecraftClient.getInstance().textRenderer;
 		int yInset = (height - textRend.fontHeight) / 2;
 		int xInset = (width - textRend.getWidth(text)) / 2;
@@ -37,7 +37,7 @@ public class ButtonWidget extends Widget {
 
 	@Override
 	public void mouseClicked(double mouseX, double mouseY, int button) {
-		if (button == GLFW.GLFW_MOUSE_BUTTON_LEFT && GuiUtil.mouseOverlap(mouseX,mouseY,x,y,width,height)) {
+		if (button == GLFW.GLFW_MOUSE_BUTTON_LEFT && GuiUtil.mouseOverlap(mouseX, mouseY, x, y, width, height)) {
 			pressed = true;
 			MinecraftClient.getInstance().getSoundManager().play(PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK, 1.0F));
 		}

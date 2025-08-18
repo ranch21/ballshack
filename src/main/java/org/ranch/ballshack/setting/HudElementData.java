@@ -7,7 +7,8 @@ public class HudElementData {
 	public int y;
 	public ModuleAnchor anchor;
 
-	public HudElementData() {}
+	public HudElementData() {
+	}
 
 	public HudElementData(int x, int y, ModuleAnchor anchor) {
 		this.x = x;

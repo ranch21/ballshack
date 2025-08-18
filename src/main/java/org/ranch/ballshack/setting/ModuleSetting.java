@@ -10,7 +10,7 @@ import java.awt.*;
 
 public abstract class ModuleSetting<T> {
 
-	private String name;
+	private final String name;
 	private String tooltip;
 
 	private boolean featured;
@@ -56,16 +56,20 @@ public abstract class ModuleSetting<T> {
 
 	}
 
+	public boolean charTyped(char chr, int modifiers) {
+		return false;
+	}
+
 	protected void drawText(DrawContext context, String text) {
 		TextRenderer textRend = MinecraftClient.getInstance().textRenderer;
 		int textInset = (height - textRend.fontHeight) / 2;
-		DrawUtil.drawText(context, textRend, text,x + 2,y + textInset, Color.WHITE,true);
+		DrawUtil.drawText(context, textRend, text, x + 2, y + textInset, Color.WHITE, true);
 	}
 
 	protected void drawTextRightAligned(DrawContext context, String text) {
 		TextRenderer textRend = MinecraftClient.getInstance().textRenderer;
 		int textInset = (height - textRend.fontHeight) / 2;
-		DrawUtil.drawText(context, textRend, text, x + width - textRend.getWidth(text) - 2,y + textInset, Color.WHITE,true);
+		DrawUtil.drawText(context, textRend, text, x + width - textRend.getWidth(text) - 2, y + textInset, Color.WHITE, true);
 	}
 
 	public T getValue() {

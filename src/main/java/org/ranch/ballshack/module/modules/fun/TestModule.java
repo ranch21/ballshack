@@ -12,17 +12,18 @@ import org.ranch.ballshack.util.PlayerUtil;
 
 import java.awt.*;
 import java.util.Arrays;
+import java.util.List;
 
 public class TestModule extends Module {
 	public TestModule() {
 		super("Test", ModuleCategory.PLAYER, GLFW.GLFW_KEY_R, new ModuleSettings(Arrays.asList(
 				new SettingSlider(5, "slider", 1, 10, 0.25),
-				new SettingMode( 0, "mode", Arrays.asList("one", "two", "three")),
+				new SettingMode(0, "mode", Arrays.asList("one", "two", "three")),
 				new DropDown("d1", Arrays.asList(
 						new SettingToggle(true, "depth1"),
 						new DropDown("d2", Arrays.asList(
 								new SettingToggle(true, "depth2"),
-								new DropDown("d3", Arrays.asList(
+								new DropDown("d3", List.of(
 										new SettingToggle(true, "depth3")
 								))
 						))

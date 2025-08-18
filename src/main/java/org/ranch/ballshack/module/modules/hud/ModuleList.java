@@ -43,12 +43,12 @@ public class ModuleList extends ModuleHud {
 		Stream<Module> modules = Streams.stream(ModuleManager.getModules());
 
 		Comparator<Module> comparator = Comparator.comparing(m -> {
-			String name  = m.getName();
+			String name = m.getName();
 			String setting = getFeaturedSettings(m).isEmpty() ? "" : " [" + getFeaturedSettings(m) + "]";
 			return mc.textRenderer.getWidth(name + setting);
 		});
 
-		modules = modules.filter(Module::isEnabled).sorted(comparator.reversed());
+		modules = modules.filter(m -> m.isEnabled() && !m.isMeta()).sorted(comparator.reversed());
 		List<Module> sortedModules = modules.toList();
 		int widest = mc.textRenderer.getWidth(getModuleText(sortedModules.get(0), Color.WHITE));
 		int index = 0;

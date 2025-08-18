@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SettingsManager {
-	private static Map<String,Setting<?>> settings = new HashMap<>();
+	private static final Map<String, Setting<?>> settings = new HashMap<>();
 	private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
 	public static void registerSetting(Setting<?> setting) {

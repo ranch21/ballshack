@@ -10,7 +10,8 @@ public enum ModuleCategory {
 	WORLD(Color.ORANGE),
 	FUN(Color.GREEN),
 	HUD(Color.PINK),
-	CLIENT(Color.GRAY),;
+	CLIENT(Color.GRAY),
+	;
 
 	private final Color color;
 

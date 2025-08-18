@@ -9,7 +9,8 @@ import java.util.List;
 
 public class DropDown extends ModuleSetting<Boolean> {
 
-	private List<ModuleSetting<?>> settings;
+	private final List<ModuleSetting<?>> settings;
+	private int addedHeight = 0;
 
 	public DropDown(String label, List<ModuleSetting<?>> settings) {
 		super(label, false);
@@ -19,7 +20,7 @@ public class DropDown extends ModuleSetting<Boolean> {
 	@Override
 	public int render(int mouseX, int mouseY) {
 
-		int addedHeight = 0;
+		addedHeight = 0;
 
 		if (this.getValue()) {
 			for (ModuleSetting<?> setting : settings) {
@@ -32,7 +33,7 @@ public class DropDown extends ModuleSetting<Boolean> {
 			context.drawVerticalLine(x + 1, bY - 1, bY + addedHeight, Colors.BORDER.hashCode());
 		}
 
-		context.fill(x, y, x+width, y+height, Colors.CLICKGUI_3.hashCode());
+		context.fill(x, y, x + width, y + height, Colors.CLICKGUI_3.hashCode());
 
 		/* setting name and arrow */
 		drawText(context, this.getName());
@@ -45,14 +46,15 @@ public class DropDown extends ModuleSetting<Boolean> {
 	public boolean mouseClicked(double mouseX, double mouseY, int button) {
 		if (this.getValue()) {
 			for (ModuleSetting<?> setting : settings) {
-				if (setting.mouseClicked(mouseX, mouseY, button)) {
-					return true;
-				}
+				setting.mouseClicked(mouseX, mouseY, button);
 			}
 		}
 
 		if (GuiUtil.mouseOverlap(mouseX, mouseY, x, y, width, height) && button == GLFW.GLFW_MOUSE_BUTTON_RIGHT) {
 			this.setValue(!this.getValue());
+			return true;
+
+		} else if (GuiUtil.mouseOverlap(mouseX, mouseY, x, y, width, height + addedHeight) && button == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
 			return true;
 		}
 		return false;
@@ -64,6 +66,27 @@ public class DropDown extends ModuleSetting<Boolean> {
 				setting.mouseReleased(mouseX, mouseY, button);
 			}
 		}
+	}
+
+	@Override
+	public void keyPressed(int keyCode, int scanCode, int modifiers) {
+		if (this.getValue()) {
+			for (ModuleSetting<?> setting : settings) {
+				setting.keyPressed(keyCode, scanCode, modifiers);
+			}
+		}
+	}
+
+	@Override
+	public boolean charTyped(char chr, int modifiers) {
+		if (this.getValue()) {
+			for (ModuleSetting<?> setting : settings) {
+				if (setting.charTyped(chr, modifiers)) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	@Override

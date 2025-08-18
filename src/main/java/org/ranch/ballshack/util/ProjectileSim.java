@@ -27,7 +27,7 @@ import java.util.List;
 
 public class ProjectileSim {
 
-	private static MinecraftClient mc = MinecraftClient.getInstance();
+	private static final MinecraftClient mc = MinecraftClient.getInstance();
 
 	public static ProjectileEntity prepareSim(PlayerEntity player) {
 
@@ -146,12 +146,12 @@ public class ProjectileSim {
 	}
 
 	public static class Trajectory {
-		private List<Vec3d> positions;
-		private Entity entity;
-		private Projectile projectile;
-		private Entity thrower;
-		private BlockPos pos;
-		private boolean fake;
+		private final List<Vec3d> positions;
+		private final Entity entity;
+		private final Projectile projectile;
+		private final Entity thrower;
+		private final BlockPos pos;
+		private final boolean fake;
 
 		public Trajectory(List<Vec3d> positions, @Nullable Entity entity, @Nullable BlockPos pos, boolean isFake, @Nullable Entity thrower, Projectile projectile) {
 			this.positions = positions;
@@ -220,7 +220,7 @@ public class ProjectileSim {
 		}
 
 		public Box getBoundingBox() {
-			return new Box(pos.x,pos.y,pos.z,pos.x+width,pos.y+height,pos.z+width);
+			return new Box(pos.x, pos.y, pos.z, pos.x + width, pos.y + height, pos.z + width);
 		}
 
 		public void applyDrag() {

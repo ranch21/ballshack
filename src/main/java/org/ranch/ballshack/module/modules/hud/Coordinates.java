@@ -45,9 +45,9 @@ public class Coordinates extends ModuleHud {
 		if (scaled) {
 			float mult = mc.world.getDimension().ultrawarm() ? 8.0f : 0.125f;
 			data.append(Text.of("[ ").copy().withColor(Colors.GRAY.hashCode()));
-			data.append(Text.of((int)(player.getBlockX() * mult) + " ").copy().withColor(Colors.RED.hashCode()));
-			data.append(Text.of((int)(player.getBlockY() * mult) + " ").copy().withColor(Colors.GREEN.hashCode()));
-			data.append(Text.of((int)(player.getBlockZ() * mult) + " ").copy().withColor(Colors.BLUE.hashCode()));
+			data.append(Text.of((int) (player.getBlockX() * mult) + " ").copy().withColor(Colors.RED.hashCode()));
+			data.append(Text.of((int) (player.getBlockY() * mult) + " ").copy().withColor(Colors.GREEN.hashCode()));
+			data.append(Text.of((int) (player.getBlockZ() * mult) + " ").copy().withColor(Colors.BLUE.hashCode()));
 			data.append(Text.of("] ").copy().withColor(Colors.GRAY.hashCode()));
 		}
 

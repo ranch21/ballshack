@@ -38,7 +38,6 @@ public class ESP extends Module {
 		TargetsDropDown targets = (TargetsDropDown) getSettings().getSetting(1);
 
 
-
 		for (Entity e : mc.world.getEntities()) {
 			if (e != mc.player) {
 

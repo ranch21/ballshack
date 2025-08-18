@@ -8,10 +8,11 @@ import org.ranch.ballshack.setting.ModuleSettings;
 import org.ranch.ballshack.setting.moduleSettings.SettingSlider;
 
 import java.util.Arrays;
+import java.util.Collections;
 
 public class Reach extends Module {
 	public Reach() {
-		super("Reach", ModuleCategory.PLAYER, 0, new ModuleSettings(Arrays.asList(
+		super("Reach", ModuleCategory.PLAYER, 0, new ModuleSettings(Collections.singletonList(
 				new SettingSlider(4.5, "Dist", 1, 8, 0.5).featured()
 		)));
 	}

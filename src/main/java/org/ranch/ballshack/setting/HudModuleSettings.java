@@ -8,7 +8,7 @@ import java.util.List;
 
 public class HudModuleSettings extends ModuleSettings {
 
-	private SettingHud hsetting = new SettingHud(new HudElementData(0,0, ModuleAnchor.TOP_LEFT));
+	private final SettingHud hsetting = new SettingHud(new HudElementData(0, 0, ModuleAnchor.TOP_LEFT));
 
 	public HudModuleSettings(List<ModuleSetting<?>> settings) {
 		super(settings);

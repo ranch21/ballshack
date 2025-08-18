@@ -29,8 +29,8 @@ public class SettingsWindow extends Window {
 		super.render(context, mouseX, mouseY, screen);
 		super.render(context, mouseX, mouseY, screen);
 		TextRenderer textRend = MinecraftClient.getInstance().textRenderer;
-		DrawUtil.drawText(context,textRend, "Watermark", 6 + x, 6 + y, Color.WHITE, true);
-		BallsHack.title.setValue(((TextFieldWidget)widgets.get(0)).getText());
+		DrawUtil.drawText(context, textRend, "Watermark", 6 + x, 6 + y, Color.WHITE, true);
+		BallsHack.title.setValue(((TextFieldWidget) widgets.get(0)).getText());
 		SettingSaver.SCHEDULE_SAVE.set(true);
 	}
 }

@@ -24,7 +24,7 @@ public abstract class Widget {
 		x = winX + offX;
 		y = winY + offY;
 		render(context, mouseX, mouseY);
-	};
+	}
 
 	public abstract void render(DrawContext context, int mouseX, int mouseY);
 

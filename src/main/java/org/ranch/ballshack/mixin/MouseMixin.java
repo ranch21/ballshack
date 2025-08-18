@@ -18,8 +18,8 @@ public class MouseMixin {
 	private double cursorDeltaY;
 
 	@Inject(method = "updateMouse", at = @At(value = "HEAD"))
-	public void updateMouse(CallbackInfo ci) {
-		EventMouseUpdate event = new EventMouseUpdate(cursorDeltaX, cursorDeltaY);
+	public void updateMouse(double timeDelta, CallbackInfo ci) {
+		EventMouseUpdate event = new EventMouseUpdate(cursorDeltaX, cursorDeltaY, timeDelta);
 		BallsHack.eventBus.post(event);
 		cursorDeltaX = event.deltaX;
 		cursorDeltaY = event.deltaY;

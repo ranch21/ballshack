@@ -35,7 +35,7 @@ public class SettingColor extends ModuleSetting<Color> {
 		int cursorX = (int) (hsb[0] * cubeSize);
 		int cursorY = (int) (-(hsb[1] - 1) * cubeSize);
 
-		cursorPos = new int[] {cursorX, cursorY};
+		cursorPos = new int[]{cursorX, cursorY};
 		cursorY = (int) (-(hsb[2] - 1) * cubeSize);
 	}
 
@@ -44,7 +44,7 @@ public class SettingColor extends ModuleSetting<Color> {
 
 		int addedHeight = 0;
 
-		context.fill(x, y, x+width, y+height, Colors.CLICKGUI_3.hashCode());
+		context.fill(x, y, x + width, y + height, Colors.CLICKGUI_3.hashCode());
 
 		if (opened) {
 
@@ -61,7 +61,7 @@ public class SettingColor extends ModuleSetting<Color> {
 				this.cursorY = Math.max(Math.min(mouseY - cubeY, cubeSize), 0);
 			}
 
-			context.fill(x, y+height, x+width, y+cubeSize+height + 2, Colors.CLICKGUI_3.hashCode());
+			context.fill(x, y + height, x + width, y + cubeSize + height + 2, Colors.CLICKGUI_3.hashCode());
 
 			addedHeight += cubeSize + 2;
 
@@ -102,30 +102,32 @@ public class SettingColor extends ModuleSetting<Color> {
 		int cursorX = Math.max(Math.min(mouseX - cubeX, cubeSize), 0);
 		int cursorY = Math.max(Math.min(mouseY - cubeY, cubeSize), 0);
 
-		cursorPos = new int[] {cursorX, cursorY};
+		cursorPos = new int[]{cursorX, cursorY};
 	}
 
-	private void drawCursor(DrawContext context, int rx, int  ry) {
+	private void drawCursor(DrawContext context, int rx, int ry) {
 
 		int x = cubeX + rx;
 		int y = cubeY + ry;
 
 		int lineSize = 2;
 
-		context.drawHorizontalLine(x-lineSize, x-1, y-1, Color.WHITE.hashCode());
-		context.drawHorizontalLine(x+lineSize, x+1, y-1, Color.WHITE.hashCode());
+		context.drawHorizontalLine(x - lineSize, x - 1, y - 1, Color.WHITE.hashCode());
+		context.drawHorizontalLine(x + lineSize, x + 1, y - 1, Color.WHITE.hashCode());
 
-		context.drawVerticalLine(x, y-1, y+lineSize, Color.WHITE.hashCode());
-		context.drawVerticalLine(x, y-1, y-lineSize-2, Color.WHITE.hashCode());
+		context.drawVerticalLine(x, y - 1, y + lineSize, Color.WHITE.hashCode());
+		context.drawVerticalLine(x, y - 1, y - lineSize - 2, Color.WHITE.hashCode());
 	}
 
 	@Override
 	public boolean mouseClicked(double mouseX, double mouseY, int button) {
 		if (GuiUtil.mouseOverlap(mouseX, mouseY, x, y, width, height) && button == GLFW.GLFW_MOUSE_BUTTON_RIGHT) {
 			opened = !opened;
-		} if (opened && GuiUtil.mouseOverlap(mouseX, mouseY, cubeX, cubeY, cubeSize, cubeSize) && button == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
+		}
+		if (opened && GuiUtil.mouseOverlap(mouseX, mouseY, cubeX, cubeY, cubeSize, cubeSize) && button == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
 			holdingSquare = true;
-		} if (opened && GuiUtil.mouseOverlap(mouseX, mouseY, barX, barY, barWidth + 1, cubeSize) && button == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
+		}
+		if (opened && GuiUtil.mouseOverlap(mouseX, mouseY, barX, barY, barWidth + 1, cubeSize) && button == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
 			holdingBar = true;
 		}
 		return false;

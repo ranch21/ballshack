@@ -38,7 +38,7 @@ public class ModuleHud extends Module {
 	}
 
 	public ModuleHud(String name, ModuleCategory category, int bind, int x, int y, @Nullable String tooltip, ModuleAnchor anchorPoint) {
-		this(name,category, bind, x, y, new HudModuleSettings(new ArrayList<>()), tooltip, anchorPoint);
+		this(name, category, bind, x, y, new HudModuleSettings(new ArrayList<>()), tooltip, anchorPoint);
 	}
 
 	public int X() {
@@ -77,17 +77,17 @@ public class ModuleHud extends Module {
 	public void setPos(int x, int y) {
 		this.offsetx = x - anchorPoint.getX(DrawUtil.getScreenWidth());
 		this.offsety = y - anchorPoint.getY(DrawUtil.getScreenHeight());
-		HudElementData hdata = ((HudModuleSettings)settings).getHudSetting().getValue();
+		HudElementData hdata = ((HudModuleSettings) settings).getHudSetting().getValue();
 		hdata.x = offsetx;
 		hdata.y = offsety;
-		((HudModuleSettings)settings).getHudSetting().setValue(hdata);
+		((HudModuleSettings) settings).getHudSetting().setValue(hdata);
 	}
 
 	public void setAnchorPoint(ModuleAnchor anchorPoint) {
 		this.anchorPoint = anchorPoint;
-		HudElementData hdata = ((HudModuleSettings)settings).getHudSetting().getValue();
+		HudElementData hdata = ((HudModuleSettings) settings).getHudSetting().getValue();
 		hdata.anchor = anchorPoint;
-		((HudModuleSettings)settings).getHudSetting().setValue(hdata);
+		((HudModuleSettings) settings).getHudSetting().setValue(hdata);
 	}
 
 	public ModuleAnchor getAnchorPoint() {

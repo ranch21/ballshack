@@ -5,17 +5,17 @@ import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import org.lwjgl.glfw.GLFW;
 import org.ranch.ballshack.gui.Colors;
-import org.ranch.ballshack.util.DrawUtil;
 import org.ranch.ballshack.gui.GuiUtil;
 import org.ranch.ballshack.module.Module;
 import org.ranch.ballshack.setting.ModuleSetting;
 import org.ranch.ballshack.setting.ModuleSettings;
+import org.ranch.ballshack.util.DrawUtil;
 
 import java.awt.*;
 
 public class ModuleWidget {
-	
-	private Module module;
+
+	private final Module module;
 
 	private int x;
 	private int y;
@@ -25,8 +25,8 @@ public class ModuleWidget {
 
 	private boolean settingsOpen;
 
-	private ModuleSettings settings;
-	
+	private final ModuleSettings settings;
+
 	public ModuleWidget(Module module) {
 		this.module = module;
 		this.settings = module.getSettings();
@@ -58,14 +58,14 @@ public class ModuleWidget {
 
 		int textInset = (height - textRend.fontHeight) / 2;
 
-		DrawUtil.drawText(context, textRend, module.getName(),x + 2,y + textInset, Color.WHITE,true);
+		DrawUtil.drawText(context, textRend, module.getName(), x + 2, y + textInset, Color.WHITE, true);
 		if (settingsOpen && !module.isEnabled()) {
-			DrawUtil.drawText(context, textRend, "*",x + width - 8,y + textInset, Color.WHITE,true);
+			DrawUtil.drawText(context, textRend, "*", x + width - 8, y + textInset, Color.WHITE, true);
 		} else if (settingsOpen && module.isEnabled() && !module.isMeta()) {
-			DrawUtil.drawText(context, textRend, "*",x + width - 16,y + textInset, Color.WHITE,true);
-			DrawUtil.drawText(context, textRend, "#",x + width - 8,y + textInset, Color.WHITE,true);
+			DrawUtil.drawText(context, textRend, "*", x + width - 16, y + textInset, Color.WHITE, true);
+			DrawUtil.drawText(context, textRend, "#", x + width - 8, y + textInset, Color.WHITE, true);
 		} else if (!settingsOpen && module.isEnabled() && !module.isMeta()) {
-			DrawUtil.drawText(context, textRend, "#",x + width - 8,y + textInset, Color.WHITE,true);
+			DrawUtil.drawText(context, textRend, "#", x + width - 8, y + textInset, Color.WHITE, true);
 		}
 
 		if (GuiUtil.mouseOverlap(mouseX, mouseY, x, y, width, height)) {
@@ -79,9 +79,7 @@ public class ModuleWidget {
 
 		if (settingsOpen) {
 			for (ModuleSetting<?> setting : settings.getSettings()) {
-				if (setting.mouseClicked(mouseX, mouseY, button)) {
-					return true;
-				}
+				setting.mouseClicked(mouseX, mouseY, button);
 			}
 		}
 
@@ -93,11 +91,7 @@ public class ModuleWidget {
 		}
 		if (button == GLFW.GLFW_MOUSE_BUTTON_RIGHT) {
 			if (GuiUtil.mouseOverlap(mouseX, mouseY, x, y, width, height)) {
-				if (settingsOpen) {
-					settingsOpen = false;
-				} else {
-					settingsOpen = true;
-				}
+				settingsOpen = !settingsOpen;
 				return true;
 			}
 		}
@@ -106,7 +100,7 @@ public class ModuleWidget {
 
 	public void mouseReleased(double mouseX, double mouseY, int button) {
 		if (settingsOpen) {
-			for (ModuleSetting<?> setting: settings.getSettings()) {
+			for (ModuleSetting<?> setting : settings.getSettings()) {
 				setting.mouseReleased(mouseX, mouseY, button);
 			}
 		}
@@ -119,5 +113,16 @@ public class ModuleWidget {
 			}
 		}
 	}
-	
+
+	public boolean charTyped(char chr, int modifiers) {
+		if (settingsOpen) {
+			for (ModuleSetting<?> setting : settings.getSettings()) {
+				if (setting.charTyped(chr, modifiers)) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
 }

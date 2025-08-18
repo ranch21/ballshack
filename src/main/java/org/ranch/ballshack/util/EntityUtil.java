@@ -27,7 +27,7 @@ import java.util.stream.Stream;
 
 public class EntityUtil {
 
-	private static MinecraftClient mc = MinecraftClient.getInstance();
+	private static final MinecraftClient mc = MinecraftClient.getInstance();
 
 	public static Vec3d getCenter(Entity e) {
 		Vec3d p = e.getPos();

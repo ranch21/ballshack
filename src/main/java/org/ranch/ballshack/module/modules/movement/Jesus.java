@@ -10,10 +10,11 @@ import org.ranch.ballshack.setting.ModuleSettings;
 import org.ranch.ballshack.setting.moduleSettings.SettingToggle;
 
 import java.util.Arrays;
+import java.util.Collections;
 
 public class Jesus extends Module {
 	public Jesus() {
-		super("Jesus", ModuleCategory.MOVEMENT, GLFW.GLFW_KEY_J, new ModuleSettings(Arrays.asList(
+		super("Jesus", ModuleCategory.MOVEMENT, GLFW.GLFW_KEY_J, new ModuleSettings(Collections.singletonList(
 				new SettingToggle(true, "Sides").featured()
 		)), "Atheists cannot explain");
 	}
@@ -27,7 +28,7 @@ public class Jesus extends Module {
 		) {
 			if ((boolean) getSettings().getSetting(0).getValue()) {
 				event.shape = VoxelShapes.cuboid(0, 0, 0, 1, 0.9, 1);
-			} else if(mc.player.getY() >= event.pos.getY() + 0.9) { // above water
+			} else if (mc.player.getY() >= event.pos.getY() + 0.9) { // above water
 				event.shape = VoxelShapes.cuboid(0, 0, 0, 1, 0.9, 1);
 			}
 		}

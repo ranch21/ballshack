@@ -53,13 +53,13 @@ public class ChestESP extends Module {
 
 			MatrixStack matrices = event.matrixStack;
 
-			Vec3d size = new Vec3d(1,1,1);
+			Vec3d size = new Vec3d(1, 1, 1);
 
 			BlockPos blockPos = bEnt.getPos();
 
 			BlockState blockState = mc.world.getBlockState(blockPos);
 
-			VoxelShape shape =  blockState.getOutlineShape(mc.world, blockPos, ShapeContext.of(mc.gameRenderer.getCamera().getFocusedEntity()));
+			VoxelShape shape = blockState.getOutlineShape(mc.world, blockPos, ShapeContext.of(mc.gameRenderer.getCamera().getFocusedEntity()));
 
 			float r = c.getRed() / 255.0f;
 			float g = c.getGreen() / 255.0f;
@@ -71,7 +71,7 @@ public class ChestESP extends Module {
 
 			for (Box box : shape.getBoundingBoxes()) {
 				box = box.offset(blockPos);
-				DrawUtil.drawCube(matrices, box, r, g,  b, (float) alpha);
+				DrawUtil.drawCube(matrices, box, r, g, b, (float) alpha);
 				DrawUtil.drawCubeOutline(matrices, box, r, g, b, 1f);
 			}
 

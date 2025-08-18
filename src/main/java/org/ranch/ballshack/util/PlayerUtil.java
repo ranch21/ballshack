@@ -61,7 +61,7 @@ public class PlayerUtil {
 		float sideways = mc.player.input.movementSideways;
 		float forwards = mc.player.input.movementForward;
 
-		if (!(sideways == 0 && forwards == 0))  {
+		if (!(sideways == 0 && forwards == 0)) {
 			float moveAngle = (float) Math.atan2(sideways, forwards);
 
 			xVel = MathHelper.sin(-yawRad + moveAngle) * horizontalSpeed;

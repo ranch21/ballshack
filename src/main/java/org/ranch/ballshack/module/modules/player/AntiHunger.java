@@ -45,7 +45,7 @@ public class AntiHunger extends Module {
 		}
 
 		if (onGround && event.packet instanceof PlayerMoveC2SPacket packet && mc.player.isOnGround() && mc.player.fallDistance <= 0.0 && !mc.interactionManager.isBreakingBlock()) {
-			((PlayerMoveC2SPacketAccessor)packet).setOnGround(true);
+			((PlayerMoveC2SPacketAccessor) packet).setOnGround(true);
 		}
 	}
 

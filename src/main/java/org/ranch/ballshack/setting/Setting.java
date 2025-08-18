@@ -4,8 +4,8 @@ import java.lang.reflect.Type;
 
 public class Setting<T> {
 	private T value;
-	private String key;
-	private Type type;
+	private final String key;
+	private final Type type;
 
 	public Setting(T value, String key, Type type) {
 		this.value = value;

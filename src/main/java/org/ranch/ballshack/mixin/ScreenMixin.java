@@ -1,0 +1,19 @@
+package org.ranch.ballshack.mixin;
+
+import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.gui.screen.Screen;
+import org.ranch.ballshack.BallsHack;
+import org.ranch.ballshack.event.events.EventScreen;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+@Mixin(Screen.class)
+public class ScreenMixin {
+	@Inject(method = "render", at = @At(value = "HEAD"))
+	public void render(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
+		EventScreen.Render event = new EventScreen.Render((Screen) (Object) this, context, mouseX, mouseY, delta);
+		BallsHack.eventBus.post(event);
+	}
+}

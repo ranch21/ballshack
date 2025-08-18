@@ -84,11 +84,11 @@ public class Tracers extends Module {
 
 				RenderSystem.setShader(ShaderProgramKeys.POSITION);
 
-				RenderSystem.setShaderColor(r,g,b, (float) alpha);
+				RenderSystem.setShaderColor(r, g, b, (float) alpha);
 
 				BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
 
-				RenderSystem.setShaderColor(1,1,1,1);
+				RenderSystem.setShaderColor(1, 1, 1, 1);
 
 				matrices.pop();
 			}

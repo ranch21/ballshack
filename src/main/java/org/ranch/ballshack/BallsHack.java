@@ -13,7 +13,8 @@ public class BallsHack implements ModInitializer {
 
 	public static EventBus eventBus = new EventBus();
 
-	public static Setting<String> title = new Setting<>("BallsHack", "watermark", new TypeToken<String>(){}.getType());
+	public static Setting<String> title = new Setting<>("BallsHack", "watermark", new TypeToken<String>() {
+	}.getType());
 	public static String version = "1.29";
 
 	public static MinecraftClient mc = MinecraftClient.getInstance();

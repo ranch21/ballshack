@@ -16,8 +16,8 @@ import java.util.List;
 
 public class WindowScreen extends Screen {
 
-	private static List<Window> windows = Arrays.asList(
-			new SettingsWindow(50,50)
+	private static final List<Window> windows = List.of(
+			new SettingsWindow(50, 50)
 	);
 
 	public WindowScreen() {
@@ -42,8 +42,8 @@ public class WindowScreen extends Screen {
 		context.fill(0, 0, width, height, Colors.CLICKGUI_BACKGROUND.hashCode());
 
 		TextRenderer textRend = MinecraftClient.getInstance().textRenderer;
-		DrawUtil.drawText(context,textRend, BallsHack.title.getValue(), 5, 5,Colors.PALLETE_1,true);
-		DrawUtil.drawText(context,textRend, BallsHack.version, 5 + textRend.getWidth(BallsHack.title.getValue() + " "), 5, Color.WHITE,true);
+		DrawUtil.drawText(context, textRend, BallsHack.title.getValue(), 5, 5, Colors.PALLETE_1, true);
+		DrawUtil.drawText(context, textRend, BallsHack.version, 5 + textRend.getWidth(BallsHack.title.getValue() + " "), 5, Color.WHITE, true);
 
 		for (Window window : windows) {
 			window.render(context, mouseX, mouseY, this);
@@ -76,7 +76,7 @@ public class WindowScreen extends Screen {
 	public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
 
 		for (Window window : windows) {
-			window.keyPressed(keyCode,scanCode,modifiers);
+			window.keyPressed(keyCode, scanCode, modifiers);
 		}
 
 		return super.keyPressed(keyCode, scanCode, modifiers);
@@ -85,7 +85,7 @@ public class WindowScreen extends Screen {
 	@Override
 	public boolean charTyped(char chr, int modifiers) {
 		for (Window window : windows) {
-			window.charTyped(chr,modifiers);
+			window.charTyped(chr, modifiers);
 		}
 		return super.charTyped(chr, modifiers);
 	}

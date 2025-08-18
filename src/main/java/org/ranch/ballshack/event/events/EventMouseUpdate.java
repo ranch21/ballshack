@@ -10,10 +10,13 @@ public class EventMouseUpdate extends Event {
 	public final double origDeltaX;
 	public final double origDeltaY;
 
-	public EventMouseUpdate(double deltaX, double deltaY) {
+	public final double timeDelta;
+
+	public EventMouseUpdate(double deltaX, double deltaY, double timeDelta) {
 		this.origDeltaX = deltaX;
 		this.origDeltaY = deltaY;
 		this.deltaX = deltaX;
 		this.deltaY = deltaY;
+		this.timeDelta = timeDelta;
 	}
 }

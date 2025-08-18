@@ -39,7 +39,7 @@ public class ProjectileEvade extends Module {
 			for (Vec3d pos : traj.getPositions()) {
 				float width = traj.getProjectile().width;
 				float height = traj.getProjectile().height;
-				Box box = new Box(pos.x - width/2, pos.y, pos.z - width/2, pos.x + width/2, pos.y + height, pos.z + width/2);
+				Box box = new Box(pos.x - width / 2, pos.y, pos.z - width / 2, pos.x + width / 2, pos.y + height, pos.z + width / 2);
 				if (mc.player.getBoundingBox().expand((double) settings.getSetting(1).getValue()).intersects(box) && !traj.isFake()) {
 					if (traj.getThrower() == null || traj.getThrower() != mc.player) {
 						evade(traj);

@@ -8,12 +8,12 @@ import java.util.List;
 
 public class BallHandler {
 
-	private List<Ball> balls = new ArrayList<Ball>();
+	private final List<Ball> balls = new ArrayList<Ball>();
 
 	public double gravity = 10;
 	public boolean winCollide = true;
 
-	private Identifier[] textures = new Identifier[]{
+	private final Identifier[] textures = new Identifier[]{
 			Identifier.of("ballshack", "ball1.png"),
 			Identifier.of("ballshack", "ball2.png"),
 			Identifier.of("ballshack", "ball3.png")

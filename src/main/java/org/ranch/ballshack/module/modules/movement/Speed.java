@@ -10,6 +10,7 @@ import org.ranch.ballshack.setting.moduleSettings.SettingSlider;
 import org.ranch.ballshack.util.PlayerUtil;
 
 import java.util.Arrays;
+import java.util.List;
 
 public class Speed extends Module {
 
@@ -17,7 +18,7 @@ public class Speed extends Module {
 	private double speed, distance;
 
 	public Speed() {
-		super("Speed", ModuleCategory.MOVEMENT, 0, new ModuleSettings(Arrays.asList(
+		super("Speed", ModuleCategory.MOVEMENT, 0, new ModuleSettings(List.of(
 				new SettingSlider(1, "Speed", 0.25, 4, 0.25)
 		)));
 	}
@@ -33,7 +34,7 @@ public class Speed extends Module {
 	public void onTick(EventTick event) {
 
 		if (mc.player.isTouchingWater() ||
-			mc.player.getAbilities().flying) return;
+				mc.player.getAbilities().flying) return;
 
 		distance = Math.sqrt((mc.player.getX() - mc.player.prevX) * (mc.player.getX() - mc.player.prevX) + (mc.player.getZ() - mc.player.prevZ) * (mc.player.getZ() - mc.player.prevZ));
 

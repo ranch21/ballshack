@@ -25,9 +25,9 @@ public class ArmorHud extends ModuleHud {
 
 		DefaultedList<ItemStack> armorItems = (DefaultedList<ItemStack>) player.getArmorItems();
 		int j = 0;
-		for (int i = armorItems.size() - 1; i >= 0; i-- ) {
-			context.drawItem(armorItems.get(i), x + (j*16) - 1, y - 1);
-			context.drawStackOverlay(mc.textRenderer, armorItems.get(i), x + (j*16) - 1, y - 1);
+		for (int i = armorItems.size() - 1; i >= 0; i--) {
+			context.drawItem(armorItems.get(i), x + (j * 16) - 1, y - 1);
+			context.drawStackOverlay(mc.textRenderer, armorItems.get(i), x + (j * 16) - 1, y - 1);
 			j++;
 		}
 		width = 4 * 16;

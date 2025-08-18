@@ -29,9 +29,9 @@ public class DrawUtil {
 		int cX = x;
 		int i = 0;
 		int blend = 0;
-		for (;;) {
+		for (; ; ) {
 			for (int j = 0; j < resolution; j++) {
-				context.drawVerticalLine(cX,y,y+height,blendColor(startColor, endColor, (float) blend / width).hashCode());
+				context.drawVerticalLine(cX, y, y + height, blendColor(startColor, endColor, (float) blend / width).hashCode());
 				cX++;
 				i++;
 				if (i >= width) return;
@@ -41,7 +41,7 @@ public class DrawUtil {
 	}
 
 	public static void drawPoint(DrawContext context, int x, int y, Color color) {
-		context.fill(x, y, x+1, y+1, color.hashCode());
+		context.fill(x, y, x + 1, y + 1, color.hashCode());
 	}
 
 	public static int getScreenWidth() {
@@ -60,7 +60,7 @@ public class DrawUtil {
 		int err = dx - dy;
 
 		while (true) {
-			drawPoint(context,x1, y1, color);
+			drawPoint(context, x1, y1, color);
 
 			if (x1 == x2 && y1 == y2) break;
 			int e2 = 2 * err;
@@ -85,9 +85,9 @@ public class DrawUtil {
 		int cY = y;
 		int i = 0;
 		int blend = 0;
-		for (;;) {
+		for (; ; ) {
 			for (int j = 0; j < resolution; j++) {
-				context.drawHorizontalLine(x,x + width,cY,blendColor(startColor, endColor, (float) blend / height).hashCode());
+				context.drawHorizontalLine(x, x + width, cY, blendColor(startColor, endColor, (float) blend / height).hashCode());
 				cY++;
 				i++;
 				if (i >= height) return;
@@ -124,7 +124,7 @@ public class DrawUtil {
 				color.hashCode(),
 				shadow,
 				context.getMatrices().peek().getPositionMatrix(),
-				((DrawContextAccessor)context).getVertexConsumers(),
+				((DrawContextAccessor) context).getVertexConsumers(),
 				TextRenderer.TextLayerType.SEE_THROUGH,
 				0,
 				15728880
@@ -142,7 +142,7 @@ public class DrawUtil {
 				color.hashCode(),
 				shadow,
 				context.getMatrices().peek().getPositionMatrix(),
-				((DrawContextAccessor)context).getVertexConsumers(),
+				((DrawContextAccessor) context).getVertexConsumers(),
 				TextRenderer.TextLayerType.SEE_THROUGH,
 				0,
 				15728880
@@ -193,11 +193,11 @@ public class DrawUtil {
 		bufferBuilder.vertex(matrix, minX, maxY, minZ);
 
 		RenderSystem.setShader(ShaderProgramKeys.POSITION);
-		RenderSystem.setShaderColor(r,g,b,a);
+		RenderSystem.setShaderColor(r, g, b, a);
 
 		BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
 
-		RenderSystem.setShaderColor(1,1,1,1);
+		RenderSystem.setShaderColor(1, 1, 1, 1);
 	}
 
 	public static void drawCubeOutline(MatrixStack matrices, Box cube, float r, float g, float b, float a) {
@@ -251,11 +251,11 @@ public class DrawUtil {
 
 		RenderSystem.setShader(ShaderProgramKeys.POSITION);
 
-		RenderSystem.setShaderColor(r,g,b,a);
+		RenderSystem.setShaderColor(r, g, b, a);
 
 		BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
 
-		RenderSystem.setShaderColor(1,1,1,1);
+		RenderSystem.setShaderColor(1, 1, 1, 1);
 	}
 
 	public static Color getEspColor(Entity e) {

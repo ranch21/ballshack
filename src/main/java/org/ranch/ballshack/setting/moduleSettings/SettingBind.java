@@ -16,7 +16,7 @@ public class SettingBind extends ModuleSetting<Integer> {
 	@Override
 	public int render(int mouseX, int mouseY) {
 
-		context.fill(x, y, x+width, y+height, Colors.CLICKGUI_3.hashCode());
+		context.fill(x, y, x + width, y + height, Colors.CLICKGUI_3.hashCode());
 
 		/* setting name and value */
 		drawText(context, this.getName() + ": ");
@@ -55,7 +55,7 @@ public class SettingBind extends ModuleSetting<Integer> {
 			return "None";
 		} else if (keyName == null) {
 			return getValue().toString();
-		}  else {
+		} else {
 			return keyName;
 		}
 	}

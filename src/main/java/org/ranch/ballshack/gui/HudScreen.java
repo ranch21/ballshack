@@ -27,7 +27,8 @@ public class HudScreen extends Screen {
 	int snapRange = 2;
 	ModuleHud draggingModule = null;
 	ArrayList<ModuleHud> modules = new ArrayList<>();
-	Setting<ArrayList<HudElementData>> hudData = new Setting<>(new ArrayList<>(), "hudElements", new TypeToken<List<HudElementData>>(){}.getType());
+	Setting<ArrayList<HudElementData>> hudData = new Setting<>(new ArrayList<>(), "hudElements", new TypeToken<List<HudElementData>>() {
+	}.getType());
 
 	public HudScreen() {
 		super(NarratorManager.EMPTY);
@@ -77,24 +78,27 @@ public class HudScreen extends Screen {
 		drawAnchorRegions(context, Colors.BACKDROP);
 
 		for (ModuleHud module : modules) {
+
+			if (!module.isEnabled()) continue;
+
 			context.fill(module.X() - module.xOffset(), module.Y() - module.yOffset(), module.X() - module.xOffset() + module.getWidth(), module.Y() - module.yOffset() + module.getHeight(), Colors.CLICKGUI_2.hashCode());
-			DrawUtil.drawPoint(context, module.X()-1, module.Y(), Colors.BORDER);
-			DrawUtil.drawPoint(context, module.X()+1, module.Y(), Colors.BORDER);
-			DrawUtil.drawPoint(context, module.X(), module.Y()-1, Colors.BORDER);
-			DrawUtil.drawPoint(context, module.X(), module.Y()+1, Colors.BORDER);
+			DrawUtil.drawPoint(context, module.X() - 1, module.Y(), Colors.BORDER);
+			DrawUtil.drawPoint(context, module.X() + 1, module.Y(), Colors.BORDER);
+			DrawUtil.drawPoint(context, module.X(), module.Y() - 1, Colors.BORDER);
+			DrawUtil.drawPoint(context, module.X(), module.Y() + 1, Colors.BORDER);
 			DrawUtil.drawLine(context, module.getAnchorPoint().getX(width), module.getAnchorPoint().getY(height), module.X(), module.Y(), Colors.PALLETE_1);
 		}
 	}
 
-	private void drawAnchorRegions(DrawContext context,Color color) {
-		context.drawVerticalLine((int)(width * MARGIN), 0, height, color.hashCode());
-		context.drawVerticalLine((int)(width - (width * MARGIN)), 0, height, color.hashCode());
+	private void drawAnchorRegions(DrawContext context, Color color) {
+		context.drawVerticalLine((int) (width * MARGIN), 0, height, color.hashCode());
+		context.drawVerticalLine((int) (width - (width * MARGIN)), 0, height, color.hashCode());
 
-		context.drawHorizontalLine(0, (int)(width * MARGIN), height / 2, color.hashCode());
-		context.drawHorizontalLine((int)(width - (width * MARGIN)), width, height / 2, color.hashCode());
+		context.drawHorizontalLine(0, (int) (width * MARGIN), height / 2, color.hashCode());
+		context.drawHorizontalLine((int) (width - (width * MARGIN)), width, height / 2, color.hashCode());
 
-		context.drawHorizontalLine((int)(width * MARGIN), (int)(width - (width * MARGIN)), (int)(height * MARGIN), color.hashCode());
-		context.drawHorizontalLine((int)(width * MARGIN), (int)(width - (width * MARGIN)), (int)(height - (height * MARGIN)), color.hashCode());
+		context.drawHorizontalLine((int) (width * MARGIN), (int) (width - (width * MARGIN)), (int) (height * MARGIN), color.hashCode());
+		context.drawHorizontalLine((int) (width * MARGIN), (int) (width - (width * MARGIN)), (int) (height - (height * MARGIN)), color.hashCode());
 	}
 
 	@Override
@@ -102,6 +106,8 @@ public class HudScreen extends Screen {
 
 		if (button == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
 			for (ModuleHud module : modules) {
+
+				if (!module.isEnabled()) continue;
 
 				if (GuiUtil.mouseOverlap(mouseX, mouseY, module.X() - module.xOffset(), module.Y() - module.yOffset(), module.getWidth(), module.getHeight())) {
 					dragging = true;
@@ -141,46 +147,46 @@ public class HudScreen extends Screen {
 	}
 
 	private List<Snap> handleDrag(int mouseX, int mouseY) {
-			int x = mouseX - dragX;
-			int y = mouseY - dragY;
-			//draggingModule.offsetx = x;
-			//draggingModule.offsety = mouseY - dragY;
-			int w = width;
-			int h = height;
-			float m = MARGIN;
-			// sybau tsy cd is nt rdbl!!! tf umn 1 ltr vrl nm?
-			if (x < w * m) {
-				if (y > h / 2) {
-					draggingModule.setAnchorPoint(ModuleAnchor.BOTTOM_LEFT);
-				} else {
-					draggingModule.setAnchorPoint(ModuleAnchor.TOP_LEFT);
-				}
-			} else if (x > w - (w * m)) {
-				if (y > h / 2) {
-					draggingModule.setAnchorPoint(ModuleAnchor.BOTTOM_RIGHT);
-				} else {
-					draggingModule.setAnchorPoint(ModuleAnchor.TOP_RIGHT);
-				}
-			} else if (y > h * m && y < h - (h * m)) {
-				draggingModule.setAnchorPoint(ModuleAnchor.CENTER);
+		int x = mouseX - dragX;
+		int y = mouseY - dragY;
+		//draggingModule.offsetx = x;
+		//draggingModule.offsety = mouseY - dragY;
+		int w = width;
+		int h = height;
+		float m = MARGIN;
+		// sybau tsy cd is nt rdbl!!! tf umn 1 ltr vrl nm?
+		if (x < w * m) {
+			if (y > h / 2) {
+				draggingModule.setAnchorPoint(ModuleAnchor.BOTTOM_LEFT);
 			} else {
-				if (y > h / 2) {
-					draggingModule.setAnchorPoint(ModuleAnchor.BOTTOM_CENTER);
-				} else {
-					draggingModule.setAnchorPoint(ModuleAnchor.TOP_CENTER);
-				}
+				draggingModule.setAnchorPoint(ModuleAnchor.TOP_LEFT);
 			}
-			draggingModule.setPos(x, y);
-			List<Snap> snaps = getSnaps(draggingModule);
-			if (snaps != null) {
-				if (snaps.get(0) != null) {
-					snaps.get(0).setModule(draggingModule);
-				}
-				if (snaps.get(1) != null) {
-					snaps.get(1).setModule(draggingModule);
-				}
+		} else if (x > w - (w * m)) {
+			if (y > h / 2) {
+				draggingModule.setAnchorPoint(ModuleAnchor.BOTTOM_RIGHT);
+			} else {
+				draggingModule.setAnchorPoint(ModuleAnchor.TOP_RIGHT);
 			}
-			return snaps;
+		} else if (y > h * m && y < h - (h * m)) {
+			draggingModule.setAnchorPoint(ModuleAnchor.CENTER);
+		} else {
+			if (y > h / 2) {
+				draggingModule.setAnchorPoint(ModuleAnchor.BOTTOM_CENTER);
+			} else {
+				draggingModule.setAnchorPoint(ModuleAnchor.TOP_CENTER);
+			}
+		}
+		draggingModule.setPos(x, y);
+		List<Snap> snaps = getSnaps(draggingModule);
+		if (snaps != null) {
+			if (snaps.get(0) != null) {
+				snaps.get(0).setModule(draggingModule);
+			}
+			if (snaps.get(1) != null) {
+				snaps.get(1).setModule(draggingModule);
+			}
+		}
+		return snaps;
 
 	}
 
@@ -193,13 +199,14 @@ public class HudScreen extends Screen {
 
 	private List<Snap> getSnaps(ModuleHud module) {
 		for (ModuleHud moduleHud : modules) {
+			if (!moduleHud.isEnabled()) continue;
 			if (moduleHud == module) continue;
-			int x = module.X();
-			int y = module.Y();
+			int x = module.X() - module.xOffset();
+			int y = module.Y() - module.yOffset();
 			int w = module.getWidth();
 			int h = module.getHeight();
-			int sx = moduleHud.X();
-			int sy = moduleHud.Y();
+			int sx = moduleHud.X() - moduleHud.xOffset();
+			int sy = moduleHud.Y() - moduleHud.yOffset();
 			int sw = moduleHud.getWidth();
 			int sh = moduleHud.getHeight();
 
@@ -256,9 +263,9 @@ public class HudScreen extends Screen {
 
 		public void setModule(ModuleHud module) {
 			if (axis == Axis.X) {
-				module.setPos(p - across, module.Y());
+				module.setPos(p - across + module.xOffset(), module.Y());
 			} else if (axis == Axis.Y) {
-				module.setPos(module.X(), p - across);
+				module.setPos(module.X(), p - across + module.yOffset());
 			}
 		}
 

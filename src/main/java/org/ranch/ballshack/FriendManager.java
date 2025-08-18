@@ -9,7 +9,8 @@ import java.util.List;
 public class FriendManager {
 
 	private static List<String> friends = new ArrayList<>();
-	public static Setting<List<String>> setting = new Setting<>(friends, "friends", new TypeToken<List<String>>(){}.getType());
+	public static Setting<List<String>> setting = new Setting<>(friends, "friends", new TypeToken<List<String>>() {
+	}.getType());
 
 	public static boolean add(String name) {
 		name = name.toLowerCase();

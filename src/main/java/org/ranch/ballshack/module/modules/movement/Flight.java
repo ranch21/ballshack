@@ -9,6 +9,7 @@ import org.ranch.ballshack.module.ModuleCategory;
 import org.ranch.ballshack.setting.ModuleSettings;
 import org.ranch.ballshack.setting.moduleSettings.SettingSlider;
 import org.ranch.ballshack.util.PlayerUtil;
+
 import java.util.List;
 
 public class Flight extends Module {
@@ -18,7 +19,7 @@ public class Flight extends Module {
 	public Flight() {
 		super("Flight", ModuleCategory.MOVEMENT, GLFW.GLFW_KEY_F, new ModuleSettings(List.of(
 				new SettingSlider(2, "Hspeed", 0.5, 10, 0.5).featured(),
-				new SettingSlider(2,"Vspeed",0.5,5,0.5)
+				new SettingSlider(2, "Vspeed", 0.5, 5, 0.5)
 		)));
 	}
 

@@ -17,8 +17,10 @@
     "GameRendererMixin",
     "InGameHudMixin",
     "KeyboardMixin",
+    "MinecraftClientMixin",
     "MouseMixin",
     "PlayerEntityMixin",
+    "ScreenMixin",
     "WorldRendererMixin"
   ],
   "injectors": {

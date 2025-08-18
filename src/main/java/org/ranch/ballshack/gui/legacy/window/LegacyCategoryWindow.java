@@ -1,4 +1,4 @@
-package org.ranch.ballshack.gui.window.legacy;
+package org.ranch.ballshack.gui.legacy.window;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
@@ -33,7 +33,7 @@ public class LegacyCategoryWindow {
 	private int dragX;
 	private int dragY;
 
-	private ModuleCategory category;
+	private final ModuleCategory category;
 
 	public List<org.ranch.ballshack.gui.window.legacy.LegacyModuleWidget> moduleWidgets = new ArrayList<org.ranch.ballshack.gui.window.legacy.LegacyModuleWidget>();
 
@@ -81,7 +81,7 @@ public class LegacyCategoryWindow {
 		context.fill(x, y, x + width, y + height, LegacyColors.CLICKGUI_1.hashCode());
 
 		/* window title */
-		context.drawText(textRend, Text.literal(title),x + 2,y + 2,0xFFFFFFFF,true);
+		context.drawText(textRend, Text.literal(title), x + 2, y + 2, 0xFFFFFFFF, true);
 	}
 
 	public void mouseClicked(double mouseX, double mouseY, int button) {

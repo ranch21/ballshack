@@ -44,15 +44,15 @@ public class LegacyClickGuiScreen extends Screen {
 		}
 
 		MinecraftClient mc = MinecraftClient.getInstance(); //NOTLEGACY
-		context.fill(width-50, height-10, width, height, Color.BLUE.getRGB()); //NOTLEGACY
-		context.drawText(mc.textRenderer, "go back", width-50, height-10, Color.WHITE.hashCode(), true);//NOTLEGACY
+		context.fill(width - 50, height - 10, width, height, Color.BLUE.getRGB()); //NOTLEGACY
+		context.drawText(mc.textRenderer, "go back", width - 50, height - 10, Color.WHITE.hashCode(), true);//NOTLEGACY
 
 	}
 
 	@Override
 	public boolean mouseClicked(double mouseX, double mouseY, int button) {
 
-		if (LegacyGuiUtil.mouseOverlap(mouseX,mouseY, width-50, height-10, 50, 10)) { //NOTLEGACY
+		if (LegacyGuiUtil.mouseOverlap(mouseX, mouseY, width - 50, height - 10, 50, 10)) { //NOTLEGACY
 			((SettingToggle) ModuleManager.getModuleByName("ClickGui").getSettings().getSetting(2)).setValue(false); //NOTLEGACY
 		} //NOTLEGACY
 

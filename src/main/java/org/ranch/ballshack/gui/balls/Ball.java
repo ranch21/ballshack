@@ -8,12 +8,12 @@ import org.joml.Vector2d;
 public class Ball {
 
 	public Vector2d pos;
-	private Vector2d prevPos;
-	private Vector2d acc;
+	private final Vector2d prevPos;
+	private final Vector2d acc;
 
 	public static int size = 8;
 
-	private Identifier texture;
+	private final Identifier texture;
 
 	public Ball(double x, double y, double xVel, double yVel, Identifier texture) {
 		this.pos = new Vector2d(x, y);
@@ -56,16 +56,16 @@ public class Ball {
 			Vector2d diff = new Vector2d(pos).sub(other.pos);
 			diff.div(dist);
 			double delta = size - dist;
-			pos.set(pos.x + 0.5*delta*diff.x, pos.y + 0.5*delta*diff.y);
-			other.pos.set(other.pos.x - 0.5*delta*diff.x, other.pos.y - 0.5*delta*diff.y);
+			pos.set(pos.x + 0.5 * delta * diff.x, pos.y + 0.5 * delta * diff.y);
+			other.pos.set(other.pos.x - 0.5 * delta * diff.x, other.pos.y - 0.5 * delta * diff.y);
 		}
 	}
 
 	public void collideRect(Rect rect) {
 		if (pos.x + size > rect.pos.x &&
-			pos.x < rect.farCorner().x &&
-			pos.y + size > rect.pos.y &&
-			pos.y < rect.farCorner().y
+				pos.x < rect.farCorner().x &&
+				pos.y + size > rect.pos.y &&
+				pos.y < rect.farCorner().y
 		) {
 			double overlapLeft = (pos.x + size) - rect.pos.x;
 			double overlapRight = rect.farCorner().x - pos.x;

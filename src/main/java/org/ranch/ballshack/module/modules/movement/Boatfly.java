@@ -17,13 +17,13 @@ public class Boatfly extends Module {
 
 	public Boatfly() {
 		super(
-			"BoatFly",
-			ModuleCategory.MOVEMENT,
-			GLFW.GLFW_KEY_G,
-			new ModuleSettings(List.of(
-					new SettingSlider(2, "Vspeed", 1, 4, 0.5).featured(),
-					new SettingSlider(2,"Hspeed",1,10,0.5)
-			))
+				"BoatFly",
+				ModuleCategory.MOVEMENT,
+				GLFW.GLFW_KEY_G,
+				new ModuleSettings(List.of(
+						new SettingSlider(2, "Vspeed", 1, 4, 0.5).featured(),
+						new SettingSlider(2, "Hspeed", 1, 10, 0.5)
+				))
 		);
 	}
 
@@ -48,8 +48,7 @@ public class Boatfly extends Module {
 			yVel = -verticalSpeed;
 		}
 
-		if(mc.options.forwardKey.isPressed())
-		{
+		if (mc.options.forwardKey.isPressed()) {
 			double speed = horizontalSpeed;
 			float yawRad = boat.getYaw() * MathHelper.RADIANS_PER_DEGREE;
 

@@ -89,7 +89,7 @@ public class SettingSaver {
 	public static JsonObject saveModules() {
 		JsonObject modulesJson = new JsonObject();
 
-		for (Module mod: ModuleManager.getModules()) {
+		for (Module mod : ModuleManager.getModules()) {
 			JsonObject modjson = new JsonObject();
 
 			if (mod.isEnabled() && !mod.isMeta()) {

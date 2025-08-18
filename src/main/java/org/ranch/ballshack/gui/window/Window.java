@@ -51,7 +51,7 @@ public abstract class Window {
 		handleDrag(mouseX, mouseY, screen);
 
 		//context.fill(x, y, x + width, y + height, Colors.CLICKGUI_1.hashCode());
-		DrawUtil.drawHorizontalGradient(context, x, y - barHeight, width, barHeight, Colors.CLICKGUI_TITLE_START, Colors.CLICKGUI_TITLE_END, width/10);
+		DrawUtil.drawHorizontalGradient(context, x, y - barHeight, width, barHeight, Colors.CLICKGUI_TITLE_START, Colors.CLICKGUI_TITLE_END, width / 10);
 
 
 		DrawUtil.drawOutline(context, x, y - barHeight, width, height + barHeight);
@@ -59,9 +59,9 @@ public abstract class Window {
 		/* window title */
 		TextRenderer textRend = MinecraftClient.getInstance().textRenderer;
 		int textInset = (barHeight - textRend.fontHeight) / 2;
-		DrawUtil.drawText(context, textRend, title,x + 2,y + textInset - barHeight, Color.WHITE,true);
+		DrawUtil.drawText(context, textRend, title, x + 2, y + textInset - barHeight, Color.WHITE, true);
 
-		context.fill(x,y,x + width,y + height,Colors.CLICKGUI_3.hashCode());
+		context.fill(x, y, x + width, y + height, Colors.CLICKGUI_3.hashCode());
 
 		context.enableScissor(x, y, x + width, y + height);
 
@@ -109,7 +109,7 @@ public abstract class Window {
 
 	public void charTyped(char chr, int modifiers) {
 		for (Widget widget : widgets) {
-			widget.charTyped(chr,modifiers);
+			widget.charTyped(chr, modifiers);
 		}
 	}
 

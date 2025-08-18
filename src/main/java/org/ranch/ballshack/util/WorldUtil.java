@@ -12,8 +12,7 @@ public class WorldUtil {
 
 	private static final MinecraftClient mc = MinecraftClient.getInstance();
 
-	public static Stream<WorldChunk> getLoadedChunks()
-	{
+	public static Stream<WorldChunk> getLoadedChunks() {
 		int radius = Math.max(2, mc.options.getClampedViewDistance()) + 3;
 		int diameter = radius * 2 + 1;
 
@@ -21,25 +20,24 @@ public class WorldUtil {
 		ChunkPos min = new ChunkPos(center.x - radius, center.z - radius);
 		ChunkPos max = new ChunkPos(center.x + radius, center.z + radius);
 
-		Stream<WorldChunk> stream = Stream.<ChunkPos> iterate(min, pos -> {
+		Stream<WorldChunk> stream = Stream.iterate(min, pos -> {
 
 					int x = pos.x;
 					int z = pos.z;
 
 					x++;
 
-					if(x > max.x)
-					{
+					if (x > max.x) {
 						x = min.x;
 						z++;
 					}
 
-					if(z > max.z)
+					if (z > max.z)
 						throw new IllegalStateException("Stream limit didn't work.");
 
 					return new ChunkPos(x, z);
 
-				}).limit(diameter * diameter)
+				}).limit((long) diameter * diameter)
 				.filter(c -> mc.world.isChunkLoaded(c.x, c.z))
 				.map(c -> mc.world.getChunk(c.x, c.z)).filter(Objects::nonNull);
 

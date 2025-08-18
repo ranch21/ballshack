@@ -7,6 +7,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.noise.PerlinNoiseSampler;
 import net.minecraft.util.math.random.Random;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.system.MathUtil;
 import org.ranch.ballshack.event.EventSubscribe;
 import org.ranch.ballshack.event.events.EventMouseUpdate;
 import org.ranch.ballshack.event.events.EventTick;
@@ -31,6 +32,7 @@ public class AimAssist extends Module {
 	private static Vec3d prevTargetPos;
 	private static Vec3d targetPos;
 	private static Vec3d offset = Vec3d.ZERO;
+	private static Vec3d prevOffset = Vec3d.ZERO;
 
 	public AimAssist() {
 		super("AimAssist", ModuleCategory.COMBAT, 0, new ModuleSettings(Arrays.asList(
@@ -59,17 +61,18 @@ public class AimAssist extends Module {
 
 		double speed = (double) getSettings().getSetting(2).getValue();
 
-		Rotation desired = PlayerUtil.getPosRotation(mc.player, targetPos.add(offset));
+		Rotation desired = PlayerUtil.getPosRotation(mc.player, prevTargetPos.lerp(targetPos, event.timeDelta).add(prevOffset.lerp(offset, event.timeDelta)));
 
-		float pdelta = RotationUtil.getDegreeChange(mc.player.prevPitch,desired.pitch);
-		float ydelta = RotationUtil.getDegreeChange(mc.player.prevYaw,desired.yaw);
+		float pdelta = RotationUtil.getDegreeChange(mc.player.prevPitch, desired.pitch);
+		float ydelta = RotationUtil.getDegreeChange(mc.player.prevYaw, desired.yaw);
 
 		if (moveMode == 1) {
 			float combined = Math.max((ydelta + pdelta) / 25, 1);
 
-			combined = Math.min(combined * combined, 30);
+			combined = combined * combined;
 
-			speed *= combined;
+			speed *= combined * Math.abs(noise.sample(mc.world.getTime() / 1000.0f * event.timeDelta, 0.23, 0.11)) + 0.1;
+			speed = Math.min(Math.max(speed, (double) getSettings().getSetting(2).getValue() / 2f), 100);
 		}
 
 		Rotation step = RotationUtil.slowlyTurnTowards(desired, (float) speed);
@@ -121,6 +124,10 @@ public class AimAssist extends Module {
 			prevTargetPos = targetPos;
 		}
 
+		if (offset != null) {
+			prevOffset = offset;
+		}
+
 		targetPos = EntityUtil.getCenter(e);
 
 		if (randomOffset) {
@@ -134,7 +141,7 @@ public class AimAssist extends Module {
 			double mult = randAmount;
 			if (SBR && prevTargetPos != null) {
 				double entSpeed = targetPos.subtract(prevTargetPos).length();
-				mult *= entSpeed * SBRinf;
+				mult *= Math.max(0.1, entSpeed * SBRinf);
 			}
 
 			offset = offset.multiply(mult);
@@ -168,11 +175,14 @@ public class AimAssist extends Module {
 		Vec3d cameraPos = mc.gameRenderer.getCamera().getPos();
 		matrices.translate(-cameraPos.x, -cameraPos.y, -cameraPos.z);
 
-		Box box = new Box(targetPos.subtract(0.2).add(offset), targetPos.add(0.2).add(offset));
-		Box box2 = new Box(targetPos.subtract(0.2), targetPos.add(0.2));
+		Vec3d tpos = prevTargetPos.lerp(targetPos, event.tickDelta);
+		Vec3d tposoff = tpos.add(prevOffset.lerp(offset, event.tickDelta));
+
+		Box box = new Box(tposoff.subtract(0.2), tposoff.add(0.2));
+		Box box2 = new Box(tpos.subtract(0.2), tpos.add(0.2));
 
 
-		DrawUtil.drawCube(matrices, box2, r, g,  b, (float) alpha);
+		DrawUtil.drawCube(matrices, box2, r, g, b, (float) alpha);
 		DrawUtil.drawCubeOutline(matrices, box, r, g, b, 1f);
 
 

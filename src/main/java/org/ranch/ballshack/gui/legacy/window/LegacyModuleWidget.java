@@ -1,4 +1,4 @@
-package org.ranch.ballshack.gui.window.legacy;
+package org.ranch.ballshack.gui.legacy.window;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
@@ -10,15 +10,15 @@ import org.ranch.ballshack.gui.legacy.LegacyGuiUtil;
 import org.ranch.ballshack.module.Module;
 
 public class LegacyModuleWidget {
-	
-	private Module module;
+
+	private final Module module;
 
 	private int x;
 	private int y;
 
 	private int width;
 	private int height;
-	
+
 	public LegacyModuleWidget(Module module) {
 		this.module = module;
 	}
@@ -39,7 +39,7 @@ public class LegacyModuleWidget {
 		}
 
 		/* module name */
-		context.drawText(textRend, Text.literal(module.getName()),x + 2,y + 2,0xFFFFFFFF,true);
+		context.drawText(textRend, Text.literal(module.getName()), x + 2, y + 2, 0xFFFFFFFF, true);
 
 		return height;
 	}
@@ -55,5 +55,5 @@ public class LegacyModuleWidget {
 	public void mouseReleased(double mouseX, double mouseY, int button) {
 
 	}
-	
+
 }

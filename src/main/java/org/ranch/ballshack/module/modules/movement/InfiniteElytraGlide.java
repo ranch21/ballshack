@@ -75,13 +75,13 @@ public class InfiniteElytraGlide extends Module {
 			return;
 		}
 
-		Rotation step = RotationUtil.slowlyTurnTowards(target, (float)(double) settings.getSetting(2).getValue());
+		Rotation step = RotationUtil.slowlyTurnTowards(target, (float) (double) settings.getSetting(2).getValue());
 
 		event.deltaX = (step.yaw - mc.player.getYaw()) + event.origDeltaX;
 		event.deltaY = (step.pitch - mc.player.getPitch()) + event.origDeltaY;
 	}
 
-		@Override
+	@Override
 	public void onEnable() {
 		super.onEnable();
 		if (mc.player == null) return;
@@ -89,7 +89,7 @@ public class InfiniteElytraGlide extends Module {
 	}
 
 	private void reset() {
-		target = new Rotation(mc.player.getYaw(),0);
+		target = new Rotation(mc.player.getYaw(), 0);
 		stage = 0;
 		startingHeight = mc.player.getY();
 		bottomHeight = startingHeight - 50;

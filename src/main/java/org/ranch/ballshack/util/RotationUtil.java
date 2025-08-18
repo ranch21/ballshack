@@ -12,8 +12,7 @@ public class RotationUtil {
 		return Math.abs(MathHelper.wrapDegrees(end - start));
 	}
 
-	public static Rotation slowlyTurnTowards(Rotation end, float maxChange)
-	{
+	public static Rotation slowlyTurnTowards(Rotation end, float maxChange) {
 		float startYaw = mc.player.prevYaw;
 		float startPitch = mc.player.prevPitch;
 		float endYaw = end.yaw;
@@ -34,8 +33,7 @@ public class RotationUtil {
 		return new Rotation(nextYaw, nextPitch);
 	}
 
-	public static float limitAngleChange(float current, float intended, float maxChange)
-	{
+	public static float limitAngleChange(float current, float intended, float maxChange) {
 		float currentWrapped = MathHelper.wrapDegrees(current);
 		float intendedWrapped = MathHelper.wrapDegrees(intended);
 

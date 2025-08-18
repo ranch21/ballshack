@@ -34,5 +34,6 @@ public abstract class Command {
 				player.sendMessage(Text.literal(message).copy().styled(s -> s.withColor(BallsLogger.INFO_COLOR)), false);
 			}
 		}
-	};
+	}
+
 }

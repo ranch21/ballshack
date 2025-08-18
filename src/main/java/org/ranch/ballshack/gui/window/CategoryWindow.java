@@ -78,7 +78,7 @@ public class CategoryWindow {
 			}
 		}
 
-		DrawUtil.drawHorizontalGradient(context, x, y, width, height, Colors.CLICKGUI_TITLE_START, Colors.CLICKGUI_TITLE_END, width/8);
+		DrawUtil.drawHorizontalGradient(context, x, y, width, height, Colors.CLICKGUI_TITLE_START, Colors.CLICKGUI_TITLE_END, width / 8);
 
 		int bottomY = y + height + addedHeight;
 
@@ -92,9 +92,9 @@ public class CategoryWindow {
 		/* window title */
 		TextRenderer textRend = MinecraftClient.getInstance().textRenderer;
 		int textInset = (height - textRend.fontHeight) / 2;
-		DrawUtil.drawText(context, textRend, title,x + 2,y + textInset, Color.WHITE,true);
+		DrawUtil.drawText(context, textRend, title, x + 2, y + textInset, Color.WHITE, true);
 		// collapsed thinger
-		DrawUtil.drawText(context, textRend, opened ? "-" : "+",x + width - 8,y + textInset, Color.WHITE,true);
+		DrawUtil.drawText(context, textRend, opened ? "-" : "+", x + width - 8, y + textInset, Color.WHITE, true);
 	}
 
 	public boolean mouseClicked(double mouseX, double mouseY, int button) {
@@ -115,17 +115,17 @@ public class CategoryWindow {
 				dragX = (int) mouseX - x;
 				dragY = (int) mouseY - y;
 				return true;
+			} else if (GuiUtil.mouseOverlap(mouseX, mouseY, x, y, width, totalHeight)) {
+				return true;
 			}
 		}
 
 		if (button == GLFW.GLFW_MOUSE_BUTTON_RIGHT) {
 			if (GuiUtil.mouseOverlap(mouseX, mouseY, x, y, width, height)) {
-				if (opened) {
-					opened = false;
-				} else {
-					opened = true;
-				}
+				opened = !opened;
 				mc.getSoundManager().play(PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK, 1.0F));
+				return true;
+			} else if (GuiUtil.mouseOverlap(mouseX, mouseY, x, y, width, totalHeight)) {
 				return true;
 			}
 		}
@@ -150,6 +150,17 @@ public class CategoryWindow {
 				moduleWidget.keyPressed(keyCode, scanCode, modifiers);
 			}
 		}
+	}
+
+	public boolean charTyped(char chr, int modifiers) {
+		if (opened) {
+			for (ModuleWidget moduleWidget : moduleWidgets) {
+				if (moduleWidget.charTyped(chr, modifiers)) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	public int getHeight() {

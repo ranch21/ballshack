@@ -35,8 +35,8 @@ public class TextFieldWidget extends Widget {
 			counter++;
 		}
 
-		DrawUtil.drawOutline(context,x,y,width,height);
-		context.fill(x,y,x+width,y+height, Colors.CLICKGUI_BACKGROUND.hashCode());
+		DrawUtil.drawOutline(context, x, y, width, height);
+		context.fill(x, y, x + width, y + height, Colors.CLICKGUI_BACKGROUND.hashCode());
 		TextRenderer textRend = MinecraftClient.getInstance().textRenderer;
 		int yInset = (height - textRend.fontHeight) / 2;
 		boolean line = selected && (counter / 100) % 2 == 0;
@@ -46,7 +46,7 @@ public class TextFieldWidget extends Widget {
 
 	@Override
 	public void mouseClicked(double mouseX, double mouseY, int button) {
-		if (button == GLFW.GLFW_MOUSE_BUTTON_LEFT && GuiUtil.mouseOverlap(mouseX,mouseY,x,y,width,height)) {
+		if (button == GLFW.GLFW_MOUSE_BUTTON_LEFT && GuiUtil.mouseOverlap(mouseX, mouseY, x, y, width, height)) {
 			selected = true;
 			MinecraftClient.getInstance().getSoundManager().play(PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK, 1.0F));
 		}

@@ -9,7 +9,7 @@ import java.util.List;
 
 public class SettingMode extends ModuleSetting<Integer> {
 
-	private List<String> modes;
+	private final List<String> modes;
 
 	public SettingMode(int value, String name, List<String> modes) {
 		super(name, value);
@@ -19,7 +19,7 @@ public class SettingMode extends ModuleSetting<Integer> {
 	@Override
 	public int render(int mouseX, int mouseY) {
 
-		context.fill(x, y, x+width, y+height, Colors.CLICKGUI_3.hashCode());
+		context.fill(x, y, x + width, y + height, Colors.CLICKGUI_3.hashCode());
 
 		/* setting name and value */
 		drawText(context, this.getName() + ": ");

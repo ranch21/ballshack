@@ -4,8 +4,8 @@ import net.minecraft.client.MinecraftClient;
 import org.jetbrains.annotations.Nullable;
 import org.ranch.ballshack.BallsHack;
 import org.ranch.ballshack.BallsLogger;
-import org.ranch.ballshack.setting.SettingSaver;
 import org.ranch.ballshack.setting.ModuleSettings;
+import org.ranch.ballshack.setting.SettingSaver;
 
 import java.util.ArrayList;
 
@@ -16,9 +16,9 @@ public abstract class Module {
 	private final String name;
 	private final ModuleCategory category;
 	private Boolean subscribed;
-	private boolean isMeta;
+	private final boolean isMeta;
 
-	private String tooltip;
+	private final String tooltip;
 
 	protected boolean enabled;
 

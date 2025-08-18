@@ -9,11 +9,12 @@ import org.ranch.ballshack.setting.ModuleSettings;
 import org.ranch.ballshack.setting.moduleSettings.SettingSlider;
 
 import java.util.Arrays;
+import java.util.Collections;
 
 public class BouncyGround extends Module {
 	public BouncyGround() {
-		super("Bounce", ModuleCategory.FUN, 0, new ModuleSettings(Arrays.asList(
-				new SettingSlider(1,"Amount",0.25,10, 0.25).featured()
+		super("Bounce", ModuleCategory.FUN, 0, new ModuleSettings(Collections.singletonList(
+				new SettingSlider(1, "Amount", 0.25, 10, 0.25).featured()
 		)));
 	}
 

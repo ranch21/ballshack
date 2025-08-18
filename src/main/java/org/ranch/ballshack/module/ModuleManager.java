@@ -1,10 +1,6 @@
 package org.ranch.ballshack.module;
 
-import org.ranch.ballshack.module.modules.client.DiscordRP;
-import org.ranch.ballshack.module.modules.client.HudEditor;
-import org.ranch.ballshack.module.modules.client.Rainbow;
-import org.ranch.ballshack.module.modules.client.WindowGui;
-import org.ranch.ballshack.module.modules.movement.*;
+import org.ranch.ballshack.module.modules.client.*;
 import org.ranch.ballshack.module.modules.combat.*;
 import org.ranch.ballshack.module.modules.fun.BouncyGround;
 import org.ranch.ballshack.module.modules.fun.TestModule;
@@ -16,7 +12,6 @@ import org.ranch.ballshack.module.modules.player.AntiHunger;
 import org.ranch.ballshack.module.modules.player.NoFall;
 import org.ranch.ballshack.module.modules.player.Reach;
 import org.ranch.ballshack.module.modules.render.*;
-import org.ranch.ballshack.module.modules.client.ClickGui;
 
 import java.util.ArrayList;
 import java.util.Arrays;

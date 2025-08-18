@@ -22,10 +22,11 @@ import org.ranch.ballshack.util.DrawUtil;
 
 import java.awt.*;
 import java.util.Arrays;
+import java.util.List;
 
 public class BlockHighlight extends Module {
 	public BlockHighlight() {
-		super("BlockHighlight", ModuleCategory.RENDER, 0,  new ModuleSettings(Arrays.asList(
+		super("BlockHighlight", ModuleCategory.RENDER, 0, new ModuleSettings(List.of(
 				new SettingSlider(0.5f, "Alpha", 0, 1, 0.1)
 		)));
 	}
@@ -67,11 +68,11 @@ public class BlockHighlight extends Module {
 					Vec3d cameraPos = mc.gameRenderer.getCamera().getPos();
 					matrices.translate(-cameraPos.x, -cameraPos.y, -cameraPos.z);
 
-					VoxelShape shape =  blockState.getOutlineShape(mc.world, blockPos, ShapeContext.of(mc.gameRenderer.getCamera().getFocusedEntity()));
+					VoxelShape shape = blockState.getOutlineShape(mc.world, blockPos, ShapeContext.of(mc.gameRenderer.getCamera().getFocusedEntity()));
 
 					for (Box box : shape.getBoundingBoxes()) {
 						box = box.offset(blockPos);
-						DrawUtil.drawCube(matrices, box, r, g,  b, (float) alpha);
+						DrawUtil.drawCube(matrices, box, r, g, b, (float) alpha);
 						DrawUtil.drawCubeOutline(matrices, box, r, g, b, 1f);
 					}
 

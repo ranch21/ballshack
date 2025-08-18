@@ -28,8 +28,9 @@ import java.util.List;
 public class ClickGuiScreen extends Screen {
 
 	ButtonWidget button;
-	private static List<CategoryWindow> windows = new ArrayList<>();
-	public static Setting<List<WindowData>> windowData = new Setting<>(new ArrayList<>(), "windowData", new TypeToken<List<WindowData>>(){}.getType());
+	private static final List<CategoryWindow> windows = new ArrayList<>();
+	public static Setting<List<WindowData>> windowData = new Setting<>(new ArrayList<>(), "windowData", new TypeToken<List<WindowData>>() {
+	}.getType());
 
 	BallHandler ballHandler;
 	boolean ballsEnabled = false;
@@ -118,8 +119,8 @@ public class ClickGuiScreen extends Screen {
 		}
 
 		TextRenderer textRend = MinecraftClient.getInstance().textRenderer;
-		DrawUtil.drawText(context, textRend, BallsHack.title.getValue(), 5, 5,Colors.PALLETE_1,true);
-		DrawUtil.drawText(context, textRend, BallsHack.version, 5 + textRend.getWidth(BallsHack.title.getValue() + " "), 5, Color.WHITE,true);
+		DrawUtil.drawText(context, textRend, BallsHack.title.getValue(), 5, 5, Colors.PALLETE_1, true);
+		DrawUtil.drawText(context, textRend, BallsHack.version, 5 + textRend.getWidth(BallsHack.title.getValue() + " "), 5, Color.WHITE, true);
 
 		int i = 0;
 		for (CategoryWindow window : windows) {
@@ -160,10 +161,21 @@ public class ClickGuiScreen extends Screen {
 	public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
 
 		for (CategoryWindow window : windows) {
-			window.keyPressed(keyCode,scanCode,modifiers);
+			window.keyPressed(keyCode, scanCode, modifiers);
 		}
 
 		return super.keyPressed(keyCode, scanCode, modifiers);
+	}
+
+	@Override
+	public boolean charTyped(char chr, int modifiers) {
+		for (CategoryWindow window : windows) {
+			if (window.charTyped(chr, modifiers)) {
+				break;
+			}
+		}
+
+		return super.charTyped(chr, modifiers);
 	}
 
 	public boolean shouldPause() {
