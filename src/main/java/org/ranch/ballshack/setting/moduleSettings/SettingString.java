@@ -1,5 +1,6 @@
 package org.ranch.ballshack.setting.moduleSettings;
 
+import com.google.gson.JsonObject;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.util.StringHelper;
@@ -206,5 +207,17 @@ public class SettingString extends ModuleSetting<String> {
 		int lineHeight = MinecraftClient.getInstance().textRenderer.fontHeight + 1;
 		int lines = wrapText(displayValue, width - 4).size();
 		return Math.max(lineHeight, lines * lineHeight) + 2;
+	}
+
+	@Override
+	public JsonObject getJson() {
+		JsonObject obj = new JsonObject();
+		obj.addProperty("value", getValue());
+		return obj;
+	}
+
+	@Override
+	public void readJson(JsonObject jsonObject) {
+		setValue(jsonObject.get("value").getAsString());
 	}
 }

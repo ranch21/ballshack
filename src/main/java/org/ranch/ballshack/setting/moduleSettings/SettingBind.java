@@ -1,5 +1,6 @@
 package org.ranch.ballshack.setting.moduleSettings;
 
+import com.google.gson.JsonObject;
 import org.lwjgl.glfw.GLFW;
 import org.ranch.ballshack.gui.Colors;
 import org.ranch.ballshack.gui.GuiUtil;
@@ -58,5 +59,17 @@ public class SettingBind extends ModuleSetting<Integer> {
 		} else {
 			return keyName;
 		}
+	}
+
+	@Override
+	public JsonObject getJson() {
+		JsonObject obj = new JsonObject();
+		obj.addProperty("value", getValue());
+		return obj;
+	}
+
+	@Override
+	public void readJson(JsonObject jsonObject) {
+		setValue(jsonObject.get("value").getAsInt());
 	}
 }

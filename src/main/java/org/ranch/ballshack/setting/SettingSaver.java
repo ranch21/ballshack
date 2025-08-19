@@ -73,15 +73,7 @@ public class SettingSaver {
 				continue;
 			}
 
-			if (value instanceof String) {
-				settingsJson.addProperty(setting.getName(), (String) value);
-			} else if (value instanceof Number) {
-				settingsJson.addProperty(setting.getName(), (Number) value);
-			} else if (value instanceof Boolean) {
-				settingsJson.addProperty(setting.getName(), (Boolean) value);
-			} else {
-				settingsJson.addProperty(setting.getName(), value.toString()); // Fallback to string
-			}
+			settingsJson.add(setting.getName(), setting.getJson());
 		}
 		return settingsJson;
 	}
@@ -147,23 +139,12 @@ public class SettingSaver {
 
 	private static void setSettings(JsonObject settingsJson, Module mod) {
 		BallsLogger.info(settingsJson.toString());
-		for (ModuleSetting<?> setting : mod.getSettings().getSettingsUnpacked()) {
+		for (ModuleSetting<?> setting : mod.getSettings().getSettings()) {
 			String settingName = setting.getName();
 
 			if (settingsJson.has(settingName)) {
-				JsonElement element = settingsJson.get(settingName);
-
-				if (element.isJsonObject()) {
-					BallsLogger.info(element.getAsJsonObject().toString());
-					setSettings(element.getAsJsonObject(), mod);
-					continue;
-				}
-
-				Object value = getTypedValue(element, setting.getValue());
-
-				if (value != null) {
-					setSettingValue(setting, value);
-				}
+				JsonObject element = settingsJson.getAsJsonObject(settingName);
+				setting.readJson(element);
 			}
 		}
 

@@ -16,7 +16,7 @@ import java.util.List;
 
 public class TestModule extends Module {
 	public TestModule() {
-		super("Test", ModuleCategory.PLAYER, GLFW.GLFW_KEY_R, new ModuleSettings(Arrays.asList(
+		super("Test", ModuleCategory.FUN, GLFW.GLFW_KEY_R, new ModuleSettings(Arrays.asList(
 				new SettingSlider(5, "slider", 1, 10, 0.25),
 				new SettingMode(0, "mode", Arrays.asList("one", "two", "three")),
 				new DropDown("d1", Arrays.asList(

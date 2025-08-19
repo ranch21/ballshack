@@ -1,6 +1,6 @@
 package org.ranch.ballshack.setting.moduleSettings;
 
-import net.minecraft.client.gui.DrawContext;
+import com.google.gson.JsonObject;
 import org.lwjgl.glfw.GLFW;
 import org.ranch.ballshack.gui.Colors;
 import org.ranch.ballshack.gui.GuiUtil;
@@ -9,138 +9,238 @@ import org.ranch.ballshack.util.DrawUtil;
 
 import java.awt.*;
 
-// BIGGEST SPAGHETTI EVER MADE
-
+/**
+ * HSV-based color setting that preserves hue at grayscale/dark extremes and avoids precision loss.
+ * UI layout:
+ * - Header row (like other settings) with label and hex value.
+ * - Below: SV square (left-right = S [0..1], top-bottom = V [1..0]) for current hue.
+ * - Right of the SV square: vertical hue slider [0..1].
+ */
 public class SettingColor extends ModuleSetting<Color> {
 
-	boolean holdingSquare;
-	boolean holdingBar;
-	boolean opened;
+	// Persistent HSV state to avoid losing hue when S or V are 0
+	private double hue;        // [0,1]
+	private double saturation; // [0,1]
+	private double value;      // [0,1]
 
-	int cubeX;
-	int cubeY;
-	int cubeSize;
-	int barX;
-	int barY;
-	int barWidth = 4;
+	private boolean opened = false;
 
-	int[] cursorPos;
-	int cursorY;
+	// UI interaction flags
+	private boolean draggingSV = false;
+	private boolean draggingHue = false;
 
-	public SettingColor(String name, Color value) {
-		super(name, value);
+	// Cached layout for picker area (computed in render)
+	private int svX, svY, svW, svH;
+	private int hueX, hueY, hueW, hueH;
 
-		float[] hsb = Color.RGBtoHSB(value.getRed(), value.getGreen(), value.getBlue(), null);
-
-		int cursorX = (int) (hsb[0] * cubeSize);
-		int cursorY = (int) (-(hsb[1] - 1) * cubeSize);
-
-		cursorPos = new int[]{cursorX, cursorY};
-		cursorY = (int) (-(hsb[2] - 1) * cubeSize);
+	public SettingColor(String name, Color startingValue) {
+		super(name, startingValue);
+		// initialize HSV from starting RGB
+		float[] hsb = Color.RGBtoHSB(startingValue.getRed(), startingValue.getGreen(), startingValue.getBlue(), null);
+		this.hue = hsb[0];
+		this.saturation = hsb[1];
+		this.value = hsb[2];
 	}
 
 	@Override
 	public int render(int mouseX, int mouseY) {
-
-		int addedHeight = 0;
-
+		// header background
 		context.fill(x, y, x + width, y + height, Colors.CLICKGUI_3.hashCode());
 
+		// header text
+		String hex = String.format("#%02X%02X%02X", getValue().getRed(), getValue().getGreen(), getValue().getBlue());
+		drawText(context, this.getName() + ": ");
 		if (opened) {
-
-			cubeX = x + 1;
-			cubeY = y + height + 1;
-			cubeSize = width - barWidth - 4 - 4;
-			barX = cubeX + cubeSize + 4;
-			barY = cubeY;
-
-			if (holdingSquare) {
-				getCursorPos(mouseX, mouseY);
-			}
-			if (holdingBar) {
-				this.cursorY = Math.max(Math.min(mouseY - cubeY, cubeSize), 0);
-			}
-
-			context.fill(x, y + height, x + width, y + cubeSize + height + 2, Colors.CLICKGUI_3.hashCode());
-
-			addedHeight += cubeSize + 2;
-
-			for (int i = 0; i < cubeSize; i++) {
-				float hue = (float) i / cubeSize;
-
-				Color start = Color.getHSBColor(hue, 1, 1);
-				Color end = Color.getHSBColor(hue, 0.01f, 1);
-
-				DrawUtil.drawVerticalGradient(context, cubeX + i, cubeY, 1, cubeSize, start, end, 1);
-			}
-
-			float[] hsb = Color.RGBtoHSB(value.getRed(), value.getGreen(), value.getBlue(), null);
-
-			Color valueBright = Color.getHSBColor(hsb[0], hsb[1], 1);
-
-			DrawUtil.drawVerticalGradient(context, barX, barY, barWidth, cubeSize, valueBright, Color.BLACK, 1);
-			context.drawHorizontalLine(barX, barX + barWidth + 1, cursorY + cubeY - 1, Color.WHITE.hashCode());
-
-			drawCursor(context, cursorPos[0], cursorPos[1]);
-
-
-			value = Color.getHSBColor((float) cursorPos[0] / cubeSize, -(((float) cursorPos[1] / cubeSize) - 1), hsb[2]);
-
-			hsb = Color.RGBtoHSB(value.getRed(), value.getGreen(), value.getBlue(), null);
-
-			value = Color.getHSBColor(hsb[0], hsb[1], -(((float) cursorY / cubeSize) - 1));
+			drawTextRightAligned(context, hex);
+		} else {
+			drawTextRightAligned(context, "+");
 		}
 
-		/* setting name */
-		drawText(context, this.getName());
-		drawTextRightAligned(context, opened ? "-" : "+");
+		if (!opened) return height;
 
-		return height + addedHeight;
-	}
+		// Layout for picker area
+		int pad = 2;
+		int pickerTop = y + height; // draw below header
+		int pickerAvailW = width - pad * 3; // SV + pad + hue slider
+		int pickerAvailH = Math.max(48, height * 5); // ensure reasonable area
+		// Make SV square as large as possible while reserving hue slider width
+		int hueSliderWidth = Math.max(8, Math.min(12, width / 10));
+		int svSize = Math.min(pickerAvailW - hueSliderWidth, pickerAvailH);
+		svSize = Math.max(32, svSize);
 
-	private void getCursorPos(int mouseX, int mouseY) {
-		int cursorX = Math.max(Math.min(mouseX - cubeX, cubeSize), 0);
-		int cursorY = Math.max(Math.min(mouseY - cubeY, cubeSize), 0);
+		// SV square bounds
+		svX = x + pad;
+		svY = pickerTop + pad;
+		svW = svSize;
+		svH = svSize;
 
-		cursorPos = new int[]{cursorX, cursorY};
-	}
+		// Hue slider bounds (vertical on the right)
+		hueX = x + width - hueSliderWidth - 2;
+		hueY = svY;
+		hueW = hueSliderWidth;
+		hueH = svH;
 
-	private void drawCursor(DrawContext context, int rx, int ry) {
+		// While dragging, update HSV from current mouse position
+		if (draggingSV) {
+			updateSVFromMouse(mouseX, mouseY);
+		}
+		if (draggingHue) {
+			updateHueFromMouse(mouseX, mouseY);
+		}
 
-		int x = cubeX + rx;
-		int y = cubeY + ry;
+		// Draw SV square for current hue using per-pixel HSV to avoid alpha blending issues
+		for (int ix = 0; ix < svW; ix++) {
+			double s = svW <= 1 ? 0 : ix / (double) (svW - 1);
+			for (int iy = 0; iy < svH; iy++) {
+				double v = svH <= 1 ? 1 : 1.0 - iy / (double) (svH - 1);
+				int rgb = Color.HSBtoRGB((float) hue, (float) s, (float) v);
+				DrawUtil.drawPoint(context, svX + ix, svY + iy, new Color(rgb));
+			}
+		}
+		DrawUtil.drawOutline(context, svX, svY, svW, svH);
 
-		int lineSize = 2;
+		// Draw hue slider as vertical rainbow
+		int steps = Math.max(6, svH); // smooth enough
+		for (int i = 0; i < steps; i++) {
+			float t = i / (float) (steps - 1);
+			Color c = Color.getHSBColor(t, 1f, 1f);
+			context.fill(hueX, hueY + i * hueH / steps, hueX + hueW, hueY + (i + 1) * hueH / steps, c.hashCode());
+		}
+		DrawUtil.drawOutline(context, hueX, hueY, hueW, hueH);
 
-		context.drawHorizontalLine(x - lineSize, x - 1, y - 1, Color.WHITE.hashCode());
-		context.drawHorizontalLine(x + lineSize, x + 1, y - 1, Color.WHITE.hashCode());
+		// Draw cursors
+		int svCursorX = svX + (int) Math.round(saturation * (svW - 1));
+		int svCursorY = svY + (int) Math.round((1.0 - value) * (svH - 1));
+		Color cursorColor = getValue().getRed() + getValue().getGreen() + getValue().getBlue() > 380 ? Color.BLACK : Color.WHITE;
+		context.enableScissor(svX, svY, svW + svX, svH + svY);
+		DrawUtil.drawOutline(context, svCursorX - 1, svCursorY - 1, 3, 3, cursorColor);
+		context.disableScissor();
+		int hueCursorY = hueY + (int) Math.round(hue * (hueH - 1));
+		context.drawHorizontalLine(hueX - 1, hueX + hueW, hueCursorY, Color.WHITE.hashCode());
 
-		context.drawVerticalLine(x, y - 1, y + lineSize, Color.WHITE.hashCode());
-		context.drawVerticalLine(x, y - 1, y - lineSize - 2, Color.WHITE.hashCode());
+		// Update displayed Color from HSV without re-deriving hue from RGB
+		updateColorFromHSV();
+
+		// total used height
+		return height + pad + svH + pad;
 	}
 
 	@Override
 	public boolean mouseClicked(double mouseX, double mouseY, int button) {
+		if (button == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
+			if (GuiUtil.mouseOverlap(mouseX, mouseY, svX, svY, svW, svH)) {
+				draggingSV = true;
+				updateSVFromMouse(mouseX, mouseY);
+				return true;
+			}
+			if (GuiUtil.mouseOverlap(mouseX, mouseY, hueX, hueY, hueW, hueH)) {
+				draggingHue = true;
+				updateHueFromMouse(mouseX, mouseY);
+				return true;
+			}
+			// also allow clicking header row to consume
+			if (GuiUtil.mouseOverlap(mouseX, mouseY, x, y, width, height)) {
+				return true;
+			}
+		}
 		if (GuiUtil.mouseOverlap(mouseX, mouseY, x, y, width, height) && button == GLFW.GLFW_MOUSE_BUTTON_RIGHT) {
 			opened = !opened;
-		}
-		if (opened && GuiUtil.mouseOverlap(mouseX, mouseY, cubeX, cubeY, cubeSize, cubeSize) && button == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
-			holdingSquare = true;
-		}
-		if (opened && GuiUtil.mouseOverlap(mouseX, mouseY, barX, barY, barWidth + 1, cubeSize) && button == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
-			holdingBar = true;
+			return true;
 		}
 		return false;
 	}
 
 	@Override
 	public void mouseReleased(double mouseX, double mouseY, int button) {
-		holdingSquare = false;
-		holdingBar = false;
+		if (button == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
+			draggingSV = false;
+			draggingHue = false;
+		}
+	}
+
+	@Override
+	public void keyPressed(int keyCode, int scanCode, int modifiers) {
+		// no-op
+	}
+
+	@Override
+	public boolean charTyped(char chr, int modifiers) {
+		return false;
+	}
+
+	private void updateSVFromMouse(double mouseX, double mouseY) {
+		double s = (mouseX - svX) / (double) (svW - 1);
+		double v = 1.0 - (mouseY - svY) / (double) (svH - 1);
+		saturation = clamp01(s);
+		value = clamp01(v);
+		updateColorFromHSV();
+	}
+
+	private void updateHueFromMouse(double mouseX, double mouseY) {
+		double h = (mouseY - hueY) / (double) (hueH - 1);
+		hue = clamp01(h);
+		updateColorFromHSV();
+	}
+
+	private void updateColorFromHSV() {
+		// Only convert in this direction; do not recompute hue from RGB
+		int rgb = Color.HSBtoRGB((float) hue, (float) saturation, (float) value);
+		Color col = new Color(rgb);
+		setValue(col);
+	}
+
+	private static double clamp01(double d) {
+		if (d < 0) return 0;
+		if (d > 1) return 1;
+		return d;
 	}
 
 	@Override
 	public String getFormattedValue() {
-		return String.valueOf(value.hashCode());
+		Color c = getValue();
+		return String.format("#%02X%02X%02X", c.getRed(), c.getGreen(), c.getBlue());
 	}
+
+	@Override
+	public JsonObject getJson() {
+		Color c = getValue();
+		JsonObject obj = new JsonObject();
+		obj.addProperty("r", c.getRed());
+		obj.addProperty("g", c.getGreen());
+		obj.addProperty("b", c.getBlue());
+		// Also persist HSV to preserve hue across gray loads (optional, for future)
+		obj.addProperty("h", hue);
+		obj.addProperty("s", saturation);
+		obj.addProperty("v", value);
+		return obj;
+	}
+
+	@Override
+	public void readJson(JsonObject json) {
+		// Prefer HSV if present to preserve hue on grayscale
+		if (json.has("h") && json.has("s") && json.has("v")) {
+			this.hue = clamp01(json.get("h").getAsDouble());
+			this.saturation = clamp01(json.get("s").getAsDouble());
+			this.value = clamp01(json.get("v").getAsDouble());
+			updateColorFromHSV();
+			return;
+		}
+		// Fallback to RGB
+		if (json.has("r") && json.has("g") && json.has("b")) {
+			int r = json.get("r").getAsInt();
+			int g = json.get("g").getAsInt();
+			int b = json.get("b").getAsInt();
+			Color c = new Color(Math.max(0, Math.min(255, r)), Math.max(0, Math.min(255, g)), Math.max(0, Math.min(255, b)));
+			setValue(c);
+			float[] hsb = Color.RGBtoHSB(c.getRed(), c.getGreen(), c.getBlue(), null);
+			this.hue = hsb[0];
+			this.saturation = hsb[1];
+			this.value = hsb[2];
+			return;
+		}
+		// Unknown format: ignore
+	}
+
+	// Handle dragging while mouse is held by checking continuously in render isn't practical here.
+	// Rely on the GUI framework to call mouseClicked and mouseReleased; a drag move should be handled by re-calling mouseClicked logic.
 }

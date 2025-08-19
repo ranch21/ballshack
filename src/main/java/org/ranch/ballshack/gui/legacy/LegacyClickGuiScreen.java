@@ -5,7 +5,7 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.util.NarratorManager;
-import org.ranch.ballshack.gui.window.legacy.LegacyCategoryWindow;
+import org.ranch.ballshack.gui.legacy.window.LegacyCategoryWindow;
 import org.ranch.ballshack.module.ModuleCategory;
 import org.ranch.ballshack.module.ModuleManager;
 import org.ranch.ballshack.setting.moduleSettings.SettingToggle;

@@ -277,11 +277,15 @@ public class DrawUtil {
 		return c;
 	}
 
+	public static void drawOutline(DrawContext context, int x, int y, int width, int height, Color color) {
+		context.drawHorizontalLine(x, x + width - 1, y - 1, color.hashCode()); // top
+		context.drawHorizontalLine(x, x + width - 1, y + height, color.hashCode()); // bottom
+		context.drawVerticalLine(x - 1, y - 1, y + height, color.hashCode()); // left
+		context.drawVerticalLine(x + width, y - 1, y + height, color.hashCode()); // right
+	}
+
 	public static void drawOutline(DrawContext context, int x, int y, int width, int height) {
-		context.drawHorizontalLine(x, x + width - 1, y - 1, Colors.BORDER.hashCode()); // top
-		context.drawHorizontalLine(x, x + width - 1, y + height, Colors.BORDER.hashCode()); // bottom
-		context.drawVerticalLine(x - 1, y - 1, y + height, Colors.BORDER.hashCode()); // left
-		context.drawVerticalLine(x + width, y - 1, y + height, Colors.BORDER.hashCode()); // right
+		drawOutline(context, x, y, width, height, Colors.BORDER);
 	}
 
 	public static Vector2i tPos; // IDK what im doing

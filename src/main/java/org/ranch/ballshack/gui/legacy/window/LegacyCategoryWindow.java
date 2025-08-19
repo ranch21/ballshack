@@ -35,7 +35,7 @@ public class LegacyCategoryWindow {
 
 	private final ModuleCategory category;
 
-	public List<org.ranch.ballshack.gui.window.legacy.LegacyModuleWidget> moduleWidgets = new ArrayList<org.ranch.ballshack.gui.window.legacy.LegacyModuleWidget>();
+	public List<LegacyModuleWidget> moduleWidgets = new ArrayList<LegacyModuleWidget>();
 
 	public LegacyCategoryWindow(int x, int y, String title, boolean opened, ModuleCategory category) {
 		this.x = x;
@@ -51,7 +51,7 @@ public class LegacyCategoryWindow {
 
 		for (Module module : modules) {
 			if (module.getCategory() == category) {
-				moduleWidgets.add(new org.ranch.ballshack.gui.window.legacy.LegacyModuleWidget(module));
+				moduleWidgets.add(new LegacyModuleWidget(module));
 			}
 		}
 	}
@@ -71,7 +71,7 @@ public class LegacyCategoryWindow {
 
 		int addedHeight = 0;
 
-		for (org.ranch.ballshack.gui.window.legacy.LegacyModuleWidget moduleWidget : moduleWidgets) {
+		for (LegacyModuleWidget moduleWidget : moduleWidgets) {
 			int newY = y + addedHeight + height;
 			context.fill(x, newY, x + width, newY + height + moduleInset / 2, LegacyColors.CLICKGUI_1.hashCode());
 
@@ -86,7 +86,7 @@ public class LegacyCategoryWindow {
 
 	public void mouseClicked(double mouseX, double mouseY, int button) {
 
-		for (org.ranch.ballshack.gui.window.legacy.LegacyModuleWidget moduleWidget : moduleWidgets) {
+		for (LegacyModuleWidget moduleWidget : moduleWidgets) {
 			moduleWidget.mouseClicked(mouseX, mouseY, button);
 		}
 
@@ -101,7 +101,7 @@ public class LegacyCategoryWindow {
 
 	public void mouseReleased(double mouseX, double mouseY, int button) {
 
-		for (org.ranch.ballshack.gui.window.legacy.LegacyModuleWidget moduleWidget : moduleWidgets) {
+		for (LegacyModuleWidget moduleWidget : moduleWidgets) {
 			moduleWidget.mouseReleased(mouseX, mouseY, button);
 		}
 

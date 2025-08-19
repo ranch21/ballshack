@@ -1,9 +1,11 @@
 package org.ranch.ballshack.setting.moduleSettings;
 
+import com.google.gson.JsonObject;
 import org.lwjgl.glfw.GLFW;
 import org.ranch.ballshack.gui.Colors;
 import org.ranch.ballshack.gui.GuiUtil;
 import org.ranch.ballshack.gui.HudScreen;
+import org.ranch.ballshack.module.ModuleAnchor;
 import org.ranch.ballshack.setting.HudElementData;
 import org.ranch.ballshack.setting.ModuleSetting;
 
@@ -39,6 +41,23 @@ public class SettingHud extends ModuleSetting<HudElementData> {
 
 	@Override
 	public String getFormattedValue() {
-		return "x: " + value.x + " y: " + value.y + " a: " + value.anchor;
+		return "x: " + value.x + " y: " + value.y/* + " a: " + value.anchor*/;
+	}
+
+	@Override
+	public JsonObject getJson() {
+		JsonObject obj = new JsonObject();
+		obj.addProperty("x", getValue().x);
+		obj.addProperty("y", getValue().y);
+		obj.addProperty("anchor", getValue().anchor.ordinal());
+		return obj;
+	}
+
+	@Override
+	public void readJson(JsonObject jsonObject) {
+		int x = jsonObject.get("x").getAsInt();
+		int y = jsonObject.get("y").getAsInt();
+		int anchor = jsonObject.get("anchor").getAsInt();
+		setValue(new HudElementData(x, y, ModuleAnchor.values()[anchor]));
 	}
 }

@@ -1,5 +1,6 @@
 package org.ranch.ballshack.setting.moduleSettings;
 
+import com.google.gson.JsonObject;
 import org.lwjgl.glfw.GLFW;
 import org.ranch.ballshack.gui.Colors;
 import org.ranch.ballshack.gui.GuiUtil;
@@ -94,11 +95,37 @@ public class DropDown extends ModuleSetting<Boolean> {
 		return this.getValue() ? "-" : "+";
 	}
 
+	@Override
+	public JsonObject getJson() {
+		JsonObject obj = new JsonObject();
+		for (ModuleSetting<?> setting : settings) {
+			obj.add(setting.getName(), setting.getJson());
+		}
+		return obj;
+	}
+
+	@Override
+	public void readJson(JsonObject jsonObject) {
+		for (String settingKey : jsonObject.keySet()) {
+			ModuleSetting<?> setting = getSetting(settingKey);
+			setting.readJson(jsonObject.getAsJsonObject(settingKey));
+		}
+	}
+
 	public List<ModuleSetting<?>> getSettings() {
 		return settings;
 	}
 
 	public ModuleSetting<?> getSetting(int index) {
 		return settings.get(index);
+	}
+
+	public ModuleSetting<?> getSetting(String name) {
+		for (ModuleSetting<?> setting : settings) {
+			if (setting.getName().equals(name)) {
+				return setting;
+			}
+		}
+		return null;
 	}
 }

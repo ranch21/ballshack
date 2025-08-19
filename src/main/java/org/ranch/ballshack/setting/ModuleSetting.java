@@ -1,5 +1,6 @@
 package org.ranch.ballshack.setting;
 
+import com.google.gson.JsonObject;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
@@ -100,4 +101,8 @@ public abstract class ModuleSetting<T> {
 	}
 
 	public abstract String getFormattedValue();
+
+	public abstract JsonObject getJson();
+
+	public abstract void readJson(JsonObject jsonObject);
 }
