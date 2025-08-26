@@ -23,7 +23,7 @@ public class CategoryWindow {
 	public int x;
 	public int y;
 
-	public static final int width = 80;
+	public static final int width = 85;
 	public static final int height = 11;
 	private int totalHeight = height;
 

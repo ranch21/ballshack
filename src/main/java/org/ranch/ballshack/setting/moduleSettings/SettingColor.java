@@ -22,16 +22,19 @@ public class SettingColor extends ModuleSetting<Color> {
 	private double hue;        // [0,1]
 	private double saturation; // [0,1]
 	private double value;      // [0,1]
+	private double alpha;      // [0,1]
 
 	private boolean opened = false;
 
 	// UI interaction flags
 	private boolean draggingSV = false;
 	private boolean draggingHue = false;
+	private boolean draggingAlpha = false;
 
 	// Cached layout for picker area (computed in render)
 	private int svX, svY, svW, svH;
 	private int hueX, hueY, hueW, hueH;
+	private int alphaX, alphaY, alphaW, alphaH;
 
 	public SettingColor(String name, Color startingValue) {
 		super(name, startingValue);
@@ -61,12 +64,9 @@ public class SettingColor extends ModuleSetting<Color> {
 		// Layout for picker area
 		int pad = 2;
 		int pickerTop = y + height; // draw below header
-		int pickerAvailW = width - pad * 3; // SV + pad + hue slider
-		int pickerAvailH = Math.max(48, height * 5); // ensure reasonable area
 		// Make SV square as large as possible while reserving hue slider width
-		int hueSliderWidth = Math.max(8, Math.min(12, width / 10));
-		int svSize = Math.min(pickerAvailW - hueSliderWidth, pickerAvailH);
-		svSize = Math.max(32, svSize);
+		int hueSliderWidth = 6;
+		int svSize = 60;
 
 		// SV square bounds
 		svX = x + pad;
@@ -80,12 +80,22 @@ public class SettingColor extends ModuleSetting<Color> {
 		hueW = hueSliderWidth;
 		hueH = svH;
 
+		alphaX = hueX - hueSliderWidth - 3;
+		alphaY = svY;
+		alphaW = hueSliderWidth;
+		alphaH = svH;
+
+		context.fill(x, y + height, x + width, y + height + pad + svH + pad, Colors.CLICKGUI_3.hashCode());
+
 		// While dragging, update HSV from current mouse position
 		if (draggingSV) {
 			updateSVFromMouse(mouseX, mouseY);
 		}
 		if (draggingHue) {
 			updateHueFromMouse(mouseX, mouseY);
+		}
+		if (draggingAlpha) {
+			updateAlphaFromMouse(mouseX, mouseY);
 		}
 
 		// Draw SV square for current hue using per-pixel HSV to avoid alpha blending issues
@@ -108,6 +118,13 @@ public class SettingColor extends ModuleSetting<Color> {
 		}
 		DrawUtil.drawOutline(context, hueX, hueY, hueW, hueH);
 
+		for (int i = 0; i < steps; i++) {
+			float t = i / (float) (steps - 1);
+			Color c = Color.getHSBColor(0f, 0f, t);
+			context.fill(alphaX, alphaY + i * alphaH / steps, alphaX + alphaW, alphaY + (i + 1) * alphaH / steps, c.hashCode());
+		}
+		DrawUtil.drawOutline(context, alphaX, alphaY, alphaW, alphaH);
+
 		// Draw cursors
 		int svCursorX = svX + (int) Math.round(saturation * (svW - 1));
 		int svCursorY = svY + (int) Math.round((1.0 - value) * (svH - 1));
@@ -115,8 +132,13 @@ public class SettingColor extends ModuleSetting<Color> {
 		context.enableScissor(svX, svY, svW + svX, svH + svY);
 		DrawUtil.drawOutline(context, svCursorX - 1, svCursorY - 1, 3, 3, cursorColor);
 		context.disableScissor();
+
+
 		int hueCursorY = hueY + (int) Math.round(hue * (hueH - 1));
 		context.drawHorizontalLine(hueX - 1, hueX + hueW, hueCursorY, Color.WHITE.hashCode());
+
+		int alphaCursorY = alphaY + (int) Math.round((-alpha + 1) * (alphaH - 1));
+		context.drawHorizontalLine(alphaX - 1, alphaX + alphaW, alphaCursorY, Color.WHITE.hashCode());
 
 		// Update displayed Color from HSV without re-deriving hue from RGB
 		updateColorFromHSV();
@@ -127,10 +149,15 @@ public class SettingColor extends ModuleSetting<Color> {
 
 	@Override
 	public boolean mouseClicked(double mouseX, double mouseY, int button) {
-		if (button == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
+		if (button == GLFW.GLFW_MOUSE_BUTTON_LEFT && opened) {
 			if (GuiUtil.mouseOverlap(mouseX, mouseY, svX, svY, svW, svH)) {
 				draggingSV = true;
 				updateSVFromMouse(mouseX, mouseY);
+				return true;
+			}
+			if (GuiUtil.mouseOverlap(mouseX, mouseY, alphaX, alphaY, alphaW, alphaH)) {
+				draggingAlpha = true;
+				updateAlphaFromMouse(mouseX, mouseY);
 				return true;
 			}
 			if (GuiUtil.mouseOverlap(mouseX, mouseY, hueX, hueY, hueW, hueH)) {
@@ -155,6 +182,7 @@ public class SettingColor extends ModuleSetting<Color> {
 		if (button == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
 			draggingSV = false;
 			draggingHue = false;
+			draggingAlpha = false;
 		}
 	}
 
@@ -182,11 +210,19 @@ public class SettingColor extends ModuleSetting<Color> {
 		updateColorFromHSV();
 	}
 
-	private void updateColorFromHSV() {
+	private void updateAlphaFromMouse(double mouseX, double mouseY) {
+		double a = (mouseY - alphaY) / (double) (alphaH - 1);
+		alpha = clamp01(-a + 1);
+		updateColorFromHSV();
+	}
+
+	protected void updateColorFromHSV() {
 		// Only convert in this direction; do not recompute hue from RGB
 		int rgb = Color.HSBtoRGB((float) hue, (float) saturation, (float) value);
-		Color col = new Color(rgb);
+		rgb = (rgb & 0x00FFFFFF) | ((int)(alpha * 255) << 24);
+		Color col = new Color(rgb, true);
 		setValue(col);
+		Colors.refreshFromSettings();
 	}
 
 	private static double clamp01(double d) {
@@ -208,10 +244,12 @@ public class SettingColor extends ModuleSetting<Color> {
 		obj.addProperty("r", c.getRed());
 		obj.addProperty("g", c.getGreen());
 		obj.addProperty("b", c.getBlue());
+		obj.addProperty("ai", c.getAlpha());
 		// Also persist HSV to preserve hue across gray loads (optional, for future)
 		obj.addProperty("h", hue);
 		obj.addProperty("s", saturation);
 		obj.addProperty("v", value);
+		obj.addProperty("af", alpha);
 		return obj;
 	}
 
@@ -222,6 +260,7 @@ public class SettingColor extends ModuleSetting<Color> {
 			this.hue = clamp01(json.get("h").getAsDouble());
 			this.saturation = clamp01(json.get("s").getAsDouble());
 			this.value = clamp01(json.get("v").getAsDouble());
+			this.value = clamp01(json.get("af").getAsDouble());
 			updateColorFromHSV();
 			return;
 		}
@@ -230,7 +269,8 @@ public class SettingColor extends ModuleSetting<Color> {
 			int r = json.get("r").getAsInt();
 			int g = json.get("g").getAsInt();
 			int b = json.get("b").getAsInt();
-			Color c = new Color(Math.max(0, Math.min(255, r)), Math.max(0, Math.min(255, g)), Math.max(0, Math.min(255, b)));
+			int a = json.get("ai").getAsInt();
+			Color c = new Color(r, g, b, a);
 			setValue(c);
 			float[] hsb = Color.RGBtoHSB(c.getRed(), c.getGreen(), c.getBlue(), null);
 			this.hue = hsb[0];

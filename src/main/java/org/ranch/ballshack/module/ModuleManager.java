@@ -54,7 +54,8 @@ public class ModuleManager {
 			new HudEditor(),
 			new Coordinates(),
 			new ArmorHud(),
-			new Debug()
+			new Debug(),
+			new ColorsConfig()
 	);
 
 	public static List<Module> getModules() {
