@@ -27,8 +27,6 @@ public class LegacyCategoryWindow {
 	public String title;
 
 	public boolean opened;
-	public boolean selected;
-
 	private boolean dragging;
 	private int dragX;
 	private int dragY;
