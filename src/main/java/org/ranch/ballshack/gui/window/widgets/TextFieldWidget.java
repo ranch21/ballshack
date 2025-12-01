@@ -9,7 +9,7 @@ import org.lwjgl.glfw.GLFW;
 import org.ranch.ballshack.gui.Colors;
 import org.ranch.ballshack.gui.GuiUtil;
 import org.ranch.ballshack.gui.window.Widget;
-import org.ranch.ballshack.util.DrawUtil;
+import org.ranch.ballshack.util.rendering.DrawUtil;
 
 import java.awt.*;
 

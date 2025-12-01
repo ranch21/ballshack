@@ -15,7 +15,9 @@ public class BallsHack implements ModInitializer {
 
 	public static Setting<String> title = new Setting<>("BallsHack", "watermark", new TypeToken<String>() {
 	}.getType());
-	public static String version = "1.29";
+	public static String version = "1.30";
+
+	public static String ID = "ballshack";
 
 	public static MinecraftClient mc = MinecraftClient.getInstance();
 

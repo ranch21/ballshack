@@ -8,7 +8,6 @@ import org.ranch.ballshack.module.ModuleCategory;
 import org.ranch.ballshack.setting.ModuleSettings;
 import org.ranch.ballshack.setting.moduleSettings.SettingSlider;
 
-import java.util.Arrays;
 import java.util.Collections;
 
 public class BouncyGround extends Module {

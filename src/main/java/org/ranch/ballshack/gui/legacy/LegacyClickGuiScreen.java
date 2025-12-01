@@ -1,6 +1,7 @@
 package org.ranch.ballshack.gui.legacy;
 
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.Click;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
@@ -50,27 +51,27 @@ public class LegacyClickGuiScreen extends Screen {
 	}
 
 	@Override
-	public boolean mouseClicked(double mouseX, double mouseY, int button) {
+	public boolean mouseClicked(Click click, boolean doubled) {
 
-		if (LegacyGuiUtil.mouseOverlap(mouseX, mouseY, width - 50, height - 10, 50, 10)) { //NOTLEGACY
+		if (LegacyGuiUtil.mouseOverlap(click.x(), click.y(), width - 50, height - 10, 50, 10)) { //NOTLEGACY
 			((SettingToggle) ModuleManager.getModuleByName("ClickGui").getSettings().getSetting(2)).setValue(false); //NOTLEGACY
 		} //NOTLEGACY
 
 		for (LegacyCategoryWindow window : windows) {
-			window.mouseClicked(mouseX, mouseY, button);
+			window.mouseClicked(click.x(), click.y(), click.button());
 		}
 
-		return super.mouseClicked(mouseX, mouseY, button);
+		return super.mouseClicked(click, doubled);
 	}
 
 	@Override
-	public boolean mouseReleased(double mouseX, double mouseY, int button) {
+	public boolean mouseReleased(Click click) {
 
 		for (LegacyCategoryWindow window : windows) {
-			window.mouseReleased(mouseX, mouseY, button);
+			window.mouseReleased(click.x(), click.y(), click.button());
 		}
 
-		return super.mouseReleased(mouseX, mouseY, button);
+		return super.mouseReleased(click);
 	}
 
 	public boolean shouldPause() {

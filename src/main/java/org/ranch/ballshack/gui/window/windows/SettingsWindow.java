@@ -8,7 +8,7 @@ import org.ranch.ballshack.BallsHack;
 import org.ranch.ballshack.gui.window.Window;
 import org.ranch.ballshack.gui.window.widgets.TextFieldWidget;
 import org.ranch.ballshack.setting.SettingSaver;
-import org.ranch.ballshack.util.DrawUtil;
+import org.ranch.ballshack.util.rendering.DrawUtil;
 
 import java.awt.*;
 

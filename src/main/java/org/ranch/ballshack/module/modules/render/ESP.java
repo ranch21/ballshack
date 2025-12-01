@@ -4,7 +4,6 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
-import org.lwjgl.opengl.GL11;
 import org.ranch.ballshack.event.EventSubscribe;
 import org.ranch.ballshack.event.events.EventWorldRender;
 import org.ranch.ballshack.module.Module;
@@ -12,10 +11,16 @@ import org.ranch.ballshack.module.ModuleCategory;
 import org.ranch.ballshack.setting.ModuleSettings;
 import org.ranch.ballshack.setting.moduleSettings.SettingSlider;
 import org.ranch.ballshack.setting.moduleSettings.TargetsDropDown;
-import org.ranch.ballshack.util.DrawUtil;
 import org.ranch.ballshack.util.EntityUtil;
+import org.ranch.ballshack.util.rendering.BallColor;
+import org.ranch.ballshack.util.rendering.BallsRenderPipelines;
+import org.ranch.ballshack.util.rendering.Renderer;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+
+import static org.ranch.ballshack.Constants.LINE_WIDTH;
 
 public class ESP extends Module {
 	public ESP() {
@@ -28,15 +33,11 @@ public class ESP extends Module {
 	@EventSubscribe
 	public void onWorldRender(EventWorldRender.Post event) {
 
-		GL11.glEnable(GL11.GL_BLEND);
-		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-		GL11.glEnable(GL11.GL_CULL_FACE);
-		GL11.glDisable(GL11.GL_DEPTH_TEST);
-		GL11.glEnable(GL11.GL_LINE_SMOOTH);
-
 		double alpha = (double) getSettings().getSetting(0).getValue();
 		TargetsDropDown targets = (TargetsDropDown) getSettings().getSetting(1);
+		Renderer renderer = Renderer.getInstance();
 
+		MatrixStack matrices = event.matrixStack;
 
 		for (Entity e : mc.world.getEntities()) {
 			if (e != mc.player) {
@@ -55,32 +56,17 @@ public class ESP extends Module {
 					}
 				}
 
-				MatrixStack matrices = event.matrixStack;
-
 				Vec3d size = new Vec3d(e.getWidth(), e.getHeight(), e.getWidth());
 
 				Vec3d c1 = e.getLerpedPos(event.tickDelta).subtract(size.x / 2, 0, size.z / 2);
 
 				Box box = new Box(c1, c1.add(size));
 
-				float r = type.getColor().getRed() / 255.0f;
-				float g = type.getColor().getGreen() / 255.0f;
-				float b = type.getColor().getBlue() / 255.0f;
-
-				matrices.push();
-				Vec3d cameraPos = mc.gameRenderer.getCamera().getPos();
-				matrices.translate(-cameraPos.x, -cameraPos.y, -cameraPos.z);
-
-				DrawUtil.drawCube(matrices, box, r, g, b, (float) alpha);
-				DrawUtil.drawCubeOutline(matrices, box, r, g, b, 0.7f);
-
-				matrices.pop();
+				renderer.renderCube(box, BallColor.fromColor(type.getColor()).setAlpha((float) alpha), matrices);
+				renderer.renderCubeOutlines(box, LINE_WIDTH, type.getColor(), matrices);
 			}
 		}
 
-		GL11.glEnable(GL11.GL_DEPTH_TEST);
-		GL11.glDisable(GL11.GL_BLEND);
-		GL11.glDisable(GL11.GL_LINE_SMOOTH);
-
+		renderer.draw(BallsRenderPipelines.QUADS);
 	}
 }

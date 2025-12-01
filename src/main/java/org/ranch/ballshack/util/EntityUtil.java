@@ -30,7 +30,7 @@ public class EntityUtil {
 	private static final MinecraftClient mc = MinecraftClient.getInstance();
 
 	public static Vec3d getCenter(Entity e) {
-		Vec3d p = e.getPos();
+		Vec3d p = e.getEntityPos();
 		return new Vec3d(p.x, p.y + e.getHeight() / 2, p.z);
 	}
 

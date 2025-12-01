@@ -72,7 +72,7 @@ public class TpAura extends Module {
 
 		if (d > 5) return;
 
-		Vec3d pos = e.getPos();
+		Vec3d pos = e.getEntityPos();
 
 		double ang = Math.toRadians(Math.random() * 360);
 

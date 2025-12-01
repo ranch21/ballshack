@@ -1,7 +1,7 @@
 package org.ranch.ballshack.gui.balls;
 
+import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.render.RenderLayer;
 import net.minecraft.util.Identifier;
 import org.joml.Vector2d;
 
@@ -12,94 +12,104 @@ public class Ball {
 	private final Vector2d acc;
 
 	public static int size = 8;
-
 	private final Identifier texture;
 
 	public Ball(double x, double y, double xVel, double yVel, Identifier texture) {
 		this.pos = new Vector2d(x, y);
-		this.prevPos = new Vector2d(pos);
+		this.prevPos = new Vector2d(x - xVel, y - yVel); // correct Verlet initialization
 		this.acc = new Vector2d(xVel, yVel);
 		this.texture = texture;
 	}
 
 	public void update(double deltaT, double gravity) {
+		// Apply gravity
+		acc.y += gravity;
 
-		accelerate(new Vector2d(0, gravity));
+		double tempX = pos.x;
+		double tempY = pos.y;
 
-		Vector2d vel = new Vector2d(pos).sub(prevPos);
+		pos.x = pos.x + (pos.x - prevPos.x) + acc.x * deltaT * deltaT;
+		pos.y = pos.y + (pos.y - prevPos.y) + acc.y * deltaT * deltaT;
 
-		double x = pos.x + vel.x + (acc.x * deltaT * deltaT);
-		double y = pos.y + vel.y + (acc.y * deltaT * deltaT);
+		prevPos.x = tempX;
+		prevPos.y = tempY;
+
 		acc.set(0, 0);
-
-		prevPos.set(pos.x, pos.y);
-		pos.set(x, y);
 	}
 
 	public void collideWalls(int width, int height) {
-		if (pos.x + size > width) {
-			pos.x = width - size;
-		} else if (pos.x < 0) {
-			pos.x = 0;
-		}
+		double maxX = width - size;
+		double maxY = height - size;
 
-		if (pos.y + size > height) {
-			pos.y = height - size;
-		} else if (pos.y < 0) {
-			pos.y = 0;
-		}
+		if (pos.x > maxX) pos.x = maxX;
+		else if (pos.x < 0) pos.x = 0;
+
+		if (pos.y > maxY) pos.y = maxY;
+		else if (pos.y < 0) pos.y = 0;
 	}
 
 	public void collideOther(Ball other) {
-		double dist = pos.distance(other.pos);
-		if (dist < size) {
-			Vector2d diff = new Vector2d(pos).sub(other.pos);
-			diff.div(dist);
-			double delta = size - dist;
-			pos.set(pos.x + 0.5 * delta * diff.x, pos.y + 0.5 * delta * diff.y);
-			other.pos.set(other.pos.x - 0.5 * delta * diff.x, other.pos.y - 0.5 * delta * diff.y);
+
+		double dx = pos.x - other.pos.x;
+		double dy = pos.y - other.pos.y;
+
+		double distSq = dx * dx + dy * dy;
+		double minDist = size;
+
+		if (distSq < minDist * minDist) {
+			double dist = Math.sqrt(distSq);
+			if (dist == 0) return;
+
+			double overlap = (minDist - dist) * 0.5;
+			double invDist = 1.0 / dist;
+
+			double ox = dx * invDist * overlap;
+			double oy = dy * invDist * overlap;
+
+			pos.x += ox;
+			pos.y += oy;
+			other.pos.x -= ox;
+			other.pos.y -= oy;
 		}
 	}
 
 	public void collideRect(Rect rect) {
-		if (pos.x + size > rect.pos.x &&
-				pos.x < rect.farCorner().x &&
-				pos.y + size > rect.pos.y &&
-				pos.y < rect.farCorner().y
-		) {
-			double overlapLeft = (pos.x + size) - rect.pos.x;
-			double overlapRight = rect.farCorner().x - pos.x;
-			double overlapX = Math.min(overlapLeft, overlapRight);
+		double left = rect.pos.x;
+		double top = rect.pos.y;
+		double right = rect.farCorner().x;
+		double bottom = rect.farCorner().y;
 
-			double overlapTop = (pos.y + size) - rect.pos.y;
-			double overlapBottom = rect.farCorner().y - pos.y;
-			double overlapY = Math.min(overlapTop, overlapBottom);
+		if (pos.x + size > left &&
+				pos.x < right &&
+				pos.y + size > top &&
+				pos.y < bottom) {
 
-			if (overlapX < overlapY) {
-				if (overlapLeft < overlapRight) {
-					// Collision with left side of the box
-					pos.x = rect.pos.x - size;
-				} else {
-					// Collision with right side of the box
-					pos.x = rect.farCorner().x;
-				}
+			double overlapLeft = (pos.x + size) - left;
+			double overlapRight = right - pos.x;
+			double overlapTop = (pos.y + size) - top;
+			double overlapBottom = bottom - pos.y;
+
+			if (Math.min(overlapLeft, overlapRight) < Math.min(overlapTop, overlapBottom)) {
+				pos.x = (overlapLeft < overlapRight) ? left - size : right;
 			} else {
-				if (overlapTop < overlapBottom) {
-					// Collision with top of the box
-					pos.y = rect.pos.y - size;
-				} else {
-					// Collision with bottom of the box
-					pos.y = rect.farCorner().y;
-				}
+				pos.y = (overlapTop < overlapBottom) ? top - size : bottom;
 			}
 		}
 	}
 
-	public void accelerate(Vector2d acc) {
-		this.acc.add(acc);
+	public void accelerate(Vector2d a) {
+		acc.add(a);
 	}
 
 	public void render(DrawContext context) {
-		context.drawTexture(RenderLayer::getGuiTextured, texture, (int) pos.x, (int) pos.y, 0, 0, size, size, size, size);
+		context.drawTexture(
+				RenderPipelines.GUI_TEXTURED,
+				texture,
+				(int) pos.x,
+				(int) pos.y,
+				0, 0,
+				size, size,
+				size, size
+		);
 	}
 }

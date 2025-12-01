@@ -3,12 +3,17 @@ package org.ranch.ballshack.gui;
 import com.google.gson.reflect.TypeToken;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
+import net.minecraft.client.gui.Click;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.input.CharInput;
+import net.minecraft.client.input.KeyInput;
 import net.minecraft.client.util.NarratorManager;
+import net.minecraft.util.ClickType;
 import org.apache.commons.lang3.StringUtils;
 import org.joml.Vector2d;
+import org.lwjgl.glfw.GLFW;
 import org.ranch.ballshack.BallsHack;
 import org.ranch.ballshack.gui.balls.Ball;
 import org.ranch.ballshack.gui.balls.BallHandler;
@@ -19,9 +24,10 @@ import org.ranch.ballshack.module.ModuleManager;
 import org.ranch.ballshack.setting.ModuleSettings;
 import org.ranch.ballshack.setting.Setting;
 import org.ranch.ballshack.setting.moduleSettings.DropDown;
-import org.ranch.ballshack.util.DrawUtil;
+import org.ranch.ballshack.util.rendering.DrawUtil;
 
 import java.awt.*;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,6 +41,10 @@ public class ClickGuiScreen extends Screen {
 	BallHandler ballHandler;
 	boolean ballsEnabled = false;
 	boolean darken = true;
+
+	final int SUBSTEPS = 4;
+
+	boolean holding = false;
 
 	public ClickGuiScreen() {
 		super(NarratorManager.EMPTY);
@@ -114,7 +124,9 @@ public class ClickGuiScreen extends Screen {
 			for (CategoryWindow win : windows) {
 				rects.add(new Rect(new Vector2d(win.x, win.y), new Vector2d(CategoryWindow.width, win.getHeight())));
 			}
-			ballHandler.update(this.width, this.height, delta, rects);
+			for (int i = 0; i < SUBSTEPS; i++) {
+				ballHandler.update(this.width, this.height, delta / SUBSTEPS, rects, mouseX, mouseY, holding);
+			}
 			ballHandler.render(context);
 		}
 
@@ -136,46 +148,55 @@ public class ClickGuiScreen extends Screen {
 	}
 
 	@Override
-	public boolean mouseClicked(double mouseX, double mouseY, int button) {
+	public boolean mouseClicked(Click click, boolean doubled) {
 
 		for (int i = windows.size() - 1; i >= 0; i--) {
-			if (windows.get(i).mouseClicked(mouseX, mouseY, button)) {
+			if (windows.get(i).mouseClicked(click.x(), click.y(), click.button())) {
 				break; // if one window uses click, stop sending click
 			}
 		}
 
-		return super.mouseClicked(mouseX, mouseY, button);
-	}
-
-	@Override
-	public boolean mouseReleased(double mouseX, double mouseY, int button) {
-
-		for (CategoryWindow window : windows) {
-			window.mouseReleased(mouseX, mouseY, button);
+		if (click.button() == GLFW.GLFW_MOUSE_BUTTON_RIGHT) {
+			holding = true;
 		}
 
-		return super.mouseReleased(mouseX, mouseY, button);
+
+		return super.mouseClicked(click, doubled);
 	}
 
 	@Override
-	public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+	public boolean mouseReleased(Click click) {
 
 		for (CategoryWindow window : windows) {
-			window.keyPressed(keyCode, scanCode, modifiers);
+			window.mouseReleased(click.x(), click.y(), click.button());
 		}
 
-		return super.keyPressed(keyCode, scanCode, modifiers);
+		if (click.button() == GLFW.GLFW_MOUSE_BUTTON_RIGHT) {
+			holding = false;
+		}
+
+		return super.mouseReleased(click);
 	}
 
 	@Override
-	public boolean charTyped(char chr, int modifiers) {
+	public boolean keyPressed(KeyInput keyInput) {
+
 		for (CategoryWindow window : windows) {
-			if (window.charTyped(chr, modifiers)) {
+			window.keyPressed(keyInput.key(), keyInput.scancode(), keyInput.modifiers());
+		}
+
+		return super.keyPressed(keyInput);
+	}
+
+	@Override
+	public boolean charTyped(CharInput charInput) {
+		for (CategoryWindow window : windows) {
+			if (window.charTyped((char) charInput.codepoint(), charInput.modifiers())) {
 				break;
 			}
 		}
 
-		return super.charTyped(chr, modifiers);
+		return super.charTyped(charInput);
 	}
 
 	public boolean shouldPause() {

@@ -2,15 +2,18 @@ package org.ranch.ballshack.gui;
 
 import com.google.gson.reflect.TypeToken;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.Click;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.input.CharInput;
+import net.minecraft.client.input.KeyInput;
 import net.minecraft.client.util.NarratorManager;
 import org.lwjgl.glfw.GLFW;
 import org.ranch.ballshack.module.*;
 import org.ranch.ballshack.module.Module;
 import org.ranch.ballshack.setting.HudElementData;
 import org.ranch.ballshack.setting.Setting;
-import org.ranch.ballshack.util.DrawUtil;
+import org.ranch.ballshack.util.rendering.DrawUtil;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -102,44 +105,44 @@ public class HudScreen extends Screen {
 	}
 
 	@Override
-	public boolean mouseClicked(double mouseX, double mouseY, int button) {
+	public boolean mouseClicked(Click click, boolean doubled) {
 
-		if (button == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
+		if (click.button() == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
 			for (ModuleHud module : modules) {
 
 				if (!module.isEnabled()) continue;
 
-				if (GuiUtil.mouseOverlap(mouseX, mouseY, module.X() - module.xOffset(), module.Y() - module.yOffset(), module.getWidth(), module.getHeight())) {
+				if (GuiUtil.mouseOverlap(click.x(), click.y(), module.X() - module.xOffset(), module.Y() - module.yOffset(), module.getWidth(), module.getHeight())) {
 					dragging = true;
 					draggingModule = module;
-					dragX = (int) mouseX - module.X();
-					dragY = (int) mouseY - module.Y();
+					dragX = (int) click.x() - module.X();
+					dragY = (int) click.y() - module.Y();
 					return true;
 				}
 			}
 		}
 
-		return super.mouseClicked(mouseX, mouseY, button);
+		return super.mouseClicked(click, doubled);
 	}
 
 	@Override
-	public boolean mouseReleased(double mouseX, double mouseY, int button) {
+	public boolean mouseReleased(Click click) {
 
-		if (button == GLFW.GLFW_MOUSE_BUTTON_LEFT) dragging = false;
+		if (click.button() == GLFW.GLFW_MOUSE_BUTTON_LEFT) dragging = false;
 
-		return super.mouseReleased(mouseX, mouseY, button);
+		return super.mouseReleased(click);
 	}
 
 	@Override
-	public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+	public boolean keyPressed(KeyInput keyInput) {
 
-		return super.keyPressed(keyCode, scanCode, modifiers);
+		return super.keyPressed(keyInput);
 	}
 
 	@Override
-	public boolean charTyped(char chr, int modifiers) {
+	public boolean charTyped(CharInput charInput) {
 
-		return super.charTyped(chr, modifiers);
+		return super.charTyped(charInput);
 	}
 
 	public boolean shouldPause() {

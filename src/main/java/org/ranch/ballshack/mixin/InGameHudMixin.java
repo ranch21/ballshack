@@ -15,7 +15,7 @@ public class InGameHudMixin {
 
 	@Inject(method = "render", at = @At("TAIL"))
 	private void render(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
-		EventHudRender event = new EventHudRender(context, tickCounter.getTickDelta(true));
+		EventHudRender event = new EventHudRender(context, tickCounter.getTickProgress(true));
 		BallsHack.eventBus.post(event);
 	}
 }

@@ -13,8 +13,8 @@ public class RotationUtil {
 	}
 
 	public static Rotation slowlyTurnTowards(Rotation end, float maxChange) {
-		float startYaw = mc.player.prevYaw;
-		float startPitch = mc.player.prevPitch;
+		float startYaw = mc.player.lastYaw;
+		float startPitch = mc.player.lastPitch;
 		float endYaw = end.yaw;
 		float endPitch = end.pitch;
 

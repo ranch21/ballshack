@@ -7,7 +7,7 @@ import net.minecraft.client.gui.screen.Screen;
 import org.lwjgl.glfw.GLFW;
 import org.ranch.ballshack.gui.Colors;
 import org.ranch.ballshack.gui.GuiUtil;
-import org.ranch.ballshack.util.DrawUtil;
+import org.ranch.ballshack.util.rendering.DrawUtil;
 
 import java.awt.*;
 import java.util.ArrayList;

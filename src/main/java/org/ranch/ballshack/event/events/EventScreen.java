@@ -2,8 +2,6 @@ package org.ranch.ballshack.event.events;
 
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.render.RenderTickCounter;
-import net.minecraft.client.util.math.MatrixStack;
 import org.ranch.ballshack.event.Event;
 
 public class EventScreen extends Event {

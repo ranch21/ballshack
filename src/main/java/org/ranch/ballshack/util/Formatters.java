@@ -4,7 +4,9 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.world.GameMode;
 import org.ranch.ballshack.BallsHack;
+import org.ranch.ballshack.module.ModuleManager;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.Supplier;
@@ -115,10 +117,30 @@ public class Formatters {
 		addFormatter("bps", () -> {
 			try {
 				PlayerEntity player = mc.player;
-				double dx = player.getX() - player.prevX;
-				double dy = player.getY() - player.prevY;
-				double dz = player.getZ() - player.prevZ;
+				double dx = player.getX() - player.lastX;
+				double dy = player.getY() - player.lastY;
+				double dz = player.getZ() - player.lastZ;
 				return String.format("%.1f", Math.sqrt(dx * dx + dy * dy + dz * dz) * 20);
+			} catch (Throwable t) {
+				return "unknown";
+			}
+		});
+
+		addFormatter("fps", () -> {
+			try {
+				return String.valueOf(BallsHack.mc.getCurrentFps());
+			} catch (Throwable t) {
+				return "unknown";
+			}
+		});
+
+		addFormatter("modules", () -> {
+			try {
+				ArrayList<String> modules = new ArrayList<>();
+				ModuleManager.getModules().forEach(module -> {
+					if (module.isEnabled() && !module.isMeta()) modules.add(module.getName());
+				});
+				return String.join(" ", modules);
 			} catch (Throwable t) {
 				return "unknown";
 			}

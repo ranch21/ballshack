@@ -1,5 +1,6 @@
 package org.ranch.ballshack.module;
 
+import net.minecraft.client.input.KeyInput;
 import org.ranch.ballshack.module.modules.client.*;
 import org.ranch.ballshack.module.modules.combat.*;
 import org.ranch.ballshack.module.modules.fun.BouncyGround;
@@ -46,7 +47,6 @@ public class ModuleManager {
 			new BlockHighlight(),
 			new Trajectories(),
 			new ProjectileEvade(),
-			new WindowGui(),
 			new SafeWalk(),
 			new Sprint(),
 			new DiscordRP(),
@@ -81,9 +81,9 @@ public class ModuleManager {
 		return null;
 	}
 
-	public static void handleKeyPress(int key) {
+	public static void handleKeyPress(KeyInput key) {
 		for (Module module : modules) {
-			if (module.getBind() == key) {
+			if (module.getBind() == key.key()) {
 				module.toggle();
 			}
 		}

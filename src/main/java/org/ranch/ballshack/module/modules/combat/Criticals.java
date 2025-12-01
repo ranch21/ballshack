@@ -26,7 +26,7 @@ public class Criticals extends Module {
 	}
 
 	public void sendPacket(double height) {
-		Vec3d pos = mc.player.getPos();
+		Vec3d pos = mc.player.getEntityPos();
 
 		PlayerMoveC2SPacket.PositionAndOnGround packet = new PlayerMoveC2SPacket.PositionAndOnGround(pos.x, pos.y + height, pos.z, false, mc.player.horizontalCollision);
 		mc.player.networkHandler.sendPacket(packet);

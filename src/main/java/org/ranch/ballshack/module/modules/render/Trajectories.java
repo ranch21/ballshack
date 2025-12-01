@@ -1,8 +1,5 @@
 package org.ranch.ballshack.module.modules.render;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.client.gl.ShaderProgramKeys;
-import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -10,7 +7,6 @@ import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import org.joml.Matrix4f;
-import org.lwjgl.opengl.GL11;
 import org.ranch.ballshack.event.EventSubscribe;
 import org.ranch.ballshack.event.events.EventTick;
 import org.ranch.ballshack.event.events.EventWorldRender;
@@ -20,12 +16,17 @@ import org.ranch.ballshack.module.ModuleCategory;
 import org.ranch.ballshack.setting.ModuleSettings;
 import org.ranch.ballshack.setting.moduleSettings.SettingSlider;
 import org.ranch.ballshack.setting.moduleSettings.SettingToggle;
-import org.ranch.ballshack.util.DrawUtil;
 import org.ranch.ballshack.util.ProjectileSim;
+import org.ranch.ballshack.util.rendering.BallColor;
+import org.ranch.ballshack.util.rendering.BallsRenderPipelines;
+import org.ranch.ballshack.util.rendering.DrawUtil;
+import org.ranch.ballshack.util.rendering.Renderer;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.ranch.ballshack.Constants.LINE_WIDTH;
 
 public class Trajectories extends Module {
 	private final List<ProjectileSim.Trajectory> trajectories = new ArrayList<>();
@@ -76,21 +77,12 @@ public class Trajectories extends Module {
 
 	@EventSubscribe
 	public void onWorldRender(EventWorldRender.Post event) {
-		GL11.glEnable(GL11.GL_BLEND);
-		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-		GL11.glEnable(GL11.GL_CULL_FACE);
-		GL11.glDisable(GL11.GL_DEPTH_TEST);
-		GL11.glEnable(GL11.GL_LINE_SMOOTH);
 
 		double alpha = (double) getSettings().getSetting(1).getValue();
 
 		MatrixStack matrices = event.matrixStack;
 
-		matrices.push();
-
-		Vec3d cameraPos = mc.gameRenderer.getCamera().getPos();
-
-		matrices.translate(-cameraPos.x, -cameraPos.y, -cameraPos.z);
+		Renderer renderer = Renderer.getInstance();
 
 		for (ProjectileSim.Trajectory traj : trajectories) {
 
@@ -109,21 +101,12 @@ public class Trajectories extends Module {
 					continue;
 				}
 
-				Matrix4f matrix = matrices.peek().getPositionMatrix();
-
 				if (pos == traj.getPositions().get(traj.getPositions().size() - 1)) {
 					Box box = new Box(pos.subtract(0.1), pos.add(0.1));
-					DrawUtil.drawCube(matrices, box, r, g, b, 0.2f);
-					DrawUtil.drawCubeOutline(matrices, box, r, g, b, 0.7f);
+					renderer.renderCube(box, BallColor.fromColor(c).setAlpha(0.2f), matrices);
+					renderer.renderCubeOutlines(box, LINE_WIDTH, BallColor.fromColor(c).setAlpha(0.7f), matrices);
 				} else {
-					BufferBuilder bufferBuilder = Tessellator.getInstance().begin(VertexFormat.DrawMode.DEBUG_LINES, VertexFormats.POSITION);
-
-					bufferBuilder.vertex(matrix, (float) prevPos.x, (float) prevPos.y, (float) prevPos.z);
-					bufferBuilder.vertex(matrix, (float) pos.x, (float) pos.y, (float) pos.z);
-
-					RenderSystem.setShader(ShaderProgramKeys.POSITION);
-					RenderSystem.setShaderColor(r, g, b, (float) alpha);
-					BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
+					renderer.renderLine(prevPos, pos, LINE_WIDTH, BallColor.fromColor(c).setAlpha((float) alpha), matrices);
 				}
 
 				prevPos = pos;
@@ -131,12 +114,6 @@ public class Trajectories extends Module {
 			}
 		}
 
-		RenderSystem.setShaderColor(1, 1, 1, 1);
-
-		matrices.pop();
-
-		GL11.glEnable(GL11.GL_DEPTH_TEST);
-		GL11.glDisable(GL11.GL_BLEND);
-		GL11.glDisable(GL11.GL_LINE_SMOOTH);
+		renderer.draw(BallsRenderPipelines.QUADS);
 	}
 }

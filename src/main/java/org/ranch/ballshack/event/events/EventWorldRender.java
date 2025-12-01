@@ -13,7 +13,7 @@ public class EventWorldRender extends Event {
 	public static class Post extends EventWorldRender {
 		public Post(MatrixStack matrixStack, RenderTickCounter renderTickCounter) {
 			this.matrixStack = matrixStack;
-			this.tickDelta = renderTickCounter.getTickDelta(true);
+			this.tickDelta = renderTickCounter.getTickProgress(true);
 		}
 	}
 
@@ -24,7 +24,7 @@ public class EventWorldRender extends Event {
 
 		public Outline(MatrixStack matrixStack, RenderTickCounter renderTickCounter, boolean translucent, VertexConsumerProvider.Immediate vertexConsumers) {
 			this.matrixStack = matrixStack;
-			this.tickDelta = renderTickCounter.getTickDelta(true);
+			this.tickDelta = renderTickCounter.getTickProgress(true);
 			this.translucent = translucent;
 			this.vertexConsumers = vertexConsumers;
 		}

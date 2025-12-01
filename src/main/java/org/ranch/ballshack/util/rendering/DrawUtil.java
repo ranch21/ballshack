@@ -1,24 +1,21 @@
-package org.ranch.ballshack.util;
+package org.ranch.ballshack.util.rendering;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
-import net.minecraft.client.gl.ShaderProgramKeys;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.Box;
-import org.joml.Matrix4f;
 import org.joml.Vector2i;
 import org.ranch.ballshack.FriendManager;
 import org.ranch.ballshack.gui.Colors;
-import org.ranch.ballshack.mixin.DrawContextAccessor;
+import org.ranch.ballshack.util.EntityUtil;
 
 import java.awt.*;
 
 import static org.ranch.ballshack.BallsHack.mc;
+import static org.ranch.ballshack.Constants.LINE_WIDTH;
 
 public class DrawUtil {
 	public static void drawHorizontalGradient(DrawContext context, int x, int y, int width, int height, Color startColor, Color endColor, int resolution) {
@@ -113,11 +110,12 @@ public class DrawUtil {
 		drawText(context, textRend, text, x - textRend.getWidth(text), y, color, shadow);
 	}
 
+	@Deprecated
 	public static void drawText(DrawContext context, TextRenderer textRend, String text, int x, int y, Color color, boolean shadow) {
 
-		//context.drawText(textRend, text, x, y, color.hashCode(), shadow);
+		context.drawText(textRend, text, x, y, color.hashCode(), shadow);
 
-		textRend.draw(
+		/*textRend.draw(
 				text,
 				x,
 				y,
@@ -128,14 +126,15 @@ public class DrawUtil {
 				TextRenderer.TextLayerType.SEE_THROUGH,
 				0,
 				15728880
-		);
+		);*/
 	}
 
+	@Deprecated
 	public static void drawText(DrawContext context, TextRenderer textRend, Text text, int x, int y, Color color, boolean shadow) {
 
-		//context.drawText(textRend, text, x, y, color.hashCode(), shadow);
+		context.drawText(textRend, text, x, y, color.hashCode(), shadow);
 
-		textRend.draw(
+		/*textRend.draw(
 				text,
 				x,
 				y,
@@ -146,116 +145,21 @@ public class DrawUtil {
 				TextRenderer.TextLayerType.SEE_THROUGH,
 				0,
 				15728880
-		);
+		);*/
 	}
 
+	@Deprecated
 	public static void drawCube(MatrixStack matrices, Box cube, float r, float g, float b, float a) {
-
-		BufferBuilder bufferBuilder = Tessellator.getInstance().begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION);
-
-		float minX = (float) cube.minX;
-		float minY = (float) cube.minY;
-		float minZ = (float) cube.minZ;
-		float maxX = (float) cube.maxX;
-		float maxY = (float) cube.maxY;
-		float maxZ = (float) cube.maxZ;
-
-		Matrix4f matrix = matrices.peek().getPositionMatrix();
-
-		bufferBuilder.vertex(matrix, minX, minY, minZ);
-		bufferBuilder.vertex(matrix, maxX, minY, minZ);
-		bufferBuilder.vertex(matrix, maxX, minY, maxZ);
-		bufferBuilder.vertex(matrix, minX, minY, maxZ);
-
-		bufferBuilder.vertex(matrix, minX, maxY, minZ);
-		bufferBuilder.vertex(matrix, minX, maxY, maxZ);
-		bufferBuilder.vertex(matrix, maxX, maxY, maxZ);
-		bufferBuilder.vertex(matrix, maxX, maxY, minZ);
-
-		bufferBuilder.vertex(matrix, minX, minY, minZ);
-		bufferBuilder.vertex(matrix, minX, maxY, minZ);
-		bufferBuilder.vertex(matrix, maxX, maxY, minZ);
-		bufferBuilder.vertex(matrix, maxX, minY, minZ);
-
-		bufferBuilder.vertex(matrix, maxX, minY, minZ);
-		bufferBuilder.vertex(matrix, maxX, maxY, minZ);
-		bufferBuilder.vertex(matrix, maxX, maxY, maxZ);
-		bufferBuilder.vertex(matrix, maxX, minY, maxZ);
-
-		bufferBuilder.vertex(matrix, minX, minY, maxZ);
-		bufferBuilder.vertex(matrix, maxX, minY, maxZ);
-		bufferBuilder.vertex(matrix, maxX, maxY, maxZ);
-		bufferBuilder.vertex(matrix, minX, maxY, maxZ);
-
-		bufferBuilder.vertex(matrix, minX, minY, minZ);
-		bufferBuilder.vertex(matrix, minX, minY, maxZ);
-		bufferBuilder.vertex(matrix, minX, maxY, maxZ);
-		bufferBuilder.vertex(matrix, minX, maxY, minZ);
-
-		RenderSystem.setShader(ShaderProgramKeys.POSITION);
-		RenderSystem.setShaderColor(r, g, b, a);
-
-		BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
-
-		RenderSystem.setShaderColor(1, 1, 1, 1);
+		Renderer renderer = Renderer.getInstance();
+		renderer.renderCube(cube, new Color(r, g, b, a), matrices);
+		renderer.draw(BallsRenderPipelines.QUADS);
 	}
 
+	@Deprecated
 	public static void drawCubeOutline(MatrixStack matrices, Box cube, float r, float g, float b, float a) {
-
-		BufferBuilder bufferBuilder = Tessellator.getInstance().begin(VertexFormat.DrawMode.DEBUG_LINES, VertexFormats.POSITION);
-
-		float minX = (float) cube.minX;
-		float minY = (float) cube.minY;
-		float minZ = (float) cube.minZ;
-		float maxX = (float) cube.maxX;
-		float maxY = (float) cube.maxY;
-		float maxZ = (float) cube.maxZ;
-
-		Matrix4f matrix = matrices.peek().getPositionMatrix();
-
-		bufferBuilder.vertex(matrix, minX, minY, minZ);
-		bufferBuilder.vertex(matrix, maxX, minY, minZ);
-
-		bufferBuilder.vertex(matrix, maxX, minY, minZ);
-		bufferBuilder.vertex(matrix, maxX, minY, maxZ);
-
-		bufferBuilder.vertex(matrix, maxX, minY, maxZ);
-		bufferBuilder.vertex(matrix, minX, minY, maxZ);
-
-		bufferBuilder.vertex(matrix, minX, minY, maxZ);
-		bufferBuilder.vertex(matrix, minX, minY, minZ);
-
-		bufferBuilder.vertex(matrix, minX, minY, minZ);
-		bufferBuilder.vertex(matrix, minX, maxY, minZ);
-
-		bufferBuilder.vertex(matrix, maxX, minY, minZ);
-		bufferBuilder.vertex(matrix, maxX, maxY, minZ);
-
-		bufferBuilder.vertex(matrix, maxX, minY, maxZ);
-		bufferBuilder.vertex(matrix, maxX, maxY, maxZ);
-
-		bufferBuilder.vertex(matrix, minX, minY, maxZ);
-		bufferBuilder.vertex(matrix, minX, maxY, maxZ);
-
-		bufferBuilder.vertex(matrix, minX, maxY, minZ);
-		bufferBuilder.vertex(matrix, maxX, maxY, minZ);
-
-		bufferBuilder.vertex(matrix, maxX, maxY, minZ);
-		bufferBuilder.vertex(matrix, maxX, maxY, maxZ);
-
-		bufferBuilder.vertex(matrix, maxX, maxY, maxZ);
-		bufferBuilder.vertex(matrix, minX, maxY, maxZ);
-
-		bufferBuilder.vertex(matrix, minX, maxY, maxZ);
-		bufferBuilder.vertex(matrix, minX, maxY, minZ);
-
-		RenderSystem.setShader(ShaderProgramKeys.POSITION);
-
-		RenderSystem.setShaderColor(r, g, b, a);
-
-		BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
-
-		RenderSystem.setShaderColor(1, 1, 1, 1);
+		Renderer renderer = Renderer.getInstance();
+		renderer.renderCubeOutlines(cube, LINE_WIDTH, new Color(r, g, b, a), matrices);
+		renderer.draw(BallsRenderPipelines.LINES);
 	}
 
 	public static Color getEspColor(Entity e) {

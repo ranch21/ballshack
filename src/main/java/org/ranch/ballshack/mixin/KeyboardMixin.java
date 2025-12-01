@@ -3,6 +3,7 @@ package org.ranch.ballshack.mixin;
 import net.minecraft.client.Keyboard;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ChatScreen;
+import net.minecraft.client.input.KeyInput;
 import org.lwjgl.glfw.GLFW;
 import org.ranch.ballshack.BallsHack;
 import org.ranch.ballshack.command.CommandManager;
@@ -16,17 +17,17 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(Keyboard.class)
 public class KeyboardMixin {
 	@Inject(method = "onKey", at = @At(value = "TAIL"))
-	public void onKey(long window, int key, int scancode, int action, int modifiers, CallbackInfo ci) {
+	public void onKey(long window, int action, KeyInput input, CallbackInfo ci) {
 
 		MinecraftClient mc = MinecraftClient.getInstance();
 
 		if (action == GLFW.GLFW_PRESS && mc.currentScreen == null) {
-			ModuleManager.handleKeyPress(key);
-			BallsHack.eventBus.post(new EventKeyPress(key));
+			ModuleManager.handleKeyPress(input);
+			BallsHack.eventBus.post(new EventKeyPress(input));
 
-			String keyName = GLFW.glfwGetKeyName(key, 0);
+			String keyName = GLFW.glfwGetKeyName(input.key(), 0);
 			if (keyName != null && keyName.equals(CommandManager.prefix)) {
-				mc.setScreen(new ChatScreen(""));
+				mc.setScreen(new ChatScreen("", true));
 			}
 		}
 	}

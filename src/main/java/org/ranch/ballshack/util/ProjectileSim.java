@@ -6,10 +6,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.*;
-import net.minecraft.entity.projectile.thrown.ExperienceBottleEntity;
-import net.minecraft.entity.projectile.thrown.PotionEntity;
-import net.minecraft.entity.projectile.thrown.SnowballEntity;
-import net.minecraft.entity.projectile.thrown.ThrownEntity;
+import net.minecraft.entity.projectile.thrown.*;
 import net.minecraft.item.*;
 import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.util.Hand;
@@ -60,7 +57,7 @@ public class ProjectileSim {
 
 		} else if (stack.getItem() instanceof ThrowablePotionItem) {
 
-			ProjectileEntity e = new PotionEntity(EntityType.POTION, mc.world);
+			ProjectileEntity e = new SplashPotionEntity(EntityType.SPLASH_POTION, mc.world);
 			initProjectile(e, player, -20f, 0.5f);
 			return e;
 
@@ -207,7 +204,7 @@ public class ProjectileSim {
 		public Projectile(Entity e) {
 
 			velocity = e.getVelocity();
-			pos = e.getPos();
+			pos = e.getEntityPos();
 
 			this.yaw = e.getYaw();
 			this.pitch = e.getPitch();

@@ -1,10 +1,6 @@
 package org.ranch.ballshack.util;
 
-import net.minecraft.world.GameMode;
-import org.ranch.ballshack.BallsHack;
-
 import java.text.DecimalFormat;
-import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.Supplier;
 

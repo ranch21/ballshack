@@ -3,7 +3,7 @@ package org.ranch.ballshack.module;
 import org.jetbrains.annotations.Nullable;
 import org.ranch.ballshack.setting.HudElementData;
 import org.ranch.ballshack.setting.HudModuleSettings;
-import org.ranch.ballshack.util.DrawUtil;
+import org.ranch.ballshack.util.rendering.DrawUtil;
 
 import java.util.ArrayList;
 

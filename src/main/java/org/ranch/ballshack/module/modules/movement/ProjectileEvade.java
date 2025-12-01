@@ -62,7 +62,7 @@ public class ProjectileEvade extends Module {
 		Vec3d almostLastPos = traj.getPositions().get(traj.getPositions().size() - 2);
 
 		Vec3d vel = lastPos.subtract(almostLastPos);
-		Vec3d d = almostLastPos.subtract(mc.player.getPos());
+		Vec3d d = almostLastPos.subtract(mc.player.getEntityPos());
 
 		Vec3d a = new Vec3d(0, 1, 0);
 
@@ -79,7 +79,7 @@ public class ProjectileEvade extends Module {
 		if ((boolean) settings.getSetting(0).getValue()) {
 			PlayerUtil.setMovement(perp);
 		} else {
-			mc.player.setPosition(mc.player.getPos().add(perp));
+			mc.player.setPosition(mc.player.getEntityPos().add(perp));
 		}
 	}
 }

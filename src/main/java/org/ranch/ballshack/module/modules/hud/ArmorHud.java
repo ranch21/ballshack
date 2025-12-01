@@ -3,12 +3,14 @@ package org.ranch.ballshack.module.modules.hud;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.collection.DefaultedList;
 import org.ranch.ballshack.event.EventSubscribe;
 import org.ranch.ballshack.event.events.EventHudRender;
 import org.ranch.ballshack.module.ModuleAnchor;
 import org.ranch.ballshack.module.ModuleCategory;
 import org.ranch.ballshack.module.ModuleHud;
+import org.ranch.ballshack.util.InvUtil;
+
+import java.util.List;
 
 public class ArmorHud extends ModuleHud {
 	public ArmorHud() {
@@ -23,7 +25,7 @@ public class ArmorHud extends ModuleHud {
 
 		PlayerEntity player = mc.player;
 
-		DefaultedList<ItemStack> armorItems = (DefaultedList<ItemStack>) player.getArmorItems();
+		List<ItemStack> armorItems = InvUtil.getArmorSlots(player);
 		int j = 0;
 		for (int i = armorItems.size() - 1; i >= 0; i--) {
 			context.drawItem(armorItems.get(i), x + (j * 16) - 1, y - 1);

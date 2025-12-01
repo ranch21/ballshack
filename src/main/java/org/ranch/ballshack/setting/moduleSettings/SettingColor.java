@@ -5,7 +5,7 @@ import org.lwjgl.glfw.GLFW;
 import org.ranch.ballshack.gui.Colors;
 import org.ranch.ballshack.gui.GuiUtil;
 import org.ranch.ballshack.setting.ModuleSetting;
-import org.ranch.ballshack.util.DrawUtil;
+import org.ranch.ballshack.util.rendering.DrawUtil;
 
 import java.awt.*;
 
@@ -219,7 +219,7 @@ public class SettingColor extends ModuleSetting<Color> {
 	protected void updateColorFromHSV() {
 		// Only convert in this direction; do not recompute hue from RGB
 		int rgb = Color.HSBtoRGB((float) hue, (float) saturation, (float) value);
-		rgb = (rgb & 0x00FFFFFF) | ((int)(alpha * 255) << 24);
+		rgb = (rgb & 0x00FFFFFF) | ((int) (alpha * 255) << 24);
 		Color col = new Color(rgb, true);
 		setValue(col);
 		Colors.refreshFromSettings();

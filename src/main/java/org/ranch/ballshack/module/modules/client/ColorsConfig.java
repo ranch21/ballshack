@@ -26,7 +26,7 @@ public class ColorsConfig extends Module {
 							public void setValue(Boolean value) {
 								super.setValue(value);
 								// Update global Colors when toggles might affect overrides
-								org.ranch.ballshack.gui.Colors.refreshFromSettings();
+								Colors.refreshFromSettings();
 							}
 						}
 				)),

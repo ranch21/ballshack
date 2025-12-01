@@ -58,8 +58,8 @@ public class PlayerUtil {
 
 		float yawRad = mc.player.getYaw() * MathHelper.RADIANS_PER_DEGREE;
 
-		float sideways = mc.player.input.movementSideways;
-		float forwards = mc.player.input.movementForward;
+		float sideways = mc.player.input.getMovementInput().x;
+		float forwards = mc.player.input.getMovementInput().y;
 
 		if (!(sideways == 0 && forwards == 0)) {
 			float moveAngle = (float) Math.atan2(sideways, forwards);

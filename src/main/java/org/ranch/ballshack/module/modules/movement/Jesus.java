@@ -9,7 +9,6 @@ import org.ranch.ballshack.module.ModuleCategory;
 import org.ranch.ballshack.setting.ModuleSettings;
 import org.ranch.ballshack.setting.moduleSettings.SettingToggle;
 
-import java.util.Arrays;
 import java.util.Collections;
 
 public class Jesus extends Module {

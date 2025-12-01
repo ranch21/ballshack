@@ -16,14 +16,13 @@ import org.ranch.ballshack.setting.moduleSettings.*;
 import java.time.Instant;
 import java.util.Arrays;
 
-import static org.ranch.ballshack.BallsHack.mc;
 import static org.ranch.ballshack.util.TextUtil.applyFormatting;
 
 
 public class DiscordRP extends Module {
 	private static Core core;
 	private static Activity activity;
-	private final int updateSpeed = 20;
+	private final int updateSpeed = 20*4;
 
 	public DiscordRP() {
 		super("DiscordRP", ModuleCategory.CLIENT, 0, new ModuleSettings(Arrays.asList(
@@ -34,8 +33,8 @@ public class DiscordRP extends Module {
 						"Watching",
 						"Competing"
 				)),
-				new SettingString("Details", "a", 256),
-				new SettingString("State", "b", 256),
+				new SettingString("Details", "test", 256),
+				new SettingString("State", "test", 256),
 				new DropDown("Party", Arrays.asList(
 						new SettingToggle(true, "Enabled"),
 						new SettingToggle(false, "UsePCount"),
@@ -52,6 +51,8 @@ public class DiscordRP extends Module {
 	@EventSubscribe
 	public void onTick(EventTick event) {
 		if (mc.world.getTime() % updateSpeed != 0) return;
+		//if (activity.getState().length() < 2) return;
+		//if (activity.getDetails().length() < 2) return;
 		core.runCallbacks();
 		setActivity();
 		core.activityManager().updateActivity(activity);
@@ -65,7 +66,7 @@ public class DiscordRP extends Module {
 
 		setActivity();
 		activity.setDetails(screenName);
-		activity.setState("b");
+		activity.setState("test");
 		core.activityManager().updateActivity(activity);
 	}
 
@@ -102,7 +103,7 @@ public class DiscordRP extends Module {
 		activity.setState(state);
 		ActivityType type = ActivityType.values()[((int) settings.getSetting(0).getValue())];
 		activity.setType(type == ActivityType.CUSTOM ? ActivityType.COMPETING : type);
-		DropDown partyDropdown = (DropDown)settings.getSetting(3);
+		DropDown partyDropdown = (DropDown) settings.getSetting(3);
 		boolean party = (boolean) partyDropdown.getSetting(0).getValue();
 		boolean useServerPlayerCount = (boolean) partyDropdown.getSetting(1).getValue();
 		int current = (int) (double) partyDropdown.getSetting(2).getValue();
@@ -122,7 +123,7 @@ public class DiscordRP extends Module {
 			activity.party().size().setCurrentSize(current);
 		}
 
-		DropDown assetsDropdown = (DropDown)settings.getSetting(4);
+		DropDown assetsDropdown = (DropDown) settings.getSetting(4);
 		String large = (String) assetsDropdown.getSetting(0).getValue();
 		String small = (String) assetsDropdown.getSetting(1).getValue();
 

@@ -7,7 +7,6 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.noise.PerlinNoiseSampler;
 import net.minecraft.util.math.random.Random;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.system.MathUtil;
 import org.ranch.ballshack.event.EventSubscribe;
 import org.ranch.ballshack.event.events.EventMouseUpdate;
 import org.ranch.ballshack.event.events.EventTick;
@@ -17,7 +16,11 @@ import org.ranch.ballshack.module.Module;
 import org.ranch.ballshack.module.ModuleCategory;
 import org.ranch.ballshack.setting.ModuleSettings;
 import org.ranch.ballshack.setting.moduleSettings.*;
-import org.ranch.ballshack.util.*;
+import org.ranch.ballshack.util.EntityUtil;
+import org.ranch.ballshack.util.PlayerUtil;
+import org.ranch.ballshack.util.Rotation;
+import org.ranch.ballshack.util.RotationUtil;
+import org.ranch.ballshack.util.rendering.DrawUtil;
 
 import java.awt.*;
 import java.util.Arrays;
@@ -63,8 +66,8 @@ public class AimAssist extends Module {
 
 		Rotation desired = PlayerUtil.getPosRotation(mc.player, prevTargetPos.lerp(targetPos, event.timeDelta).add(prevOffset.lerp(offset, event.timeDelta)));
 
-		float pdelta = RotationUtil.getDegreeChange(mc.player.prevPitch, desired.pitch);
-		float ydelta = RotationUtil.getDegreeChange(mc.player.prevYaw, desired.yaw);
+		float pdelta = RotationUtil.getDegreeChange(mc.player.lastPitch, desired.pitch);
+		float ydelta = RotationUtil.getDegreeChange(mc.player.lastYaw, desired.yaw);
 
 		if (moveMode == 1) {
 			float combined = Math.max((ydelta + pdelta) / 25, 1);
@@ -151,13 +154,6 @@ public class AimAssist extends Module {
 	@EventSubscribe
 	public void onWorldRender(EventWorldRender.Post event) {
 		if (targetPos == null) return;
-
-		GL11.glEnable(GL11.GL_BLEND);
-		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-		GL11.glEnable(GL11.GL_CULL_FACE);
-		GL11.glDisable(GL11.GL_DEPTH_TEST);
-		GL11.glEnable(GL11.GL_LINE_SMOOTH);
-
 		Color c = Colors.PALLETE_1;
 
 		double alpha = 0.2f;
@@ -165,15 +161,7 @@ public class AimAssist extends Module {
 		float g = c.getGreen() / 255.0f;
 		float b = c.getBlue() / 255.0f;
 
-		//if (bl != event.translucent) {
-		//	return;
-		//}
-
 		MatrixStack matrices = event.matrixStack;
-
-		matrices.push();
-		Vec3d cameraPos = mc.gameRenderer.getCamera().getPos();
-		matrices.translate(-cameraPos.x, -cameraPos.y, -cameraPos.z);
 
 		Vec3d tpos = prevTargetPos.lerp(targetPos, event.tickDelta);
 		Vec3d tposoff = tpos.add(prevOffset.lerp(offset, event.tickDelta));
@@ -181,15 +169,9 @@ public class AimAssist extends Module {
 		Box box = new Box(tposoff.subtract(0.2), tposoff.add(0.2));
 		Box box2 = new Box(tpos.subtract(0.2), tpos.add(0.2));
 
-
 		DrawUtil.drawCube(matrices, box2, r, g, b, (float) alpha);
 		DrawUtil.drawCubeOutline(matrices, box, r, g, b, 1f);
 
-
 		matrices.pop();
-
-		GL11.glEnable(GL11.GL_DEPTH_TEST);
-		GL11.glDisable(GL11.GL_BLEND);
-		GL11.glDisable(GL11.GL_LINE_SMOOTH);
 	}
 }

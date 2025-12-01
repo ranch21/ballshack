@@ -6,9 +6,7 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.shape.VoxelShape;
-import org.lwjgl.opengl.GL11;
 import org.ranch.ballshack.event.EventSubscribe;
 import org.ranch.ballshack.event.events.EventWorldRender;
 import org.ranch.ballshack.gui.Colors;
@@ -16,12 +14,17 @@ import org.ranch.ballshack.module.Module;
 import org.ranch.ballshack.module.ModuleCategory;
 import org.ranch.ballshack.setting.ModuleSettings;
 import org.ranch.ballshack.setting.moduleSettings.SettingSlider;
-import org.ranch.ballshack.util.DrawUtil;
 import org.ranch.ballshack.util.WorldUtil;
+import org.ranch.ballshack.util.rendering.BallColor;
+import org.ranch.ballshack.util.rendering.BallsRenderPipelines;
+import org.ranch.ballshack.util.rendering.Renderer;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
+
+import static org.ranch.ballshack.Constants.LINE_WIDTH;
 
 public class ChestESP extends Module {
 	public ChestESP() {
@@ -35,13 +38,10 @@ public class ChestESP extends Module {
 
 		Stream<BlockEntity> blockEntities = WorldUtil.getLoadedChunks().flatMap(chunk -> chunk.getBlockEntities().values().stream());
 
-		GL11.glEnable(GL11.GL_BLEND);
-		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-		GL11.glEnable(GL11.GL_CULL_FACE);
-		GL11.glDisable(GL11.GL_DEPTH_TEST);
-		GL11.glEnable(GL11.GL_LINE_SMOOTH);
-
 		double alpha = (double) settings.getSetting(0).getValue();
+
+		Renderer renderer = Renderer.getInstance();
+		MatrixStack matrices = event.matrixStack;
 
 		for (BlockEntity bEnt : blockEntities.toList()) {
 
@@ -50,10 +50,6 @@ public class ChestESP extends Module {
 			if (type == null) continue;
 
 			Color c = Colors.INVENTORY_COLORS[type.ordinal()];
-
-			MatrixStack matrices = event.matrixStack;
-
-			Vec3d size = new Vec3d(1, 1, 1);
 
 			BlockPos blockPos = bEnt.getPos();
 
@@ -65,22 +61,14 @@ public class ChestESP extends Module {
 			float g = c.getGreen() / 255.0f;
 			float b = c.getBlue() / 255.0f;
 
-			matrices.push();
-			Vec3d cameraPos = mc.gameRenderer.getCamera().getPos();
-			matrices.translate(-cameraPos.x, -cameraPos.y, -cameraPos.z);
-
 			for (Box box : shape.getBoundingBoxes()) {
 				box = box.offset(blockPos);
-				DrawUtil.drawCube(matrices, box, r, g, b, (float) alpha);
-				DrawUtil.drawCubeOutline(matrices, box, r, g, b, 1f);
+				renderer.renderCube(box, BallColor.fromColor(c).setAlpha((float) alpha), matrices);
+				renderer.renderCubeOutlines(box, LINE_WIDTH, BallColor.fromColor(c).setAlpha((float) alpha), matrices);
 			}
 
-			matrices.pop();
 		}
 
-		GL11.glEnable(GL11.GL_DEPTH_TEST);
-		GL11.glDisable(GL11.GL_BLEND);
-		GL11.glDisable(GL11.GL_LINE_SMOOTH);
-
+		renderer.draw(BallsRenderPipelines.QUADS);
 	}
 }

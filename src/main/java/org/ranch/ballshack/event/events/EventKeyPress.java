@@ -1,13 +1,14 @@
 package org.ranch.ballshack.event.events;
 
+import net.minecraft.client.input.KeyInput;
 import org.ranch.ballshack.event.Event;
 
 public class EventKeyPress extends Event {
 
-	public int keyCode;
+	public KeyInput input;
 
-	public EventKeyPress(int keyCode) {
-		this.keyCode = keyCode;
+	public EventKeyPress(KeyInput input) {
+		this.input = input;
 	}
 
 	/*public int getKey() {
