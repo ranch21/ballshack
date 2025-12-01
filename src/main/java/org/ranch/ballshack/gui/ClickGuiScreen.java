@@ -11,10 +11,13 @@ import net.minecraft.client.input.CharInput;
 import net.minecraft.client.input.KeyInput;
 import net.minecraft.client.util.NarratorManager;
 import net.minecraft.util.ClickType;
+import net.minecraft.util.math.MathHelper;
 import org.apache.commons.lang3.StringUtils;
 import org.joml.Vector2d;
 import org.lwjgl.glfw.GLFW;
 import org.ranch.ballshack.BallsHack;
+import org.ranch.ballshack.debug.DebugRenderers;
+import org.ranch.ballshack.debug.renderers.BallGridDebugRenderer;
 import org.ranch.ballshack.gui.balls.Ball;
 import org.ranch.ballshack.gui.balls.BallHandler;
 import org.ranch.ballshack.gui.balls.Rect;
@@ -39,10 +42,13 @@ public class ClickGuiScreen extends Screen {
 	}.getType());
 
 	BallHandler ballHandler;
+	private Thread physicsThread;
+	private volatile boolean running = false;
+	private final Object stateLock = new Object();
 	boolean ballsEnabled = false;
 	boolean darken = true;
 
-	final int SUBSTEPS = 4;
+	final int PHYS_HZ = 240;
 
 	boolean holding = false;
 
@@ -75,9 +81,56 @@ public class ClickGuiScreen extends Screen {
 
 	protected void init() {
 		ballHandler = new BallHandler();
-		ballHandler.spawnBalls(50, this.width, this.height);
+		ballHandler.spawnBalls(1, this.width, this.height, new ArrayList<>());
 		if (windows.isEmpty()) {
 			loadCategories();
+		}
+
+		startPhysicsThread();
+	}
+
+	private void startPhysicsThread() {
+		running = true;
+		physicsThread = new Thread(() -> {
+			final double dt = 1.0 / PHYS_HZ;
+			final long stepNanos = (long)(dt * 1_000_000_000L);
+
+			long lastTime = System.nanoTime();
+			long accumulator = 0;
+
+			while (running) {
+				long now = System.nanoTime();
+				long delta = now - lastTime;
+				lastTime = now;
+				accumulator += delta;
+
+				ballHandler.frameTime = delta;
+
+				while (accumulator >= stepNanos) {
+					updatePhysics(dt);
+					accumulator -= stepNanos;
+				}
+
+				try {
+					Thread.sleep(0, 500_000);
+				} catch (InterruptedException e) {
+					//e.printStackTrace();
+				}
+			}
+		}, "Ball Physics Thread");
+
+		physicsThread.setDaemon(true);
+		physicsThread.start();
+	}
+
+	private void updatePhysics(double dt) {
+		synchronized (stateLock) {
+			ArrayList<Rect> rects = new ArrayList<>();
+			for (CategoryWindow win : windows) {
+				rects.add(new Rect(new Vector2d(win.x, win.y), new Vector2d(CategoryWindow.width, win.getHeight())));
+			}
+
+			ballHandler.update(this.width, this.height, dt, rects);
 		}
 	}
 
@@ -99,8 +152,15 @@ public class ClickGuiScreen extends Screen {
 		this.darken = darken;
 
 		if (ballHandler.getBallCount() != amount) {
+			physicsThread.interrupt();
+			running = false;
 			ballHandler.clearBalls();
-			ballHandler.spawnBalls(amount, this.width, this.height);
+			ArrayList<Rect> rects = new ArrayList<>();
+			for (CategoryWindow win : windows) {
+				rects.add(new Rect(new Vector2d(win.x, win.y), new Vector2d(CategoryWindow.width, win.getHeight())));
+			}
+			ballHandler.spawnBalls(amount, this.width, this.height, rects);
+			startPhysicsThread();
 		}
 	}
 
@@ -120,14 +180,14 @@ public class ClickGuiScreen extends Screen {
 		}
 
 		if (ballsEnabled) {
-			ArrayList<Rect> rects = new ArrayList<>();
-			for (CategoryWindow win : windows) {
-				rects.add(new Rect(new Vector2d(win.x, win.y), new Vector2d(CategoryWindow.width, win.getHeight())));
+			synchronized (stateLock) {
+				ballHandler.render(context);
+				BallGridDebugRenderer dbug = (BallGridDebugRenderer) DebugRenderers.getRenderer("ballgrid");
+				if (dbug.getEnabled()) {
+					dbug.setData(ballHandler, width, height);
+					dbug.render(context);
+				}
 			}
-			for (int i = 0; i < SUBSTEPS; i++) {
-				ballHandler.update(this.width, this.height, delta / SUBSTEPS, rects, mouseX, mouseY, holding);
-			}
-			ballHandler.render(context);
 		}
 
 		TextRenderer textRend = MinecraftClient.getInstance().textRenderer;
@@ -197,6 +257,12 @@ public class ClickGuiScreen extends Screen {
 		}
 
 		return super.charTyped(charInput);
+	}
+
+	@Override
+	public void close() {
+		super.close();
+		running = false;
 	}
 
 	public boolean shouldPause() {

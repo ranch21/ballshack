@@ -1,5 +1,6 @@
 package org.ranch.ballshack.util;
 
+import net.minecraft.SharedConstants;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.world.GameMode;
@@ -141,6 +142,30 @@ public class Formatters {
 					if (module.isEnabled() && !module.isMeta()) modules.add(module.getName());
 				});
 				return String.join(" ", modules);
+			} catch (Throwable t) {
+				return "unknown";
+			}
+		});
+
+		addFormatter("bhversion", () -> {
+			try {
+				return BallsHack.version;
+			} catch (Throwable t) {
+				return "unknown";
+			}
+		});
+
+		addFormatter("mcversion", () -> {
+			try {
+				return SharedConstants.getGameVersion().name();
+			} catch (Throwable t) {
+				return "unknown";
+			}
+		});
+
+		addFormatter("watermark", () -> {
+			try {
+				return BallsHack.title.getValue();
 			} catch (Throwable t) {
 				return "unknown";
 			}

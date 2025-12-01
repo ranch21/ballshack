@@ -3,6 +3,7 @@ package org.ranch.ballshack;
 import com.google.gson.reflect.TypeToken;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.client.MinecraftClient;
+import org.ranch.ballshack.debug.DebugRenderers;
 import org.ranch.ballshack.event.EventBus;
 import org.ranch.ballshack.gui.ClickGuiScreen;
 import org.ranch.ballshack.setting.Setting;
@@ -25,9 +26,11 @@ public class BallsHack implements ModInitializer {
 	public void onInitialize() {
 		SettingSaver.init();
 		SettingsManager.registerSetting(FriendManager.setting);
+		SettingsManager.registerSetting(DebugRenderers.enabled);
 		SettingsManager.registerSetting(ClickGuiScreen.windowData);
 		SettingsManager.registerSetting(title);
 		SettingSaver.readSettings();
 		FriendManager.set();
+		DebugRenderers.load();
 	}
 }

@@ -1,9 +1,6 @@
 package org.ranch.ballshack.command;
 
-import org.ranch.ballshack.command.commands.FriendCommand;
-import org.ranch.ballshack.command.commands.GPTCommand;
-import org.ranch.ballshack.command.commands.PrefixCommand;
-import org.ranch.ballshack.command.commands.TestCommand;
+import org.ranch.ballshack.command.commands.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,7 +14,8 @@ public class CommandManager {
 			new TestCommand(),
 			new GPTCommand(),
 			new PrefixCommand(),
-			new FriendCommand()
+			new FriendCommand(),
+			new DebugRenderersCommand()
 	));
 
 	public static void onCommand(String command) {

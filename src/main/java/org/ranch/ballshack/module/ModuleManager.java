@@ -8,6 +8,7 @@ import org.ranch.ballshack.module.modules.fun.TestModule;
 import org.ranch.ballshack.module.modules.hud.ArmorHud;
 import org.ranch.ballshack.module.modules.hud.Coordinates;
 import org.ranch.ballshack.module.modules.hud.ModuleList;
+import org.ranch.ballshack.module.modules.hud.Watermark;
 import org.ranch.ballshack.module.modules.movement.*;
 import org.ranch.ballshack.module.modules.player.AntiHunger;
 import org.ranch.ballshack.module.modules.player.NoFall;
@@ -55,7 +56,8 @@ public class ModuleManager {
 			new Coordinates(),
 			new ArmorHud(),
 			new Debug(),
-			new ColorsConfig()
+			new ColorsConfig(),
+			new Watermark()
 	);
 
 	public static List<Module> getModules() {

@@ -3,6 +3,7 @@ package org.ranch.ballshack.gui.balls;
 import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.MathHelper;
 import org.joml.Vector2d;
 
 public class Ball {
@@ -14,6 +15,8 @@ public class Ball {
 	public static int size = 8;
 	private final Identifier texture;
 
+	public static final double MAX_SPEED = 3;
+
 	public Ball(double x, double y, double xVel, double yVel, Identifier texture) {
 		this.pos = new Vector2d(x, y);
 		this.prevPos = new Vector2d(x - xVel, y - yVel); // correct Verlet initialization
@@ -22,14 +25,13 @@ public class Ball {
 	}
 
 	public void update(double deltaT, double gravity) {
-		// Apply gravity
-		acc.y += gravity;
+		accelerate(new Vector2d(0, gravity));
 
 		double tempX = pos.x;
 		double tempY = pos.y;
 
-		pos.x = pos.x + (pos.x - prevPos.x) + acc.x * deltaT * deltaT;
-		pos.y = pos.y + (pos.y - prevPos.y) + acc.y * deltaT * deltaT;
+		pos.x = pos.x + MathHelper.clamp((pos.x - prevPos.x) + acc.x * deltaT * deltaT, -MAX_SPEED, MAX_SPEED);
+		pos.y = pos.y + MathHelper.clamp((pos.y - prevPos.y) + acc.y * deltaT * deltaT, -MAX_SPEED, MAX_SPEED);
 
 		prevPos.x = tempX;
 		prevPos.y = tempY;
@@ -61,6 +63,7 @@ public class Ball {
 			if (dist == 0) return;
 
 			double overlap = (minDist - dist) * 0.5;
+			overlap = Math.min(overlap, size * 0.5);
 			double invDist = 1.0 / dist;
 
 			double ox = dx * invDist * overlap;
