@@ -6,7 +6,6 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.noise.PerlinNoiseSampler;
 import net.minecraft.util.math.random.Random;
-import org.lwjgl.opengl.GL11;
 import org.ranch.ballshack.event.EventSubscribe;
 import org.ranch.ballshack.event.events.EventMouseUpdate;
 import org.ranch.ballshack.event.events.EventTick;
@@ -20,7 +19,8 @@ import org.ranch.ballshack.util.EntityUtil;
 import org.ranch.ballshack.util.PlayerUtil;
 import org.ranch.ballshack.util.Rotation;
 import org.ranch.ballshack.util.RotationUtil;
-import org.ranch.ballshack.util.rendering.DrawUtil;
+import org.ranch.ballshack.util.rendering.BallsRenderPipelines;
+import org.ranch.ballshack.util.rendering.Renderer;
 
 import java.awt.*;
 import java.util.Arrays;
@@ -169,9 +169,11 @@ public class AimAssist extends Module {
 		Box box = new Box(tposoff.subtract(0.2), tposoff.add(0.2));
 		Box box2 = new Box(tpos.subtract(0.2), tpos.add(0.2));
 
-		DrawUtil.drawCube(matrices, box2, r, g, b, (float) alpha);
-		DrawUtil.drawCubeOutline(matrices, box, r, g, b, 1f);
+		Renderer renderer = Renderer.getInstance();
 
-		matrices.pop();
+		renderer.renderCube(box2, c, matrices);
+		renderer.renderCubeOutlines(box2, 2, c, matrices);
+
+		renderer.draw(BallsRenderPipelines.QUADS);
 	}
 }

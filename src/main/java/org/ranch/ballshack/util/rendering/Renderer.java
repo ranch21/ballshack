@@ -176,36 +176,6 @@ public class Renderer {
 
 	}
 
-	@Deprecated
-	public void renderLine(Vec3d start, Vec3d end, Color color, MatrixStack matrixStack) {
-		setupRender(matrixStack, BallsRenderPipelines.LINES);
-
-		float r = color.getRed() / 255.0f;
-		float g = color.getGreen() / 255.0f;
-		float b = color.getBlue() / 255.0f;
-		float a = color.getAlpha() / 255.0f;
-
-		Matrix4f matrix = matrixStack.peek().getPositionMatrix();
-
-		Vec3d normal = end.subtract(start);
-        /*Vec3d cameraPos = mc.gameRenderer.getCamera().getPos();
-
-        Vec3d lineDir = end.subtract(start).normalize();
-        Vec3d toCam = cameraPos.subtract(start).normalize();
-
-        Vec3d perpendicular = lineDir.crossProduct(toCam).normalize().multiply(width/2.0);
-
-        Vec3d v1 = start.add(perpendicular);
-        Vec3d v2 = start.subtract(perpendicular);
-        Vec3d v3 = end.subtract(perpendicular);
-        Vec3d v4 = end.add(perpendicular);*/
-
-		buffer.vertex(matrix, (float) start.x, (float) start.y, (float) start.z).color(r, g, b, a).normal((float) normal.x, (float) normal.y, (float) normal.z);
-		buffer.vertex(matrix, (float) end.x, (float) end.y, (float) end.z).color(r, g, b, a).normal(0, 0, 0);
-
-		matrixStack.pop();
-	}
-
 	public void renderLine(Vec3d start, Vec3d end, float width, Color color, MatrixStack matrixStack) {
 		setupRender(matrixStack, BallsRenderPipelines.QUADS);
 

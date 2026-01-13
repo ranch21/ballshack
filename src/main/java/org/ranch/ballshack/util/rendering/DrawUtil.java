@@ -3,10 +3,8 @@ package org.ranch.ballshack.util.rendering;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.text.Text;
-import net.minecraft.util.math.Box;
 import org.joml.Vector2i;
 import org.ranch.ballshack.FriendManager;
 import org.ranch.ballshack.gui.Colors;
@@ -15,7 +13,6 @@ import org.ranch.ballshack.util.EntityUtil;
 import java.awt.*;
 
 import static org.ranch.ballshack.BallsHack.mc;
-import static org.ranch.ballshack.Constants.LINE_WIDTH;
 
 public class DrawUtil {
 	public static void drawHorizontalGradient(DrawContext context, int x, int y, int width, int height, Color startColor, Color endColor, int resolution) {
@@ -146,20 +143,6 @@ public class DrawUtil {
 				0,
 				15728880
 		);*/
-	}
-
-	@Deprecated
-	public static void drawCube(MatrixStack matrices, Box cube, float r, float g, float b, float a) {
-		Renderer renderer = Renderer.getInstance();
-		renderer.renderCube(cube, new Color(r, g, b, a), matrices);
-		renderer.draw(BallsRenderPipelines.QUADS);
-	}
-
-	@Deprecated
-	public static void drawCubeOutline(MatrixStack matrices, Box cube, float r, float g, float b, float a) {
-		Renderer renderer = Renderer.getInstance();
-		renderer.renderCubeOutlines(cube, LINE_WIDTH, new Color(r, g, b, a), matrices);
-		renderer.draw(BallsRenderPipelines.LINES);
 	}
 
 	public static Color getEspColor(Entity e) {
