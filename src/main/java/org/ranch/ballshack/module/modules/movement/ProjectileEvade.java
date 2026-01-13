@@ -3,6 +3,7 @@ package org.ranch.ballshack.module.modules.movement;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import org.ranch.ballshack.event.EventSubscribe;
+import org.ranch.ballshack.event.events.EventPlayerMovementVector;
 import org.ranch.ballshack.event.events.EventTick;
 import org.ranch.ballshack.module.Module;
 import org.ranch.ballshack.module.ModuleCategory;
@@ -26,6 +27,7 @@ public class ProjectileEvade extends Module {
 	}
 
 	boolean prevInDanger = false;
+	Vec3d fleeDir;
 
 	@EventSubscribe
 	public void onTick(EventTick event) {
@@ -47,10 +49,6 @@ public class ProjectileEvade extends Module {
 					}
 				}
 			}
-		}
-
-		if (!inDanger && prevInDanger) {
-			PlayerUtil.clearMovement();
 		}
 
 		prevInDanger = inDanger;
@@ -77,9 +75,23 @@ public class ProjectileEvade extends Module {
 		}
 
 		if ((boolean) settings.getSetting(0).getValue()) {
-			PlayerUtil.setMovement(perp);
+			fleeDir = perp;
+			//PlayerUtil.setMovement(perp);
 		} else {
+			fleeDir = null;
 			mc.player.setPosition(mc.player.getEntityPos().add(perp));
 		}
+	}
+
+	@Override
+	public void onDisable() {
+		fleeDir = null;
+	}
+
+	@EventSubscribe
+	public void onPlayerInput(EventPlayerMovementVector event) {
+		if (fleeDir == null)
+			return;
+		PlayerUtil.setMovement(fleeDir, event);
 	}
 }

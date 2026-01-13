@@ -7,6 +7,7 @@ import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec2f;
 import net.minecraft.util.math.Vec3d;
+import org.ranch.ballshack.event.events.EventPlayerMovementVector;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -117,14 +118,12 @@ public class PlayerUtil {
 		return mc.player.forwardSpeed != 0 || mc.player.sidewaysSpeed != 0;
 	}
 
-	public static void setMovement(Vec3d movement) {
+	public static void setMovement(Vec3d movement, EventPlayerMovementVector event) {
 		if (movement.y > 0) {
 			mc.player.input.playerInput.jump();
 		}
 
-		clearMovement();
-
-		double yawRads = -Math.toRadians(mc.player.getYaw());
+		double yawRads = Math.toRadians(mc.player.getYaw());
 
 		Vec2f desiredDir = new Vec2f((float) movement.z, (float) movement.x);
 
@@ -141,25 +140,17 @@ public class PlayerUtil {
 		if (backwardDot >= 0.7 * maxDot) activeDirections.add(MoveDirection.BACKWARD);
 		if (rightDot >= 0.7 * maxDot) activeDirections.add(MoveDirection.RIGHT); //thanks gpt
 		if (leftDot >= 0.7 * maxDot) activeDirections.add(MoveDirection.LEFT);
-
-		// Apply movement without conflicting directions
+		event.movement = new Vec2f(0, 0);
 		for (MoveDirection dir : activeDirections) {
 			switch (dir) {
-				case FORWARD -> mc.options.forwardKey.setPressed(true);
-				case BACKWARD -> mc.options.backKey.setPressed(true);
-				case RIGHT -> mc.options.rightKey.setPressed(true);
-				case LEFT -> mc.options.leftKey.setPressed(true);
+				case FORWARD -> event.movement = event.movement.add(new Vec2f(0, 1));
+				case BACKWARD -> event.movement = event.movement.add(new Vec2f(0, -1));
+				case RIGHT -> event.movement = event.movement.add(new Vec2f(1, 0));
+				case LEFT -> event.movement = event.movement.add(new Vec2f(-1, 0));
 			}
 		}
 		//mc.player.input.playerInput. = (float) rMovement.x;
 		//mc.player.input.movementForward = (float) rMovement.z;
-	}
-
-	public static void clearMovement() {
-		mc.options.rightKey.setPressed(false);
-		mc.options.leftKey.setPressed(false);
-		mc.options.forwardKey.setPressed(false);
-		mc.options.backKey.setPressed(false);
 	}
 
 	public enum MoveDirection {

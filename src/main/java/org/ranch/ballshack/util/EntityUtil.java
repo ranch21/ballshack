@@ -34,6 +34,11 @@ public class EntityUtil {
 		return new Vec3d(p.x, p.y + e.getHeight() / 2, p.z);
 	}
 
+
+	public static Rotation getRotation(Entity entity) {
+		return new Rotation(entity.getYaw(), entity.getPitch());
+	}
+
 	public static boolean isAttackable(Entity e) {
 		return (e instanceof LivingEntity || e instanceof ShulkerBulletEntity || e instanceof AbstractFireballEntity)
 				&& e.isAlive()

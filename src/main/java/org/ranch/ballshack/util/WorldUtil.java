@@ -2,7 +2,13 @@ package org.ranch.ballshack.util;
 
 import net.minecraft.block.entity.*;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.util.math.ChunkPos;
+import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.item.BlockItem;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.Hand;
+import net.minecraft.util.hit.BlockHitResult;
+import net.minecraft.util.math.*;
 import net.minecraft.world.chunk.WorldChunk;
 
 import java.util.Objects;
@@ -71,4 +77,28 @@ public class WorldUtil {
 		BARREL
 	}
 
+	public static void placeBlock(ClientPlayerEntity player, Hand hand, BlockPos pos, Direction side) {
+		if (mc.world == null || !mc.world.getWorldBorder().contains(pos) || !mc.world.getBlockState(pos).isSideSolidFullSquare(mc.world, pos, side) || !mc.world.getBlockState(pos.offset(side)).isReplaceable() || new Box(pos.offset(side)).intersects(player.getBoundingBox()))
+			return;
+
+		ItemStack stack = player.getStackInHand(hand);
+
+		if (stack == null || stack == ItemStack.EMPTY || !stack.isItemEnabled(mc.world.getEnabledFeatures()))
+			return;
+
+		Item item = stack.getItem();
+
+		if (!(item instanceof BlockItem))
+			return;
+
+		Vec3d faceMiddle = pos.toCenterPos().add(side.getDoubleVector().multiply(0.5d));
+		BlockHitResult hitResult = new BlockHitResult(faceMiddle, side, pos, false);
+
+		//ScaffoldDebugRenderer debugScaffold = (ScaffoldDebugRenderer) DebugRenderers.getRenderer("scaffold");
+		//debugScaffold.setData(pos, hitResult, side);
+
+		mc.interactionManager.interactBlock(player, hand, hitResult);
+
+		//stack.decrementUnlessCreative(1, player);
+	}
 }

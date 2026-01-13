@@ -256,6 +256,17 @@ public class Renderer {
 		matrixStack.pop();
 	}
 
+	public void renderArrow(Vec3d start, Vec3d end, float width, float tipSize /* AYYO SUSS LMAOOO DANK*/, Color color, MatrixStack matrixStack) {
+		Vec3d cameraPos = mc.gameRenderer.getCamera().getPos();
+		Vec3d toCam = cameraPos.subtract(start).normalize();
+		Vec3d dir = end.subtract(start);
+		Vec3d perp = dir.crossProduct(toCam).normalize().multiply(tipSize);
+
+		renderLine(start, end, width, color, matrixStack);
+		renderLine(end, perp.add(end.subtract(dir.normalize().multiply(tipSize))), width, color, matrixStack); // good luck understading this future me
+		renderLine(end, perp.negate().add(end.subtract(dir.normalize().multiply(tipSize))), width, color, matrixStack);
+	}
+
 
 	public void renderCustom(GeometryWriter geometryWriter, MatrixStack matrixStack, RenderPipeline pipeline) {
 		setupRender(matrixStack, pipeline);

@@ -14,6 +14,7 @@ import org.ranch.ballshack.module.modules.player.AntiHunger;
 import org.ranch.ballshack.module.modules.player.NoFall;
 import org.ranch.ballshack.module.modules.player.Reach;
 import org.ranch.ballshack.module.modules.render.*;
+import org.ranch.ballshack.module.modules.world.Scaffold;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -57,7 +58,8 @@ public class ModuleManager {
 			new ArmorHud(),
 			new Debug(),
 			new ColorsConfig(),
-			new Watermark()
+			new Watermark(),
+			new Scaffold()
 	);
 
 	public static List<Module> getModules() {

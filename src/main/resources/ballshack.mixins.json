@@ -5,6 +5,7 @@
   "compatibilityLevel": "JAVA_17",
   "mixins": [
     "BlockCollisionSpliteratorMixin",
+    "CameraMixin",
     "EntityMixin",
     "PlayerMoveC2SPacketAccessor"
   ],
@@ -12,10 +13,13 @@
     "BlockModelRendererMixin",
     "ChatScreenMixin",
     "ClientCommonNetworkHandlerMixin",
+    "ClientPlayerInteractionManagerMixin",
     "ClientWorldMixin",
     "DrawContextAccessor",
     "GameRendererMixin",
     "InGameHudMixin",
+    "InputAccessor",
+    "KeyboardInputMixin",
     "KeyboardMixin",
     "MinecraftClientMixin",
     "MouseMixin",

@@ -2,6 +2,8 @@ package org.ranch.ballshack.debug;
 
 import com.google.gson.reflect.TypeToken;
 import org.ranch.ballshack.debug.renderers.BallGridDebugRenderer;
+import org.ranch.ballshack.debug.renderers.ScaffoldDebugRenderer;
+import org.ranch.ballshack.debug.renderers.VecDebugRenderer;
 import org.ranch.ballshack.setting.Setting;
 
 import java.util.ArrayList;
@@ -15,7 +17,7 @@ public class DebugRenderers {
 	public static Setting<List<Boolean>> enabled = new Setting<>(new ArrayList<>(), "debugRenderers", new TypeToken<List<Boolean>>() {
 	}.getType());
 
-	public static void registerRenderer(String id,DebugRenderer renderer) {
+	public static void registerRenderer(String id, DebugRenderer renderer) {
 		renderers.put(id,renderer);
 	}
 
@@ -43,13 +45,19 @@ public class DebugRenderers {
 
 	public static void load() {
 		List<Boolean> list = enabled.getValue();
-		for (int i = 0; i < list.size(); i++) {
-			int finalI = i;
-			renderers.values().forEach(renderer -> renderer.setEnabled(list.get(finalI)));
+		int i = 0;
+
+		for (DebugRenderer renderer : renderers.values()) {
+			if (i >= list.size()) break;
+			renderer.setEnabled(list.get(i));
+			i++;
 		}
 	}
 
 	static {
 		registerRenderer("ballgrid", new BallGridDebugRenderer());
+		registerRenderer("input", new VecDebugRenderer());
+		registerRenderer("velocity", new VecDebugRenderer());
+		registerRenderer("scaffold", new ScaffoldDebugRenderer());
 	}
 }

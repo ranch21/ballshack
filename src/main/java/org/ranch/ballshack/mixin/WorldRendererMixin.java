@@ -29,6 +29,5 @@ public class WorldRendererMixin {
 		if (event.isCancelled()) {
 			ci.cancel();
 		}
-		renderBlockOutline = event.translucent;
 	}
 }

@@ -2,10 +2,12 @@ package org.ranch.ballshack.debug.renderers;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.MathHelper;
 import org.ranch.ballshack.debug.DebugRenderer;
 import org.ranch.ballshack.gui.balls.Ball;
 import org.ranch.ballshack.gui.balls.BallHandler;
+import org.ranch.ballshack.util.rendering.Renderer;
 
 import java.awt.*;
 import java.util.List;
@@ -16,10 +18,6 @@ public class BallGridDebugRenderer extends DebugRenderer {
 	private int width;
 	private int height;
 
-	public BallGridDebugRenderer() {
-		super("ballgrid");
-	}
-
 	public void setData(BallHandler ballHandler, int width, int height) {
 		this.ballHandler = ballHandler;
 		this.width = width;
@@ -27,7 +25,7 @@ public class BallGridDebugRenderer extends DebugRenderer {
 	}
 
 	@Override
-	public void render(DrawContext context) {
+	public void renderGui(DrawContext context) {
 		context.drawText(MinecraftClient.getInstance().textRenderer, String.valueOf(ballHandler.frameTime), 5, 20, 0xFFFFFFFF, true);
 		int gs = ballHandler.getGridSize();
 		for (int i = 0; i < width/gs; i++) {
@@ -40,5 +38,10 @@ public class BallGridDebugRenderer extends DebugRenderer {
 				//context.drawText(textRenderer, String.valueOf(list.size()), i * Ball.size, j* Ball.size, 0xFFFFFFFF, true);
 			}
 		}
+	}
+
+	@Override
+	public void render3d(Renderer context, MatrixStack matrixStack) {
+
 	}
 }
