@@ -4,24 +4,43 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.input.Input;
 import net.minecraft.client.input.KeyboardInput;
 import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.world.ClientWorld;
-import net.minecraft.dialog.type.Dialog;
-import net.minecraft.recipe.NetworkRecipeId;
-import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.util.Hand;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.util.Arm;
 import net.minecraft.util.PlayerInput;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.profiler.Profiler;
-import net.minecraft.util.profiler.Profilers;
-import net.minecraft.world.GameMode;
-import org.jetbrains.annotations.Nullable;
+import net.minecraft.util.math.Position;
+import net.minecraft.util.math.Vec2f;
+import net.minecraft.util.math.Vec3d;
 import org.ranch.ballshack.BallsHack;
 import org.ranch.ballshack.mixin.InputAccessor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class EntitySim {
 
     private static MinecraftClient mc = BallsHack.mc;
+
+    public static record PlayerPoint(Vec3d position, Vec3d velocity, boolean onGround) implements Position {
+
+        @Override
+        public double getX() {
+            return position.getX();
+        }
+
+        @Override
+        public double getY() {
+            return position.getY();
+        }
+
+        @Override
+        public double getZ() {
+            return position.getZ();
+        }
+    }
 
     private static class FakeInput extends KeyboardInput {
 
@@ -49,13 +68,15 @@ public class EntitySim {
         }
     }
 
+    public static class FakePlayer extends LivingEntity {
 
-    private static class FakePlayer extends ClientPlayerEntity {
+        FakeInput input;
 
-        public FakePlayer(ClientWorld world, ClientPlayerEntity original) {
-            super(mc, world, original.networkHandler, original.getStatHandler(), original.getRecipeBook(), original.input.playerInput, original.isSprinting());
+        protected FakePlayer(ClientWorld world, ClientPlayerEntity original) {
+            super(EntityType.PLAYER, world);
             copyPositionAndRotation(original);
-            setVelocity(original.getVelocity());
+            Vec3d origVel = original.getVelocity();
+            setVelocity(new Vec3d(origVel.getX(),origVel.getY(),origVel.getZ()));
             setSprinting(original.isSprinting());
             setSneaking(original.isSneaking());
             setOnGround(original.isOnGround());
@@ -63,117 +84,99 @@ public class EntitySim {
         }
 
         @Override
-        public @Nullable GameMode getGameMode() {
+        public Arm getMainArm() {
             return null;
         }
 
         @Override
         public void tick() {
-            this.tickLoaded();
-            if (this.isLoaded()) {
-                this.getItemDropCooldown().tick();
-                this.getState().tick(this.getEntityPos(), this.getVelocity());
-                this.noClip = this.isSpectator();
-                if (this.isSpectator() || this.hasVehicle()) {
-                    this.setOnGround(false);
-                }
-
-                this.updateWaterSubmersionState();
-
-                this.baseTick();
-
-                if (!this.isRemoved()) {
-                    this.tickMovement();
-                }
-
-                double d = this.getX() - this.lastX;
-                double e = this.getZ() - this.lastZ;
-                float f = (float)(d * d + e * e);
-                float g = this.bodyYaw;
-                if (f > 0.0025000002F) {
-                    float h = (float)MathHelper.atan2(e, d) * (180.0F / (float)Math.PI) - 90.0F;
-                    float k = MathHelper.abs(MathHelper.wrapDegrees(this.getYaw()) - h);
-                    if (95.0F < k && k < 265.0F) {
-                        g = h - 180.0F;
-                    } else {
-                        g = h;
-                    }
-                }
-
-                if (this.handSwingProgress > 0.0F) {
-                    g = this.getYaw();
-                }
-
-                Profiler profiler = Profilers.get();
-                profiler.push("headTurn");
-                this.turnHead(g);
-                profiler.pop();
-                profiler.push("rangeChecks");
-
-                profiler.pop();
-                if (this.isGliding()) {
-                    this.glidingTicks++;
-                } else {
-                    this.glidingTicks = 0;
-                }
-
-                this.elytraFlightController.update();
-                double d2 = MathHelper.clamp(this.getX(), -2.9999999E7, 2.9999999E7);
-                double e2 = MathHelper.clamp(this.getZ(), -2.9999999E7, 2.9999999E7);
-                if (d2 != this.getX() || e2 != this.getZ()) {
-                    this.setPosition(d2, this.getY(), e2);
-                }
-
-                this.lastAttackedTicks++;
-
-                this.updatePose();
-            }
+            super.tick();
         }
 
         @Override
-        public boolean dropSelectedItem(boolean entireStack) {
+        public void tickMovement() {
+            super.tickMovement();
+        }
+
+        @Override
+        public void tickMovementInput() {
+            Vec2f vec2f = this.applyMovementSpeedFactors(this.input.getMovementInput());
+            this.sidewaysSpeed = vec2f.x;
+            this.forwardSpeed = vec2f.y;
+            this.jumping = this.input.playerInput.jump();
+        }
+
+        private Vec2f applyMovementSpeedFactors(Vec2f input) {
+            if (input.lengthSquared() == 0.0F) {
+                return input;
+            } else {
+                Vec2f vec2f = input.multiply(0.98F);
+                if (this.isUsingItem() && !this.hasVehicle()) {
+                    vec2f = vec2f.multiply(0.2F);
+                }
+
+                if (this.shouldSlowDown()) {
+                    float f = (float)this.getAttributeValue(EntityAttributes.SNEAKING_SPEED);
+                    vec2f = vec2f.multiply(f);
+                }
+
+                return applyDirectionalMovementSpeedFactors(vec2f);
+            }
+        }
+
+        private static Vec2f applyDirectionalMovementSpeedFactors(Vec2f vec) {
+            float f = vec.length();
+            if (f <= 0.0F) {
+                return vec;
+            } else {
+                Vec2f vec2f = vec.multiply(1.0F / f);
+                float g = getDirectionalMovementSpeedMultiplier(vec2f);
+                float h = Math.min(f * g, 1.0F);
+                return vec2f.multiply(h);
+            }
+        }
+
+        private static float getDirectionalMovementSpeedMultiplier(Vec2f vec) {
+            float f = Math.abs(vec.x);
+            float g = Math.abs(vec.y);
+            float h = g > f ? f / g : g / f;
+            return MathHelper.sqrt(1.0F + MathHelper.square(h));
+        }
+
+        public boolean shouldSlowDown() {
+            return this.isInSneakingPose() || this.isCrawling();
+        }
+
+        @Override
+        public boolean canMoveVoluntarily() {
             return true;
         }
 
         @Override
-        public void swingHand(Hand hand) {
-            super.swingHand(hand);
+        public boolean canActVoluntarily() {
+            return true;
         }
 
         @Override
-        public void requestRespawn() {
-            KeyBinding.untoggleStickyKeys();
+        protected boolean isImmobile() {
+            return false;
         }
 
         @Override
-        public void closeHandledScreen() {
-            this.closeScreen();
-        }
-
-        @Override
-        public void sendAbilitiesUpdate() {}
-
-        @Override
-        protected void startRidingJump() {}
-
-        @Override
-        public void openRidingInventory() {}
-
-        @Override
-        public void onRecipeDisplayed(NetworkRecipeId recipeId) {}
-
-        @Override
-        public void openDialog(RegistryEntry<Dialog> dialog) {}
-
-        @Override
-        public boolean checkGliding() {
+        public boolean isDead() {
             return false;
         }
     }
 
-    public static void simulatePlayer(ClientPlayerEntity player) {
-        FakePlayer fakePlayer = new FakePlayer(mc.world, player);
+    //TODO fix it not moving while on ground
 
-        // TODO FINISH THIS SHIT LAZY MOTHERFUCKER
+    public static List<PlayerPoint> simulatePlayer(ClientPlayerEntity player, int ticks) {
+        FakePlayer fakePlayer = new FakePlayer(mc.world, player);
+        List<PlayerPoint> points = new ArrayList<>();
+        for (int i = 0; i < ticks; i++) {
+            fakePlayer.tick();
+            points.add(new PlayerPoint(fakePlayer.getEntityPos(), fakePlayer.getVelocity(), fakePlayer.isOnGround()));
+        }
+        return points;
     }
 }

@@ -4,6 +4,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import org.ranch.ballshack.BallsHack;
 import org.ranch.ballshack.event.events.EventSetSneaking;
+import org.ranch.ballshack.util.EntitySim;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -20,6 +21,13 @@ public class EntityMixin {
 				ci.cancel();
 			}
 			sneaking = event.sneaking;
+		}
+	}
+
+	@Inject(method = "pushAwayFrom", at = @At("HEAD"), cancellable = true)
+	public void pushAwayFrom(Entity entity, CallbackInfo ci) {
+		if (entity instanceof EntitySim.FakePlayer) {
+			ci.cancel();
 		}
 	}
 }
