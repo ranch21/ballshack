@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(ClientWorld.class)
 public class ClientWorldMixin {
 	@Inject(at = @At("HEAD"), method = "tickEntities")
-	private void init(CallbackInfo info) {
+	private void tickEntities(CallbackInfo info) {
 		if (!FreelookHandler.enabled && BallsHack.mc.player != null)
 			FreelookHandler.setRotation(EntityUtil.getRotation(BallsHack.mc.player));
 		BallsHack.eventBus.post(new EventTick());

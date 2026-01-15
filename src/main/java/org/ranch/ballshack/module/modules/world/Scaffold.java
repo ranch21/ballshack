@@ -137,7 +137,7 @@ public class Scaffold extends Module {
     }
 
     public boolean sideVisible(BlockPos pos, Direction side) {
-        Vec3d faceMiddle = pos.toCenterPos().add(side.getDoubleVector().multiply(0.5 + 0.05));
+        Vec3d faceMiddle = pos.toCenterPos().add(side.getDoubleVector().multiply(0.5 + EPSILON));
         BlockHitResult hit = mc.world.raycast(new RaycastContext(mc.player.getEyePos(), faceMiddle, RaycastContext.ShapeType.VISUAL, RaycastContext.FluidHandling.NONE, ShapeContext.absent()));
         return hit.getType() == HitResult.Type.MISS;
     }
