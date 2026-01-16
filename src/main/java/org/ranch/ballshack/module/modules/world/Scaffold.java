@@ -14,24 +14,31 @@ import org.ranch.ballshack.module.Module;
 import org.ranch.ballshack.module.ModuleCategory;
 import org.ranch.ballshack.setting.ModuleSettings;
 import org.ranch.ballshack.setting.moduleSettings.SettingMode;
+import org.ranch.ballshack.setting.moduleSettings.SettingSlider;
 import org.ranch.ballshack.util.FreelookHandler;
+import org.ranch.ballshack.util.PlayerSim;
 import org.ranch.ballshack.util.PlayerUtil;
 import org.ranch.ballshack.util.WorldUtil;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 public class Scaffold extends Module {
 
     private class BlockScore {
         public int score;
+        public BlockPlacement placement;
+
+        public BlockScore(BlockPlacement placement, int score) {
+            this.score = score;
+            this.placement = placement;
+        }
+    }
+
+    private class BlockPlacement {
         public BlockPos blockPos;
         public Direction bestDir;
 
-        public BlockScore(BlockPos pos, int score, Direction bestDir) {
-            this.score = score;
+        public BlockPlacement(BlockPos pos, Direction bestDir) {
             this.blockPos = pos;
             this.bestDir = bestDir;
         }
@@ -48,55 +55,36 @@ public class Scaffold extends Module {
     private static final Direction[] ALL_DIRECTIONS = Direction.values();
 
     private double EPSILON = 0.0001;
-    private boolean sneaking = false;
+    private int delay = 1;
 
     public Scaffold() {
         super("Scaffold", ModuleCategory.WORLD, 0, new ModuleSettings(Arrays.asList(
-                new SettingMode(0, "Rotate", Arrays.asList("None", "Packet", "True")).featured()
+                new SettingMode(0, "Rotate", Arrays.asList("None", "Packet", "True")).featured(),
+                new SettingSlider(1, "Delay", 0, 10, 1)
                 )));
+    }
+
+    @Override
+    public void onEnable() {
+        delay = (int) (double) getSettings().getSetting(1).getValue();
+        super.onEnable();
     }
 
     @EventSubscribe
     public void onTick(EventTick event) {
-        // mmgggf feeet
-        if (mc.player.isSneaking())
-            return;
-
-        Vec3d ceilingPos = mc.player.getEntityPos().add(0, EPSILON, 0);
-        BlockPos atFeet = BlockPos.ofFloored(ceilingPos.subtract((0.1)));
-
         int mode = (int) getSettings().getSetting(0).getValue();
-
-        List<BlockScore> candidates = new ArrayList<>();
+        int delayS = (int) (double) getSettings().getSetting(1).getValue();
 
         if (!mc.world.getBlockState(BlockPos.ofFloored(mc.player.getEntityPos().subtract(0, 0.1, 0))).isAir())
             return;
 
-        BlockPos.iterateRecursively(atFeet, 3, 100, (currentPos, queuer) -> {
-            for (Direction direction : ALL_DIRECTIONS) {
-                queuer.accept(currentPos.offset(direction));
-            }
-        }, (currentPos) -> {
-            if (mc.world.getBlockState(currentPos).isAir())
-                return BlockPos.IterationState.ACCEPT;
+        Optional<BlockPlacement> winner = getBlock();
 
-            int dist = (int) currentPos.toCenterPos().distanceTo(mc.player.getEntityPos()) * 10;
-            Direction bestDir = whatGetsMeCloserToTheGoalStartingFromABlockPosWithAllDirectionsToChoose(currentPos, atFeet, ceilingPos.y);
-            if (!sideVisible(currentPos, bestDir))
-                return BlockPos.IterationState.ACCEPT;
-
-            int yScore = currentPos.toBottomCenterPos().y + 1 > ceilingPos.y ? 100 : 0;
-            candidates.add(new BlockScore(currentPos, dist + yScore, bestDir));
-
-            return BlockPos.IterationState.ACCEPT;
-        });
-
-        if (candidates.isEmpty())
+        if (winner.isEmpty())
             return;
 
-        candidates.sort(Comparator.comparingInt(o -> o.score));
 
-        Vec3d faceMiddle = candidates.get(0).blockPos.toCenterPos().add(candidates.get(0).bestDir.getDoubleVector().multiply(0.5));
+        Vec3d faceMiddle = winner.get().blockPos.toCenterPos().add(winner.get().bestDir.getDoubleVector().multiply(0.5));
 
         FreelookHandler.enabled = false;
 
@@ -112,7 +100,55 @@ public class Scaffold extends Module {
                 break;
         }
 
-        WorldUtil.placeBlock(mc.player, Hand.MAIN_HAND, candidates.get(0).blockPos, candidates.get(0).bestDir);
+        List<PlayerSim.PlayerPoint> future = PlayerSim.simulatePlayer(mc.player, 1);
+
+        if (delay-- <= 0 || !future.get(0).onGround()) {
+            WorldUtil.placeBlock(mc.player, Hand.MAIN_HAND, winner.get().blockPos, winner.get().bestDir);
+            delay = delayS;
+        }
+    }
+
+    public Optional<BlockPlacement> getBlock() {
+        Vec3d ceilingPos = mc.player.getEntityPos().add(0, EPSILON, 0);
+        // mmgggf feeet
+        BlockPos atFeet = BlockPos.ofFloored(ceilingPos.subtract((0.1)));
+
+        BlockPlacement winner = null;
+
+        if (mc.player.supportingBlockPos.isPresent()) {
+            BlockPos pos = mc.player.supportingBlockPos.get();
+            Direction dir = whatGetsMeCloserToTheGoalStartingFromABlockPosWithAllDirectionsToChoose(pos, atFeet, ceilingPos.y);
+            winner = new BlockPlacement(pos, dir);
+        } else {
+            List<BlockScore> candidates = new ArrayList<>();
+
+            BlockPos.iterateRecursively(atFeet, 3, 100, (currentPos, queuer) -> {
+                for (Direction direction : ALL_DIRECTIONS) {
+                    queuer.accept(currentPos.offset(direction));
+                }
+            }, (currentPos) -> {
+                if (mc.world.getBlockState(currentPos).isAir())
+                    return BlockPos.IterationState.ACCEPT;
+
+                int dist = (int) currentPos.toCenterPos().distanceTo(mc.player.getEntityPos()) * 10;
+                Direction bestDir = whatGetsMeCloserToTheGoalStartingFromABlockPosWithAllDirectionsToChoose(currentPos, atFeet, ceilingPos.y);
+                if (!sideVisible(currentPos, bestDir))
+                    return BlockPos.IterationState.ACCEPT;
+
+                int yScore = currentPos.toBottomCenterPos().y + 1 > ceilingPos.y ? 100 : 0;
+                candidates.add(new BlockScore(new BlockPlacement(currentPos, bestDir), dist + yScore));
+
+                return BlockPos.IterationState.ACCEPT;
+            });
+
+            candidates.sort(Comparator.comparingInt(o -> o.score));
+
+            if (!candidates.isEmpty()) {
+                winner = candidates.get(0).placement;
+            }
+        }
+
+        return Optional.ofNullable(winner);
     }
 
     @Override

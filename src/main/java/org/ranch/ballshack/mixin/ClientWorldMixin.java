@@ -3,9 +3,9 @@ package org.ranch.ballshack.mixin;
 import net.minecraft.client.world.ClientWorld;
 import org.ranch.ballshack.BallsHack;
 import org.ranch.ballshack.debug.DebugRenderers;
-import org.ranch.ballshack.debug.renderers.PathDebugRenderer;
+import org.ranch.ballshack.debug.renderers.PlayerSimDebugRenderer;
 import org.ranch.ballshack.event.events.EventTick;
-import org.ranch.ballshack.util.EntitySim;
+import org.ranch.ballshack.util.PlayerSim;
 import org.ranch.ballshack.util.EntityUtil;
 import org.ranch.ballshack.util.FreelookHandler;
 import org.spongepowered.asm.mixin.Mixin;
@@ -23,8 +23,8 @@ public class ClientWorldMixin {
 			FreelookHandler.setRotation(EntityUtil.getRotation(BallsHack.mc.player));
 		BallsHack.eventBus.post(new EventTick());
 
-		PathDebugRenderer debugRenderer = (PathDebugRenderer) DebugRenderers.getRenderer("playersim");
+		PlayerSimDebugRenderer debugRenderer = (PlayerSimDebugRenderer) DebugRenderers.getRenderer("playersim");
 		if (debugRenderer.getEnabled())
-			debugRenderer.setData(EntitySim.simulatePlayer(BallsHack.mc.player, 10), new Color(255,255,255, 50));
+			debugRenderer.setData(PlayerSim.simulatePlayer(BallsHack.mc.player, 20), new Color(255,255,255, 100));
 	}
 }

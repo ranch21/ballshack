@@ -10,21 +10,18 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.util.Arm;
 import net.minecraft.util.PlayerInput;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Position;
-import net.minecraft.util.math.Vec2f;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.*;
 import org.ranch.ballshack.BallsHack;
 import org.ranch.ballshack.mixin.InputAccessor;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class EntitySim {
+public class PlayerSim {
 
     private static MinecraftClient mc = BallsHack.mc;
 
-    public static record PlayerPoint(Vec3d position, Vec3d velocity, boolean onGround) implements Position {
+    public static record PlayerPoint(Vec3d position, Box boundingBox, Vec3d velocity, boolean onGround) implements Position {
 
         @Override
         public double getX() {
@@ -58,8 +55,8 @@ public class EntitySim {
             boolean sprint = origInput.playerInput.sprint();
             // NOT AGAIIINNNNNNWNDBWA VGHFEJHNKJ
             copiedInput = new Input();
-            ((InputAccessor) copiedInput).setMovementVector(((InputAccessor) origInput).getMovementVector());
-            copiedInput.playerInput = new PlayerInput(forward,backward,left,right,jump,sneak,sprint);
+            ((InputAccessor) this).setMovementVector(((InputAccessor) origInput).getMovementVector());
+            this.playerInput = new PlayerInput(forward,backward,left,right,jump,sneak,sprint);
         }
 
         @Override
@@ -80,6 +77,7 @@ public class EntitySim {
             setSprinting(original.isSprinting());
             setSneaking(original.isSneaking());
             setOnGround(original.isOnGround());
+            getAttributes().setFrom(original.getAttributes());
             input = new FakeInput(original.input);
         }
 
@@ -96,6 +94,28 @@ public class EntitySim {
         @Override
         public void tickMovement() {
             super.tickMovement();
+            this.headYaw = this.getYaw();
+            this.setMovementSpeed((float)this.getAttributeValue(EntityAttributes.MOVEMENT_SPEED));
+        }
+
+        @Override
+        public void travel(Vec3d movementInput) {
+            if (this.isSwimming()) {
+                double d = this.getRotationVector().y;
+                double e = d < -0.2 ? 0.085 : 0.06;
+                if (d <= 0.0 || this.jumping || !this.getEntityWorld().getFluidState(BlockPos.ofFloored(this.getX(), this.getY() + 1.0 - 0.1, this.getZ())).isEmpty()) {
+                    Vec3d vec3d = this.getVelocity();
+                    this.setVelocity(vec3d.add(0.0, (d - vec3d.y) * e, 0.0));
+                }
+            }
+
+            if (false) {
+                double d = this.getVelocity().y;
+                super.travel(movementInput);
+                this.setVelocity(this.getVelocity().withAxis(Direction.Axis.Y, d * 0.6));
+            } else {
+                super.travel(movementInput);
+            }
         }
 
         @Override
@@ -111,9 +131,6 @@ public class EntitySim {
                 return input;
             } else {
                 Vec2f vec2f = input.multiply(0.98F);
-                if (this.isUsingItem() && !this.hasVehicle()) {
-                    vec2f = vec2f.multiply(0.2F);
-                }
 
                 if (this.shouldSlowDown()) {
                     float f = (float)this.getAttributeValue(EntityAttributes.SNEAKING_SPEED);
@@ -144,7 +161,7 @@ public class EntitySim {
         }
 
         public boolean shouldSlowDown() {
-            return this.isInSneakingPose() || this.isCrawling();
+            return isSneaking() || this.isCrawling();
         }
 
         @Override
@@ -168,14 +185,12 @@ public class EntitySim {
         }
     }
 
-    //TODO fix it not moving while on ground
-
     public static List<PlayerPoint> simulatePlayer(ClientPlayerEntity player, int ticks) {
         FakePlayer fakePlayer = new FakePlayer(mc.world, player);
         List<PlayerPoint> points = new ArrayList<>();
         for (int i = 0; i < ticks; i++) {
             fakePlayer.tick();
-            points.add(new PlayerPoint(fakePlayer.getEntityPos(), fakePlayer.getVelocity(), fakePlayer.isOnGround()));
+            points.add(new PlayerPoint(fakePlayer.getEntityPos(), fakePlayer.getBoundingBox(), fakePlayer.getVelocity(), fakePlayer.isOnGround()));
         }
         return points;
     }

@@ -2,7 +2,7 @@ package org.ranch.ballshack.debug;
 
 import com.google.gson.reflect.TypeToken;
 import org.ranch.ballshack.debug.renderers.BallGridDebugRenderer;
-import org.ranch.ballshack.debug.renderers.PathDebugRenderer;
+import org.ranch.ballshack.debug.renderers.PlayerSimDebugRenderer;
 import org.ranch.ballshack.debug.renderers.ScaffoldDebugRenderer;
 import org.ranch.ballshack.debug.renderers.VecDebugRenderer;
 import org.ranch.ballshack.setting.Setting;
@@ -60,6 +60,6 @@ public class DebugRenderers {
 		registerRenderer("input", new VecDebugRenderer());
 		registerRenderer("velocity", new VecDebugRenderer());
 		registerRenderer("scaffold", new ScaffoldDebugRenderer());
-		registerRenderer("playersim", new PathDebugRenderer());
+		registerRenderer("playersim", new PlayerSimDebugRenderer());
 	}
 }

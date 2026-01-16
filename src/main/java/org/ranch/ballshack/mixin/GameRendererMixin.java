@@ -9,7 +9,7 @@ import net.minecraft.util.math.Vec3d;
 import org.joml.Matrix4f;
 import org.ranch.ballshack.BallsHack;
 import org.ranch.ballshack.debug.DebugRenderers;
-import org.ranch.ballshack.debug.renderers.PathDebugRenderer;
+import org.ranch.ballshack.debug.renderers.PlayerSimDebugRenderer;
 import org.ranch.ballshack.debug.renderers.ScaffoldDebugRenderer;
 import org.ranch.ballshack.debug.renderers.VecDebugRenderer;
 import org.ranch.ballshack.event.events.EventWorldRender;
@@ -57,7 +57,7 @@ public class GameRendererMixin {
 		if (debugVel.getEnabled())
 			debugVel.render3d(Renderer.getInstance(), matrixStack);
 
-		PathDebugRenderer debugPredict = (PathDebugRenderer) DebugRenderers.getRenderer("playersim");
+		PlayerSimDebugRenderer debugPredict = (PlayerSimDebugRenderer) DebugRenderers.getRenderer("playersim");
 		if (debugPredict.getEnabled())
 			debugPredict.render3d(Renderer.getInstance(), matrixStack);
 
