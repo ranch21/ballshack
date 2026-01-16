@@ -194,4 +194,8 @@ public class PlayerSim {
         }
         return points;
     }
+
+    public static PlayerPoint simulatePlayer(ClientPlayerEntity player) {
+        return simulatePlayer(player, 1).get(0);
+    }
 }

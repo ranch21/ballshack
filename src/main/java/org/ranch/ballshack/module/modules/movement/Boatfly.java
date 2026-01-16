@@ -3,7 +3,6 @@ package org.ranch.ballshack.module.modules.movement;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
-import org.lwjgl.glfw.GLFW;
 import org.ranch.ballshack.event.EventSubscribe;
 import org.ranch.ballshack.event.events.EventTick;
 import org.ranch.ballshack.module.Module;
@@ -19,7 +18,7 @@ public class Boatfly extends Module {
 		super(
 				"BoatFly",
 				ModuleCategory.MOVEMENT,
-				GLFW.GLFW_KEY_G,
+				0,
 				new ModuleSettings(List.of(
 						new SettingSlider(2, "Vspeed", 1, 4, 0.5).featured(),
 						new SettingSlider(2, "Hspeed", 1, 10, 0.5)

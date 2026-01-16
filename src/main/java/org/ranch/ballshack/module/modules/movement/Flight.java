@@ -1,6 +1,5 @@
 package org.ranch.ballshack.module.modules.movement;
 
-import org.lwjgl.glfw.GLFW;
 import org.ranch.ballshack.event.EventSubscribe;
 import org.ranch.ballshack.event.events.EventSetSneaking;
 import org.ranch.ballshack.event.events.EventTick;
@@ -17,7 +16,7 @@ public class Flight extends Module {
 	private int antiKick = 0;
 
 	public Flight() {
-		super("Flight", ModuleCategory.MOVEMENT, GLFW.GLFW_KEY_F, new ModuleSettings(List.of(
+		super("Flight", ModuleCategory.MOVEMENT, 0, new ModuleSettings(List.of(
 				new SettingSlider(2, "Hspeed", 0.5, 10, 0.5).featured(),
 				new SettingSlider(2, "Vspeed", 0.5, 5, 0.5)
 		)));

@@ -2,7 +2,6 @@ package org.ranch.ballshack.module.modules.combat;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.util.Hand;
-import org.lwjgl.glfw.GLFW;
 import org.ranch.ballshack.event.EventSubscribe;
 import org.ranch.ballshack.event.events.EventTick;
 import org.ranch.ballshack.module.Module;
@@ -16,7 +15,7 @@ import java.util.Arrays;
 
 public class KillAura extends Module {
 	public KillAura() {
-		super("KillAura", ModuleCategory.COMBAT, GLFW.GLFW_KEY_R, new ModuleSettings(Arrays.asList(
+		super("KillAura", ModuleCategory.COMBAT, 0, new ModuleSettings(Arrays.asList(
 				new SettingSlider(4, "Range", 1, 8, 0.5),
 				new DropDown("Multi", Arrays.asList(
 						new SettingToggle(true, "Enabled"),

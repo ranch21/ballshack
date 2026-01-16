@@ -1,7 +1,6 @@
 package org.ranch.ballshack.module.modules.movement;
 
 import net.minecraft.util.shape.VoxelShapes;
-import org.lwjgl.glfw.GLFW;
 import org.ranch.ballshack.event.EventSubscribe;
 import org.ranch.ballshack.event.events.EventBlockShape;
 import org.ranch.ballshack.module.Module;
@@ -13,7 +12,7 @@ import java.util.Collections;
 
 public class Jesus extends Module {
 	public Jesus() {
-		super("Jesus", ModuleCategory.MOVEMENT, GLFW.GLFW_KEY_J, new ModuleSettings(Collections.singletonList(
+		super("Jesus", ModuleCategory.MOVEMENT, 0, new ModuleSettings(Collections.singletonList(
 				new SettingToggle(true, "Sides").featured()
 		)), "Atheists cannot explain");
 	}

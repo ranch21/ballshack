@@ -1,7 +1,6 @@
 package org.ranch.ballshack.module.modules.fun;
 
 import net.minecraft.util.math.Vec3d;
-import org.lwjgl.glfw.GLFW;
 import org.ranch.ballshack.event.EventSubscribe;
 import org.ranch.ballshack.event.events.EventPlayerMovementVector;
 import org.ranch.ballshack.event.events.EventTick;
@@ -17,7 +16,7 @@ import java.util.List;
 
 public class TestModule extends Module {
 	public TestModule() {
-		super("Test", ModuleCategory.FUN, GLFW.GLFW_KEY_R, new ModuleSettings(Arrays.asList(
+		super("Test", ModuleCategory.FUN, 0, new ModuleSettings(Arrays.asList(
 				new SettingSlider(5, "slider", 1, 10, 0.25),
 				new SettingMode(0, "mode", Arrays.asList("one", "two", "three")),
 				new DropDown("d1", Arrays.asList(

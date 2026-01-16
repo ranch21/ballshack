@@ -76,22 +76,21 @@ public class ProjectileEvade extends Module {
 
 		if ((boolean) settings.getSetting(0).getValue()) {
 			fleeDir = perp;
-			//PlayerUtil.setMovement(perp);
 		} else {
 			fleeDir = null;
 			mc.player.setPosition(mc.player.getEntityPos().add(perp));
 		}
 	}
 
+	@EventSubscribe
+	public void onPlayerInput(EventPlayerMovementVector event) {
+		if ((boolean) settings.getSetting(0).getValue() && fleeDir != null) {
+			PlayerUtil.setMovement(fleeDir, event);
+		}
+	}
+
 	@Override
 	public void onDisable() {
 		fleeDir = null;
-	}
-
-	@EventSubscribe
-	public void onPlayerInput(EventPlayerMovementVector event) {
-		if (fleeDir == null)
-			return;
-		PlayerUtil.setMovement(fleeDir, event);
 	}
 }
