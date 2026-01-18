@@ -9,8 +9,11 @@ import org.joml.Vector2i;
 import org.ranch.ballshack.FriendManager;
 import org.ranch.ballshack.gui.Colors;
 import org.ranch.ballshack.util.EntityUtil;
+import org.ranch.ballshack.util.TextUtil;
 
 import java.awt.*;
+import java.util.Comparator;
+import java.util.List;
 
 import static org.ranch.ballshack.BallsHack.mc;
 
@@ -175,8 +178,8 @@ public class DrawUtil {
 		drawOutline(context, x, y, width, height, Colors.BORDER);
 	}
 
-	public static Vector2i tPos; // IDK what im doing
-	public static String tTip;
+	private static Vector2i tPos; // IDK what im doing
+	private static String tTip;
 
 	public static void queueTooltip(int x, int y, String tooltip) {
 		if (tooltip == null) return;
@@ -191,10 +194,13 @@ public class DrawUtil {
 
 	public static void drawTooltip(DrawContext context) {
 		if (tTip == null) return;
+		List<String> split = TextUtil.splitSting(tTip, 20);
 		TextRenderer textRend = MinecraftClient.getInstance().textRenderer;
-		int tWidth = textRend.getWidth(tTip) + 2;
-		int tHeight = textRend.fontHeight + 2;
+		int tWidth = textRend.getWidth(split.stream().sorted(Comparator.comparingInt(textRend::getWidth)).toList().get(split.size() - 1));
+		int tHeight = (textRend.fontHeight * split.size()) + 2;
 		context.fill(tPos.x, tPos.y, tPos.x + tWidth, tPos.y + tHeight, Color.BLACK.hashCode());
-		context.drawText(textRend, tTip, tPos.x + 1, tPos.y + 1, Color.WHITE.hashCode(), true);
+		for (int i = 0; i <  split.size(); i++) {
+			context.drawText(textRend, split.get(i), tPos.x + 1, tPos.y + 1 + (textRend.fontHeight * i), Color.WHITE.hashCode(), true);
+		}
 	}
 }

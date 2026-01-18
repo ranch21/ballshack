@@ -3,6 +3,7 @@ package org.ranch.ballshack.setting;
 import com.google.gson.*;
 import net.minecraft.client.MinecraftClient;
 import org.ranch.ballshack.BallsLogger;
+import org.ranch.ballshack.Constants;
 import org.ranch.ballshack.module.Module;
 import org.ranch.ballshack.module.ModuleAnchor;
 import org.ranch.ballshack.module.ModuleHud;
@@ -10,13 +11,11 @@ import org.ranch.ballshack.module.ModuleManager;
 import org.ranch.ballshack.setting.moduleSettings.DropDown;
 import org.ranch.ballshack.setting.moduleSettings.SettingHud;
 
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Writer;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
@@ -107,6 +106,7 @@ public class SettingSaver {
 
 		JsonObject settingsJson = SettingsManager.getJson();
 
+		json.addProperty("version", Constants.SETTINGS_FORMAT_VERSION);
 		json.add("settings", settingsJson);
 		json.add("modules", modulesJson);
 
@@ -167,6 +167,12 @@ public class SettingSaver {
 		try (FileReader reader = new FileReader(saveDir.resolve("settings.json").toFile())) {
 
 			JsonObject settings = JsonParser.parseReader(reader).getAsJsonObject();
+			JsonElement settings_format_version = settings.get("version");
+			if (settings_format_version == null || settings_format_version.getAsInt() != Constants.SETTINGS_FORMAT_VERSION) {
+				BallsLogger.warn("Incompatible settings file format, creating backup and skipping loading.");
+				Files.copy(saveDir.resolve("settings.json"), saveDir.resolve("settings_backup.json"),  StandardCopyOption.REPLACE_EXISTING);
+				return;
+			}
 			JsonObject config = settings.get("settings").getAsJsonObject();
 			JsonObject modules = settings.get("modules").getAsJsonObject();
 

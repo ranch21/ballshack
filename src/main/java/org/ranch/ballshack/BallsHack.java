@@ -20,7 +20,7 @@ public class BallsHack implements ModInitializer {
 
 	public static String ID = "ballshack";
 
-	public static MinecraftClient mc = MinecraftClient.getInstance();
+	public static MinecraftClient mc = Constants.mc;
 
 	@Override
 	public void onInitialize() {
