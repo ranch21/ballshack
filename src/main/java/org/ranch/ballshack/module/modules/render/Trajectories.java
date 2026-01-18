@@ -35,7 +35,7 @@ public class Trajectories extends Module {
 		super("Trajectories", ModuleCategory.RENDER, 0, new ModuleSettings(List.of(
 				new SettingToggle(true, "Players"),
 				new SettingSlider(1, "Alpha", 0, 1, 0.1)
-		)));
+		)), "i dont see you but now i see where my arrows are heading towards");
 	}
 
 	public List<ProjectileSim.Trajectory> getTrajectories() {

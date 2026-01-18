@@ -27,7 +27,7 @@ public class ESP extends Module {
 		super("ESP", ModuleCategory.RENDER, 0, new ModuleSettings(Arrays.asList(
 				new SettingSlider(0.5f, "Alpha", 0, 1, 0.1),
 				new TargetsDropDown("Targets")
-		)));
+		)), "i see you");
 	}
 
 	@EventSubscribe
@@ -44,17 +44,7 @@ public class ESP extends Module {
 
 				EntityUtil.EntityType type = EntityUtil.getEntityType(e);
 
-				switch (type) {
-					case PASSIVE -> {
-						if (!targets.getPassive()) continue;
-					}
-					case MONSTER, NEUTRAL -> {
-						if (!targets.getMobs()) continue;
-					}
-					case PLAYER, FRIEND -> {
-						if (!targets.getPlayers()) continue;
-					}
-				}
+				if (!targets.selected(type)) continue;
 
 				Vec3d size = new Vec3d(e.getWidth(), e.getHeight(), e.getWidth());
 

@@ -30,7 +30,7 @@ public class ChestESP extends Module {
 	public ChestESP() {
 		super("ChestESP", ModuleCategory.RENDER, 0, new ModuleSettings(List.of(
 				new SettingSlider(0.5f, "Alpha", 0, 1, 0.1)
-		)));
+		)), "\"i found a spawner\"");
 	}
 
 	@EventSubscribe

@@ -43,7 +43,7 @@ public class Renderer {
 
 	public static Renderer getInstance() {
 		if (instance == null) {
-			instance = new Renderer(MinecraftClient.getInstance());
+			instance = new Renderer(BallsHack.mc);
 		}
 		return instance;
 	}
@@ -259,6 +259,7 @@ public class Renderer {
 	}
 
 	public void draw(RenderPipeline renderPipeline) {
+		if (buffer == null) return;
 		try (BuiltBuffer builtBuffer = buffer.end()) {
 
 			BuiltBuffer.DrawParameters drawParameters = builtBuffer.getDrawParameters();

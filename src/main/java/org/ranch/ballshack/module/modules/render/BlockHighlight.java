@@ -18,7 +18,6 @@ import org.ranch.ballshack.setting.ModuleSettings;
 import org.ranch.ballshack.setting.moduleSettings.SettingSlider;
 import org.ranch.ballshack.util.rendering.BallColor;
 import org.ranch.ballshack.util.rendering.BallsRenderPipelines;
-import org.ranch.ballshack.util.rendering.DrawUtil;
 import org.ranch.ballshack.util.rendering.Renderer;
 
 import java.awt.*;
@@ -30,7 +29,7 @@ public class BlockHighlight extends Module {
 	public BlockHighlight() {
 		super("BlockHighlight", ModuleCategory.RENDER, 0, new ModuleSettings(List.of(
 				new SettingSlider(0.5f, "Alpha", 0, 1, 0.1)
-		)));
+		)), "look its purple now!");
 	}
 
 	@EventSubscribe

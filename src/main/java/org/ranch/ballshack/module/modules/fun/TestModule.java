@@ -9,6 +9,8 @@ import org.ranch.ballshack.module.ModuleCategory;
 import org.ranch.ballshack.setting.ModuleSettings;
 import org.ranch.ballshack.setting.moduleSettings.*;
 import org.ranch.ballshack.util.PlayerUtil;
+import org.ranch.ballshack.util.Rotation;
+import org.ranch.ballshack.util.RotationUtil;
 
 import java.awt.*;
 import java.util.Arrays;

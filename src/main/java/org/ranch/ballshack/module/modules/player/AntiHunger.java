@@ -22,7 +22,7 @@ public class AntiHunger extends Module {
 		super("AntiHunger", ModuleCategory.PLAYER, 0, new ModuleSettings(Arrays.asList(
 				new SettingToggle(true, "Sprint"),
 				new SettingToggle(true, "Ground")
-		)));
+		)), "mmmmmmgghhh im soooo full");
 	}
 
 	@EventSubscribe

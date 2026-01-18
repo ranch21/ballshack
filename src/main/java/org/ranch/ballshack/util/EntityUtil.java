@@ -79,9 +79,10 @@ public class EntityUtil {
 	}
 
 	public static boolean filterByType(Entity e, TargetsDropDown t) {
-		return (EntityUtil.isPlayer(e) && t.getPlayers() && !(EntityUtil.isFriend(e) && t.getFriends()))
+		return t.selected(getEntityType(e));
+		/*return (EntityUtil.isPlayer(e) && t.getPlayers() && !(EntityUtil.isFriend(e) && t.getFriends()))
 				|| (EntityUtil.isMob(e) && t.getMobs())
-				|| (EntityUtil.isAnimal(e) && t.getPassive());
+				|| (EntityUtil.isAnimal(e) && t.getPassive());*/
 	}
 
 	public static List<Entity> getEntities(double distance, TargetsDropDown targetsDropDown, Comparator<Entity> comparator) {

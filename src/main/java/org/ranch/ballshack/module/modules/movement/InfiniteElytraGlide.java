@@ -27,7 +27,7 @@ public class InfiniteElytraGlide extends Module {
 				new SettingSlider(200, "Max Height", 1, 1000, 1),
 				new SettingToggle(true, "Instant Turn"),
 				new SettingSlider(1, "Turn Speed", 1, 10, 1)
-		)));
+		)), "ion need sum hacks to do this");
 	}
 
 	@EventSubscribe

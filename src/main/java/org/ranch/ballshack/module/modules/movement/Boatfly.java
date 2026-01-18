@@ -22,7 +22,7 @@ public class Boatfly extends Module {
 				new ModuleSettings(List.of(
 						new SettingSlider(2, "Vspeed", 1, 4, 0.5).featured(),
 						new SettingSlider(2, "Hspeed", 1, 10, 0.5)
-				))
+				)), "popboat"
 		);
 	}
 

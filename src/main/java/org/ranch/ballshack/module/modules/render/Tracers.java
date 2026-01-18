@@ -22,7 +22,7 @@ public class Tracers extends Module {
 		super("Tracers", ModuleCategory.RENDER, 0, new ModuleSettings(Arrays.asList(
 				new SettingSlider(0.5f, "Alpha", 0, 1, 0.1),
 				new TargetsDropDown("Targets")
-		)));
+		)), "i see you but with a line pointing at your feet... mmmgghg feeet");
 	}
 
 	@EventSubscribe
@@ -38,17 +38,7 @@ public class Tracers extends Module {
 
 				EntityUtil.EntityType type = EntityUtil.getEntityType(e);
 
-				switch (type) {
-					case PASSIVE -> {
-						if (!targets.getPassive()) continue;
-					}
-					case MONSTER, NEUTRAL -> {
-						if (!targets.getMobs()) continue;
-					}
-					case PLAYER, FRIEND -> {
-						if (!targets.getPlayers()) continue;
-					}
-				}
+				if (!targets.selected(type)) continue;
 
 				MatrixStack matrices = event.matrixStack;
 

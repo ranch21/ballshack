@@ -19,7 +19,7 @@ public class Speed extends Module {
 	public Speed() {
 		super("Speed", ModuleCategory.MOVEMENT, 0, new ModuleSettings(List.of(
 				new SettingSlider(1, "Speed", 0.25, 4, 0.25)
-		)));
+		)), "go fast(er)");
 	}
 
 	@Override

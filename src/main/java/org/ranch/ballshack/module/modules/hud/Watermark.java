@@ -40,16 +40,6 @@ public class Watermark extends ModuleHud {
 		boolean backdrop = (boolean) getSettings().getSetting(0).getValue();
 		boolean shadow = (boolean) getSettings().getSetting(1).getValue();
 
-		PlayerEntity player = mc.player;
-
-		List<ItemStack> armorItems = InvUtil.getArmorSlots(player);
-		int j = 0;
-		for (int i = armorItems.size() - 1; i >= 0; i--) {
-			context.drawItem(armorItems.get(i), x + (j * 16) - 1, y - 1);
-			context.drawStackOverlay(mc.textRenderer, armorItems.get(i), x + (j * 16) - 1, y - 1);
-			j++;
-		}
-
 		String text = applyFormatting((String)getSettings().getSetting(2).getValue());
 		width = mc.textRenderer.getWidth(text)+2;
 		height = mc.textRenderer.fontHeight+1;

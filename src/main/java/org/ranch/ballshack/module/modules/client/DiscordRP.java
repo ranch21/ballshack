@@ -45,7 +45,7 @@ public class DiscordRP extends Module {
 						new SettingString("Large", "icon", 10),
 						new SettingString("Small", "me", 10)
 				))
-		)));
+		)), "answer my call at ONCE kitten!!");
 	}
 
 	@EventSubscribe

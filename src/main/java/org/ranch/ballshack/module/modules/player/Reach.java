@@ -13,7 +13,7 @@ public class Reach extends Module {
 	public Reach() {
 		super("Reach", ModuleCategory.PLAYER, 0, new ModuleSettings(Collections.singletonList(
 				new SettingSlider(4.5, "Dist", 1, 8, 0.5).featured()
-		)));
+		)), "useless");
 	}
 
 	@EventSubscribe

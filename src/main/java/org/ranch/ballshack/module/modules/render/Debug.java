@@ -18,7 +18,7 @@ import static org.ranch.ballshack.Constants.LINE_WIDTH;
 
 public class Debug extends Module {
 	public Debug() {
-		super("Debug", ModuleCategory.RENDER, 0);
+		super("Debug", ModuleCategory.RENDER, 0, "yooohooo is this thing on?");
 	}
 
 	@EventSubscribe

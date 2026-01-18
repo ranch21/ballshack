@@ -8,7 +8,7 @@ import org.ranch.ballshack.module.ModuleCategory;
 
 public class NoFall extends Module {
 	public NoFall() {
-		super("NoFall", ModuleCategory.PLAYER, 0);
+		super("NoFall", ModuleCategory.PLAYER, 0, "*crunch*");
 	}
 
 	@EventSubscribe

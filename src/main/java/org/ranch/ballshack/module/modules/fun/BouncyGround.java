@@ -14,7 +14,7 @@ public class BouncyGround extends Module {
 	public BouncyGround() {
 		super("Bounce", ModuleCategory.FUN, 0, new ModuleSettings(Collections.singletonList(
 				new SettingSlider(1, "Amount", 0.25, 10, 0.25).featured()
-		)));
+		)), "boing....     boing....");
 	}
 
 	@EventSubscribe

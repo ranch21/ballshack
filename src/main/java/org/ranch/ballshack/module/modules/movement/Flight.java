@@ -19,7 +19,7 @@ public class Flight extends Module {
 		super("Flight", ModuleCategory.MOVEMENT, 0, new ModuleSettings(List.of(
 				new SettingSlider(2, "Hspeed", 0.5, 10, 0.5).featured(),
 				new SettingSlider(2, "Vspeed", 0.5, 5, 0.5)
-		)));
+		)), "hawk tuah man!");
 	}
 
 	@EventSubscribe
