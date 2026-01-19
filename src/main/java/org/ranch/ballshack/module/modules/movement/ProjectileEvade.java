@@ -22,12 +22,15 @@ import java.util.Arrays;
 import java.util.List;
 
 public class ProjectileEvade extends Module {
+
+	public SettingMode mode = dGroup.add(new SettingMode(0, "Mode", Arrays.asList("Legit", "LegitSprint", "TP")));
+	public SettingSlider hExpand = dGroup.add(new SettingSlider(0.25, "HitboxExpand", 0, 1, 0.1));
+
 	public ProjectileEvade() {
-		super("ProjEvade", ModuleCategory.MOVEMENT, 0, new ModuleSettings(Arrays.asList(
-				new SettingMode(0, "Mode", Arrays.asList("Legit", "LegitSprint", "TP")),
-				new SettingSlider(0.25, "HitboxExpand", 0, 1, 0.1)
-		)), "endredman");
+		super("ProjEvade", ModuleCategory.MOVEMENT, 0, "endredman");
 	}
+
+	//todo fix this module
 
 	boolean prevInDanger = false;
 	Vec3d fleeDir;
@@ -46,7 +49,7 @@ public class ProjectileEvade extends Module {
 				float width = traj.getProjectile().width;
 				float height = traj.getProjectile().height;
 				Box box = new Box(pos.x - width / 2, pos.y, pos.z - width / 2, pos.x + width / 2, pos.y + height, pos.z + width / 2);
-				if (mc.player.getBoundingBox().expand((double) settings.getSetting(1).getValue()).intersects(box) && !traj.isFake()) {
+				if (mc.player.getBoundingBox().expand(hExpand.getValue()).intersects(box) && !traj.isFake()) {
 					if (traj.getThrower() == null || traj.getThrower() != mc.player) {
 						evade(traj, i++);
 						inDanger = true;
@@ -83,12 +86,11 @@ public class ProjectileEvade extends Module {
 			perp = perp.negate();
 		}
 
-		switch ((int) settings.getSetting(0).getValue()) {
+		switch (mode.getValue()) {
 			case 0:
 				fleeDir = perp;
 				break;
 			case 1:
-				//todo
 				//RotationUtil.slowlyTurnTowards(new Rotation(perp), 100);
 				mc.player.setYaw((float) Math.toDegrees(Math.atan2(perp.z, perp.x) - 90f));
 				mc.options.forwardKey.setPressed(true);
@@ -102,7 +104,7 @@ public class ProjectileEvade extends Module {
 
 	@EventSubscribe
 	public void onPlayerInput(EventPlayerMovementVector event) {
-		if ((boolean) settings.getSetting(0).getValue() && fleeDir != null) {
+		if (mode.getValue() < 2 && fleeDir != null) {
 			PlayerUtil.setMovement(fleeDir, event);
 		}
 	}

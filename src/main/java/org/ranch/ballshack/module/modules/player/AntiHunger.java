@@ -18,20 +18,17 @@ public class AntiHunger extends Module {
 	private boolean prevOnGround = false;
 	private boolean ignorePacket = false;
 
+	public SettingToggle sprint = dGroup.add(new SettingToggle(true, "Sprint"));
+	public SettingToggle ground = dGroup.add(new SettingToggle(true, "Ground"));
+
 	public AntiHunger() {
-		super("AntiHunger", ModuleCategory.PLAYER, 0, new ModuleSettings(Arrays.asList(
-				new SettingToggle(true, "Sprint"),
-				new SettingToggle(true, "Ground")
-		)), "mmmmmmgghhh im soooo full");
+		super("AntiHunger", ModuleCategory.PLAYER, 0, "mmmmmmgghhh im soooo full");
 	}
 
 	@EventSubscribe
 	public void onPacket(EventPacketSend event) {
 
 		if (mc.player == null) return;
-
-		boolean sprint = (boolean) settings.getSetting(0).getValue();
-		boolean onGround = (boolean) settings.getSetting(1).getValue();
 
 		if (event.packet instanceof PlayerMoveC2SPacket && ignorePacket) {
 			ignorePacket = false;
@@ -40,11 +37,11 @@ public class AntiHunger extends Module {
 
 		if (mc.player.hasVehicle() || mc.player.isTouchingWater() || mc.player.isSubmergedInWater()) return;
 
-		if (event.packet instanceof ClientCommandC2SPacket packet && sprint) {
+		if (event.packet instanceof ClientCommandC2SPacket packet && sprint.getValue()) {
 			if (packet.getMode() == ClientCommandC2SPacket.Mode.START_SPRINTING) event.cancel();
 		}
 
-		if (onGround && event.packet instanceof PlayerMoveC2SPacket packet && mc.player.isOnGround() && mc.player.fallDistance <= 0.0 && !mc.interactionManager.isBreakingBlock()) {
+		if (ground.getValue() && event.packet instanceof PlayerMoveC2SPacket packet && mc.player.isOnGround() && mc.player.fallDistance <= 0.0 && !mc.interactionManager.isBreakingBlock()) {
 			((PlayerMoveC2SPacketAccessor) packet).setOnGround(true);
 		}
 	}
@@ -52,9 +49,7 @@ public class AntiHunger extends Module {
 	@EventSubscribe
 	public void onTick(EventTick event) {
 
-		boolean onGround = (boolean) settings.getSetting(1).getValue();
-
-		if (mc.player.isOnGround() && !prevOnGround && onGround) {
+		if (mc.player.isOnGround() && !prevOnGround && ground.getValue()) {
 			ignorePacket = true;
 		}
 

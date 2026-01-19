@@ -1,20 +1,15 @@
 package org.ranch.ballshack.module;
 
 import net.minecraft.client.input.KeyInput;
+
 import org.ranch.ballshack.module.modules.client.*;
 import org.ranch.ballshack.module.modules.combat.*;
-import org.ranch.ballshack.module.modules.fun.BouncyGround;
-import org.ranch.ballshack.module.modules.fun.TestModule;
-import org.ranch.ballshack.module.modules.hud.ArmorHud;
-import org.ranch.ballshack.module.modules.hud.Coordinates;
-import org.ranch.ballshack.module.modules.hud.ModuleList;
-import org.ranch.ballshack.module.modules.hud.Watermark;
+import org.ranch.ballshack.module.modules.fun.*;
+import org.ranch.ballshack.module.modules.hud.*;
 import org.ranch.ballshack.module.modules.movement.*;
-import org.ranch.ballshack.module.modules.player.AntiHunger;
-import org.ranch.ballshack.module.modules.player.NoFall;
-import org.ranch.ballshack.module.modules.player.Reach;
+import org.ranch.ballshack.module.modules.player.*;
 import org.ranch.ballshack.module.modules.render.*;
-import org.ranch.ballshack.module.modules.world.Scaffold;
+import org.ranch.ballshack.module.modules.world.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -29,16 +24,13 @@ public class ModuleManager {
 			new ClickGui(),
 			new Boatfly(),
 			new NoFall(),
-			new Reach(),
 			new Flight(),
-			new BouncyGround(),
 			new KillAura(),
 			new Jesus(),
 			new AimAssist(),
 			new TriggerBot(),
 			new AutoTotem(),
 			new ModuleList(),
-			new TpAura(),
 			new ESP(),
 			new Tracers(),
 			new Speed(),

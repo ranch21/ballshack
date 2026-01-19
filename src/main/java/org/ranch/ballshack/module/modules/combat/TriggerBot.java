@@ -19,12 +19,12 @@ import java.util.Arrays;
 public class TriggerBot extends Module {
 	private static int cooldown = 0;
 
+	public SettingToggle swing = dGroup.add(new SettingToggle(true, "Swing"));
+	public SettingSlider maxRandDelay = dGroup.add((SettingSlider) new SettingSlider(2, "MaxRandDelay", 0, 10, 1).tooltip("i lied lol this aint random"));
+	public TargetsDropDown targets = dGroup.add(new TargetsDropDown("Targets"));
+
 	public TriggerBot() {
-		super("TriggerBot", ModuleCategory.COMBAT, 0, new ModuleSettings(Arrays.asList(
-				new SettingToggle(true, "Swing"),
-				new SettingSlider(2, "MaxRandDelay", 0, 10, 1),
-				new TargetsDropDown("Targets")
-		)), "Monkey in computer press when enemy");
+		super("TriggerBot", ModuleCategory.COMBAT, 0, "Monkey in computer press when enemy");
 	}
 
 	@EventSubscribe
@@ -35,14 +35,11 @@ public class TriggerBot extends Module {
 			if (h instanceof EntityHitResult entityHitResult) {
 				Entity e = entityHitResult.getEntity();
 
-				TargetsDropDown targets = (TargetsDropDown) getSettings().getSetting(2);
-
 				if (EntityUtil.filterByType(e, targets)) {
 					if (cooldown-- <= 0) {
 						mc.interactionManager.attackEntity(mc.player, e);
-						boolean swing = (boolean) getSettings().getSetting(0).getValue();
-						if (swing) mc.player.swingHand(Hand.MAIN_HAND);
-						cooldown = (int) (double) getSettings().getSetting(1).getValue();
+						if (swing.getValue()) mc.player.swingHand(Hand.MAIN_HAND);
+						cooldown = (int) (double) maxRandDelay.getValue();
 					}
 				}
 			}

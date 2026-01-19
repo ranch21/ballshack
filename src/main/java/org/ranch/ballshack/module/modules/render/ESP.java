@@ -23,18 +23,17 @@ import java.util.List;
 import static org.ranch.ballshack.Constants.LINE_WIDTH;
 
 public class ESP extends Module {
+
+	public SettingSlider alpha = dGroup.add(new SettingSlider(0.5f, "Alpha", 0, 1, 0.1));
+	public TargetsDropDown targets = dGroup.add(new TargetsDropDown("Targets"));
+
 	public ESP() {
-		super("ESP", ModuleCategory.RENDER, 0, new ModuleSettings(Arrays.asList(
-				new SettingSlider(0.5f, "Alpha", 0, 1, 0.1),
-				new TargetsDropDown("Targets")
-		)), "i see you");
+		super("ESP", ModuleCategory.RENDER, 0, "i see you");
 	}
 
 	@EventSubscribe
 	public void onWorldRender(EventWorldRender.Post event) {
 
-		double alpha = (double) getSettings().getSetting(0).getValue();
-		TargetsDropDown targets = (TargetsDropDown) getSettings().getSetting(1);
 		Renderer renderer = Renderer.getInstance();
 
 		MatrixStack matrices = event.matrixStack;
@@ -52,7 +51,7 @@ public class ESP extends Module {
 
 				Box box = new Box(c1, c1.add(size));
 
-				renderer.renderCube(box, BallColor.fromColor(type.getColor()).setAlpha((float) alpha), matrices);
+				renderer.renderCube(box, BallColor.fromColor(type.getColor()).setAlpha((float) (double) alpha.getValue()), matrices);
 				renderer.renderCubeOutlines(box, LINE_WIDTH, type.getColor(), matrices);
 			}
 		}

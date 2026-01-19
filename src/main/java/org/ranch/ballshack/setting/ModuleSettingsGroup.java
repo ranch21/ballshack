@@ -1,0 +1,23 @@
+package org.ranch.ballshack.setting;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class ModuleSettingsGroup implements SettingsList {
+
+	protected List<ModuleSetting<?>> settings = new ArrayList<>();
+	public final String name;
+
+	public ModuleSettingsGroup(String name) {
+		this.name = name;
+	}
+
+	public <T extends ModuleSetting<?>> T add(T setting) {
+		settings.add(setting);
+		return setting;
+	}
+
+	public List<ModuleSetting<?>> getSettings() {
+		return settings;
+	}
+}

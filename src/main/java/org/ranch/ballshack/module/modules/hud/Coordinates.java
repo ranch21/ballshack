@@ -18,12 +18,13 @@ import java.awt.*;
 import java.util.Arrays;
 
 public class Coordinates extends ModuleHud {
+
+	public SettingToggle backdrop = dGroup.add(new SettingToggle(true, "Backdrop"));
+	public SettingToggle shadow = dGroup.add(new SettingToggle(true, "Shadow"));
+	public SettingToggle scaled = dGroup.add(new SettingToggle(false, "Scaled"));
+
 	public Coordinates() {
-		super("Coords", ModuleCategory.HUD, 0, 0, 0, new HudModuleSettings(Arrays.asList(
-				new SettingToggle(true, "Backdrop"),
-				new SettingToggle(true, "Shadow"),
-				new SettingToggle(false, "Scaled")
-		)), "f3 wgat is it", ModuleAnchor.TOP_LEFT);
+		super("Coords", ModuleCategory.HUD, 0, 0, 0, "f3 wgat is it", ModuleAnchor.TOP_LEFT);
 	}
 
 	@EventSubscribe
@@ -32,17 +33,13 @@ public class Coordinates extends ModuleHud {
 		int y = Y() - yOffset();
 		DrawContext context = event.drawContext;
 
-		boolean shadow = (boolean) getSettings().getSetting(1).getValue();
-		boolean backdrop = (boolean) getSettings().getSetting(0).getValue();
-		boolean scaled = (boolean) getSettings().getSetting(2).getValue();
-
 		PlayerEntity player = mc.player;
 
 		MutableText data = Text.of(player.getBlockX() + " ").copy().withColor(Colors.RED.hashCode());
 		data.append(Text.of(player.getBlockY() + " ").copy().withColor(Colors.GREEN.hashCode()));
 		data.append(Text.of(player.getBlockZ() + " ").copy().withColor(Colors.BLUE.hashCode()));
 
-		if (scaled) {
+		if (scaled.getValue()) {
 			float mult = mc.world.getDimension().ultrawarm() ? 8.0f : 0.125f;
 			data.append(Text.of("[ ").copy().withColor(Colors.GRAY.hashCode()));
 			data.append(Text.of((int) (player.getBlockX() * mult) + " ").copy().withColor(Colors.RED.hashCode()));
@@ -54,8 +51,8 @@ public class Coordinates extends ModuleHud {
 		width = mc.textRenderer.getWidth(data) - 2;
 		height = mc.textRenderer.fontHeight + 1;
 
-		if (backdrop) context.fill(x, y, x + width, y + height, Colors.BACKDROP.hashCode());
+		if (backdrop.getValue()) context.fill(x, y, x + width, y + height, Colors.BACKDROP.hashCode());
 
-		DrawUtil.drawText(context, mc.textRenderer, data, x + 1, y + 1, Color.WHITE, shadow);
+		DrawUtil.drawText(context, mc.textRenderer, data, x + 1, y + 1, Color.WHITE, shadow.getValue());
 	}
 }

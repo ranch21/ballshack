@@ -9,41 +9,41 @@ import org.ranch.ballshack.gui.legacy.LegacyClickGuiScreen;
 import org.ranch.ballshack.module.Module;
 import org.ranch.ballshack.module.ModuleCategory;
 import org.ranch.ballshack.setting.ModuleSettings;
+import org.ranch.ballshack.setting.SettingsList;
 import org.ranch.ballshack.setting.moduleSettings.DropDown;
 import org.ranch.ballshack.setting.moduleSettings.SettingSlider;
 import org.ranch.ballshack.setting.moduleSettings.SettingToggle;
 
 import java.util.Arrays;
+import java.util.Set;
 
 public class ClickGui extends Module {
 
 	private ClickGuiScreen screen;
-	private boolean legacy;
+
+	public DropDown ballsDrop = dGroup.add(new DropDown("Balls"));
+	public SettingToggle bEnabled = dGroup.add(new SettingToggle(true, "Enabled"));
+	public SettingSlider bAmount = dGroup.add(new SettingSlider(50, "Amount", 1, 2000, 100));
+	public SettingSlider bGrav = dGroup.add(new SettingSlider(1, "Gravity", 0, 3, 0.1));
+	public SettingSlider bSize = dGroup.add(new SettingSlider(10, "Size", 1, 32, 1));
+	public SettingToggle bWinCollide = dGroup.add(new SettingToggle(true, "WindowCollide"));
+
+	public SettingToggle darken = dGroup.add(new SettingToggle(true, "Darken"));
+	public SettingToggle legacy = dGroup.add(new SettingToggle(false, "Legacy"));
 
 	public ClickGui() {
-		super("ClickGui", ModuleCategory.CLIENT, GLFW.GLFW_KEY_RIGHT_SHIFT, new ModuleSettings(Arrays.asList(
-				new DropDown("Balls", Arrays.asList(
-						new SettingToggle(true, "Enabled"),
-						new SettingSlider(50, "Amount", 1, 2000, 100),
-						new SettingSlider(1, "Gravity", 0, 3, 0.1),
-						new SettingSlider(10, "Size", 1, 32, 1),
-						new SettingToggle(true, "WindowCollide")
-				)),
-				new SettingToggle(true, "Darken"),
-				new SettingToggle(false, "Legacy")
-		)), "The module screeent thing", true);
+		super("ClickGui", ModuleCategory.CLIENT, GLFW.GLFW_KEY_RIGHT_SHIFT, "The module screeent thing", true);
 	}
 
 	@EventSubscribe
 	public void onTick(EventTick event) {
-		legacy = (boolean) settings.getSetting(2).getValue();
-		screen.setSettings(this.getSettings());
+		screen.setSettings(this);
 	}
 
 	@Override
 	public void onEnable() {
 		super.onEnable();
-		if (legacy) {
+		if (legacy.getValue()) {
 			LegacyClickGuiScreen screen = new LegacyClickGuiScreen();
 			MinecraftClient.getInstance().setScreen(screen);
 		} else {

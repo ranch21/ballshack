@@ -57,23 +57,23 @@ public class Scaffold extends Module {
     private double EPSILON = 0.0001;
     private int delay = 1;
 
+	public SettingMode rotate = dGroup.add((SettingMode) new SettingMode(0, "Rotate", Arrays.asList("None", "Packet", "True")).featured());
+	public SettingSlider delaySlider = dGroup.add(new SettingSlider(1, "Delay", 0, 10, 1));
+
     public Scaffold() {
-        super("Scaffold", ModuleCategory.WORLD, 0, new ModuleSettings(Arrays.asList(
-                new SettingMode(0, "Rotate", Arrays.asList("None", "Packet", "True")).featured(),
-                new SettingSlider(1, "Delay", 0, 10, 1)
-                )));
+        super("Scaffold", ModuleCategory.WORLD, 0);
     }
 
     @Override
     public void onEnable() {
-        delay = (int) (double) getSettings().getSetting(1).getValue();
+        delay = (int) (double) delaySlider.getValue();
         super.onEnable();
     }
 
     @EventSubscribe
     public void onTick(EventTick event) {
-        int mode = (int) getSettings().getSetting(0).getValue();
-        int delayS = (int) (double) getSettings().getSetting(1).getValue();
+        int mode = rotate.getValue();
+        int delayS = (int) (double) delaySlider.getValue();
 
         if (!mc.world.getBlockState(BlockPos.ofFloored(mc.player.getEntityPos().subtract(0, 0.1, 0))).isAir())
             return;

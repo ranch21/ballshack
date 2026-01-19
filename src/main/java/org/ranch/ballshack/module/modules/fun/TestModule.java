@@ -7,6 +7,7 @@ import org.ranch.ballshack.event.events.EventTick;
 import org.ranch.ballshack.module.Module;
 import org.ranch.ballshack.module.ModuleCategory;
 import org.ranch.ballshack.setting.ModuleSettings;
+import org.ranch.ballshack.setting.ModuleSettingsGroup;
 import org.ranch.ballshack.setting.moduleSettings.*;
 import org.ranch.ballshack.util.PlayerUtil;
 import org.ranch.ballshack.util.Rotation;
@@ -17,21 +18,15 @@ import java.util.Arrays;
 import java.util.List;
 
 public class TestModule extends Module {
+
+	ModuleSettingsGroup defaultGroup = settings.getDefaultGroup();
+
+	private SettingSlider testSlider = defaultGroup.add(new SettingSlider(1, "test", 0, 10, 1));
+	private DropDown dropDown = defaultGroup.add(new DropDown("YOOOWHAT"));
+	private SettingToggle testToggle = dropDown.settings.add(new SettingToggle(false, "testToggle"));
+
 	public TestModule() {
-		super("Test", ModuleCategory.FUN, 0, new ModuleSettings(Arrays.asList(
-				new SettingSlider(5, "slider", 1, 10, 0.25),
-				new SettingMode(0, "mode", Arrays.asList("one", "two", "three")),
-				new DropDown("d1", Arrays.asList(
-						new SettingToggle(true, "depth1"),
-						new DropDown("d2", Arrays.asList(
-								new SettingToggle(true, "depth2"),
-								new DropDown("d3", List.of(
-										new SettingToggle(true, "depth3")
-								))
-						))
-				)),
-				new SettingColor("t", Color.BLUE)
-		)), "Testingh ahwdhghfi");
+		super("Test", ModuleCategory.FUN, 0, "Testingh ahwdhghfi");
 	}
 
 	@EventSubscribe

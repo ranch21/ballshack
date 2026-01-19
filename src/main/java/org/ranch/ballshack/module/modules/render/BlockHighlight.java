@@ -26,10 +26,11 @@ import java.util.List;
 import static org.ranch.ballshack.Constants.LINE_WIDTH;
 
 public class BlockHighlight extends Module {
+
+	public SettingSlider alpha = dGroup.add(new SettingSlider(0.5f, "Alpha", 0, 1, 0.1));
+
 	public BlockHighlight() {
-		super("BlockHighlight", ModuleCategory.RENDER, 0, new ModuleSettings(List.of(
-				new SettingSlider(0.5f, "Alpha", 0, 1, 0.1)
-		)), "look its purple now!");
+		super("BlockHighlight", ModuleCategory.RENDER, 0, "look its purple now!");
 	}
 
 	@EventSubscribe
@@ -42,7 +43,6 @@ public class BlockHighlight extends Module {
 
 		Color c = Colors.PALLETE_1;
 
-		double alpha = (double) getSettings().getSetting(0).getValue();
 		float r = c.getRed() / 255.0f;
 		float g = c.getGreen() / 255.0f;
 		float b = c.getBlue() / 255.0f;
@@ -61,7 +61,7 @@ public class BlockHighlight extends Module {
 
 					for (Box box : shape.getBoundingBoxes()) {
 						box = box.offset(blockPos);
-						renderer.renderCube(box, BallColor.fromColor(c).setAlpha((float) alpha), matrices);
+						renderer.renderCube(box, BallColor.fromColor(c).setAlpha((float) (double) alpha.getValue()), matrices);
 						renderer.renderCubeOutlines(box, LINE_WIDTH, c, matrices);
 					}
 					renderer.draw(BallsRenderPipelines.QUADS);

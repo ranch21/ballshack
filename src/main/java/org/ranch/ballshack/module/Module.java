@@ -5,6 +5,7 @@ import org.jetbrains.annotations.Nullable;
 import org.ranch.ballshack.BallsHack;
 import org.ranch.ballshack.BallsLogger;
 import org.ranch.ballshack.setting.ModuleSettings;
+import org.ranch.ballshack.setting.ModuleSettingsGroup;
 import org.ranch.ballshack.setting.SettingSaver;
 
 import java.util.ArrayList;
@@ -12,7 +13,8 @@ import java.util.ArrayList;
 public abstract class Module {
 
 	protected MinecraftClient mc = MinecraftClient.getInstance();
-	protected ModuleSettings settings;
+	protected ModuleSettings settings = new ModuleSettings();
+	protected ModuleSettingsGroup dGroup = settings.getDefaultGroup();
 	private final String name;
 	private final ModuleCategory category;
 	private Boolean subscribed;
@@ -23,30 +25,17 @@ public abstract class Module {
 	protected boolean enabled;
 
 	public Module(String name, ModuleCategory category, int bind) {
-		this(name, category, bind, new ModuleSettings(new ArrayList<>()), null, false);
+		this(name, category, bind, null, false);
 	}
 
-	public Module(String name, ModuleCategory category, int bind, String tooltip) {
-		this(name, category, bind, new ModuleSettings(new ArrayList<>()), tooltip, false);
+	public Module(String name, ModuleCategory category, int bind, @Nullable String tooltip) {
+		this(name, category, bind, tooltip, false);
 	}
 
-	public Module(String name, ModuleCategory category, int bind, String tooltip, boolean isMeta) {
-		this(name, category, bind, new ModuleSettings(new ArrayList<>()), tooltip, isMeta);
-	}
-
-	public Module(String name, ModuleCategory category, int bind, ModuleSettings settings) {
-		this(name, category, bind, settings, null, false);
-	}
-
-	public Module(String name, ModuleCategory category, int bind, ModuleSettings settings, @Nullable String tooltip) {
-		this(name, category, bind, settings, tooltip, false);
-	}
-
-	public Module(String name, ModuleCategory category, int bind, ModuleSettings settings, @Nullable String tooltip, boolean isMeta) {
+	public Module(String name, ModuleCategory category, int bind, @Nullable String tooltip, boolean isMeta) {
 		this.name = name;
 		this.category = category;
 		settings.getBind().setValue(bind);
-		this.settings = settings;
 		this.tooltip = tooltip;
 		this.isMeta = isMeta;
 	}

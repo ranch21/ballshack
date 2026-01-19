@@ -15,19 +15,19 @@ public class Flight extends Module {
 
 	private int antiKick = 0;
 
+	public SettingSlider hSpeed = dGroup.add((SettingSlider) new SettingSlider(2, "Hspeed", 0.5, 10, 0.5).featured());
+	public SettingSlider vSpeed = dGroup.add(new SettingSlider(2, "Vspeed", 0.5, 5, 0.5));
+
 	public Flight() {
-		super("Flight", ModuleCategory.MOVEMENT, 0, new ModuleSettings(List.of(
-				new SettingSlider(2, "Hspeed", 0.5, 10, 0.5).featured(),
-				new SettingSlider(2, "Vspeed", 0.5, 5, 0.5)
-		)), "hawk tuah man!");
+		super("Flight", ModuleCategory.MOVEMENT, 0, "hawk tuah man!");
 	}
 
 	@EventSubscribe
 	public void onTick(EventTick event) {
 		if (mc.player.hasVehicle()) return;
 
-		double horizontalSpeed = (double) this.getSettings().getSetting(0).getValue() / 3;
-		double verticalSpeed = (double) this.getSettings().getSetting(1).getValue() / 3;
+		double horizontalSpeed = hSpeed.getValue() / 3;
+		double verticalSpeed = vSpeed.getValue() / 3;
 
 		mc.player.setVelocity(PlayerUtil.getMovementVector(horizontalSpeed, verticalSpeed));
 

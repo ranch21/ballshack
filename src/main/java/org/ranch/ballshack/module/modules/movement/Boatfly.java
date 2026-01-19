@@ -14,15 +14,14 @@ import java.util.List;
 
 public class Boatfly extends Module {
 
+	public SettingSlider hSpeed = dGroup.add((SettingSlider) new SettingSlider(2, "Hspeed", 1, 10, 0.5).featured());
+	public SettingSlider vSpeed = dGroup.add(new SettingSlider(2, "Vspeed", 1, 4, 0.5));
+
 	public Boatfly() {
 		super(
 				"BoatFly",
 				ModuleCategory.MOVEMENT,
-				0,
-				new ModuleSettings(List.of(
-						new SettingSlider(2, "Vspeed", 1, 4, 0.5).featured(),
-						new SettingSlider(2, "Hspeed", 1, 10, 0.5)
-				)), "popboat"
+				0, "popboat <- best tooltip oat"
 		);
 	}
 
@@ -38,8 +37,8 @@ public class Boatfly extends Module {
 		double yVel = 0;
 		double zVel = velocity.z;
 
-		double verticalSpeed = (double) this.getSettings().getSetting(0).getValue() / 3;
-		double horizontalSpeed = (double) this.getSettings().getSetting(1).getValue() / 3;
+		double verticalSpeed = vSpeed.getValue() / 3;
+		double horizontalSpeed = hSpeed.getValue() / 3;
 
 		if (mc.options.jumpKey.isPressed()) {
 			yVel = verticalSpeed;
@@ -48,11 +47,10 @@ public class Boatfly extends Module {
 		}
 
 		if (mc.options.forwardKey.isPressed()) {
-			double speed = horizontalSpeed;
 			float yawRad = boat.getYaw() * MathHelper.RADIANS_PER_DEGREE;
 
-			xVel = MathHelper.sin(-yawRad) * speed;
-			zVel = MathHelper.cos(yawRad) * speed;
+			xVel = MathHelper.sin(-yawRad) * horizontalSpeed;
+			zVel = MathHelper.cos(yawRad) * horizontalSpeed;
 		}
 
 		boat.setVelocity(xVel, yVel, zVel);

@@ -91,12 +91,12 @@ public abstract class ModuleSetting<T> {
 	}
 
 	public ModuleSetting<T> featured() {
-		featured = true;
+		featured = true; // TODO MAKE THIS RETURN THE TYPE OF THE ONE WHO EXTENDS NOT EG. MODULESETTING<INTEGER> TYSM
 		return this;
 	}
 
 	public ModuleSetting<T> tooltip(String tooltip) {
-		this.tooltip = tooltip;
+		this.tooltip = tooltip; // TODO same thing here
 		return this;
 	}
 

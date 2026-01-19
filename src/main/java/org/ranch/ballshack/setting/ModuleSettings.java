@@ -6,26 +6,34 @@ import org.ranch.ballshack.setting.moduleSettings.SettingBind;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ModuleSettings {
+public class ModuleSettings implements SettingsList {
 
-	protected List<ModuleSetting<?>> settings;
-	protected SettingBind bind = new SettingBind(0, "KeyBind");
+	protected ModuleSettingsGroup defaultGroup = new ModuleSettingsGroup("default");
+	protected SettingBind bind;
 
-	public ModuleSettings(List<ModuleSetting<?>> settings) {
-		this.settings = settings;
+	public ModuleSettings() {
+		bind = defaultGroup.add(new SettingBind(0, "KeyBind"));
 	}
 
+	public ModuleSettingsGroup getDefaultGroup() {
+		return defaultGroup;
+	}
+
+	@Override
+	public <T extends ModuleSetting<?>> T add(T setting) {
+		return defaultGroup.add(setting);
+	}
+
+	@Override
 	public List<ModuleSetting<?>> getSettings() {
-		List<ModuleSetting<?>> merged = new ArrayList<>(settings);
-		merged.add(bind);
-		return new ArrayList<>(merged);
+		return defaultGroup.getSettings();
 	}
 
 	protected List<ModuleSetting<?>> unpackSettings(List<ModuleSetting<?>> settings) {
 		List<ModuleSetting<?>> list = new ArrayList<>();
 		for (ModuleSetting<?> setting : settings) {
 			list.add(setting);
-			if (setting instanceof DropDown) {
+			if (setting instanceof SettingsList) {
 				list.addAll(unpackSettings(((DropDown) setting).getSettings()));
 			}
 		}
@@ -33,34 +41,11 @@ public class ModuleSettings {
 	}
 
 	public List<ModuleSetting<?>> getSettingsUnpacked() {
-		List<ModuleSetting<?>> merged = new ArrayList<>(unpackSettings(settings));
-		merged.add(bind);
+		List<ModuleSetting<?>> merged = new ArrayList<>(unpackSettings(defaultGroup.getSettings()));
 		return new ArrayList<>(merged);
 	}
 
 	public SettingBind getBind() {
 		return bind;
-	}
-
-	public ModuleSetting<?> getSetting(String name) {
-		for (ModuleSetting<?> setting : settings) {
-			if (setting.getName().equals(name)) {
-				return setting;
-			}
-		}
-		return null;
-	}
-
-	public ModuleSetting<?> getSetting(Class<?> clazz) {
-		for (ModuleSetting<?> setting : settings) {
-			if (setting.getClass().equals(clazz)) {
-				return setting;
-			}
-		}
-		return null;
-	}
-
-	public ModuleSetting<?> getSetting(int index) {
-		return settings.get(index);
 	}
 }

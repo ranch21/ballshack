@@ -14,18 +14,20 @@ import org.ranch.ballshack.util.PlayerUtil;
 import java.util.Arrays;
 
 public class KillAura extends Module {
+
+	public SettingSlider range = dGroup.add(new SettingSlider(4, "Range", 1, 8, 0.5));
+
+	public DropDown multiDD = dGroup.add(new DropDown("Multi"));
+	public SettingToggle mEnabled = multiDD.add(new SettingToggle(true, "Enabled"));
+	public SettingSlider mTargetMax = multiDD.add(new SettingSlider(4, "Targets", 2, 10, 1));
+
+	public TargetsDropDown targets = dGroup.add(new TargetsDropDown("Targets"));
+	public SettingMode rotate = dGroup.add((SettingMode) new SettingMode(0, "Rotate", Arrays.asList("None", "Packet", "True")).featured());
+	public SettingToggle swing = dGroup.add(new SettingToggle(true, "Swing"));
+	public SortMode sort = dGroup.add(new SortMode("Sort"));
+
 	public KillAura() {
-		super("KillAura", ModuleCategory.COMBAT, 0, new ModuleSettings(Arrays.asList(
-				new SettingSlider(4, "Range", 1, 8, 0.5),
-				new DropDown("Multi", Arrays.asList(
-						new SettingToggle(true, "Enabled"),
-						new SettingSlider(4, "Targets", 2, 10, 1)
-				)),
-				new TargetsDropDown("Targets"),
-				new SettingMode(0, "Rotate", Arrays.asList("None", "Packet", "True")).featured(),
-				new SettingToggle(true, "Swing"),
-				new SortMode("Sort")
-		)), "Repel players");
+		super("KillAura", ModuleCategory.COMBAT, 0, "Repel players");
 	}
 
 	@EventSubscribe
@@ -34,15 +36,11 @@ public class KillAura extends Module {
 
 			int attacked = 0;
 
-			double distance = (double) getSettings().getSetting(0).getValue();
-
-			TargetsDropDown targets = (TargetsDropDown) getSettings().getSetting(2);
-
-			SortMode sort = (SortMode) getSettings().getSetting(5);
+			double distance = range.getValue();
 
 			for (Entity e : EntityUtil.getEntities(distance, targets, sort.getComparator())) {
 
-				int mode = (int) getSettings().getSetting(3).getValue();
+				int mode = rotate.getValue();
 
 				if (mode == 1) {
 					PlayerUtil.facePosPacket(EntityUtil.getCenter(e));
@@ -52,18 +50,16 @@ public class KillAura extends Module {
 
 				mc.interactionManager.attackEntity(mc.player, e);
 
-				boolean swing = (boolean) getSettings().getSetting(4).getValue();
+				boolean swing = this.swing.getValue();
 				if (swing) mc.player.swingHand(Hand.MAIN_HAND);
 
 				attacked++;
 
-				DropDown dropDown = (DropDown) getSettings().getSetting(1);
-
-				if (attacked >= (int) (double) dropDown.getSetting(1).getValue() && (boolean) dropDown.getSetting(0).getValue()) {
+				if (attacked >= mTargetMax.getValue() && mEnabled.getValue()) {
 					break;
 				}
 
-				if (!(boolean) dropDown.getSetting(0).getValue()) {
+				if (!mEnabled.getValue()) {
 					break;
 				}
 			}

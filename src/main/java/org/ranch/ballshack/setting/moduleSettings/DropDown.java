@@ -5,17 +5,19 @@ import org.lwjgl.glfw.GLFW;
 import org.ranch.ballshack.gui.Colors;
 import org.ranch.ballshack.gui.GuiUtil;
 import org.ranch.ballshack.setting.ModuleSetting;
+import org.ranch.ballshack.setting.ModuleSettingsGroup;
+import org.ranch.ballshack.setting.SettingsList;
 
 import java.util.List;
 
-public class DropDown extends ModuleSetting<Boolean> {
+public class DropDown extends ModuleSetting<Boolean> implements SettingsList {
 
-	private final List<ModuleSetting<?>> settings;
+	public final ModuleSettingsGroup settings;
 	private int addedHeight = 0;
 
-	public DropDown(String label, List<ModuleSetting<?>> settings) {
+	public DropDown(String label) {
 		super(label, false);
-		this.settings = settings;
+		settings = new ModuleSettingsGroup(label);
 	}
 
 	@Override
@@ -24,7 +26,7 @@ public class DropDown extends ModuleSetting<Boolean> {
 		addedHeight = 0;
 
 		if (this.getValue()) {
-			for (ModuleSetting<?> setting : settings) {
+			for (ModuleSetting<?> setting : settings.getSettings()) {
 				addedHeight += setting.render(context, x + 2, y + height + addedHeight, width - 2, height, mouseX, mouseY);
 			}
 
@@ -46,7 +48,7 @@ public class DropDown extends ModuleSetting<Boolean> {
 	@Override
 	public boolean mouseClicked(double mouseX, double mouseY, int button) {
 		if (this.getValue()) {
-			for (ModuleSetting<?> setting : settings) {
+			for (ModuleSetting<?> setting : settings.getSettings()) {
 				setting.mouseClicked(mouseX, mouseY, button);
 			}
 		}
@@ -63,7 +65,7 @@ public class DropDown extends ModuleSetting<Boolean> {
 
 	public void mouseReleased(double mouseX, double mouseY, int button) {
 		if (this.getValue()) {
-			for (ModuleSetting<?> setting : settings) {
+			for (ModuleSetting<?> setting : settings.getSettings()) {
 				setting.mouseReleased(mouseX, mouseY, button);
 			}
 		}
@@ -72,7 +74,7 @@ public class DropDown extends ModuleSetting<Boolean> {
 	@Override
 	public void keyPressed(int keyCode, int scanCode, int modifiers) {
 		if (this.getValue()) {
-			for (ModuleSetting<?> setting : settings) {
+			for (ModuleSetting<?> setting : settings.getSettings()) {
 				setting.keyPressed(keyCode, scanCode, modifiers);
 			}
 		}
@@ -81,7 +83,7 @@ public class DropDown extends ModuleSetting<Boolean> {
 	@Override
 	public boolean charTyped(char chr, int modifiers) {
 		if (this.getValue()) {
-			for (ModuleSetting<?> setting : settings) {
+			for (ModuleSetting<?> setting : settings.getSettings()) {
 				if (setting.charTyped(chr, modifiers)) {
 					return true;
 				}
@@ -98,7 +100,7 @@ public class DropDown extends ModuleSetting<Boolean> {
 	@Override
 	public JsonObject getJson() {
 		JsonObject obj = new JsonObject();
-		for (ModuleSetting<?> setting : settings) {
+		for (ModuleSetting<?> setting : settings.getSettings()) {
 			obj.add(setting.getName(), setting.getJson());
 		}
 		return obj;
@@ -106,26 +108,22 @@ public class DropDown extends ModuleSetting<Boolean> {
 
 	@Override
 	public void readJson(JsonObject jsonObject) {
-		for (String settingKey : jsonObject.keySet()) {
-			ModuleSetting<?> setting = getSetting(settingKey);
-			setting.readJson(jsonObject.getAsJsonObject(settingKey));
-		}
-	}
-
-	public List<ModuleSetting<?>> getSettings() {
-		return settings;
-	}
-
-	public ModuleSetting<?> getSetting(int index) {
-		return settings.get(index);
-	}
-
-	public ModuleSetting<?> getSetting(String name) {
-		for (ModuleSetting<?> setting : settings) {
-			if (setting.getName().equals(name)) {
-				return setting;
+		for (ModuleSetting<?> setting : settings.getSettings()) {
+			if (jsonObject.has(setting.getName())) {
+				JsonObject element = jsonObject.getAsJsonObject(setting.getName());
+				setting.readJson(element);
 			}
 		}
-		return null;
 	}
+
+	@Override
+	public <T extends ModuleSetting<?>> T add(T setting) {
+		return settings.add(setting);
+	}
+
+	@Override
+	public List<ModuleSetting<?>> getSettings() {
+		return settings.getSettings();
+	}
+
 }

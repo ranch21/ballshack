@@ -6,34 +6,34 @@ import java.util.Arrays;
 
 public class TargetsDropDown extends DropDown {
 
+	private final SettingToggle friends = settings.add(new SettingToggle(false, "Friends"));
+	private final SettingToggle players = settings.add(new SettingToggle(true, "Players"));
+	private final SettingToggle monsters = settings.add(new SettingToggle(true, "Monsters"));
+	private final SettingToggle passive = settings.add(new SettingToggle(false, "Passive"));
+	private final SettingToggle other = settings.add(new SettingToggle(false, "Other"));
+
 	public TargetsDropDown(String label) {
-		super(label, Arrays.asList(
-				new SettingToggle(false, "Friends"),
-				new SettingToggle(true, "Players"),
-				new SettingToggle(true, "Monsters"),
-				new SettingToggle(false, "Passive"),
-				new SettingToggle(false, "Other")
-		));
+		super(label);
 	}
 
 	public boolean getFriends() {
-		return (boolean) getSetting(0).getValue();
+		return friends.getValue();
 	}
 
 	public boolean getPlayers() {
-		return (boolean) getSetting(1).getValue();
+		return players.getValue();
 	}
 
 	public boolean getMobs() {
-		return (boolean) getSetting(2).getValue();
+		return monsters.getValue();
 	}
 
 	public boolean getPassive() {
-		return (boolean) getSetting(3).getValue();
+		return passive.getValue();
 	}
 
 	public boolean getOther() {
-		return (boolean) getSetting(4).getValue();
+		return other.getValue();
 	}
 
 	public boolean selected(EntityUtil.EntityType type) {

@@ -27,18 +27,17 @@ import java.util.stream.Stream;
 import static org.ranch.ballshack.Constants.LINE_WIDTH;
 
 public class ChestESP extends Module {
+
+	public SettingSlider alpha = dGroup.add(new SettingSlider(0.5f, "Alpha", 0, 1, 0.1));
+
 	public ChestESP() {
-		super("ChestESP", ModuleCategory.RENDER, 0, new ModuleSettings(List.of(
-				new SettingSlider(0.5f, "Alpha", 0, 1, 0.1)
-		)), "\"i found a spawner\"");
+		super("ChestESP", ModuleCategory.RENDER, 0, "\"i found a spawner\"");
 	}
 
 	@EventSubscribe
 	public void onWorldRender(EventWorldRender.Post event) {
 
 		Stream<BlockEntity> blockEntities = WorldUtil.getLoadedChunks().flatMap(chunk -> chunk.getBlockEntities().values().stream());
-
-		double alpha = (double) settings.getSetting(0).getValue();
 
 		Renderer renderer = Renderer.getInstance();
 		MatrixStack matrices = event.matrixStack;
@@ -63,8 +62,8 @@ public class ChestESP extends Module {
 
 			for (Box box : shape.getBoundingBoxes()) {
 				box = box.offset(blockPos);
-				renderer.renderCube(box, BallColor.fromColor(c).setAlpha((float) alpha), matrices);
-				renderer.renderCubeOutlines(box, LINE_WIDTH, BallColor.fromColor(c).setAlpha((float) alpha), matrices);
+				renderer.renderCube(box, BallColor.fromColor(c).setAlpha((float) (double) alpha.getValue()), matrices);
+				renderer.renderCubeOutlines(box, LINE_WIDTH, BallColor.fromColor(c).setAlpha((float) (double) alpha.getValue()), matrices);
 			}
 
 		}

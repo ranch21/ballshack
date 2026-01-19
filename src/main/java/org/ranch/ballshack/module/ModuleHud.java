@@ -26,8 +26,8 @@ public class ModuleHud extends Module {
 		this(name, category, bind, x, y, settings, null);
 	}*/
 
-	public ModuleHud(String name, ModuleCategory category, int bind, int x, int y, HudModuleSettings settings, @Nullable String tooltip, ModuleAnchor anchorPoint) {
-		super(name, category, bind, settings, tooltip);
+	public ModuleHud(String name, ModuleCategory category, int bind, int x, int y, @Nullable String tooltip, ModuleAnchor anchorPoint) {
+		super(name, category, bind, tooltip);
 		this.offsetx = x;
 		this.offsety = y;
 		this.width = 10;
@@ -35,10 +35,6 @@ public class ModuleHud extends Module {
 		//this.originx = 0;
 		//this.originy = 0;
 		this.anchorPoint = anchorPoint;
-	}
-
-	public ModuleHud(String name, ModuleCategory category, int bind, int x, int y, @Nullable String tooltip, ModuleAnchor anchorPoint) {
-		this(name, category, bind, x, y, new HudModuleSettings(new ArrayList<>()), tooltip, anchorPoint);
 	}
 
 	public int X() {

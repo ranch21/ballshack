@@ -23,12 +23,13 @@ import java.util.List;
 import static org.ranch.ballshack.util.TextUtil.applyFormatting;
 
 public class Watermark extends ModuleHud {
+
+	public SettingToggle backdrop = dGroup.add(new SettingToggle(true, "Backdrop"));
+	public SettingToggle shadow = dGroup.add(new SettingToggle(true, "Shadow"));
+	public SettingString text = dGroup.add(new SettingString("Text", "$watermark $bhversion $mcversion", 256));
+
 	public Watermark() {
-		super("Watermark", ModuleCategory.HUD, 0, 0, 0, new HudModuleSettings(Arrays.asList(
-				new SettingToggle(true, "Backdrop"),
-				new SettingToggle(true, "Shadow"),
-				new SettingString("Text", "$watermark $bhversion $mcversion", 256)
-		)), "inbdfgnjnojlouijmijlkmijlkmijlkmijkjwwajjsdnuijksdanjnjdwadnwajkd", ModuleAnchor.BOTTOM_CENTER);
+		super("Watermark", ModuleCategory.HUD, 0, 0, 0, "inbdfgnjnojlouijmijlkmijlkmijlkmijkjwwajjsdnuijksdanjnjdwadnwajkd", ModuleAnchor.BOTTOM_CENTER);
 	}
 
 	@EventSubscribe
@@ -37,15 +38,12 @@ public class Watermark extends ModuleHud {
 		int y = Y() - yOffset();
 		DrawContext context = event.drawContext;
 
-		boolean backdrop = (boolean) getSettings().getSetting(0).getValue();
-		boolean shadow = (boolean) getSettings().getSetting(1).getValue();
-
-		String text = applyFormatting((String)getSettings().getSetting(2).getValue());
+		String text = applyFormatting(this.text.getValue());
 		width = mc.textRenderer.getWidth(text)+2;
 		height = mc.textRenderer.fontHeight+1;
 
-		if (backdrop) context.fill(x, y, x + width, y + height, Colors.BACKDROP.hashCode());
+		if (backdrop.getValue()) context.fill(x, y, x + width, y + height, Colors.BACKDROP.hashCode());
 
-		DrawUtil.drawText(context, mc.textRenderer, text, x + 1, y + 1, Color.WHITE, shadow);
+		DrawUtil.drawText(context, mc.textRenderer, text, x + 1, y + 1, Color.WHITE, shadow.getValue());
 	}
 }

@@ -24,28 +24,28 @@ public class DiscordRP extends Module {
 	private static Activity activity;
 	private final int updateSpeed = 20*4;
 
+	public SettingMode activityType = dGroup.add(new SettingMode(0, "Type", Arrays.asList(
+			"Playing",
+			"Streaming",
+			"Listening",
+			"Watching",
+			"Competing"
+	)));
+	public SettingString details = dGroup.add(new SettingString("Details", "test", 256));
+	public SettingString state = dGroup.add(new SettingString("State", "test", 256));
+
+	public DropDown partyDD = dGroup.add(new DropDown("Party"));
+	public SettingToggle pEnabled = partyDD.add(new SettingToggle(true, "Enabled"));
+	public SettingToggle pUsePCount = partyDD.add(new SettingToggle(false, "UsePCount"));
+	public SettingSlider pCurrent = partyDD.add(new SettingSlider(1, "Current", 0, 100, 1));
+	public SettingSlider pMax = partyDD.add(new SettingSlider(2, "Max", 1, 100, 1));
+
+	public DropDown assetsDD = dGroup.add(new DropDown("Assets"));
+	public SettingString aLarge = assetsDD.add(new SettingString("Large", "icon", 10));
+	public SettingString aSmall = assetsDD.add(new SettingString("Small", "me", 10));
+
 	public DiscordRP() {
-		super("DiscordRP", ModuleCategory.CLIENT, 0, new ModuleSettings(Arrays.asList(
-				new SettingMode(0, "Type", Arrays.asList(
-						"Playing",
-						"Streaming",
-						"Listening",
-						"Watching",
-						"Competing"
-				)),
-				new SettingString("Details", "test", 256),
-				new SettingString("State", "test", 256),
-				new DropDown("Party", Arrays.asList(
-						new SettingToggle(true, "Enabled"),
-						new SettingToggle(false, "UsePCount"),
-						new SettingSlider(1, "Current", 0, 100, 1),
-						new SettingSlider(2, "Max", 1, 100, 1)
-				)),
-				new DropDown("Assets", Arrays.asList(
-						new SettingString("Large", "icon", 10),
-						new SettingString("Small", "me", 10)
-				))
-		)), "answer my call at ONCE kitten!!");
+		super("DiscordRP", ModuleCategory.CLIENT, 0, "answer my call at ONCE kitten!!");
 	}
 
 	@EventSubscribe
@@ -95,19 +95,18 @@ public class DiscordRP extends Module {
 
 	private void setActivity() {
 		if (activity == null || core == null) return;
-		String detailsRaw = (String) settings.getSetting(1).getValue();
-		String stateRaw = (String) settings.getSetting(2).getValue();
+		String detailsRaw = details.getValue();
+		String stateRaw = state.getValue();
 		String details = applyFormatting(detailsRaw == null ? "" : detailsRaw);
 		String state = applyFormatting(stateRaw == null ? "" : stateRaw);
 		activity.setDetails(details);
 		activity.setState(state);
-		ActivityType type = ActivityType.values()[((int) settings.getSetting(0).getValue())];
+		ActivityType type = ActivityType.values()[activityType.getValue()];
 		activity.setType(type == ActivityType.CUSTOM ? ActivityType.COMPETING : type);
-		DropDown partyDropdown = (DropDown) settings.getSetting(3);
-		boolean party = (boolean) partyDropdown.getSetting(0).getValue();
-		boolean useServerPlayerCount = (boolean) partyDropdown.getSetting(1).getValue();
-		int current = (int) (double) partyDropdown.getSetting(2).getValue();
-		int max = (int) (double) partyDropdown.getSetting(3).getValue();
+		boolean party = pEnabled.getValue();
+		boolean useServerPlayerCount = pUsePCount.getValue();
+		int current = (int) (double) pCurrent.getValue();
+		int max = (int) (double) pMax.getValue();
 
 		if (party) {
 			if (useServerPlayerCount) {
@@ -123,9 +122,8 @@ public class DiscordRP extends Module {
 			activity.party().size().setCurrentSize(current);
 		}
 
-		DropDown assetsDropdown = (DropDown) settings.getSetting(4);
-		String large = (String) assetsDropdown.getSetting(0).getValue();
-		String small = (String) assetsDropdown.getSetting(1).getValue();
+		String large = aLarge.getValue();
+		String small = aSmall.getValue();
 
 		activity.assets().setLargeImage(large);
 		activity.assets().setSmallImage(small);

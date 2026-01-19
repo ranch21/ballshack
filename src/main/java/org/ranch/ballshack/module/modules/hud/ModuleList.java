@@ -24,21 +24,17 @@ import java.util.stream.Stream;
 public class ModuleList extends ModuleHud {
 	float totalTicks = 0;
 
+	public SettingMode colorMode = dGroup.add(new SettingMode(0, "ColMode", Arrays.asList("Cat", "Rand", "Rain")));
+	public SettingToggle backdrop = dGroup.add(new SettingToggle(true, "Backdrop"));
+	public SettingToggle shadow = dGroup.add(new SettingToggle(true, "Shadow"));
+	public SettingToggle line = dGroup.add(new SettingToggle(true, "Line"));
+
 	public ModuleList() {
-		super("ModuleList", ModuleCategory.HUD, 0, 0, 0, new HudModuleSettings(Arrays.asList(
-				new SettingMode(0, "ColMode", Arrays.asList("Cat", "Rand", "Rain")),
-				new SettingToggle(true, "Backdrop"),
-				new SettingToggle(true, "Shadow"),
-				new SettingToggle(true, "Line")
-		)), "Incase you forgor what you enabled", ModuleAnchor.TOP_LEFT);
+		super("ModuleList", ModuleCategory.HUD, 0, 0, 0, "Incase you forgor what you enabled", ModuleAnchor.TOP_LEFT);
 	}
 
 	@EventSubscribe
 	public void onHudRender(EventHudRender event) {
-		int cMode = (int) getSettings().getSetting(0).getValue();
-		boolean backdrop = (boolean) getSettings().getSetting(1).getValue();
-		boolean shadow = (boolean) getSettings().getSetting(2).getValue();
-		boolean line = (boolean) getSettings().getSetting(3).getValue();
 
 		Stream<Module> modules = Streams.stream(ModuleManager.getModules());
 
@@ -53,8 +49,8 @@ public class ModuleList extends ModuleHud {
 		int widest = mc.textRenderer.getWidth(getModuleText(sortedModules.get(0), Color.WHITE));
 		int index = 0;
 		for (Module module : sortedModules) {
-			Color col = getModuleColor(module, cMode, index);
-			drawLine(event.drawContext, getModuleText(module, col), col, line, backdrop, shadow, widest, index);
+			Color col = getModuleColor(module, colorMode.getValue(), index);
+			drawLine(event.drawContext, getModuleText(module, col), col, line.getValue(), backdrop.getValue(), shadow.getValue(), widest, index);
 			index++;
 		}
 		height = (mc.textRenderer.fontHeight + 1) * index;

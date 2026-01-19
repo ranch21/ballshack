@@ -37,21 +37,22 @@ public class AimAssist extends Module {
 	private static Vec3d offset = Vec3d.ZERO;
 	private static Vec3d prevOffset = Vec3d.ZERO;
 
+	public SettingMode mode = dGroup.add((SettingMode) new SettingMode(0, "Mode", Arrays.asList("Linear", "\"natural\"", "Momentum")).featured());
+	public SettingSlider range = dGroup.add(new SettingSlider(4, "Range", 1, 8, 0.5));
+	public SettingSlider speed = dGroup.add(new SettingSlider(8, "Speed", 1, 25, 1));
+
+	public DropDown randNoiseDD = dGroup.add(new DropDown("Random Noise"));
+	public SettingToggle rnEnabled = randNoiseDD.add(new SettingToggle(true, "Enabled"));
+	public SettingSlider rnAmount = randNoiseDD.add(new SettingSlider(0.4, "Amount", 0.1, 1, 0.1));
+	public SettingSlider rnSpeed = randNoiseDD.add(new SettingSlider(0.7, "Speed", 0.1, 10, 0.1));
+	public SettingToggle rnSBR = randNoiseDD.add(new SettingToggle(false, "SBR"));
+	public SettingSlider rnSBRInfluence = randNoiseDD.add(new SettingSlider(0.8, "SBR Influence", 0.1, 2, 0.1));
+
+	public TargetsDropDown targetsDD = dGroup.add(new TargetsDropDown("Targets"));
+	public SortMode sortMode = dGroup.add((SortMode) new SortMode("Sort").featured());
+
 	public AimAssist() {
-		super("AimAssist", ModuleCategory.COMBAT, 0, new ModuleSettings(Arrays.asList(
-				new SettingMode(0, "Mode", Arrays.asList("Linear", "\"natural\"", "Momentum")).featured(),
-				new SettingSlider(4, "Range", 1, 8, 0.5),
-				new SettingSlider(8, "Speed", 1, 25, 1),
-				new DropDown("Random Noise", Arrays.asList(
-						new SettingToggle(true, "Enabled"),
-						new SettingSlider(0.4, "Amount", 0.1, 1, 0.1),
-						new SettingSlider(0.7, "Speed", 0.1, 10, 0.1),
-						new SettingToggle(false, "SBR"),
-						new SettingSlider(0.8, "SBR Influence", 0.1, 2, 0.1)
-				)),
-				new TargetsDropDown("Targets"),
-				new SortMode("Sort").featured()
-		)), "Controller player mode");
+		super("AimAssist", ModuleCategory.COMBAT, 0, "Controller player mode");
 		noise = new PerlinNoiseSampler(Random.create());
 	}
 
@@ -60,9 +61,9 @@ public class AimAssist extends Module {
 
 		if (targetPos == null) return;
 
-		int moveMode = (int) getSettings().getSetting(0).getValue();
+		int moveMode = mode.getValue();
 
-		double speed = (double) getSettings().getSetting(2).getValue();
+		double speed = this.speed.getValue();
 
 		Rotation desired = PlayerUtil.getPosRotation(mc.player, prevTargetPos.lerp(targetPos, event.timeDelta).add(prevOffset.lerp(offset, event.timeDelta)));
 
@@ -75,7 +76,7 @@ public class AimAssist extends Module {
 			combined = combined * combined;
 
 			speed *= combined * Math.abs(noise.sample(mc.world.getTime() / 1000.0f * event.timeDelta, 0.23, 0.11)) + 0.1;
-			speed = Math.min(Math.max(speed, (double) getSettings().getSetting(2).getValue() / 2f), 100);
+			speed = Math.min(Math.max(speed, speed / 2f), 100);
 		}
 
 		Rotation step = RotationUtil.slowlyTurnTowards(desired, (float) speed);
@@ -102,20 +103,15 @@ public class AimAssist extends Module {
 
 	@EventSubscribe
 	public void onTick(EventTick event) {
-		double distance = (double) getSettings().getSetting(1).getValue();
+		double distance = range.getValue();
 
-		TargetsDropDown targets = (TargetsDropDown) getSettings().getSetting(4);
+		boolean randomOffset = rnEnabled.getValue();
+		double randAmount = rnAmount.getValue();
+		double randSpeed = rnSpeed.getValue();
+		boolean SBR = rnSBR.getValue();
+		double SBRinf = rnSBRInfluence.getValue();
 
-		SortMode mode = (SortMode) getSettings().getSetting(5);
-
-		DropDown randomSettings = (DropDown) getSettings().getSetting(3);
-		boolean randomOffset = (boolean) randomSettings.getSetting(0).getValue();
-		double randAmount = (double) randomSettings.getSetting(1).getValue();
-		double randSpeed = (double) randomSettings.getSetting(2).getValue();
-		boolean SBR = (boolean) randomSettings.getSetting(3).getValue();
-		double SBRinf = (double) randomSettings.getSetting(4).getValue();
-
-		List<Entity> entities = EntityUtil.getEntities(distance, targets, mode.getComparator());
+		List<Entity> entities = EntityUtil.getEntities(distance, targetsDD, sortMode.getComparator());
 
 		if (entities.isEmpty()) {
 			targetPos = null;

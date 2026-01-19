@@ -22,12 +22,12 @@ public class InfiniteElytraGlide extends Module {
 
 	private int stage = 0;
 
+	public SettingSlider maxHeight = dGroup.add(new SettingSlider(200, "Max Height", 1, 1000, 1));
+	public SettingToggle instantTurn = dGroup.add(new SettingToggle(true, "Instant Turn"));
+	public SettingSlider turnSpeed = dGroup.add(new SettingSlider(1, "Turn Speed", 1, 10, 1));
+
 	public InfiniteElytraGlide() {
-		super("ElytraGlide", ModuleCategory.MOVEMENT, 0, new ModuleSettings(Arrays.asList(
-				new SettingSlider(200, "Max Height", 1, 1000, 1),
-				new SettingToggle(true, "Instant Turn"),
-				new SettingSlider(1, "Turn Speed", 1, 10, 1)
-		)), "ion need sum hacks to do this");
+		super("ElytraGlide", ModuleCategory.MOVEMENT, 0, "ion need sum hacks to do this");
 	}
 
 	@EventSubscribe
@@ -53,7 +53,7 @@ public class InfiniteElytraGlide extends Module {
 				break;
 			case 2:
 				target.pitch = target.pitch + 0.5f;
-				if (mc.player.getVelocity().y <= 0 || mc.player.getY() > (double) settings.getSetting(0).getValue()) {
+				if (mc.player.getVelocity().y <= 0 || mc.player.getY() > maxHeight.getValue()) {
 					startingHeight = mc.player.getY();
 					bottomHeight = startingHeight - 50;
 					stage = 0;
@@ -61,7 +61,7 @@ public class InfiniteElytraGlide extends Module {
 				break;
 		}
 
-		if ((boolean) settings.getSetting(1).getValue()) {
+		if (instantTurn.getValue()) {
 			mc.player.setPitch(target.pitch);
 		}
 	}
@@ -69,13 +69,13 @@ public class InfiniteElytraGlide extends Module {
 	@EventSubscribe
 	public void onMouseUpdate(EventMouseUpdate event) {
 
-		if (mc.player.hasVehicle() || (boolean) settings.getSetting(1).getValue()) return;
+		if (mc.player.hasVehicle() || instantTurn.getValue()) return;
 		if (!mc.player.isGliding()) {
 			reset();
 			return;
 		}
 
-		Rotation step = RotationUtil.slowlyTurnTowards(target, (float) (double) settings.getSetting(2).getValue());
+		Rotation step = RotationUtil.slowlyTurnTowards(target, (float) (double) turnSpeed.getValue());
 
 		event.deltaX = (step.yaw - mc.player.getYaw()) + event.origDeltaX;
 		event.deltaY = (step.pitch - mc.player.getPitch()) + event.origDeltaY;

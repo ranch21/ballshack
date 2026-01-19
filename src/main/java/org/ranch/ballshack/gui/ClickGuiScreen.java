@@ -20,9 +20,10 @@ import org.ranch.ballshack.gui.balls.Ball;
 import org.ranch.ballshack.gui.balls.BallHandler;
 import org.ranch.ballshack.gui.balls.Rect;
 import org.ranch.ballshack.gui.window.CategoryWindow;
+import org.ranch.ballshack.module.Module;
 import org.ranch.ballshack.module.ModuleCategory;
 import org.ranch.ballshack.module.ModuleManager;
-import org.ranch.ballshack.setting.ModuleSettings;
+import org.ranch.ballshack.module.modules.client.ClickGui;
 import org.ranch.ballshack.setting.Setting;
 import org.ranch.ballshack.setting.moduleSettings.DropDown;
 import org.ranch.ballshack.util.rendering.DrawUtil;
@@ -33,7 +34,7 @@ import java.util.List;
 
 public class ClickGuiScreen extends Screen {
 
-	ButtonWidget button;
+	// how the fuck did that buttonwidget survive so much :sob: :sob: :sob: :sob:
 	private static final List<CategoryWindow> windows = new ArrayList<>();
 	public static Setting<List<WindowData>> windowData = new Setting<>(new ArrayList<>(), "windowData", new TypeToken<List<WindowData>>() {
 	}.getType());
@@ -131,16 +132,13 @@ public class ClickGuiScreen extends Screen {
 		}
 	}
 
-	public void setSettings(ModuleSettings settings) {
-		DropDown dropDown = (DropDown) settings.getSetting(0);
-
-		boolean balls = (boolean) dropDown.getSetting(0).getValue();
-		int amount = (int) (double) dropDown.getSetting(1).getValue();
-		double gravity = (double) dropDown.getSetting(2).getValue();
-		//double bounce = (double) dropDown.getSetting(3).getValue();
-		double size = (double) dropDown.getSetting(3).getValue();
-		boolean windowCollide = (boolean) dropDown.getSetting(4).getValue();
-		boolean darken = (boolean) settings.getSetting(1).getValue();
+	public void setSettings(ClickGui cgModule) {
+		boolean balls = cgModule.bEnabled.getValue();
+		int amount = (int) (double) cgModule.bAmount.getValue();
+		double gravity = cgModule.bGrav.getValue();
+		double size = cgModule.bSize.getValue();
+		boolean windowCollide = cgModule.bWinCollide.getValue();
+		boolean darken = cgModule.darken.getValue();
 
 		ballHandler.gravity = gravity * 2;
 		ballsEnabled = balls;
@@ -164,7 +162,6 @@ public class ClickGuiScreen extends Screen {
 	@Override
 	public void tick() {
 		super.tick();
-		MinecraftClient mc = MinecraftClient.getInstance();
 	}
 
 	@Override
@@ -264,5 +261,10 @@ public class ClickGuiScreen extends Screen {
 
 	public boolean shouldPause() {
 		return false;
+	}
+
+	@Override
+	protected void applyBlur(DrawContext context) {
+
 	}
 }

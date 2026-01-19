@@ -16,10 +16,10 @@ public class Speed extends Module {
 	private int stage;
 	private double speed, distance;
 
+	public SettingSlider speedSlider = dGroup.add(new SettingSlider(1, "Speed", 0.25, 4, 0.25));
+
 	public Speed() {
-		super("Speed", ModuleCategory.MOVEMENT, 0, new ModuleSettings(List.of(
-				new SettingSlider(1, "Speed", 0.25, 4, 0.25)
-		)), "go fast(er)");
+		super("Speed", ModuleCategory.MOVEMENT, 0, "go fast(er)");
 	}
 
 	@Override
@@ -37,7 +37,7 @@ public class Speed extends Module {
 
 		distance = Math.sqrt((mc.player.getX() - mc.player.lastX) * (mc.player.getX() - mc.player.lastX) + (mc.player.getZ() - mc.player.lastZ) * (mc.player.getZ() - mc.player.lastZ));
 
-		double speedM = (Double) getSettings().getSetting(0).getValue();
+		double speedM = speedSlider.getValue();
 
 		switch (stage) {
 			case 0:

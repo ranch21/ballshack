@@ -31,11 +31,11 @@ import static org.ranch.ballshack.Constants.LINE_WIDTH;
 public class Trajectories extends Module {
 	private final List<ProjectileSim.Trajectory> trajectories = new ArrayList<>();
 
+	public SettingToggle players = dGroup.add(new SettingToggle(true, "Players"));
+	public SettingSlider alpha = dGroup.add(new SettingSlider(1, "Alpha", 0, 1, 0.1));
+
 	public Trajectories() {
-		super("Trajectories", ModuleCategory.RENDER, 0, new ModuleSettings(List.of(
-				new SettingToggle(true, "Players"),
-				new SettingSlider(1, "Alpha", 0, 1, 0.1)
-		)), "i dont see you but now i see where my arrows are heading towards");
+		super("Trajectories", ModuleCategory.RENDER, 0, "i dont see you but now i see where my arrows are heading towards");
 	}
 
 	public List<ProjectileSim.Trajectory> getTrajectories() {
@@ -45,15 +45,13 @@ public class Trajectories extends Module {
 	public void setTrajectories() {
 		trajectories.clear();
 
-		boolean players = (boolean) settings.getSetting(0).getValue();
-
 		ProjectileEntity ent = ProjectileSim.prepareSim(mc.player);
 
 		if (ent != null) {
 			trajectories.add(ProjectileSim.simulate(ent, true, mc.player));
 		}
 
-		if (players) {
+		if (players.getValue()) {
 			for (PlayerEntity player : mc.world.getPlayers()) {
 				ProjectileEntity ent2 = ProjectileSim.prepareSim(player);
 
@@ -77,8 +75,6 @@ public class Trajectories extends Module {
 
 	@EventSubscribe
 	public void onWorldRender(EventWorldRender.Post event) {
-
-		double alpha = (double) getSettings().getSetting(1).getValue();
 
 		MatrixStack matrices = event.matrixStack;
 
@@ -106,7 +102,7 @@ public class Trajectories extends Module {
 					renderer.renderCube(box, BallColor.fromColor(c).setAlpha(0.2f), matrices);
 					renderer.renderCubeOutlines(box, LINE_WIDTH, BallColor.fromColor(c).setAlpha(0.7f), matrices);
 				} else {
-					renderer.renderLine(prevPos, pos, LINE_WIDTH, BallColor.fromColor(c).setAlpha((float) alpha), matrices);
+					renderer.renderLine(prevPos, pos, LINE_WIDTH, BallColor.fromColor(c).setAlpha((float) (double) alpha.getValue()), matrices);
 				}
 
 				prevPos = pos;

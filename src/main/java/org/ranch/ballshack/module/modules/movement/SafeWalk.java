@@ -12,17 +12,18 @@ import org.ranch.ballshack.util.PlayerSim;
 import java.util.Arrays;
 
 public class SafeWalk extends Module {
+
+	public SettingToggle realAndTrue = new SettingToggle(false, "REALANDTRUE");
+
 	public SafeWalk() {
-		super("SafeWalk", ModuleCategory.MOVEMENT, 0, new ModuleSettings(Arrays.asList(
-				new SettingToggle(false, "REALANDTRUE"))
-		), "Sneak un-sneakily");
+		super("SafeWalk", ModuleCategory.MOVEMENT, 0, "Sneak un-sneakily");
 	}
 
 	private boolean shouldSneak = false;
 
 	@EventSubscribe
 	public void onClip(EventClipLedge event) {
-		if (!(boolean) settings.getSetting(0).getValue()) {
+		if (!realAndTrue.getValue()) {
 			event.clip = true;
 		} else {
 			PlayerSim.PlayerPoint future = PlayerSim.simulatePlayer(mc.player);

@@ -11,24 +11,21 @@ import org.ranch.ballshack.setting.moduleSettings.SettingSlider;
 import java.util.Arrays;
 
 public class Rainbow extends Module {
+
+	public SettingSlider saturation = dGroup.add(new SettingSlider(0.5, "Sat", 0, 1, 0.05));
+	public SettingSlider brightness = dGroup.add(new SettingSlider(1, "Bri", 0, 1, 0.05));
+	public SettingSlider speed = dGroup.add(new SettingSlider(1, "Speed", 0, 5, 0.5));
+
 	public Rainbow() {
-		super("Rainbow", ModuleCategory.CLIENT, 0, new ModuleSettings(Arrays.asList(
-				new SettingSlider(0.5, "Sat", 0, 1, 0.05),
-				new SettingSlider(1, "Bri", 0, 1, 0.05),
-				new SettingSlider(1, "Speed", 0, 5, 0.5)
-		)), "Taste the rainbow", true);
+		super("Rainbow", ModuleCategory.CLIENT, 0, "Taste the rainbow", true);
 		onEnable();
 	}
 
 	@EventSubscribe
 	public void onTick(EventTick event) {
-		double sat = (double) settings.getSetting(0).getValue();
-		double bri = (double) settings.getSetting(1).getValue();
-		double speed = (double) settings.getSetting(2).getValue();
-
-		Colors.globalRainbowSaturation = (float) sat;
-		Colors.globalRainbowBrightness = (float) bri;
-		Colors.globalRainbowSpeed = (float) speed;
+		Colors.globalRainbowSaturation = (float) (double) saturation.getValue();
+		Colors.globalRainbowBrightness = (float) (double) brightness.getValue();
+		Colors.globalRainbowSpeed = (float) (double) speed.getValue();
 	}
 
 	@Override

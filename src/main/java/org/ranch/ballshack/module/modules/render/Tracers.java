@@ -18,18 +18,16 @@ import org.ranch.ballshack.util.rendering.Renderer;
 import java.util.Arrays;
 
 public class Tracers extends Module {
+
+	public SettingSlider alpha = dGroup.add(new SettingSlider(0.5f, "Alpha", 0, 1, 0.1));
+	public TargetsDropDown targets = dGroup.add(new TargetsDropDown("Targets"));
+
 	public Tracers() {
-		super("Tracers", ModuleCategory.RENDER, 0, new ModuleSettings(Arrays.asList(
-				new SettingSlider(0.5f, "Alpha", 0, 1, 0.1),
-				new TargetsDropDown("Targets")
-		)), "i see you but with a line pointing at your feet... mmmgghg feeet");
+		super("Tracers", ModuleCategory.RENDER, 0, "i see you but with a line pointing at your feet... mmmgghg feeet");
 	}
 
 	@EventSubscribe
 	public void onWorldRender(EventWorldRender.Post event) {
-
-		double alpha = (double) settings.getSetting(0).getValue();
-		TargetsDropDown targets = (TargetsDropDown) settings.getSetting(1);
 
 		Renderer renderer = Renderer.getInstance();
 
@@ -49,7 +47,7 @@ public class Tracers extends Module {
 						.rotateY(-(float) Math.toRadians(mc.gameRenderer.getCamera().getYaw()))
 						.add(mc.gameRenderer.getCamera().getPos());
 
-				renderer.renderLine(tracerStart, pos, 1, BallColor.fromColor(type.getColor()).setAlpha((float) alpha), matrices);
+				renderer.renderLine(tracerStart, pos, 1, BallColor.fromColor(type.getColor()).setAlpha((float) (double) alpha.getValue()), matrices);
 			}
 		}
 
