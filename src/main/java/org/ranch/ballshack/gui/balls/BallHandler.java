@@ -2,11 +2,9 @@ package org.ranch.ballshack.gui.balls;
 
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.util.Identifier;
-import org.joml.Vector2d;
-import org.ranch.ballshack.BallsLogger;
+import org.ranch.ballshack.BallsHack;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -26,9 +24,9 @@ public class BallHandler {
 	public long frameTime = 0;
 
 	private static final Identifier[] TEXTURES = {
-			Identifier.of("ballshack", "ball1.png"),
-			Identifier.of("ballshack", "ball2.png"),
-			Identifier.of("ballshack", "ball3.png")
+			Identifier.of(BallsHack.ID, "textures/balls/ball1.png"),
+			Identifier.of(BallsHack.ID, "textures/balls/ball2.png"),
+			Identifier.of(BallsHack.ID, "textures/balls/ball3.png")
 	};
 
 	public void spawnBalls(int amount, int width, int height, List<Rect> rects) {

@@ -11,6 +11,7 @@ import org.ranch.ballshack.event.events.EventPlayerMovementVector;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class PlayerUtil {
 
@@ -155,5 +156,20 @@ public class PlayerUtil {
 
 	public enum MoveDirection {
 		FORWARD, BACKWARD, LEFT, RIGHT
+	}
+
+	public static String getCape() {
+		UUID uuid = mc.player.getGameProfile().id();
+		String name = mc.player.getGameProfile().name();
+
+		if (uuid.equals(UUID.fromString("b21498e5-f45b-4c64-a860-a64941ca4e44"))) {
+			return "jeffito";
+		} else if (uuid.equals(UUID.fromString("39590f72-cdfb-4bd8-b32e-69d82a020ae6"))) {
+			return "walinchi";
+		} else if (name.startsWith("Player") || name.startsWith("ballshackuser") || name.startsWith("Dev")) {
+			return "test";
+		}
+
+		return null;
 	}
 }

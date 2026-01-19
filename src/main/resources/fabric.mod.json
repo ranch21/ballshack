@@ -7,7 +7,7 @@
   "authors": [],
   "contact": {},
   "license": "All-Rights-Reserved",
-  "icon": "assets/ballshack/icon.png",
+  "icon": "icon.png",
   "environment": "client",
   "entrypoints": {
     "main": [
