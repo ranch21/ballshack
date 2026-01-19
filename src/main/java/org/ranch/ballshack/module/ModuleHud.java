@@ -2,7 +2,7 @@ package org.ranch.ballshack.module;
 
 import org.jetbrains.annotations.Nullable;
 import org.ranch.ballshack.setting.HudElementData;
-import org.ranch.ballshack.setting.HudModuleSettings;
+import org.ranch.ballshack.setting.moduleSettings.SettingHud;
 import org.ranch.ballshack.util.rendering.DrawUtil;
 
 import java.util.ArrayList;
@@ -13,6 +13,8 @@ public class ModuleHud extends Module {
 	//public int originx, originy;
 	public int width, height;
 	private ModuleAnchor anchorPoint;
+
+	private final SettingHud hsetting = settings.add(new SettingHud(new HudElementData(0, 0, ModuleAnchor.TOP_LEFT)));
 
 	/*public ModuleHud(String name, ModuleCategory category, int bind, int x, int y) {
 		this(name, category, bind, x, y, new ModuleSettings(new ArrayList<>()), null);
@@ -73,17 +75,17 @@ public class ModuleHud extends Module {
 	public void setPos(int x, int y) {
 		this.offsetx = x - anchorPoint.getX(DrawUtil.getScreenWidth());
 		this.offsety = y - anchorPoint.getY(DrawUtil.getScreenHeight());
-		HudElementData hdata = ((HudModuleSettings) settings).getHudSetting().getValue();
+		HudElementData hdata = hsetting.getValue();
 		hdata.x = offsetx;
 		hdata.y = offsety;
-		((HudModuleSettings) settings).getHudSetting().setValue(hdata);
+		hsetting.setValue(hdata);
 	}
 
 	public void setAnchorPoint(ModuleAnchor anchorPoint) {
 		this.anchorPoint = anchorPoint;
-		HudElementData hdata = ((HudModuleSettings) settings).getHudSetting().getValue();
+		HudElementData hdata = hsetting.getValue();
 		hdata.anchor = anchorPoint;
-		((HudModuleSettings) settings).getHudSetting().setValue(hdata);
+		hsetting.setValue(hdata);
 	}
 
 	public ModuleAnchor getAnchorPoint() {

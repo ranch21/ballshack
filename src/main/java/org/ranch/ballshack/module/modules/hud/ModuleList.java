@@ -9,7 +9,6 @@ import org.ranch.ballshack.event.events.EventHudRender;
 import org.ranch.ballshack.gui.Colors;
 import org.ranch.ballshack.module.*;
 import org.ranch.ballshack.module.Module;
-import org.ranch.ballshack.setting.HudModuleSettings;
 import org.ranch.ballshack.setting.ModuleSetting;
 import org.ranch.ballshack.setting.moduleSettings.SettingMode;
 import org.ranch.ballshack.setting.moduleSettings.SettingToggle;
@@ -24,13 +23,13 @@ import java.util.stream.Stream;
 public class ModuleList extends ModuleHud {
 	float totalTicks = 0;
 
-	public SettingMode colorMode = dGroup.add(new SettingMode(0, "ColMode", Arrays.asList("Cat", "Rand", "Rain")));
+	public SettingMode colorMode = dGroup.add(new SettingMode(1, "ColMode", Arrays.asList("Cat", "Rand", "Rain")));
 	public SettingToggle backdrop = dGroup.add(new SettingToggle(true, "Backdrop"));
 	public SettingToggle shadow = dGroup.add(new SettingToggle(true, "Shadow"));
 	public SettingToggle line = dGroup.add(new SettingToggle(true, "Line"));
 
 	public ModuleList() {
-		super("ModuleList", ModuleCategory.HUD, 0, 0, 0, "Incase you forgor what you enabled", ModuleAnchor.TOP_LEFT);
+		super("ModuleList", ModuleCategory.HUD, 0, 0, 0, "Incase you forgor what you enabled", ModuleAnchor.TOP_RIGHT);
 	}
 
 	@EventSubscribe

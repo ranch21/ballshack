@@ -14,7 +14,7 @@ import java.util.List;
 
 public class ArmorHud extends ModuleHud {
 	public ArmorHud() {
-		super("ArmorHud", ModuleCategory.HUD, 0, 0, 0, "inbdfgnjnojlouijmijlkmijlkmijlkmijkjwwajjsdnuijksdanjnjdwadnwajkd", ModuleAnchor.BOTTOM_CENTER);
+		super("ArmorHud", ModuleCategory.HUD, 0, 50, -39, "inbdfgnjnojlouijmijlkmijlkmijlkmijkjwwajjsdnuijksdanjnjdwadnwajkd", ModuleAnchor.BOTTOM_CENTER);
 	}
 
 	@EventSubscribe

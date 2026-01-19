@@ -28,7 +28,7 @@ import static org.ranch.ballshack.Constants.LINE_WIDTH;
 
 public class ChestESP extends Module {
 
-	public SettingSlider alpha = dGroup.add(new SettingSlider(0.5f, "Alpha", 0, 1, 0.1));
+	public SettingSlider alpha = dGroup.add(new SettingSlider(0.2f, "Alpha", 0, 1, 0.1));
 
 	public ChestESP() {
 		super("ChestESP", ModuleCategory.RENDER, 0, "\"i found a spawner\"");

@@ -10,7 +10,6 @@ import org.ranch.ballshack.gui.Colors;
 import org.ranch.ballshack.module.ModuleAnchor;
 import org.ranch.ballshack.module.ModuleCategory;
 import org.ranch.ballshack.module.ModuleHud;
-import org.ranch.ballshack.setting.HudModuleSettings;
 import org.ranch.ballshack.setting.moduleSettings.SettingToggle;
 import org.ranch.ballshack.util.rendering.DrawUtil;
 
@@ -24,7 +23,7 @@ public class Coordinates extends ModuleHud {
 	public SettingToggle scaled = dGroup.add(new SettingToggle(false, "Scaled"));
 
 	public Coordinates() {
-		super("Coords", ModuleCategory.HUD, 0, 0, 0, "f3 wgat is it", ModuleAnchor.TOP_LEFT);
+		super("Coords", ModuleCategory.HUD, 0, 0, 0, "f3 wgat is it", ModuleAnchor.BOTTOM_LEFT);
 	}
 
 	@EventSubscribe

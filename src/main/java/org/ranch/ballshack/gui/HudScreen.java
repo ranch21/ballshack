@@ -285,5 +285,10 @@ public class HudScreen extends Screen {
 		X,
 		Y
 	}
+
+	@Override
+	protected void applyBlur(DrawContext context) {
+
+	}
 }
 

@@ -23,9 +23,9 @@ public class ClickGui extends Module {
 
 	public DropDown ballsDrop = dGroup.add(new DropDown("Balls"));
 	public SettingToggle bEnabled = dGroup.add(new SettingToggle(true, "Enabled"));
-	public SettingSlider bAmount = dGroup.add(new SettingSlider(50, "Amount", 1, 2000, 100));
+	public SettingSlider bAmount = dGroup.add(new SettingSlider(500, "Amount", 1, 2000, 100));
 	public SettingSlider bGrav = dGroup.add(new SettingSlider(1, "Gravity", 0, 3, 0.1));
-	public SettingSlider bSize = dGroup.add(new SettingSlider(10, "Size", 1, 32, 1));
+	public SettingSlider bSize = dGroup.add(new SettingSlider(16, "Size", 1, 32, 1));
 	public SettingToggle bWinCollide = dGroup.add(new SettingToggle(true, "WindowCollide"));
 
 	public SettingToggle darken = dGroup.add(new SettingToggle(true, "Darken"));

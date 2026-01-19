@@ -10,7 +10,6 @@ import org.ranch.ballshack.gui.Colors;
 import org.ranch.ballshack.module.ModuleAnchor;
 import org.ranch.ballshack.module.ModuleCategory;
 import org.ranch.ballshack.module.ModuleHud;
-import org.ranch.ballshack.setting.HudModuleSettings;
 import org.ranch.ballshack.setting.moduleSettings.SettingString;
 import org.ranch.ballshack.setting.moduleSettings.SettingToggle;
 import org.ranch.ballshack.util.InvUtil;
@@ -29,7 +28,7 @@ public class Watermark extends ModuleHud {
 	public SettingString text = dGroup.add(new SettingString("Text", "$watermark $bhversion $mcversion", 256));
 
 	public Watermark() {
-		super("Watermark", ModuleCategory.HUD, 0, 0, 0, "inbdfgnjnojlouijmijlkmijlkmijlkmijkjwwajjsdnuijksdanjnjdwadnwajkd", ModuleAnchor.BOTTOM_CENTER);
+		super("Watermark", ModuleCategory.HUD, 0, 0, 0, "inbdfgnjnojlouijmijlkmijlkmijlkmijkjwwajjsdnuijksdanjnjdwadnwajkd", ModuleAnchor.TOP_LEFT);
 	}
 
 	@EventSubscribe

@@ -19,7 +19,7 @@ import java.util.Arrays;
 
 public class Tracers extends Module {
 
-	public SettingSlider alpha = dGroup.add(new SettingSlider(0.5f, "Alpha", 0, 1, 0.1));
+	public SettingSlider alpha = dGroup.add(new SettingSlider(0.4f, "Alpha", 0, 1, 0.1));
 	public TargetsDropDown targets = dGroup.add(new TargetsDropDown("Targets"));
 
 	public Tracers() {
