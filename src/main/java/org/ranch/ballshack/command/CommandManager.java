@@ -1,5 +1,6 @@
 package org.ranch.ballshack.command;
 
+import org.ranch.ballshack.BallsLogger;
 import org.ranch.ballshack.command.commands.*;
 
 import java.util.ArrayList;
@@ -10,21 +11,25 @@ public class CommandManager {
 
 	public static String prefix = ".";
 
-	static List<Command> commands = new ArrayList<Command>(Arrays.asList(
+	static final List<Command> commands = new ArrayList<>(Arrays.asList(
 			new TestCommand(),
 			new GPTCommand(),
 			new PrefixCommand(),
 			new FriendCommand(),
-			new DebugRenderersCommand()
+			new DebugRenderersCommand(),
+			new HelpCommand(),
+			new BindCommand()
 	));
 
 	public static void onCommand(String command) {
 		String[] tokens = command.split(" ");
 		for (Command c : commands) {
 			if (c.getName().equalsIgnoreCase(tokens[0])) {
-				c.onCall(tokens);
+				c.onCall(tokens.length, tokens);
+				return;
 			}
 		}
+		BallsLogger.warn("no such thing buddy, tell jeff to add it.. or use .help");
 	}
 
 	public static Command getCommandByName(String name) {
@@ -34,5 +39,9 @@ public class CommandManager {
 			}
 		}
 		return null;
+	}
+
+	public static List<Command> getCommands() {
+		return commands;
 	}
 }

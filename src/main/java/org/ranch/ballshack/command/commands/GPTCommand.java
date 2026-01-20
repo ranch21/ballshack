@@ -27,16 +27,16 @@ public class GPTCommand extends Command {
 	private static final ExecutorService executor = Executors.newCachedThreadPool();
 
 	public GPTCommand() {
-		super("gpt");
+		super("gpt", "grok is this true?", "gpt set-key <api-key> | gpt <prompt>");
 		SettingsManager.registerSetting(api_key);
 	}
 
 	@Override
-	public void onCall(String[] args) {
-		if (args.length <= 1) return;
+	public void onCall(int argc, String[] argv) {
+		if (argv.length <= 1) return;
 
-		if (args[1].equals("set-key")) {
-			api_key.setValue(args[2]);
+		if (argv[1].equals("set-key")) {
+			api_key.setValue(argv[2]);
 		} else {
 			if (api_key.equals("none")) {
 
@@ -44,7 +44,7 @@ public class GPTCommand extends Command {
 
 			} else {
 
-				String[] prompt = Arrays.copyOfRange(args, 1, args.length);
+				String[] prompt = Arrays.copyOfRange(argv, 1, argv.length);
 
 				log("Prompting", true);
 
@@ -58,7 +58,6 @@ public class GPTCommand extends Command {
 	public static CompletableFuture<String> getResponse(String input) {
 		return CompletableFuture.supplyAsync(() -> {
 			try {
-				// Build JSON payload
 				JsonObject requestBody = new JsonObject();
 				requestBody.addProperty("model", "deepseek/deepseek-chat:free");
 				requestBody.addProperty("max_tokens", 200);
@@ -75,7 +74,6 @@ public class GPTCommand extends Command {
 				messages.add(userMessage);
 				requestBody.add("messages", messages);
 
-				// Create HTTP connection
 				URL url = new URL(API_URL);
 				HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 				conn.setRequestMethod("POST");
@@ -83,22 +81,18 @@ public class GPTCommand extends Command {
 				conn.setRequestProperty("Content-Type", "application/json");
 				conn.setDoOutput(true);
 
-				// Set timeouts to prevent freezing
-				conn.setConnectTimeout(5000); // 5 seconds to establish connection
-				conn.setReadTimeout(20000); // 10 seconds to read response
+				conn.setConnectTimeout(5000);
+				conn.setReadTimeout(20000);
 
-				// Send JSON request
 				try (OutputStream os = conn.getOutputStream()) {
 					byte[] inputBytes = gson.toJson(requestBody).getBytes(StandardCharsets.UTF_8);
 					os.write(inputBytes, 0, inputBytes.length);
 				}
 
-				// Read response
 				Scanner scanner = new Scanner(conn.getInputStream(), StandardCharsets.UTF_8);
 				String response = scanner.useDelimiter("\\A").next();
 				scanner.close();
 
-				// Parse and return response
 				JsonObject jsonResponse = gson.fromJson(response, JsonObject.class);
 				return jsonResponse.getAsJsonArray("choices")
 						.get(0).getAsJsonObject()

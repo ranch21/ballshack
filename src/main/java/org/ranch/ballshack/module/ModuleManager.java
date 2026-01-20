@@ -70,7 +70,7 @@ public class ModuleManager {
 
 	public static Module getModuleByName(String name) {
 		for (Module module : modules) {
-			if (module.getName().equals(name)) {
+			if (module.getName().equalsIgnoreCase(name)) {
 				return module;
 			}
 		}
