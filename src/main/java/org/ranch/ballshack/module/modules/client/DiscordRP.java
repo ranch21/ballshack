@@ -4,13 +4,11 @@ import de.jcm.discordgamesdk.Core;
 import de.jcm.discordgamesdk.CreateParams;
 import de.jcm.discordgamesdk.activity.Activity;
 import de.jcm.discordgamesdk.activity.ActivityType;
-import org.ranch.ballshack.BallsLogger;
 import org.ranch.ballshack.event.EventSubscribe;
 import org.ranch.ballshack.event.events.EventScreen;
 import org.ranch.ballshack.event.events.EventTick;
 import org.ranch.ballshack.module.Module;
 import org.ranch.ballshack.module.ModuleCategory;
-import org.ranch.ballshack.setting.ModuleSettings;
 import org.ranch.ballshack.setting.moduleSettings.*;
 
 import java.time.Instant;
@@ -22,7 +20,6 @@ import static org.ranch.ballshack.util.TextUtil.applyFormatting;
 public class DiscordRP extends Module {
 	private static Core core;
 	private static Activity activity;
-	private final int updateSpeed = 20*4;
 
 	public SettingMode activityType = dGroup.add(new SettingMode(0, "Type", Arrays.asList(
 			"Playing",
@@ -31,8 +28,8 @@ public class DiscordRP extends Module {
 			"Watching",
 			"Competing"
 	)));
-	public SettingString details = dGroup.add(new SettingString("Details", "test", 256));
-	public SettingString state = dGroup.add(new SettingString("State", "test", 256));
+	public SettingString details = dGroup.add(new SettingString("Details", "funny name i know", 256));
+	public SettingString state = dGroup.add(new SettingString("State", "yay", 256));
 
 	public DropDown partyDD = dGroup.add(new DropDown("Party"));
 	public SettingToggle pEnabled = partyDD.add(new SettingToggle(true, "Enabled"));
@@ -50,6 +47,10 @@ public class DiscordRP extends Module {
 
 	@EventSubscribe
 	public void onTick(EventTick event) {
+		if (mc.world == null)
+			return;
+
+		int updateSpeed = 20 * 4;
 		if (mc.world.getTime() % updateSpeed != 0) return;
 		//if (activity.getState().length() < 2) return;
 		//if (activity.getDetails().length() < 2) return;
@@ -113,7 +114,7 @@ public class DiscordRP extends Module {
 				if (mc.isConnectedToLocalServer()) {
 					max = 1;
 					current = 1;
-				} else {
+				} else if (mc.getNetworkHandler() != null && mc.getNetworkHandler().getServerInfo() != null && mc.getNetworkHandler().getServerInfo().players != null) {
 					max = mc.getNetworkHandler().getServerInfo().players.max();
 					current = mc.getNetworkHandler().getServerInfo().players.online();
 				}

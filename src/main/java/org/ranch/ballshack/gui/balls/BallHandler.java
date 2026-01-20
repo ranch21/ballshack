@@ -109,8 +109,8 @@ public class BallHandler {
 		for (int i = 0; i < ballCount; i++) {
 			Ball ball = balls.get(i);
 
-			int gx = (int)ball.pos.x/ getGridSize();
-			int gy = (int)ball.pos.y/ getGridSize();
+			int gx = (int) ball.pos.x / getGridSize();
+			int gy = (int) ball.pos.y / getGridSize();
 
 			grid.computeIfAbsent(hash(gx, gy), k -> new ArrayList<>()).add(ball);
 
@@ -127,8 +127,8 @@ public class BallHandler {
 			ball.update(deltaT, gravity * 250);
 
 			for (int l = 0; l < COLLISION_ITERATIONS; l++) {
-				for (int j = 0; j<9;j++) {
-					List<Ball> list = grid.get(hash(gx+dirs[j][0], gy+dirs[j][1]));
+				for (int j = 0; j < 9; j++) {
+					List<Ball> list = grid.get(hash(gx + dirs[j][0], gy + dirs[j][1]));
 					if (list != null) {
 						for (int k = 0; k < list.size(); k++) {
 							ball.collideOther(list.get(k));

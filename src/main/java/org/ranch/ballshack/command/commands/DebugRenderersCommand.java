@@ -16,26 +16,26 @@ public class DebugRenderersCommand extends Command {
 			log("Please provide an action (enable, disable, list)", true);
 			return;
 		}
-        switch (argv[1]) {
-            case "enable":
-                if (DebugRenderers.setEnabled(argv[2], true)) {
-                    log("Enabled renderer: " + argv[2], true);
-                }
-                break;
-            case "disable":
-                if (DebugRenderers.setEnabled(argv[2], false)) {
-                    log("Disabled renderer: " + argv[2], true);
-                }
-                break;
-            case "list":
-                List<String> renderers = DebugRenderers.getIdList();
-                log("Renderers:", true);
-                for (String id : renderers) {
-                    log(id + " " + DebugRenderers.getRenderer(id).getEnabled(), false);
-                }
-                break;
-            default:
-                log("Please provide a valid action (enable, disable, list)", true);
-        }
-    }
+		switch (argv[1]) {
+			case "enable":
+				if (DebugRenderers.setEnabled(argv[2], true)) {
+					log("Enabled renderer: " + argv[2], true);
+				}
+				break;
+			case "disable":
+				if (DebugRenderers.setEnabled(argv[2], false)) {
+					log("Disabled renderer: " + argv[2], true);
+				}
+				break;
+			case "list":
+				List<String> renderers = DebugRenderers.getIdList();
+				log("Renderers:", true);
+				for (String id : renderers) {
+					log(id + " " + DebugRenderers.getRenderer(id).getEnabled(), false);
+				}
+				break;
+			default:
+				log("Please provide a valid action (enable, disable, list)", true);
+		}
+	}
 }

@@ -12,23 +12,23 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(SkinTextures.class)
 public class SkinTexturesMixin {
-    @Inject(method = "cape", at = @At("HEAD"), cancellable = true)
-    public void taw(CallbackInfoReturnable<AssetInfo.TextureAsset> cir) {
-        String capeName = PlayerUtil.getCape();
-        if (capeName != null) {
-            AssetInfo.TextureAsset cape = new AssetInfo.TextureAsset() {
-                @Override
-                public Identifier texturePath() {
-                    return Identifier.of(BallsHack.ID, "textures/capes/" + capeName + ".png");
-                }
+	@Inject(method = "cape", at = @At("HEAD"), cancellable = true)
+	public void taw(CallbackInfoReturnable<AssetInfo.TextureAsset> cir) {
+		String capeName = PlayerUtil.getCape();
+		if (capeName != null) {
+			AssetInfo.TextureAsset cape = new AssetInfo.TextureAsset() {
+				@Override
+				public Identifier texturePath() {
+					return Identifier.of(BallsHack.ID, "textures/capes/" + capeName + ".png");
+				}
 
-                @Override
-                public Identifier id() {
-                    return texturePath();
-                }
-            };
+				@Override
+				public Identifier id() {
+					return texturePath();
+				}
+			};
 
-            cir.setReturnValue(cape);
-        }
-    }
+			cir.setReturnValue(cape);
+		}
+	}
 }

@@ -8,13 +8,10 @@ import org.ranch.ballshack.event.EventSubscribe;
 import org.ranch.ballshack.event.events.EventTick;
 import org.ranch.ballshack.module.Module;
 import org.ranch.ballshack.module.ModuleCategory;
-import org.ranch.ballshack.setting.ModuleSettings;
 import org.ranch.ballshack.setting.moduleSettings.SettingSlider;
 import org.ranch.ballshack.setting.moduleSettings.SettingToggle;
 import org.ranch.ballshack.setting.moduleSettings.TargetsDropDown;
 import org.ranch.ballshack.util.EntityUtil;
-
-import java.util.Arrays;
 
 public class TriggerBot extends Module {
 	private static int cooldown = 0;

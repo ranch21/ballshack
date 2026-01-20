@@ -13,7 +13,6 @@ public class CommandManager {
 
 	static final List<Command> commands = new ArrayList<>(Arrays.asList(
 			new TestCommand(),
-			new GPTCommand(),
 			new PrefixCommand(),
 			new FriendCommand(),
 			new DebugRenderersCommand(),
@@ -29,7 +28,7 @@ public class CommandManager {
 				return;
 			}
 		}
-		BallsLogger.warn("no such thing buddy, tell jeff to add it.. or use .help");
+		BallsLogger.info("no such thing buddy, tell jeff to add it.. or use .help");
 	}
 
 	public static Command getCommandByName(String name) {

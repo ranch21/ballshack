@@ -9,10 +9,10 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 @Mixin(Input.class)
 public interface InputAccessor {
 
-    @Mutable
-    @Accessor("movementVector")
-    void setMovementVector(Vec2f vector);
+	@Mutable
+	@Accessor("movementVector")
+	void setMovementVector(Vec2f vector);
 
-    @Accessor("movementVector")
-    Vec2f getMovementVector();
+	@Accessor("movementVector")
+	Vec2f getMovementVector();
 }

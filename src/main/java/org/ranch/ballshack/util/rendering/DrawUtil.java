@@ -3,12 +3,9 @@ package org.ranch.ballshack.util.rendering;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.entity.Entity;
 import net.minecraft.text.Text;
 import org.joml.Vector2i;
-import org.ranch.ballshack.FriendManager;
 import org.ranch.ballshack.gui.Colors;
-import org.ranch.ballshack.util.EntityUtil;
 import org.ranch.ballshack.util.TextUtil;
 
 import java.awt.*;
@@ -112,59 +109,12 @@ public class DrawUtil {
 
 	@Deprecated
 	public static void drawText(DrawContext context, TextRenderer textRend, String text, int x, int y, Color color, boolean shadow) {
-
 		context.drawText(textRend, text, x, y, color.hashCode(), shadow);
-
-		/*textRend.draw(
-				text,
-				x,
-				y,
-				color.hashCode(),
-				shadow,
-				context.getMatrices().peek().getPositionMatrix(),
-				((DrawContextAccessor) context).getVertexConsumers(),
-				TextRenderer.TextLayerType.SEE_THROUGH,
-				0,
-				15728880
-		);*/
 	}
 
 	@Deprecated
 	public static void drawText(DrawContext context, TextRenderer textRend, Text text, int x, int y, Color color, boolean shadow) {
-
 		context.drawText(textRend, text, x, y, color.hashCode(), shadow);
-
-		/*textRend.draw(
-				text,
-				x,
-				y,
-				color.hashCode(),
-				shadow,
-				context.getMatrices().peek().getPositionMatrix(),
-				((DrawContextAccessor) context).getVertexConsumers(),
-				TextRenderer.TextLayerType.SEE_THROUGH,
-				0,
-				15728880
-		);*/
-	}
-
-	public static Color getEspColor(Entity e) {
-		Color c;
-
-		if (EntityUtil.isAnimal(e)) {
-			c = Colors.PASSIVE;
-		} else if (EntityUtil.isMob(e)) {
-			c = Colors.HOSTILE;
-		} else if (EntityUtil.isPlayer(e)) {
-			if (FriendManager.has(e.getName().getString())) {
-				c = Colors.PLAYER;
-			} else {
-				c = Colors.WARN;
-			}
-		} else {
-			return Colors.ELSE;
-		}
-		return c;
 	}
 
 	public static void drawOutline(DrawContext context, int x, int y, int width, int height, Color color) {
@@ -194,12 +144,12 @@ public class DrawUtil {
 
 	public static void drawTooltip(DrawContext context) {
 		if (tTip == null) return;
-		List<String> split = TextUtil.splitSting(tTip, 20);
+		List<String> split = TextUtil.wrapTextKeep(tTip, 20);
 		TextRenderer textRend = MinecraftClient.getInstance().textRenderer;
 		int tWidth = textRend.getWidth(split.stream().sorted(Comparator.comparingInt(textRend::getWidth)).toList().get(split.size() - 1));
 		int tHeight = (textRend.fontHeight * split.size()) + 2;
 		context.fill(tPos.x, tPos.y, tPos.x + tWidth, tPos.y + tHeight, Color.BLACK.hashCode());
-		for (int i = 0; i <  split.size(); i++) {
+		for (int i = 0; i < split.size(); i++) {
 			context.drawText(textRend, split.get(i), tPos.x + 1, tPos.y + 1 + (textRend.fontHeight * i), Color.WHITE.hashCode(), true);
 		}
 	}

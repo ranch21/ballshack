@@ -8,8 +8,6 @@ import org.ranch.ballshack.setting.ModuleSettings;
 import org.ranch.ballshack.setting.ModuleSettingsGroup;
 import org.ranch.ballshack.setting.SettingSaver;
 
-import java.util.ArrayList;
-
 public abstract class Module {
 
 	protected MinecraftClient mc = MinecraftClient.getInstance();

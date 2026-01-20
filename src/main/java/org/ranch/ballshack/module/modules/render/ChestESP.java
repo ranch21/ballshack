@@ -12,7 +12,6 @@ import org.ranch.ballshack.event.events.EventWorldRender;
 import org.ranch.ballshack.gui.Colors;
 import org.ranch.ballshack.module.Module;
 import org.ranch.ballshack.module.ModuleCategory;
-import org.ranch.ballshack.setting.ModuleSettings;
 import org.ranch.ballshack.setting.moduleSettings.SettingSlider;
 import org.ranch.ballshack.util.WorldUtil;
 import org.ranch.ballshack.util.rendering.BallColor;
@@ -20,8 +19,6 @@ import org.ranch.ballshack.util.rendering.BallsRenderPipelines;
 import org.ranch.ballshack.util.rendering.Renderer;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.stream.Stream;
 
 import static org.ranch.ballshack.Constants.LINE_WIDTH;

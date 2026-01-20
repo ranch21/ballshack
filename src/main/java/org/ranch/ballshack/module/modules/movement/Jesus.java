@@ -6,10 +6,7 @@ import org.ranch.ballshack.event.EventSubscribe;
 import org.ranch.ballshack.event.events.EventBlockShape;
 import org.ranch.ballshack.module.Module;
 import org.ranch.ballshack.module.ModuleCategory;
-import org.ranch.ballshack.setting.ModuleSettings;
 import org.ranch.ballshack.setting.moduleSettings.SettingToggle;
-
-import java.util.Collections;
 
 public class Jesus extends Module {
 
@@ -21,7 +18,7 @@ public class Jesus extends Module {
 
 	@EventSubscribe
 	public void onBlockShape(EventBlockShape event) {
-		if (mc.world == null) return;
+		if (mc.world == null || mc.player == null) return;
 		if (!mc.world.getFluidState(event.pos).isEmpty() // event is water
 				&& !mc.player.isSneaking() // not sneaking
 				&& !mc.player.isTouchingWater() // not touching water
@@ -52,7 +49,7 @@ public class Jesus extends Module {
 				iamsofunny = 3;
 				break;
 			case 3:
-				BallsLogger.info("no sirve el puto hack hdp");
+				BallsLogger.info("停止使用 / काम से बाहर / hors service / خارج الخدمة / außer Betrieb / 故障中");
 				iamsofunny = 4;
 				break;
 			case 4:
@@ -60,11 +57,11 @@ public class Jesus extends Module {
 				iamsofunny = 5;
 				break;
 			case 5:
-				BallsLogger.info("停止使用 / काम से बाहर / hors service / خارج الخدمة / außer Betrieb / 故障中");
+				BallsLogger.info("fuck off");
 				iamsofunny = 6;
 				break;
 			case 6:
-				BallsLogger.info("fuck off");
+				BallsLogger.info("dear ballshack user i regret to inform you that this module is out of commision. :(");
 				iamsofunny = 7;
 				break;
 			case 7:

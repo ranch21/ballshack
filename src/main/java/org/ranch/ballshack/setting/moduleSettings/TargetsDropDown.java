@@ -2,8 +2,6 @@ package org.ranch.ballshack.setting.moduleSettings;
 
 import org.ranch.ballshack.util.EntityUtil;
 
-import java.util.Arrays;
-
 public class TargetsDropDown extends DropDown {
 
 	private final SettingToggle friends = settings.add(new SettingToggle(false, "Friends"));

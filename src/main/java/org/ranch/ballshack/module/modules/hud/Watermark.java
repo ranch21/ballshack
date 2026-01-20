@@ -1,9 +1,6 @@
 package org.ranch.ballshack.module.modules.hud;
 
-import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
 import org.ranch.ballshack.event.EventSubscribe;
 import org.ranch.ballshack.event.events.EventHudRender;
 import org.ranch.ballshack.gui.Colors;
@@ -12,12 +9,9 @@ import org.ranch.ballshack.module.ModuleCategory;
 import org.ranch.ballshack.module.ModuleHud;
 import org.ranch.ballshack.setting.moduleSettings.SettingString;
 import org.ranch.ballshack.setting.moduleSettings.SettingToggle;
-import org.ranch.ballshack.util.InvUtil;
 import org.ranch.ballshack.util.rendering.DrawUtil;
 
 import java.awt.*;
-import java.util.Arrays;
-import java.util.List;
 
 import static org.ranch.ballshack.util.TextUtil.applyFormatting;
 
@@ -38,8 +32,8 @@ public class Watermark extends ModuleHud {
 		DrawContext context = event.drawContext;
 
 		String text = applyFormatting(this.text.getValue());
-		width = mc.textRenderer.getWidth(text)+2;
-		height = mc.textRenderer.fontHeight+1;
+		width = mc.textRenderer.getWidth(text) + 2;
+		height = mc.textRenderer.fontHeight + 1;
 
 		if (backdrop.getValue()) context.fill(x, y, x + width, y + height, Colors.BACKDROP.hashCode());
 

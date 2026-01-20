@@ -28,7 +28,7 @@ public class EventBus {
 	}
 
 	public boolean unsubscribe(Object subscriber) {
-		boolean[] unsubscribed = {false};
+		final boolean[] unsubscribed = {false};
 		subscribers.values().removeIf(map -> {
 			if (map.remove(subscriber) != null) {
 				unsubscribed[0] = true;

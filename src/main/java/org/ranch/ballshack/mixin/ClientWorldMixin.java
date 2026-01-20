@@ -5,9 +5,9 @@ import org.ranch.ballshack.BallsHack;
 import org.ranch.ballshack.debug.DebugRenderers;
 import org.ranch.ballshack.debug.renderers.PlayerSimDebugRenderer;
 import org.ranch.ballshack.event.events.EventTick;
-import org.ranch.ballshack.util.PlayerSim;
 import org.ranch.ballshack.util.EntityUtil;
 import org.ranch.ballshack.util.FreelookHandler;
+import org.ranch.ballshack.util.PlayerSim;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -25,6 +25,6 @@ public class ClientWorldMixin {
 
 		PlayerSimDebugRenderer debugRenderer = (PlayerSimDebugRenderer) DebugRenderers.getRenderer("playersim");
 		if (debugRenderer.getEnabled())
-			debugRenderer.setData(PlayerSim.simulatePlayer(BallsHack.mc.player, 20), new Color(255,255,255, 100));
+			debugRenderer.setData(PlayerSim.simulatePlayer(BallsHack.mc.player, 20), new Color(255, 255, 255, 100));
 	}
 }

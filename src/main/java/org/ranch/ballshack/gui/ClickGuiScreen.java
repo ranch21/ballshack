@@ -6,7 +6,6 @@ import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.Click;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.input.CharInput;
 import net.minecraft.client.input.KeyInput;
 import net.minecraft.client.util.NarratorManager;
@@ -20,12 +19,10 @@ import org.ranch.ballshack.gui.balls.Ball;
 import org.ranch.ballshack.gui.balls.BallHandler;
 import org.ranch.ballshack.gui.balls.Rect;
 import org.ranch.ballshack.gui.window.CategoryWindow;
-import org.ranch.ballshack.module.Module;
 import org.ranch.ballshack.module.ModuleCategory;
 import org.ranch.ballshack.module.ModuleManager;
 import org.ranch.ballshack.module.modules.client.ClickGui;
 import org.ranch.ballshack.setting.Setting;
-import org.ranch.ballshack.setting.moduleSettings.DropDown;
 import org.ranch.ballshack.util.rendering.DrawUtil;
 
 import java.awt.*;
@@ -91,7 +88,7 @@ public class ClickGuiScreen extends Screen {
 		running = true;
 		physicsThread = new Thread(() -> {
 			final double dt = 1.0 / PHYS_HZ;
-			final long stepNanos = (long)(dt * 1_000_000_000L);
+			final long stepNanos = (long) (dt * 1_000_000_000L);
 
 			long lastTime = System.nanoTime();
 			long accumulator = 0;

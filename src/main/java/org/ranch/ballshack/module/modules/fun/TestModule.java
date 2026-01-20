@@ -6,16 +6,11 @@ import org.ranch.ballshack.event.events.EventPlayerMovementVector;
 import org.ranch.ballshack.event.events.EventTick;
 import org.ranch.ballshack.module.Module;
 import org.ranch.ballshack.module.ModuleCategory;
-import org.ranch.ballshack.setting.ModuleSettings;
 import org.ranch.ballshack.setting.ModuleSettingsGroup;
-import org.ranch.ballshack.setting.moduleSettings.*;
+import org.ranch.ballshack.setting.moduleSettings.DropDown;
+import org.ranch.ballshack.setting.moduleSettings.SettingSlider;
+import org.ranch.ballshack.setting.moduleSettings.SettingToggle;
 import org.ranch.ballshack.util.PlayerUtil;
-import org.ranch.ballshack.util.Rotation;
-import org.ranch.ballshack.util.RotationUtil;
-
-import java.awt.*;
-import java.util.Arrays;
-import java.util.List;
 
 public class TestModule extends Module {
 

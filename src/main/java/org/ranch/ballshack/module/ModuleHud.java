@@ -5,8 +5,6 @@ import org.ranch.ballshack.setting.HudElementData;
 import org.ranch.ballshack.setting.moduleSettings.SettingHud;
 import org.ranch.ballshack.util.rendering.DrawUtil;
 
-import java.util.ArrayList;
-
 public class ModuleHud extends Module {
 
 	public int offsetx, offsety;

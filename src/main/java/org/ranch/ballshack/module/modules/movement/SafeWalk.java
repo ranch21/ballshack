@@ -5,11 +5,8 @@ import org.ranch.ballshack.event.events.EventClipLedge;
 import org.ranch.ballshack.event.events.EventPlayerInput;
 import org.ranch.ballshack.module.Module;
 import org.ranch.ballshack.module.ModuleCategory;
-import org.ranch.ballshack.setting.ModuleSettings;
 import org.ranch.ballshack.setting.moduleSettings.SettingToggle;
 import org.ranch.ballshack.util.PlayerSim;
-
-import java.util.Arrays;
 
 public class SafeWalk extends Module {
 

@@ -14,7 +14,6 @@ import org.ranch.ballshack.setting.moduleSettings.SettingToggle;
 import org.ranch.ballshack.util.rendering.DrawUtil;
 
 import java.awt.*;
-import java.util.Arrays;
 
 public class Coordinates extends ModuleHud {
 

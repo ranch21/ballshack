@@ -15,10 +15,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(ClientPlayerInteractionManager.class)
 public class ClientPlayerInteractionManagerMixin {
 
-    @Inject(method = "interactBlock", at = @At(value = "HEAD"))
-    public void interactBlock(ClientPlayerEntity player, Hand hand, BlockHitResult hitResult, CallbackInfoReturnable<ActionResult> cir) {
-        ScaffoldDebugRenderer debugScaffold = (ScaffoldDebugRenderer) DebugRenderers.getRenderer("scaffold");
-        debugScaffold.setData(hitResult.getBlockPos(), hitResult, hitResult.getSide());
-    }
+	@Inject(method = "interactBlock", at = @At(value = "HEAD"))
+	public void interactBlock(ClientPlayerEntity player, Hand hand, BlockHitResult hitResult, CallbackInfoReturnable<ActionResult> cir) {
+		ScaffoldDebugRenderer debugScaffold = (ScaffoldDebugRenderer) DebugRenderers.getRenderer("scaffold");
+		debugScaffold.setData(hitResult.getBlockPos(), hitResult, hitResult.getSide());
+	}
 
 }

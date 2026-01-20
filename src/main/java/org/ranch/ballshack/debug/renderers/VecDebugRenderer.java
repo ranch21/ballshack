@@ -11,24 +11,24 @@ import java.awt.*;
 
 public class VecDebugRenderer extends DebugRenderer {
 
-    private Vec3d vec;
-    private Vec3d pos;
-    private Color color;
+	private Vec3d vec;
+	private Vec3d pos;
+	private Color color;
 
-    public void setData(Vec3d pos, Vec3d vec, Color color) {
-        this.vec = vec;
-        this.pos = pos;
-        this.color = color;
-    }
+	public void setData(Vec3d pos, Vec3d vec, Color color) {
+		this.vec = vec;
+		this.pos = pos;
+		this.color = color;
+	}
 
-    @Override
-    public void renderGui(DrawContext context) {
+	@Override
+	public void renderGui(DrawContext context) {
 
-    }
+	}
 
-    @Override
-    public void render3d(Renderer context, MatrixStack matrixStack) {
-        context.renderArrow(pos, pos.add(vec), 4, 0.2f, color, matrixStack);
-        context.draw(BallsRenderPipelines.QUADS);
-    }
+	@Override
+	public void render3d(Renderer context, MatrixStack matrixStack) {
+		context.renderArrow(pos, pos.add(vec), 4, 0.2f, color, matrixStack);
+		context.draw(BallsRenderPipelines.QUADS);
+	}
 }

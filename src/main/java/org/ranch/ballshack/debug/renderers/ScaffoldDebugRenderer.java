@@ -15,30 +15,30 @@ import java.awt.*;
 
 public class ScaffoldDebugRenderer extends DebugRenderer {
 
-    BlockPos bpos;
-    BlockHitResult hitResult;
-    Direction bface;
+	BlockPos bpos;
+	BlockHitResult hitResult;
+	Direction bface;
 
-    public void setData(BlockPos bpos, BlockHitResult hitResult, Direction bface) {
-        this.bpos = bpos;
-        this.hitResult = hitResult;
-        this.bface = bface;
-    }
+	public void setData(BlockPos bpos, BlockHitResult hitResult, Direction bface) {
+		this.bpos = bpos;
+		this.hitResult = hitResult;
+		this.bface = bface;
+	}
 
-    @Override
-    public void renderGui(DrawContext context) {
+	@Override
+	public void renderGui(DrawContext context) {
 
-    }
+	}
 
-    @Override
-    public void render3d(Renderer context, MatrixStack matrixStack) {
-        if (bpos == null || hitResult == null || bface == null) {
-            return;
-        }
-        Vec3d faceCenter = bpos.toCenterPos().add(bface.getDoubleVector().multiply(0.5));
+	@Override
+	public void render3d(Renderer context, MatrixStack matrixStack) {
+		if (bpos == null || hitResult == null || bface == null) {
+			return;
+		}
+		Vec3d faceCenter = bpos.toCenterPos().add(bface.getDoubleVector().multiply(0.5));
 
-        context.renderArrow(faceCenter, faceCenter.add(bface.getDoubleVector().multiply(0.2)), 4, 0.2f, new Color(255, 0, 0), matrixStack);
-        context.renderCube(new Box(bpos), new Color(0, 255, 0, 50), matrixStack);
-        context.draw(BallsRenderPipelines.QUADS);
-    }
+		context.renderArrow(faceCenter, faceCenter.add(bface.getDoubleVector().multiply(0.2)), 4, 0.2f, new Color(255, 0, 0), matrixStack);
+		context.renderCube(new Box(bpos), new Color(0, 255, 0, 50), matrixStack);
+		context.draw(BallsRenderPipelines.QUADS);
+	}
 }

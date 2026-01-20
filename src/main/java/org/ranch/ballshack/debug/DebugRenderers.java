@@ -13,13 +13,13 @@ import java.util.List;
 
 public class DebugRenderers {
 
-	private static LinkedHashMap<String,DebugRenderer> renderers = new LinkedHashMap<>();
+	private static LinkedHashMap<String, DebugRenderer> renderers = new LinkedHashMap<>();
 
 	public static Setting<List<Boolean>> enabled = new Setting<>(new ArrayList<>(), "debugRenderers", new TypeToken<List<Boolean>>() {
 	}.getType());
 
 	public static void registerRenderer(String id, DebugRenderer renderer) {
-		renderers.put(id,renderer);
+		renderers.put(id, renderer);
 	}
 
 	public static DebugRenderer getRenderer(String id) {

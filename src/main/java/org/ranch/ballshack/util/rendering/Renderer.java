@@ -193,7 +193,7 @@ public class Renderer {
 
 		boolean bl = mc.options.getPerspective().isFirstPerson();
 		float f = mc.options.getFovEffectScale().getValue().floatValue();
-		float fovMultiplier = (float) MathHelper.clamp(mc.player.getFovMultiplier(bl, f), 0.1f,1.5);
+		float fovMultiplier = (float) MathHelper.clamp(mc.player.getFovMultiplier(bl, f), 0.1f, 1.5);
 
 		float fov = (float) mc.options.getFov().getValue() * fovMultiplier;
 		float screenHeight = (float) mc.getWindow().getHeight();
@@ -218,10 +218,10 @@ public class Renderer {
 		Vec3d v4 = end.add(perpendicularEnd);
 
 		// V1 and V2 define the near edge, V3 and V4 define the far edge
-		buffer.vertex(matrix, (float) v1.x, (float) v1.y, (float) v1.z).color(r,g,b,a);
-		buffer.vertex(matrix, (float) v2.x, (float) v2.y, (float) v2.z).color(r,g,b,a);
-		buffer.vertex(matrix, (float) v3.x, (float) v3.y, (float) v3.z).color(r,g,b,a);
-		buffer.vertex(matrix, (float) v4.x, (float) v4.y, (float) v4.z).color(r,g,b,a);
+		buffer.vertex(matrix, (float) v1.x, (float) v1.y, (float) v1.z).color(r, g, b, a);
+		buffer.vertex(matrix, (float) v2.x, (float) v2.y, (float) v2.z).color(r, g, b, a);
+		buffer.vertex(matrix, (float) v3.x, (float) v3.y, (float) v3.z).color(r, g, b, a);
+		buffer.vertex(matrix, (float) v4.x, (float) v4.y, (float) v4.z).color(r, g, b, a);
 
 		matrixStack.pop();
 	}

@@ -12,29 +12,29 @@ import java.util.List;
 
 public class PlayerSimDebugRenderer extends DebugRenderer {
 
-    private List<PlayerSim.PlayerPoint> path;
-    private Color color;
+	private List<PlayerSim.PlayerPoint> path;
+	private Color color;
 
-    public void setData(List<PlayerSim.PlayerPoint> path, Color color) {
-        this.path = path;
-        this.color = color;
-    }
+	public void setData(List<PlayerSim.PlayerPoint> path, Color color) {
+		this.path = path;
+		this.color = color;
+	}
 
-    @Override
-    public void renderGui(DrawContext context) {
+	@Override
+	public void renderGui(DrawContext context) {
 
-    }
+	}
 
-    @Override
-    public void render3d(Renderer context, MatrixStack matrixStack) {
-        if (path == null)
-            return;
-        float size = 0.2f;
-        for (PlayerSim.PlayerPoint pos : path) {
-            //Box box = new Box(pos.getX() - size, pos.getY() - size, pos.getZ() - size, pos.getX() + size, pos.getY() + size, pos.getZ() + size);
-            context.renderCubeOutlines(pos.boundingBox(), 1, color, matrixStack);
+	@Override
+	public void render3d(Renderer context, MatrixStack matrixStack) {
+		if (path == null)
+			return;
+		float size = 0.2f;
+		for (PlayerSim.PlayerPoint pos : path) {
+			//Box box = new Box(pos.getX() - size, pos.getY() - size, pos.getZ() - size, pos.getX() + size, pos.getY() + size, pos.getZ() + size);
+			context.renderCubeOutlines(pos.boundingBox(), 1, color, matrixStack);
 
-        }
-        context.draw(BallsRenderPipelines.QUADS);
-    }
+		}
+		context.draw(BallsRenderPipelines.QUADS);
+	}
 }
