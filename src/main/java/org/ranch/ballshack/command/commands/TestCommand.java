@@ -5,11 +5,11 @@ import org.ranch.ballshack.command.Command;
 
 public class TestCommand extends Command {
 	public TestCommand() {
-		super("test");
+		super("test", "testing", "test");
 	}
 
 	@Override
-	public void onCall(String[] args) {
+	public void onCall(int argc, String[] argv) {
 		BallsLogger.info(getName() + " called");
 	}
 }

@@ -7,25 +7,25 @@ import java.util.List;
 
 public class FriendCommand extends Command {
 	public FriendCommand() {
-		super("friends");
+		super("friends", "Used to modify friends list", "friends (add|remove) <username> | friends (clear|list)");
 	}
 
 	@Override
-	public void onCall(String[] args) {
-		if (args.length <= 1) {
+	public void onCall(int argc, String[] argv) {
+		if (argv.length <= 1) {
 			log("Please provide an action (add, remove, clear, list)", true);
 			return;
 		}
-		if (args.length > 2) {
-			switch (args[1]) {
+		if (argv.length > 2) {
+			switch (argv[1]) {
 				case "add":
-					if (FriendManager.add(args[2])) {
-						log("Added friend: " + args[2], true);
+					if (FriendManager.add(argv[2])) {
+						log("Added friend: " + argv[2], true);
 					}
 					break;
 				case "remove":
-					if (FriendManager.remove(args[2])) {
-						log("Removed friend: " + args[2], true);
+					if (FriendManager.remove(argv[2])) {
+						log("Removed friend: " + argv[2], true);
 					}
 					break;
 				case "clear":

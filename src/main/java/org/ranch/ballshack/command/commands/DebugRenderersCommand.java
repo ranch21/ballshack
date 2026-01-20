@@ -7,24 +7,24 @@ import java.util.List;
 
 public class DebugRenderersCommand extends Command {
 	public DebugRenderersCommand() {
-		super("debug_renderers");
+		super("drenderers", "enables / disables debug renderers", "drenderers (enable|disable) <renderer> | drenderers list");
 	}
 
 	@Override
-	public void onCall(String[] args) {
-		if (args.length <= 1) {
+	public void onCall(int argc, String[] argv) {
+		if (argv.length <= 1) {
 			log("Please provide an action (enable, disable, list)", true);
 			return;
 		}
-        switch (args[1]) {
+        switch (argv[1]) {
             case "enable":
-                if (DebugRenderers.setEnabled(args[2], true)) {
-                    log("Enabled renderer: " + args[2], true);
+                if (DebugRenderers.setEnabled(argv[2], true)) {
+                    log("Enabled renderer: " + argv[2], true);
                 }
                 break;
             case "disable":
-                if (DebugRenderers.setEnabled(args[2], false)) {
-                    log("Disabled renderer: " + args[2], true);
+                if (DebugRenderers.setEnabled(argv[2], false)) {
+                    log("Disabled renderer: " + argv[2], true);
                 }
                 break;
             case "list":

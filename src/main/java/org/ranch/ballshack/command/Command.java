@@ -10,16 +10,20 @@ public abstract class Command {
 	protected final MinecraftClient mc = MinecraftClient.getInstance();
 
 	protected String name;
+	public final String usage; // eg. prefix <prefix> or help <module> | help
+	public final String desc;
 
-	public Command(String name) {
+	public Command(String name, String desc, String usage) {
 		this.name = name;
+		this.desc = desc;
+		this.usage = usage;
 	}
 
 	public String getName() {
 		return name;
 	}
 
-	public abstract void onCall(String[] args);
+	public abstract void onCall(int argc, String[] argv);
 
 	private Text getCommandText(Text text, int color) {
 		return Text.literal(name).copy().styled(s -> s.withColor(BallsLogger.BH_COLOR)).append(": ").append(text.copy().styled(s -> s.withColor(color)));
