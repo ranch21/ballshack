@@ -24,23 +24,7 @@ public class Debug extends Module {
 	public void onWorldRender(EventWorldRender.Post event) {
 		MatrixStack matrices = event.matrixStack;
 
-		Color color = Colors.PALLETE_1;
-
-		float r = color.getRed() / 255.0f;
-		float g = color.getGreen() / 255.0f;
-		float b = color.getBlue() / 255.0f;
-		float a = color.getAlpha() / 255.0f;
-
-		Vec3d pos = mc.player.getLerpedPos(mc.getRenderTickCounter().getTickProgress(false));
-		Vec3d vel = mc.player.getVelocity();
-
 		Renderer renderer = Renderer.getInstance();
-
-        /*renderer.renderCustom(((buffer, matrix) -> {
-            buffer.vertex(matrix, (float) pos.x, (float) pos.y, (float) pos.z).color(r,g,b,a);
-            buffer.vertex(matrix, (float) (pos.x + vel.x), (float) (pos.y + vel.y), (float) (pos.z + vel.z)).color(r,g,b,a);
-        }), matrices, BallsRenderPipelines.LINE);*/
-		//renderer.renderCube(mc.player.getBoundingBox(), Color.BLUE, matrices);
 
 		//prevbox
 		Vec3d ppos = new Vec3d(mc.player.lastX, mc.player.lastY, mc.player.lastZ);

@@ -94,11 +94,6 @@ public class WorldUtil {
 		Vec3d faceMiddle = pos.toCenterPos().add(side.getDoubleVector().multiply(0.5d));
 		BlockHitResult hitResult = new BlockHitResult(faceMiddle, side, pos, false);
 
-		//ScaffoldDebugRenderer debugScaffold = (ScaffoldDebugRenderer) DebugRenderers.getRenderer("scaffold");
-		//debugScaffold.setData(pos, hitResult, side);
-
 		mc.interactionManager.interactBlock(player, hand, hitResult);
-
-		//stack.decrementUnlessCreative(1, player);
 	}
 }

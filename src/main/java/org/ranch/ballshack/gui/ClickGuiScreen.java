@@ -109,7 +109,6 @@ public class ClickGuiScreen extends Screen {
 				try {
 					Thread.sleep(0, 500_000);
 				} catch (InterruptedException e) {
-					//e.printStackTrace();
 				}
 			}
 		}, "Ball Physics Thread");

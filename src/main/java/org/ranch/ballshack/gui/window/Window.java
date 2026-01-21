@@ -50,9 +50,7 @@ public abstract class Window {
 
 		handleDrag(mouseX, mouseY, screen);
 
-		//context.fill(x, y, x + width, y + height, Colors.CLICKGUI_1.hashCode());
 		DrawUtil.drawHorizontalGradient(context, x, y - barHeight, width, barHeight, Colors.CLICKGUI_TITLE_START, Colors.CLICKGUI_TITLE_END, width / 10);
-
 
 		DrawUtil.drawOutline(context, x, y - barHeight, width, height + barHeight);
 

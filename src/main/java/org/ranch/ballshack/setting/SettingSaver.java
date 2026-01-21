@@ -201,12 +201,12 @@ public class SettingSaver {
 		} else if (defaultValue instanceof Boolean) {
 			return element.getAsBoolean();
 		}
-		return null; // Unsupported type
+		return null;
 	}
 
 	private static <T> void setSettingValue(ModuleSetting<T> setting, Object value) {
 		try {
-			setting.setValue((T) value); // Safe cast
+			setting.setValue((T) value);
 		} catch (ClassCastException e) {
 			BallsLogger.error("Failed to set value for setting: " + setting.getName());
 			e.printStackTrace();

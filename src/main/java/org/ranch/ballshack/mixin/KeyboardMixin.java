@@ -33,9 +33,6 @@ public class KeyboardMixin {
 
 	@Inject(method = "onChar", at = @At(value = "TAIL"))
 	private void onChar(long window, CharInput input, CallbackInfo ci) {
-		/*BallsLogger.info(input.asString());
-		if (input.asString().equals(CommandManager.prefix)) {
-			mc.setScreen(new ChatScreen("", true));
-		}*/
+
 	}
 }

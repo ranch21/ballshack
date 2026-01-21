@@ -26,9 +26,4 @@ public class CameraMixin {
 		args.set(0, event.rot.yaw);
 		args.set(1, event.rot.pitch);
 	}
-
-    /*@Inject(method = "clipToSpace", at = @At(value = "RETURN"), cancellable = true)
-    private static void changeLook(float f, CallbackInfoReturnable<Float> cir) {
-        cir.setReturnValue(f);
-    }*/
 }

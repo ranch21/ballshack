@@ -19,7 +19,7 @@ public class Ball {
 
 	public Ball(double x, double y, double xVel, double yVel, Identifier texture) {
 		this.pos = new Vector2d(x, y);
-		this.prevPos = new Vector2d(x - xVel, y - yVel); // correct Verlet initialization
+		this.prevPos = new Vector2d(x - xVel, y - yVel);
 		this.acc = new Vector2d(xVel, yVel);
 		this.texture = texture;
 	}

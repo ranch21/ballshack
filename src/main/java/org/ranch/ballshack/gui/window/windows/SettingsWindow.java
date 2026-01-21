@@ -21,7 +21,6 @@ public class SettingsWindow extends Window {
 	@Override
 	public void setup() {
 		widgets.add(new TextFieldWidget(60, 5, 80, 10, BallsHack.title.getValue()));
-		//widgets.add(new TextFieldWidget(5, 20, 50, 10));
 	}
 
 	@Override

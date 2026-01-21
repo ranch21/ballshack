@@ -108,7 +108,6 @@ public class Renderer {
 	}
 
 	public void renderCubeOutlines(Box box, float width, Color color, MatrixStack matrixStack) {
-		//setupRender(matrixStack, BallsRenderPipelines.LINES);
 
 		float x1 = (float) box.minX;
 		float y1 = (float) box.minY;
@@ -125,55 +124,30 @@ public class Renderer {
 
 		//lower square
 		renderLine(new Vec3d(x1, y1, z1), new Vec3d(x2, y1, z1), width, color, matrixStack);
-		//buffer.vertex(matrix, x1, y1, z1).color(r, g, b, a).normal(0, 0, 0);
-		//buffer.vertex(matrix, x2, y1, z1).color(r, g, b, a).normal(0, 0, 0);
 
 		renderLine(new Vec3d(x2, y1, z1), new Vec3d(x2, y1, z2), width, color, matrixStack);
-		//buffer.vertex(matrix, x2, y1, z1).color(r, g, b, a).normal(0, 0, 0);
-		//buffer.vertex(matrix, x2, y1, z2).color(r, g, b, a).normal(0, 0, 0);
 
 		renderLine(new Vec3d(x2, y1, z2), new Vec3d(x1, y1, z2), width, color, matrixStack);
-		//buffer.vertex(matrix, x2, y1, z2).color(r, g, b, a).normal(0, 0, 0);
-		//buffer.vertex(matrix, x1, y1, z2).color(r, g, b, a).normal(0, 0, 0);
 
 		renderLine(new Vec3d(x1, y1, z2), new Vec3d(x1, y1, z1), width, color, matrixStack);
-		//buffer.vertex(matrix, x1, y1, z2).color(r, g, b, a).normal(0, 0, 0);
-		//buffer.vertex(matrix, x1, y1, z1).color(r, g, b, a).normal(0, 0, 0);
-		//vertical lines
 
+		//vertical lines
 		renderLine(new Vec3d(x1, y1, z1), new Vec3d(x1, y2, z1), width, color, matrixStack);
-		//buffer.vertex(matrix, x1, y1, z1).color(r, g, b, a).normal(0, 1, 0);
-		//buffer.vertex(matrix, x1, y2, z1).color(r, g, b, a).normal(0, 1, 0);
 
 		renderLine(new Vec3d(x2, y1, z1), new Vec3d(x2, y2, z1), width, color, matrixStack);
-		//buffer.vertex(matrix, x2, y1, z1).color(r, g, b, a).normal(0, 1, 0);
-		//buffer.vertex(matrix, x2, y2, z1).color(r, g, b, a).normal(0, 1, 0);
 
 		renderLine(new Vec3d(x2, y1, z2), new Vec3d(x2, y2, z2), width, color, matrixStack);
-		//buffer.vertex(matrix, x2, y1, z2).color(r, g, b, a).normal(0, 1, 0);
-		//buffer.vertex(matrix, x2, y2, z2).color(r, g, b, a).normal(0, 1, 0);
 
 		renderLine(new Vec3d(x1, y1, z2), new Vec3d(x1, y2, z2), width, color, matrixStack);
-		//buffer.vertex(matrix, x1, y1, z2).color(r, g, b, a).normal(0, 1, 0);
-		//buffer.vertex(matrix, x1, y2, z2).color(r, g, b, a).normal(0, 1, 0);
-		//upper square
 
+		//upper square
 		renderLine(new Vec3d(x1, y2, z1), new Vec3d(x2, y2, z1), width, color, matrixStack);
-		//buffer.vertex(matrix, x1, y2, z1).color(r, g, b, a).normal(1, 0, 0);
-		//buffer.vertex(matrix, x2, y2, z1).color(r, g, b, a).normal(1, 0, 0);
 
 		renderLine(new Vec3d(x2, y2, z1), new Vec3d(x2, y2, z2), width, color, matrixStack);
-		//buffer.vertex(matrix, x2, y2, z1).color(r, g, b, a).normal(1, 0, 0);
-		//buffer.vertex(matrix, x2, y2, z2).color(r, g, b, a).normal(1, 0, 0);
 
 		renderLine(new Vec3d(x2, y2, z2), new Vec3d(x1, y2, z2), width, color, matrixStack);
-		//buffer.vertex(matrix, x2, y2, z2).color(r, g, b, a).normal(1, 0, 0);
-		//buffer.vertex(matrix, x1, y2, z2).color(r, g, b, a).normal(1, 0, 0);
 
 		renderLine(new Vec3d(x1, y2, z2), new Vec3d(x1, y2, z1), width, color, matrixStack);
-		//buffer.vertex(matrix, x1, y2, z2).color(r, g, b, a).normal(1, 0, 0);
-		//buffer.vertex(matrix, x1, y2, z1).color(r, g, b, a).normal(1, 0, 0);
-
 	}
 
 	public void renderLine(Vec3d start, Vec3d end, float width, Color color, MatrixStack matrixStack) {
@@ -278,8 +252,6 @@ public class Renderer {
 
 				RenderSystem.ShapeIndexBuffer shapeIndexBuffer = RenderSystem.getSequentialBuffer(renderPipeline.getVertexFormatMode());
 				indices = shapeIndexBuffer.getIndexBuffer(drawParameters.indexCount());
-				//indices = renderPipeline.getVertexFormat().uploadImmediateIndexBuffer(builtBuffer.getBuffer());
-				//indexType = builtBuffer.getDrawParameters().indexType();
 				indexType = shapeIndexBuffer.getIndexType();
 			}
 
@@ -309,7 +281,6 @@ public class Renderer {
 
 		if (vertexBuffer == null || vertexBuffer.size() < buffersize) {
 			vertexBuffer = new MappableRingBuffer(() -> BallsHack.ID + " renderer", GpuBuffer.USAGE_VERTEX | GpuBuffer.USAGE_MAP_WRITE, buffersize);
-			//vertexBuffer = RenderSystem.getDevice().createBuffer(() -> "Ballbuffer", GpuBuffer.USAGE_VERTEX | GpuBuffer.USAGE_COPY_DST, drawParameters.vertexCount() * vertexFormat.getVertexSize());
 		}
 		GpuBuffer targetBuffer = vertexBuffer.getBlocking();
 		CommandEncoder commandEncoder = RenderSystem.getDevice().createCommandEncoder();

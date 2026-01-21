@@ -11,12 +11,10 @@
     "SkinTexturesMixin"
   ],
   "client": [
-    "BlockModelRendererMixin",
     "ChatScreenMixin",
     "ClientCommonNetworkHandlerMixin",
     "ClientPlayerInteractionManagerMixin",
     "ClientWorldMixin",
-    "DrawContextAccessor",
     "GameRendererMixin",
     "InGameHudMixin",
     "InputAccessor",

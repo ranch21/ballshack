@@ -56,15 +56,6 @@ public class HudScreen extends Screen {
 
 	@Override
 	public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-
-		//super.render(context, mouseX, mouseY, delta);
-
-		//context.fill(0, 0, width, height, Colors.CLICKGUI_BACKGROUND.hashCode());
-
-		/*TextRenderer textRend = MinecraftClient.getInstance().textRenderer;
-		DrawUtil.drawText(context,textRend, BallsHack.title.getValue(), 5, 5,Colors.PALLETE_1,true);
-		DrawUtil.drawText(context,textRend, BallsHack.version, 5 + textRend.getWidth(BallsHack.title.getValue() + " "), 5, Color.WHITE,true);
-		*/
 		if (dragging) {
 			List<Snap> snaps = handleDrag(mouseX, mouseY);
 			if (snaps != null) {
@@ -152,8 +143,6 @@ public class HudScreen extends Screen {
 	private List<Snap> handleDrag(int mouseX, int mouseY) {
 		int x = mouseX - dragX;
 		int y = mouseY - dragY;
-		//draggingModule.offsetx = x;
-		//draggingModule.offsety = mouseY - dragY;
 		int w = width;
 		int h = height;
 		float m = MARGIN;
@@ -217,24 +206,6 @@ public class HudScreen extends Screen {
 			Snap ySnap = getSnap(y, h, sy, sh, Axis.Y);
 
 			if (xSnap != null || ySnap != null) return Arrays.asList(xSnap, ySnap);
-
-			/*if (Math.abs(x - sx) <= snapRange) {
-				return new Snap(sx, 0, Axis.X);
-			} else if (Math.abs(y - sy) <= snapRange) {
-				return new Snap(sy, 0, Axis.Y);
-			} else if (Math.abs((x + w) - (sx + sw)) <= snapRange) {
-				return new Snap(sw + sx, w, Axis.X);
-			} else if (Math.abs((y + h) - (sy + sh)) <= snapRange) {
-				return new Snap(sh + sy, h, Axis.Y);
-			} else if (Math.abs(x + w - sx) <= snapRange) {
-				return new Snap(sx, w, Axis.X);
-			} else if (Math.abs(y + h - sy) <= snapRange) {
-				return new Snap(sy, h, Axis.Y);
-			}  else if (Math.abs(x - (sx + sw)) <= snapRange) {
-				return new Snap(sw + sx, 0, Axis.X);
-			}  else if (Math.abs(y - (sy + sh)) <= snapRange) {
-				return new Snap(sh + sy, 0, Axis.Y);
-			}*/
 		}
 		return null;
 	}

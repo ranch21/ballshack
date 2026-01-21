@@ -42,7 +42,6 @@ public class Speed extends Module {
 					stage++;
 					speed = PlayerUtil.getSpeed();
 				}
-				//BallsLogger.info(String.valueOf(PlayerUtil.isMoving()));
 				break;
 			case 1:
 				if (!PlayerUtil.isMoving() || !mc.player.isOnGround()) break;

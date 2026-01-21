@@ -1,12 +1,5 @@
 package org.ranch.ballshack.gui;
 
-import org.ranch.ballshack.module.Module;
-import org.ranch.ballshack.module.ModuleManager;
-import org.ranch.ballshack.setting.ModuleSetting;
-import org.ranch.ballshack.setting.ModuleSettings;
-import org.ranch.ballshack.setting.moduleSettings.SettingColor;
-import org.ranch.ballshack.setting.moduleSettings.SettingToggle;
-
 import java.awt.*;
 
 public class Colors {
@@ -42,7 +35,6 @@ public class Colors {
 	public static final Color DEFAULT_GREEN = new Color(184, 255, 171, 255);
 	public static final Color DEFAULT_BLUE = new Color(158, 178, 255, 255);
 	public static final Color DEFAULT_GRAY = new Color(170, 170, 170, 255);
-	//public static final Color DEFAULT_CHEST = new Color(255, 255, 200, 250);
 
 	public static final Color DEFAULT_BACKDROP = new Color(0, 0, 0, 50);
 
@@ -50,7 +42,6 @@ public class Colors {
 
 	public static final Color DEFAULT_BORDER = Color.WHITE;
 
-	// Effective colors (used everywhere in GUI/rendering). These can be overridden.
 	public static Color PALLETE_1 = DEFAULT_PALLETE_1;
 	public static Color PALLETE_2 = DEFAULT_PALLETE_2;
 	public static Color PALLETE_3 = DEFAULT_PALLETE_3;
@@ -80,95 +71,6 @@ public class Colors {
 	public static float globalRainbowSpeed = 1.0f;
 	public static float globalRainbowSaturation = 0.3f;
 	public static float globalRainbowBrightness = 1f;
-
-	private static boolean lastOverride = false;
-
-	public static void refreshFromSettings() {
-		Module m = ModuleManager.getModuleByName("Colors");
-		if (m == null) {
-			applyDefaults();
-			return;
-		}
-		ModuleSettings ms = m.getSettings();
-		// Get the override toggle from any nested setting
-		boolean overrideAll = false;
-		for (ModuleSetting<?> s : ms.getSettingsUnpacked()) {
-			if (s.getName().equals("OverrideAll") && s instanceof SettingToggle tog) {
-				overrideAll = tog.getValue();
-				break;
-			}
-		}
-		if (!overrideAll) {
-			if (lastOverride) applyDefaults();
-			lastOverride = false;
-			return;
-		}
-		lastOverride = true;
-
-		PALLETE_1 = getColor(ms, "Palette1", DEFAULT_PALLETE_1);
-		PALLETE_2 = getColor(ms, "Palette2", DEFAULT_PALLETE_2);
-		PALLETE_3 = getColor(ms, "Palette3", DEFAULT_PALLETE_3);
-		PALLETE_4 = getColor(ms, "Palette4", DEFAULT_PALLETE_4);
-		PALLETE_5 = getColor(ms, "Palette5", DEFAULT_PALLETE_5);
-
-		CLICKGUI_TITLE_START = getColor(ms, "TitleStart", DEFAULT_CLICKGUI_TITLE_START);
-		CLICKGUI_TITLE_END = getColor(ms, "TitleEnd", DEFAULT_CLICKGUI_TITLE_END);
-		CLICKGUI_2 = getColor(ms, "Click2", DEFAULT_CLICKGUI_2);
-		CLICKGUI_3 = getColor(ms, "Click3", DEFAULT_CLICKGUI_3);
-		CLICKGUI_BACKGROUND = getColor(ms, "ClickBg", DEFAULT_CLICKGUI_BACKGROUND);
-
-		WARN = getColor(ms, "Warn", DEFAULT_WARN);
-		HOSTILE = getColor(ms, "Hostile", DEFAULT_HOSTILE);
-		PASSIVE = getColor(ms, "Passive", DEFAULT_PASSIVE);
-		PLAYER = getColor(ms, "Player", DEFAULT_PLAYER);
-		ELSE = getColor(ms, "Else", DEFAULT_ELSE);
-
-		RED = getColor(ms, "Red", DEFAULT_RED);
-		GREEN = getColor(ms, "Green", DEFAULT_GREEN);
-		BLUE = getColor(ms, "Blue", DEFAULT_BLUE);
-		GRAY = getColor(ms, "Gray", DEFAULT_GRAY);
-		BACKDROP = getColor(ms, "Backdrop", DEFAULT_BACKDROP);
-		SELECTABLE = getColor(ms, "Selectable", DEFAULT_SELECTABLE);
-		BORDER = getColor(ms, "Border", DEFAULT_BORDER);
-	}
-
-	private static Color getColor(ModuleSettings ms, String name, Color def) {
-		for (ModuleSetting<?> s : ms.getSettingsUnpacked()) {
-			if (s.getName().equals(name) && s instanceof SettingColor sc) {
-				Color c = sc.getValue();
-				return c != null ? c : def;
-			}
-		}
-		return def;
-	}
-
-	public static void applyDefaults() {
-		PALLETE_1 = DEFAULT_PALLETE_1;
-		PALLETE_2 = DEFAULT_PALLETE_2;
-		PALLETE_3 = DEFAULT_PALLETE_3;
-		PALLETE_4 = DEFAULT_PALLETE_4;
-		PALLETE_5 = DEFAULT_PALLETE_5;
-
-		CLICKGUI_TITLE_START = DEFAULT_CLICKGUI_TITLE_START;
-		CLICKGUI_TITLE_END = DEFAULT_CLICKGUI_TITLE_END;
-		CLICKGUI_2 = DEFAULT_CLICKGUI_2;
-		CLICKGUI_3 = DEFAULT_CLICKGUI_3;
-		CLICKGUI_BACKGROUND = DEFAULT_CLICKGUI_BACKGROUND;
-
-		WARN = DEFAULT_WARN;
-		HOSTILE = DEFAULT_HOSTILE;
-		PASSIVE = DEFAULT_PASSIVE;
-		PLAYER = DEFAULT_PLAYER;
-		ELSE = DEFAULT_ELSE;
-
-		RED = DEFAULT_RED;
-		GREEN = DEFAULT_GREEN;
-		BLUE = DEFAULT_BLUE;
-		GRAY = DEFAULT_GRAY;
-		BACKDROP = DEFAULT_BACKDROP;
-		SELECTABLE = DEFAULT_SELECTABLE;
-		BORDER = DEFAULT_BORDER;
-	}
 
 	public static Color getRainbowColor(float tick, float speed, float saturation, float brightness) {
 		float hue = (float) ((Math.ceil(tick * speed) % 360) / 360f);

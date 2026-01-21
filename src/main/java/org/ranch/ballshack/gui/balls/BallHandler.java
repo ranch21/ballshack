@@ -114,16 +114,6 @@ public class BallHandler {
 
 			grid.computeIfAbsent(hash(gx, gy), k -> new ArrayList<>()).add(ball);
 
-			/*if (holding) {
-				tempVec.set(mouseX - ball.pos.x, mouseY - ball.pos.y);
-				double lenSq = tempVec.lengthSquared();
-
-				if (lenSq > 1e-12) {
-					tempVec.normalize().mul(4); // tiny attraction
-					ball.accelerate(tempVec);
-				}
-			}*/
-
 			ball.update(deltaT, gravity * 250);
 
 			for (int l = 0; l < COLLISION_ITERATIONS; l++) {

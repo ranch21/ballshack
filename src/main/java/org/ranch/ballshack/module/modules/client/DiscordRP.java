@@ -52,8 +52,6 @@ public class DiscordRP extends Module {
 
 		int updateSpeed = 20 * 4;
 		if (mc.world.getTime() % updateSpeed != 0) return;
-		//if (activity.getState().length() < 2) return;
-		//if (activity.getDetails().length() < 2) return;
 		core.runCallbacks();
 		setActivity();
 		core.activityManager().updateActivity(activity);

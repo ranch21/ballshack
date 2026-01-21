@@ -31,9 +31,7 @@ public class PlayerSimDebugRenderer extends DebugRenderer {
 			return;
 		float size = 0.2f;
 		for (PlayerSim.PlayerPoint pos : path) {
-			//Box box = new Box(pos.getX() - size, pos.getY() - size, pos.getZ() - size, pos.getX() + size, pos.getY() + size, pos.getZ() + size);
 			context.renderCubeOutlines(pos.boundingBox(), 1, color, matrixStack);
-
 		}
 		context.draw(BallsRenderPipelines.QUADS);
 	}

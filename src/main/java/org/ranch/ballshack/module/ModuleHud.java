@@ -14,18 +14,6 @@ public class ModuleHud extends Module {
 
 	private final SettingHud hsetting = settings.add(new SettingHud(new HudElementData(0, 0, ModuleAnchor.TOP_LEFT)));
 
-	/*public ModuleHud(String name, ModuleCategory category, int bind, int x, int y) {
-		this(name, category, bind, x, y, new ModuleSettings(new ArrayList<>()), null);
-	}
-
-	public ModuleHud(String name, ModuleCategory category, int bind, int x, int y, String tooltip) {
-		this(name, category, bind, x, y, new ModuleSettings(new ArrayList<>()), tooltip);
-	}
-
-	public ModuleHud(String name, ModuleCategory category, int bind, int x, int y, ModuleSettings settings) {
-		this(name, category, bind, x, y, settings, null);
-	}*/
-
 	public ModuleHud(String name, ModuleCategory category, int bind, int x, int y, @Nullable String tooltip, ModuleAnchor anchorPoint) {
 		super(name, category, bind, tooltip);
 		this.offsetx = x;

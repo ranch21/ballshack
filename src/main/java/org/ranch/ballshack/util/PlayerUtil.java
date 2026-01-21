@@ -150,8 +150,6 @@ public class PlayerUtil {
 				case LEFT -> event.movement = event.movement.add(new Vec2f(-1, 0));
 			}
 		}
-		//mc.player.input.playerInput. = (float) rMovement.x;
-		//mc.player.input.movementForward = (float) rMovement.z;
 	}
 
 	public enum MoveDirection {
