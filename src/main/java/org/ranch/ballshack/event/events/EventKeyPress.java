@@ -10,12 +10,4 @@ public class EventKeyPress extends Event {
 	public EventKeyPress(KeyInput input) {
 		this.input = input;
 	}
-
-	/*public int getKey() {
-		return keyCode;
-	}
-
-	public void setKey(int keyCode) {
-		this.keyCode = keyCode;
-	}*/
 }

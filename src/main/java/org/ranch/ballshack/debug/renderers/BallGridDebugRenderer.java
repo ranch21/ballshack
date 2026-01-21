@@ -35,7 +35,6 @@ public class BallGridDebugRenderer extends DebugRenderer {
 					context.fill(i * gs, j * gs, i * gs + gs, j * gs + gs, new Color(255, 0, 0, (int) MathHelper.clamp(list.size() * 200.0 / ((double) gs / Ball.size * (double) gs / Ball.size), 0, 255)).hashCode());
 					context.drawText(MinecraftClient.getInstance().textRenderer, String.valueOf(list.size()), i * gs, j * gs, 0xFFFFFFFF, true);
 				}
-				//context.drawText(textRenderer, String.valueOf(list.size()), i * Ball.size, j* Ball.size, 0xFFFFFFFF, true);
 			}
 		}
 	}

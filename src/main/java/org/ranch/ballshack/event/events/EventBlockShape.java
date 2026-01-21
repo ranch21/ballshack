@@ -15,29 +15,4 @@ public class EventBlockShape extends Event {
 		this.pos = pos;
 		this.shape = shape;
 	}
-
-	/*
-	public BlockState getState() {
-		return state;
-	}
-
-	public void setState(BlockState blockState) {
-		this.state = blockState;
-	}
-
-	public BlockPos getPos() {
-		return pos;
-	}
-
-	public void setPos(BlockPos pos) {
-		this.pos = pos;
-	}
-
-	public VoxelShape getShape() {
-		return shape;
-	}
-
-	public void setShape(VoxelShape shape) {
-		this.shape = shape;
-	}*/
 }

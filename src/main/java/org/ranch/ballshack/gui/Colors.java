@@ -10,7 +10,7 @@ import org.ranch.ballshack.setting.moduleSettings.SettingToggle;
 import java.awt.*;
 
 public class Colors {
-	// Defaults preserved
+	// wgat a mess
 	public static final Color DEFAULT_PALLETE_1 = new Color(199, 163, 212);
 	public static final Color DEFAULT_PALLETE_2 = new Color(157, 116, 176);
 	public static final Color DEFAULT_PALLETE_3 = new Color(4, 71, 28);

@@ -9,12 +9,4 @@ public class EventReach extends Event {
 	public EventReach(double reach) {
 		this.reach = reach;
 	}
-	/*
-	public float getReach() {
-		return reach;
-	}
-
-	public void setReach(float reach) {
-		this.reach = reach;
-	}*/
 }
