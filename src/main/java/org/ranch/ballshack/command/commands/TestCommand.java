@@ -1,15 +1,19 @@
 package org.ranch.ballshack.command.commands;
 
-import org.ranch.ballshack.BallsLogger;
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import net.minecraft.client.network.ClientCommandSource;
 import org.ranch.ballshack.command.Command;
 
 public class TestCommand extends Command {
 	public TestCommand() {
-		super("test", "testing", "test");
+		super("testBalls", "testing");
 	}
 
 	@Override
-	public void onCall(int argc, String[] argv) {
-		BallsLogger.info(getName() + " called");
+	public LiteralArgumentBuilder<ClientCommandSource> onRegister(LiteralArgumentBuilder<ClientCommandSource> builder) {
+		return builder.executes(context -> {
+			log("hello");
+			return 1;
+		});
 	}
 }

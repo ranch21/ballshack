@@ -11,9 +11,11 @@
     "SkinTexturesMixin"
   ],
   "client": [
+    "ChatInputSuggestorMixin",
     "ChatScreenMixin",
     "ClientCommonNetworkHandlerMixin",
     "ClientPlayerInteractionManagerMixin",
+    "ClientPlayNetworkHandlerMixin",
     "ClientWorldMixin",
     "GameRendererMixin",
     "InGameHudMixin",

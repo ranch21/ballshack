@@ -1,41 +1,61 @@
 package org.ranch.ballshack.command.commands;
 
+import com.mojang.brigadier.arguments.StringArgumentType;
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import com.mojang.brigadier.builder.RequiredArgumentBuilder;
+import net.minecraft.client.network.ClientCommandSource;
+import net.minecraft.text.MutableText;
+import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 import org.ranch.ballshack.command.Command;
+import org.ranch.ballshack.command.suggestors.DebugRendererSuggestor;
 import org.ranch.ballshack.debug.DebugRenderers;
 
 import java.util.List;
 
 public class DebugRenderersCommand extends Command {
 	public DebugRenderersCommand() {
-		super("drenderers", "enables / disables debug renderers", "drenderers (enable|disable) <renderer> | drenderers list");
+		super("debug_renderers", "enables / disables debug renderers");
 	}
 
 	@Override
-	public void onCall(int argc, String[] argv) {
-		if (argv.length <= 1) {
-			log("Please provide an action (enable, disable, list)", true);
-			return;
-		}
-		switch (argv[1]) {
-			case "enable":
-				if (DebugRenderers.setEnabled(argv[2], true)) {
-					log("Enabled renderer: " + argv[2], true);
-				}
-				break;
-			case "disable":
-				if (DebugRenderers.setEnabled(argv[2], false)) {
-					log("Disabled renderer: " + argv[2], true);
-				}
-				break;
-			case "list":
-				List<String> renderers = DebugRenderers.getIdList();
-				log("Renderers:", true);
-				for (String id : renderers) {
-					log(id + " " + DebugRenderers.getRenderer(id).getEnabled(), false);
-				}
-				break;
-			default:
-				log("Please provide a valid action (enable, disable, list)", true);
-		}
+	public LiteralArgumentBuilder<ClientCommandSource> onRegister(LiteralArgumentBuilder<ClientCommandSource> builder) {
+		return builder
+				.then(LiteralArgumentBuilder.<ClientCommandSource>literal("enable")
+						.then(RequiredArgumentBuilder.<ClientCommandSource, String>argument("renderer", StringArgumentType.string())
+								.suggests(new DebugRendererSuggestor())
+								.executes(context -> {
+									String renderer = StringArgumentType.getString(context, "renderer");
+									if (DebugRenderers.setEnabled(renderer, true)) {
+										log(CMD(": ").append(Text.literal("Enabled renderer " + renderer).formatted(Formatting.GRAY)));
+									}
+									return 1;
+								})))
+
+				.then(LiteralArgumentBuilder.<ClientCommandSource>literal("disable")
+						.then(RequiredArgumentBuilder.<ClientCommandSource, String>argument("renderer", StringArgumentType.string())
+								.suggests(new DebugRendererSuggestor())
+								.executes(context -> {
+									String renderer = StringArgumentType.getString(context, "renderer");
+									if (DebugRenderers.setEnabled(renderer, false)) {
+										log(CMD(": ").append(Text.literal("Disabled renderer " + renderer).formatted(Formatting.GRAY)));
+									}
+									return 1;
+								})))
+
+				.then(LiteralArgumentBuilder.<ClientCommandSource>literal("list")
+						.executes(context -> {
+							List<String> renderers = DebugRenderers.getIdList();
+							MutableText rlist = Text.literal("");
+							log(CMD(": ").append(Text.literal("Renderers: ").formatted(Formatting.GRAY)));
+							for (String renderer : renderers) {
+								if (!rlist.getString().isEmpty()) {
+									rlist.append(Text.literal(", "));
+								}
+								rlist.append(Text.literal(renderer).formatted(DebugRenderers.getRenderer(renderer).getEnabled() ? Formatting.GREEN : Formatting.RED));
+							}
+							log(rlist.formatted(Formatting.GRAY));
+							return 1;
+						}));
 	}
 }

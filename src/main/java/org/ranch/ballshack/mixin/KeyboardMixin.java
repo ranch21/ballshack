@@ -2,7 +2,6 @@ package org.ranch.ballshack.mixin;
 
 import net.minecraft.client.Keyboard;
 import net.minecraft.client.gui.screen.ChatScreen;
-import net.minecraft.client.input.CharInput;
 import net.minecraft.client.input.KeyInput;
 import org.lwjgl.glfw.GLFW;
 import org.ranch.ballshack.BallsHack;
@@ -26,13 +25,13 @@ public class KeyboardMixin {
 			BallsHack.eventBus.post(new EventKeyPress(input));
 		}
 
-		if (action == GLFW.GLFW_PRESS && input.getKeycode() == CommandManager.prefix.charAt(0)) {
+		if (action == GLFW.GLFW_PRESS && input.getKeycode() == CommandManager.prefix) {
 			mc.setScreen(new ChatScreen("", true));
 		}
 	}
 
-	@Inject(method = "onChar", at = @At(value = "TAIL"))
+	/*@Inject(method = "onChar", at = @At(value = "TAIL"))
 	private void onChar(long window, CharInput input, CallbackInfo ci) {
 
-	}
+	}*/
 }

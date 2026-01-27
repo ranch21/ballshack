@@ -1,7 +1,10 @@
 package org.ranch.ballshack.command;
 
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.network.ClientCommandSource;
 import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import org.ranch.ballshack.BallsLogger;
 
@@ -10,34 +13,40 @@ public abstract class Command {
 	protected final MinecraftClient mc = MinecraftClient.getInstance();
 
 	protected String name;
-	public final String usage; // eg. prefix <prefix> or help <module> | help
 	public final String desc;
 
-	public Command(String name, String desc, String usage) {
+	public Command(String name, String desc) {
 		this.name = name;
 		this.desc = desc;
-		this.usage = usage;
 	}
+
+	public LiteralArgumentBuilder<ClientCommandSource> onRegisterBase() {
+		return onRegister(LiteralArgumentBuilder.<ClientCommandSource>literal(name));
+	}
+
+	public abstract LiteralArgumentBuilder<ClientCommandSource> onRegister(LiteralArgumentBuilder<ClientCommandSource> builder);
+
 
 	public String getName() {
 		return name;
 	}
 
-	public abstract void onCall(int argc, String[] argv);
-
-	private Text getCommandText(Text text, int color) {
-		return Text.literal(name).copy().styled(s -> s.withColor(BallsLogger.BH_COLOR)).append(": ").append(text.copy().styled(s -> s.withColor(color)));
+	protected void log(String message) {
+		log(Text.literal(message));
 	}
 
-	protected void log(String message, boolean prependName) {
+	protected void log(MutableText message) {
 		ClientPlayerEntity player = MinecraftClient.getInstance().player;
 		if (player != null) {
-			if (prependName) {
-				player.sendMessage(getCommandText(Text.literal(message), BallsLogger.INFO_COLOR), false);
-			} else {
-				player.sendMessage(Text.literal(message).copy().styled(s -> s.withColor(BallsLogger.INFO_COLOR)), false);
-			}
+			player.sendMessage(message, false);
 		}
 	}
 
+	protected MutableText CMD() {
+		return Text.literal(getName()).withColor(BallsLogger.CMD_COLOR);
+	}
+
+	protected MutableText CMD(String string) {
+		return Text.literal(getName() + string).withColor(BallsLogger.CMD_COLOR);
+	}
 }

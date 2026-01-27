@@ -1,27 +1,26 @@
 package org.ranch.ballshack.command.commands;
 
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import com.mojang.brigadier.builder.RequiredArgumentBuilder;
+import net.minecraft.client.network.ClientCommandSource;
+import org.ranch.ballshack.command.arguments.CharacterArgumentType;
 import org.ranch.ballshack.command.Command;
 import org.ranch.ballshack.command.CommandManager;
 import org.ranch.ballshack.setting.SettingSaver;
 
 public class PrefixCommand extends Command {
 	public PrefixCommand() {
-		super("prefix", "Sets the command prefix", "prefix <prefix>");
+		super("prefix", "Sets the command prefix.");
 	}
 
 	@Override
-	public void onCall(int argc, String[] argv) {
-		if (argv.length <= 1) {
-			log("Please provide a prefix", true);
-			return;
-		} else if (argv[1].length() > 1) {
-			log("Prefix can only be 1 character long", true);
-			return;
-		}
-
-		log("Setting prefix to: " + argv[1], true);
-
-		CommandManager.prefix = argv[1];
-		SettingSaver.SCHEDULE_SAVE.set(true);
+	public LiteralArgumentBuilder<ClientCommandSource> onRegister(LiteralArgumentBuilder<ClientCommandSource> builder) {
+		return builder
+				.then(RequiredArgumentBuilder.<ClientCommandSource, Character>argument("prefix", new CharacterArgumentType())
+						.executes(context -> {
+							CommandManager.prefix = CharacterArgumentType.getCharacter(context, "prefix");
+							SettingSaver.SCHEDULE_SAVE.set(true);
+							return 1;
+						}));
 	}
 }
