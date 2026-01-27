@@ -5,7 +5,7 @@ import java.util.List;
 
 public class ModuleSettingsGroup implements SettingsList {
 
-	protected List<ModuleSetting<?>> settings = new ArrayList<>();
+	protected final List<ModuleSetting<?>> settings = new ArrayList<>();
 	public final String name;
 
 	public ModuleSettingsGroup(String name) {

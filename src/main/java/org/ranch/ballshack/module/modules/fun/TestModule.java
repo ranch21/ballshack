@@ -14,11 +14,11 @@ import org.ranch.ballshack.util.PlayerUtil;
 
 public class TestModule extends Module {
 
-	ModuleSettingsGroup defaultGroup = settings.getDefaultGroup();
+	final ModuleSettingsGroup defaultGroup = settings.getDefaultGroup();
 
-	private SettingSlider testSlider = defaultGroup.add(new SettingSlider(1, "test", 0, 10, 1));
-	private DropDown dropDown = defaultGroup.add(new DropDown("YOOOWHAT"));
-	private SettingToggle testToggle = dropDown.settings.add(new SettingToggle(false, "testToggle"));
+	private final SettingSlider testSlider = defaultGroup.add(new SettingSlider(1, "test", 0, 10, 1));
+	private final DropDown dropDown = defaultGroup.add(new DropDown("YOOOWHAT"));
+	private final SettingToggle testToggle = dropDown.settings.add(new SettingToggle(false, "testToggle"));
 
 	public TestModule() {
 		super("Test", ModuleCategory.FUN, 0, "Testingh ahwdhghfi");

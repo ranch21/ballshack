@@ -42,17 +42,17 @@ public class Colors {
 
 	public static final Color DEFAULT_BORDER = Color.WHITE;
 
-	public static Color PALLETE_1 = DEFAULT_PALLETE_1;
-	public static Color PALLETE_2 = DEFAULT_PALLETE_2;
+	public static final Color PALLETE_1 = DEFAULT_PALLETE_1;
+	public static final Color PALLETE_2 = DEFAULT_PALLETE_2;
 	public static Color PALLETE_3 = DEFAULT_PALLETE_3;
 	public static Color PALLETE_4 = DEFAULT_PALLETE_4;
 	public static Color PALLETE_5 = DEFAULT_PALLETE_5;
 
-	public static Color CLICKGUI_TITLE_START = DEFAULT_CLICKGUI_TITLE_START;
-	public static Color CLICKGUI_TITLE_END = DEFAULT_CLICKGUI_TITLE_END;
-	public static Color CLICKGUI_2 = DEFAULT_CLICKGUI_2;
-	public static Color CLICKGUI_3 = DEFAULT_CLICKGUI_3;
-	public static Color CLICKGUI_BACKGROUND = DEFAULT_CLICKGUI_BACKGROUND;
+	public static final Color CLICKGUI_TITLE_START = DEFAULT_CLICKGUI_TITLE_START;
+	public static final Color CLICKGUI_TITLE_END = DEFAULT_CLICKGUI_TITLE_END;
+	public static final Color CLICKGUI_2 = DEFAULT_CLICKGUI_2;
+	public static final Color CLICKGUI_3 = DEFAULT_CLICKGUI_3;
+	public static final Color CLICKGUI_BACKGROUND = DEFAULT_CLICKGUI_BACKGROUND;
 
 	public static Color WARN = DEFAULT_WARN;
 	public static Color HOSTILE = DEFAULT_HOSTILE;
@@ -60,13 +60,13 @@ public class Colors {
 	public static Color PLAYER = DEFAULT_PLAYER;
 	public static Color ELSE = DEFAULT_ELSE;
 
-	public static Color RED = DEFAULT_RED;
-	public static Color GREEN = DEFAULT_GREEN;
-	public static Color BLUE = DEFAULT_BLUE;
-	public static Color GRAY = DEFAULT_GRAY;
-	public static Color BACKDROP = DEFAULT_BACKDROP;
-	public static Color SELECTABLE = DEFAULT_SELECTABLE;
-	public static Color BORDER = DEFAULT_BORDER;
+	public static final Color RED = DEFAULT_RED;
+	public static final Color GREEN = DEFAULT_GREEN;
+	public static final Color BLUE = DEFAULT_BLUE;
+	public static final Color GRAY = DEFAULT_GRAY;
+	public static final Color BACKDROP = DEFAULT_BACKDROP;
+	public static final Color SELECTABLE = DEFAULT_SELECTABLE;
+	public static final Color BORDER = DEFAULT_BORDER;
 
 	public static float globalRainbowSpeed = 1.0f;
 	public static float globalRainbowSaturation = 0.3f;

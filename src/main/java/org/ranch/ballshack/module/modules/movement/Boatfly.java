@@ -11,8 +11,8 @@ import org.ranch.ballshack.setting.moduleSettings.SettingSlider;
 
 public class Boatfly extends Module {
 
-	public SettingSlider hSpeed = dGroup.add((SettingSlider) new SettingSlider(2, "Hspeed", 1, 10, 0.5).featured());
-	public SettingSlider vSpeed = dGroup.add(new SettingSlider(2, "Vspeed", 1, 4, 0.5));
+	public final SettingSlider hSpeed = dGroup.add((SettingSlider) new SettingSlider(2, "Hspeed", 1, 10, 0.5).featured());
+	public final SettingSlider vSpeed = dGroup.add(new SettingSlider(2, "Vspeed", 1, 4, 0.5));
 
 	public Boatfly() {
 		super(
@@ -24,9 +24,13 @@ public class Boatfly extends Module {
 
 	@EventSubscribe
 	public void onTick(EventTick event) {
-		if (!mc.player.hasVehicle()) return;
+		if (mc.player == null || !mc.player.hasVehicle())
+			return;
 
 		Entity boat = mc.player.getVehicle();
+
+		if (boat == null)
+			return;
 
 		Vec3d velocity = boat.getVelocity();
 

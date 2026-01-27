@@ -5,7 +5,7 @@ import org.ranch.ballshack.event.Event;
 
 public class EventKeyPress extends Event {
 
-	public KeyInput input;
+	public final KeyInput input;
 
 	public EventKeyPress(KeyInput input) {
 		this.input = input;

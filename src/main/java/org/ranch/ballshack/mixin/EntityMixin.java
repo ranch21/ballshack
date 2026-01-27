@@ -20,7 +20,6 @@ public class EntityMixin {
 			if (event.isCancelled()) {
 				ci.cancel();
 			}
-			sneaking = event.sneaking;
 		}
 	}
 

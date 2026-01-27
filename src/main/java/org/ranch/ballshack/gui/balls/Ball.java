@@ -8,7 +8,7 @@ import org.joml.Vector2d;
 
 public class Ball {
 
-	public Vector2d pos;
+	public final Vector2d pos;
 	private final Vector2d prevPos;
 	private final Vector2d acc;
 

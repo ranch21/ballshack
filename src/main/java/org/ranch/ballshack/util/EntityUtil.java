@@ -85,7 +85,7 @@ public class EntityUtil {
 	public static List<Entity> getEntities(double distance, TargetsDropDown targetsDropDown, Comparator<Entity> comparator) {
 		Stream<Entity> targets;
 
-		if (mc.world == null) return new ArrayList<Entity>();
+		if (mc.world == null) return new ArrayList<>();
 
 		targets = Streams.stream(mc.world.getEntities());
 

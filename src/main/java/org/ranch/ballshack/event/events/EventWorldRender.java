@@ -19,8 +19,8 @@ public class EventWorldRender extends Event {
 
 	public static class Outline extends EventWorldRender {
 
-		public boolean translucent;
-		public VertexConsumerProvider.Immediate vertexConsumers;
+		public final boolean translucent;
+		public final VertexConsumerProvider.Immediate vertexConsumers;
 
 		public Outline(MatrixStack matrixStack, RenderTickCounter renderTickCounter, boolean translucent, VertexConsumerProvider.Immediate vertexConsumers) {
 			this.matrixStack = matrixStack;

@@ -45,6 +45,7 @@ public abstract class ModuleSetting<T> {
 
 	public abstract int render(int mouseX, int mouseY);
 
+	@SuppressWarnings("UnusedReturnValue")
 	public boolean mouseClicked(double mouseX, double mouseY, int button) {
 		return false;
 	}
@@ -64,13 +65,13 @@ public abstract class ModuleSetting<T> {
 	protected void drawText(DrawContext context, String text) {
 		TextRenderer textRend = MinecraftClient.getInstance().textRenderer;
 		int textInset = (height - textRend.fontHeight) / 2;
-		DrawUtil.drawText(context, textRend, text, x + 2, y + textInset, Color.WHITE, true);
+		context.drawText(textRend, text, x + 2, y + textInset, Color.WHITE.hashCode(), true);
 	}
 
 	protected void drawTextRightAligned(DrawContext context, String text) {
 		TextRenderer textRend = MinecraftClient.getInstance().textRenderer;
 		int textInset = (height - textRend.fontHeight) / 2;
-		DrawUtil.drawText(context, textRend, text, x + width - textRend.getWidth(text) - 2, y + textInset, Color.WHITE, true);
+		context.drawText(textRend, text, x + width - textRend.getWidth(text) - 2, y + textInset, Color.WHITE.hashCode(), true);
 	}
 
 	public T getValue() {

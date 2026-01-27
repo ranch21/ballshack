@@ -11,15 +11,14 @@ import org.ranch.ballshack.module.ModuleAnchor;
 import org.ranch.ballshack.module.ModuleCategory;
 import org.ranch.ballshack.module.ModuleHud;
 import org.ranch.ballshack.setting.moduleSettings.SettingToggle;
-import org.ranch.ballshack.util.rendering.DrawUtil;
 
 import java.awt.*;
 
 public class Coordinates extends ModuleHud {
 
-	public SettingToggle backdrop = dGroup.add(new SettingToggle(true, "Backdrop"));
-	public SettingToggle shadow = dGroup.add(new SettingToggle(true, "Shadow"));
-	public SettingToggle scaled = dGroup.add(new SettingToggle(false, "Scaled"));
+	public final SettingToggle backdrop = dGroup.add(new SettingToggle(true, "Backdrop"));
+	public final SettingToggle shadow = dGroup.add(new SettingToggle(true, "Shadow"));
+	public final SettingToggle scaled = dGroup.add(new SettingToggle(false, "Scaled"));
 
 	public Coordinates() {
 		super("Coords", ModuleCategory.HUD, 0, 0, 0, "f3 wgat is it", ModuleAnchor.BOTTOM_LEFT);
@@ -51,6 +50,6 @@ public class Coordinates extends ModuleHud {
 
 		if (backdrop.getValue()) context.fill(x, y, x + width, y + height, Colors.BACKDROP.hashCode());
 
-		DrawUtil.drawText(context, mc.textRenderer, data, x + 1, y + 1, Color.WHITE, shadow.getValue());
+		context.drawText(mc.textRenderer, data, x + 1, y + 1, Color.WHITE.hashCode(), shadow.getValue());
 	}
 }

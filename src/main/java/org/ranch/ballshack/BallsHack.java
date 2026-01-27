@@ -13,15 +13,15 @@ import org.ranch.ballshack.setting.SettingsManager;
 
 public class BallsHack implements ModInitializer {
 
-	public static EventBus eventBus = new EventBus();
+	public static final EventBus eventBus = new EventBus();
 
-	public static Setting<String> title = new Setting<>("BallsHack", "watermark", new TypeToken<String>() {
+	public static final Setting<String> title = new Setting<>("BallsHack", "watermark", new TypeToken<String>() {
 	}.getType());
-	public static String version = "1.32";
+	public static final String version = "1.32";
 
-	public static String ID = "ballshack";
+	public static final String ID = "ballshack";
 
-	public static MinecraftClient mc = Constants.mc;
+	public static final MinecraftClient mc = Constants.mc;
 
 	@Override
 	public void onInitialize() {

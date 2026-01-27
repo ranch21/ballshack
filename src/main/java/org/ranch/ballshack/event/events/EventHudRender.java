@@ -5,7 +5,7 @@ import org.ranch.ballshack.event.Event;
 
 public class EventHudRender extends Event {
 
-	public DrawContext drawContext;
+	public final DrawContext drawContext;
 	public final float tickDelta;
 
 	public EventHudRender(DrawContext context, float tickDelta) {

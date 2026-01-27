@@ -19,12 +19,12 @@ public class WatermarkCommand extends Command {
 	public LiteralArgumentBuilder<ClientCommandSource> onRegister(LiteralArgumentBuilder<ClientCommandSource> builder) {
 		return builder
 				.then(RequiredArgumentBuilder.<ClientCommandSource, String>argument("watermark", StringArgumentType.string())
-							.executes(context -> {
-								String watermark = StringArgumentType.getString(context, "watermark");
+						.executes(context -> {
+							String watermark = StringArgumentType.getString(context, "watermark");
 
-								BallsHack.title.setValue(watermark);
-								SettingSaver.SCHEDULE_SAVE.set(true);
-								return 1;
-							}));
+							BallsHack.title.setValue(watermark);
+							SettingSaver.SCHEDULE_SAVE.set(true);
+							return 1;
+						}));
 	}
 }

@@ -18,7 +18,7 @@ import java.util.List;
 public class LegacyClickGuiScreen extends Screen {
 
 	ButtonWidget button;
-	List<LegacyCategoryWindow> windows = new ArrayList<>();
+	final List<LegacyCategoryWindow> windows = new ArrayList<>();
 
 	public LegacyClickGuiScreen() {
 		super(NarratorManager.EMPTY);

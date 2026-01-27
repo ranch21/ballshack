@@ -20,11 +20,11 @@ import java.util.List;
 
 public class CommandManager {
 
-	private static List<Command> commands = new ArrayList<>();
+	private static final List<Command> commands = new ArrayList<>();
 
 	public static final SimpleCommandExceptionType CREATIVE_EXCEPTION = new SimpleCommandExceptionType(Text.literal("Command requires creative!"));
 
-	public static Setting<Character> prefix = new Setting<>('.', "prefix", new TypeToken<Character>() {
+	public static final Setting<Character> prefix = new Setting<>('.', "prefix", new TypeToken<Character>() {
 	}.getType());
 
 	private static @Nullable CommandDispatcher<ClientCommandSource> dispatcher;
@@ -38,13 +38,14 @@ public class CommandManager {
 	}
 
 	private static void registerCommandBuilder(LiteralArgumentBuilder<ClientCommandSource> command) {
+		if (dispatcher == null)
+			return;
 		dispatcher.register(command);
 	}
 
-	private static Command registerCommand(Command command) {
+	private static void registerCommand(Command command) {
 		registerCommandBuilder(command.onRegisterBase());
 		commands.add(command);
-		return command;
 	}
 
 	public static void registerCommands() {
@@ -66,7 +67,9 @@ public class CommandManager {
 		registerCommand(new HeadCommand());
 	}
 
-	public static boolean executeCommand(String command, ClientCommandSource source) {
+	public static void executeCommand(String command, ClientCommandSource source) {
+		if (dispatcher == null)
+			return;
 		try {
 			final ParseResults<ClientCommandSource> parse = dispatcher.parse(command, source);
 			String root = parse.getContext()
@@ -76,15 +79,13 @@ public class CommandManager {
 					.getName();
 			Command c = getCommandByName(root);
 
-			if (c.type == CommandType.CREATIVE && BallsHack.mc.interactionManager.getCurrentGameMode() != GameMode.CREATIVE) {
+			if (c != null && c.type == CommandType.CREATIVE && BallsHack.mc.interactionManager.getCurrentGameMode() != GameMode.CREATIVE) {
 				throw CREATIVE_EXCEPTION.createWithContext(parse.getReader());
 			}
 
 			dispatcher.execute(command, source);
-			return true;
 		} catch (CommandSyntaxException e) {
 			BallsLogger.error(e.getMessage());
-			return true;
 		}
 	}
 

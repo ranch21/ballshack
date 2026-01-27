@@ -23,24 +23,10 @@ import java.util.*;
 
 public class Scaffold extends Module {
 
-	private class BlockScore {
-		public int score;
-		public BlockPlacement placement;
-
-		public BlockScore(BlockPlacement placement, int score) {
-			this.score = score;
-			this.placement = placement;
-		}
+	public record BlockScore(BlockPlacement placement, int score) {
 	}
 
-	private class BlockPlacement {
-		public BlockPos blockPos;
-		public Direction bestDir;
-
-		public BlockPlacement(BlockPos pos, Direction bestDir) {
-			this.blockPos = pos;
-			this.bestDir = bestDir;
-		}
+	public record BlockPlacement(BlockPos blockPos, Direction bestDir) {
 	}
 
 	private static final Direction[] SEARCH_DIRECTIONS = {
@@ -53,11 +39,11 @@ public class Scaffold extends Module {
 
 	private static final Direction[] ALL_DIRECTIONS = Direction.values();
 
-	private double EPSILON = 0.0001;
+	private final double EPSILON = 0.0001;
 	private int delay = 1;
 
-	public SettingMode rotate = dGroup.add((SettingMode) new SettingMode(0, "Rotate", Arrays.asList("None", "Packet", "True")).featured());
-	public SettingSlider delaySlider = dGroup.add(new SettingSlider(1, "Delay", 0, 10, 1));
+	public final SettingMode rotate = dGroup.add((SettingMode) new SettingMode(0, "Rotate", Arrays.asList("None", "Packet", "True")).featured());
+	public final SettingSlider delaySlider = dGroup.add(new SettingSlider(1, "Delay", 0, 10, 1));
 
 	public Scaffold() {
 		super("Scaffold", ModuleCategory.WORLD, 0);

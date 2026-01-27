@@ -19,8 +19,8 @@ import java.util.List;
 
 public class ProjectileEvade extends Module {
 
-	public SettingMode mode = dGroup.add(new SettingMode(0, "Mode", Arrays.asList("Legit", "LegitSprint", "TP")));
-	public SettingSlider hExpand = dGroup.add(new SettingSlider(0.25, "HitboxExpand", 0, 1, 0.1));
+	public final SettingMode mode = dGroup.add(new SettingMode(0, "Mode", Arrays.asList("Legit", "LegitSprint", "TP")));
+	public final SettingSlider hExpand = dGroup.add(new SettingSlider(0.25, "HitboxExpand", 0, 1, 0.1));
 
 	public ProjectileEvade() {
 		super("ProjEvade", ModuleCategory.MOVEMENT, 0, "endredman");
@@ -41,12 +41,12 @@ public class ProjectileEvade extends Module {
 
 		for (ProjectileSim.Trajectory traj : trajectories) {
 			int i = 0;
-			for (Vec3d pos : traj.getPositions()) {
-				float width = traj.getProjectile().width;
-				float height = traj.getProjectile().height;
+			for (Vec3d pos : traj.positions()) {
+				float width = traj.projectile().width;
+				float height = traj.projectile().height;
 				Box box = new Box(pos.x - width / 2, pos.y, pos.z - width / 2, pos.x + width / 2, pos.y + height, pos.z + width / 2);
-				if (mc.player.getBoundingBox().expand(hExpand.getValue()).intersects(box) && !traj.isFake()) {
-					if (traj.getThrower() == null || traj.getThrower() != mc.player) {
+				if (mc.player.getBoundingBox().expand(hExpand.getValue()).intersects(box) && !traj.fake()) {
+					if (traj.thrower() == null || traj.thrower() != mc.player) {
 						evade(traj, i++);
 						inDanger = true;
 					}
@@ -64,8 +64,8 @@ public class ProjectileEvade extends Module {
 
 	public void evade(ProjectileSim.Trajectory traj, int i) {
 
-		Vec3d lastPos = traj.getPositions().get(traj.getPositions().size() - 1);
-		Vec3d almostLastPos = traj.getPositions().get(0);
+		Vec3d lastPos = traj.positions().get(traj.positions().size() - 1);
+		Vec3d almostLastPos = traj.positions().get(0);
 
 		Vec3d vel = lastPos.subtract(almostLastPos);
 		Vec3d d = almostLastPos.subtract(mc.player.getEntityPos());

@@ -15,17 +15,17 @@ import java.util.List;
 
 public abstract class Window {
 
-	public List<Widget> widgets = new ArrayList<>();
+	public final List<Widget> widgets = new ArrayList<>();
 
 	public int x;
 	public int y;
 
-	public int width;
-	public int height;
+	public final int width;
+	public final int height;
 
-	public int barHeight = 11;
+	public final int barHeight = 11;
 
-	public String title;
+	public final String title;
 	public boolean opened;
 
 	protected boolean dragging;
@@ -57,7 +57,7 @@ public abstract class Window {
 		/* window title */
 		TextRenderer textRend = MinecraftClient.getInstance().textRenderer;
 		int textInset = (barHeight - textRend.fontHeight) / 2;
-		DrawUtil.drawText(context, textRend, title, x + 2, y + textInset - barHeight, Color.WHITE, true);
+		context.drawText(textRend, title, x + 2, y + textInset - barHeight, Color.WHITE.hashCode(), true);
 
 		context.fill(x, y, x + width, y + height, Colors.CLICKGUI_3.hashCode());
 

@@ -29,7 +29,7 @@ public class SettingSaver {
 
 	private static ScheduledExecutorService scheduler;
 
-	public static AtomicBoolean SCHEDULE_SAVE = new AtomicBoolean();
+	public static final AtomicBoolean SCHEDULE_SAVE = new AtomicBoolean();
 
 	private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
@@ -39,10 +39,8 @@ public class SettingSaver {
 		if (scheduler == null)
 			scheduler = new ScheduledThreadPoolExecutor(1);
 
-		scheduler.scheduleAtFixedRate(() -> {
-			//if (SCHEDULE_SAVE.getAndSet(false)) saveSettings();
-			saveSettings();
-		}, 0, 5, TimeUnit.SECONDS);
+		//if (SCHEDULE_SAVE.getAndSet(false)) saveSettings();
+		scheduler.scheduleAtFixedRate(SettingSaver::saveSettings, 0, 5, TimeUnit.SECONDS);
 	}
 
 	public static void init() {
@@ -52,7 +50,7 @@ public class SettingSaver {
 				Files.createDirectories(saveDir);
 			} catch (IOException e) {
 				e.printStackTrace();
-				return; // Prevent further execution if directory creation fails
+				return;
 			}
 		}
 		startExecutor();
@@ -61,7 +59,7 @@ public class SettingSaver {
 	private static JsonObject getSettings(List<ModuleSetting<?>> settings) {
 		JsonObject settingsJson = new JsonObject();
 		for (ModuleSetting<?> setting : settings) {
-			Object value = setting.getValue(); // Capture the generic value
+			Object value = setting.getValue();
 
 			if (setting instanceof DropDown) {
 				settingsJson.add(setting.getName(), getSettings(((DropDown) setting).getSettings()));
@@ -92,10 +90,10 @@ public class SettingSaver {
 
 			JsonObject settingsJson = getSettings(mod.getSettings().getSettings());
 
-			if (settingsJson.size() != 0)
+			if (!settingsJson.isEmpty())
 				modjson.add("settings", settingsJson);
 
-			if (modjson.size() != 0)
+			if (!modjson.isEmpty())
 				modulesJson.add(mod.getName(), modjson);
 		}
 
@@ -202,15 +200,6 @@ public class SettingSaver {
 			return element.getAsBoolean();
 		}
 		return null;
-	}
-
-	private static <T> void setSettingValue(ModuleSetting<T> setting, Object value) {
-		try {
-			setting.setValue((T) value);
-		} catch (ClassCastException e) {
-			BallsLogger.error("Failed to set value for setting: " + setting.getName());
-			e.printStackTrace();
-		}
 	}
 
 }

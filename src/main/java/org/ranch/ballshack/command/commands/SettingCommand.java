@@ -22,39 +22,40 @@ public class SettingCommand extends Command {
 		super("settings", "configure and list settings (debug).", CommandType.CLIENT);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public LiteralArgumentBuilder<ClientCommandSource> onRegister(LiteralArgumentBuilder<ClientCommandSource> builder) {
 		return builder
 				.then(LiteralArgumentBuilder.<ClientCommandSource>literal("set")
-				.then(RequiredArgumentBuilder.<ClientCommandSource, String>argument("setting", StringArgumentType.string())
-						.suggests(new SettingSuggestor())
-						.then(RequiredArgumentBuilder.<ClientCommandSource, String>argument("value", StringArgumentType.string())
-							.executes(context -> {
-								String settingName = StringArgumentType.getString(context, "setting");
-								String settingValue = StringArgumentType.getString(context, "value");
-								Setting<?> setting = SettingsManager.getSettings().get(settingName);
-								if (setting == null) return 0;
+						.then(RequiredArgumentBuilder.<ClientCommandSource, String>argument("setting", StringArgumentType.string())
+								.suggests(new SettingSuggestor())
+								.then(RequiredArgumentBuilder.<ClientCommandSource, String>argument("value", StringArgumentType.string())
+										.executes(context -> {
+											String settingName = StringArgumentType.getString(context, "setting");
+											String settingValue = StringArgumentType.getString(context, "value");
+											Setting<?> setting = SettingsManager.getSettings().get(settingName);
+											if (setting == null) return 0;
 
-								if (setting.getValue() instanceof String) {
-									((Setting<String>) setting).setValue(settingValue);
-								} else if (setting.getValue() instanceof Boolean) {
-									((Setting<Boolean>) setting).setValue(Boolean.valueOf(settingValue));
-								} else if (setting.getValue() instanceof Number) {
-									((Setting<Number>) setting).setValue(Double.valueOf(settingValue));
-								} else {
-									log(CMD(": ").append(Text.literal("Could not parse value").formatted(Formatting.GRAY)));
-								}
+											if (setting.getValue() instanceof String) {
+												((Setting<String>) setting).setValue(settingValue);
+											} else if (setting.getValue() instanceof Boolean) {
+												((Setting<Boolean>) setting).setValue(Boolean.valueOf(settingValue));
+											} else if (setting.getValue() instanceof Number) {
+												((Setting<Number>) setting).setValue(Double.valueOf(settingValue));
+											} else {
+												log(CMD(": ").append(Text.literal("Could not parse value").formatted(Formatting.GRAY)));
+											}
 
-								SettingSaver.SCHEDULE_SAVE.set(true);
-								return 1;
-							}))))
+											SettingSaver.SCHEDULE_SAVE.set(true);
+											return 1;
+										}))))
 				.then(LiteralArgumentBuilder.<ClientCommandSource>literal("list")
 						.executes(context -> {
 							JsonObject json = SettingsManager.getJson();
 							log(CMD(": "));
 							for (Map.Entry<String, Setting<?>> entry : SettingsManager.getSettings().entrySet()) {
 								String valRaw = json.get(entry.getKey()).toString();
-								String val = valRaw.length() > 20 ? valRaw.substring(0,20) + "..." : valRaw;
+								String val = valRaw.length() > 20 ? valRaw.substring(0, 20) + "..." : valRaw;
 								log(Text.literal(entry.getKey() + ": ").append(Text.literal(val).formatted(Formatting.GRAY)));
 							}
 							return 1;

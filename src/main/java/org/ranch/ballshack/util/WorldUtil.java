@@ -26,7 +26,7 @@ public class WorldUtil {
 		ChunkPos min = new ChunkPos(center.x - radius, center.z - radius);
 		ChunkPos max = new ChunkPos(center.x + radius, center.z + radius);
 
-		Stream<WorldChunk> stream = Stream.iterate(min, pos -> {
+		return Stream.iterate(min, pos -> {
 
 					int x = pos.x;
 					int z = pos.z;
@@ -46,8 +46,6 @@ public class WorldUtil {
 				}).limit((long) diameter * diameter)
 				.filter(c -> mc.world.isChunkLoaded(c.x, c.z))
 				.map(c -> mc.world.getChunk(c.x, c.z)).filter(Objects::nonNull);
-
-		return stream;
 	}
 
 	public static InvType getInvType(BlockEntity b) {

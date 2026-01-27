@@ -14,16 +14,16 @@ import java.util.Arrays;
 
 public class KillAura extends Module {
 
-	public SettingSlider range = dGroup.add(new SettingSlider(4, "Range", 1, 8, 0.5));
+	public final SettingSlider range = dGroup.add(new SettingSlider(4, "Range", 1, 8, 0.5));
 
-	public DropDown multiDD = dGroup.add(new DropDown("Multi"));
-	public SettingToggle mEnabled = multiDD.add(new SettingToggle(true, "Enabled"));
-	public SettingSlider mTargetMax = multiDD.add(new SettingSlider(4, "Targets", 2, 10, 1));
+	public final DropDown multiDD = dGroup.add(new DropDown("Multi"));
+	public final SettingToggle mEnabled = multiDD.add(new SettingToggle(true, "Enabled"));
+	public final SettingSlider mTargetMax = multiDD.add(new SettingSlider(4, "Targets", 2, 10, 1));
 
-	public TargetsDropDown targets = dGroup.add(new TargetsDropDown("Targets"));
-	public SettingMode rotate = dGroup.add((SettingMode) new SettingMode(0, "Rotate", Arrays.asList("None", "Packet", "True")).featured());
-	public SettingToggle swing = dGroup.add(new SettingToggle(true, "Swing"));
-	public SortMode sort = dGroup.add(new SortMode("Sort"));
+	public final TargetsDropDown targets = dGroup.add(new TargetsDropDown("Targets"));
+	public final SettingMode rotate = dGroup.add((SettingMode) new SettingMode(0, "Rotate", Arrays.asList("None", "Packet", "True")).featured());
+	public final SettingToggle swing = dGroup.add(new SettingToggle(true, "Swing"));
+	public final SortMode sort = dGroup.add(new SortMode("Sort"));
 
 	public KillAura() {
 		super("KillAura", ModuleCategory.COMBAT, 0, "Repel players");

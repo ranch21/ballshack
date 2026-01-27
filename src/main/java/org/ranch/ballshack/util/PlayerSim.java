@@ -19,10 +19,10 @@ import java.util.List;
 
 public class PlayerSim {
 
-	private static MinecraftClient mc = BallsHack.mc;
+	private static final MinecraftClient mc = BallsHack.mc;
 
-	public static record PlayerPoint(Vec3d position, Box boundingBox, Vec3d velocity,
-									 boolean onGround) implements Position {
+	public record PlayerPoint(Vec3d position, Box boundingBox, Vec3d velocity,
+							  boolean onGround) implements Position {
 
 		@Override
 		public double getX() {
@@ -42,8 +42,6 @@ public class PlayerSim {
 
 	private static class FakeInput extends KeyboardInput {
 
-		private Input copiedInput;
-
 		public FakeInput(Input origInput) {
 			super(null); //LOLZ
 
@@ -55,7 +53,6 @@ public class PlayerSim {
 			boolean sneak = origInput.playerInput.sneak();
 			boolean sprint = origInput.playerInput.sprint();
 			// NOT AGAIIINNNNNNWNDBWA VGHFEJHNKJ
-			copiedInput = new Input();
 			((InputAccessor) this).setMovementVector(((InputAccessor) origInput).getMovementVector());
 			this.playerInput = new PlayerInput(forward, backward, left, right, jump, sneak, sprint);
 		}
@@ -68,7 +65,7 @@ public class PlayerSim {
 
 	public static class FakePlayer extends LivingEntity {
 
-		FakeInput input;
+		final FakeInput input;
 
 		protected FakePlayer(ClientWorld world, ClientPlayerEntity original) {
 			super(EntityType.PLAYER, world);
@@ -110,13 +107,7 @@ public class PlayerSim {
 				}
 			}
 
-			if (false) {
-				double d = this.getVelocity().y;
-				super.travel(movementInput);
-				this.setVelocity(this.getVelocity().withAxis(Direction.Axis.Y, d * 0.6));
-			} else {
-				super.travel(movementInput);
-			}
+			super.travel(movementInput);
 		}
 
 		@Override

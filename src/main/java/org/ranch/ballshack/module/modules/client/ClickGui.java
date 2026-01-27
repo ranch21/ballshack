@@ -16,15 +16,15 @@ public class ClickGui extends Module {
 
 	private ClickGuiScreen screen;
 
-	public DropDown ballsDrop = dGroup.add(new DropDown("Balls"));
-	public SettingToggle bEnabled = ballsDrop.add(new SettingToggle(true, "Enabled"));
-	public SettingSlider bAmount = ballsDrop.add(new SettingSlider(500, "Amount", 1, 2000, 100));
-	public SettingSlider bGrav = ballsDrop.add(new SettingSlider(1, "Gravity", 0, 3, 0.1));
-	public SettingSlider bSize = ballsDrop.add(new SettingSlider(16, "Size", 1, 32, 1));
-	public SettingToggle bWinCollide = ballsDrop.add(new SettingToggle(true, "WindowCollide"));
+	public final DropDown ballsDrop = dGroup.add(new DropDown("Balls"));
+	public final SettingToggle bEnabled = ballsDrop.add(new SettingToggle(true, "Enabled"));
+	public final SettingSlider bAmount = ballsDrop.add(new SettingSlider(500, "Amount", 1, 2000, 100));
+	public final SettingSlider bGrav = ballsDrop.add(new SettingSlider(1, "Gravity", 0, 3, 0.1));
+	public final SettingSlider bSize = ballsDrop.add(new SettingSlider(16, "Size", 1, 32, 1));
+	public final SettingToggle bWinCollide = ballsDrop.add(new SettingToggle(true, "WindowCollide"));
 
-	public SettingToggle darken = dGroup.add(new SettingToggle(true, "Darken"));
-	public SettingToggle legacy = dGroup.add(new SettingToggle(false, "Legacy"));
+	public final SettingToggle darken = dGroup.add(new SettingToggle(true, "Darken"));
+	public final SettingToggle legacy = dGroup.add(new SettingToggle(false, "Legacy"));
 
 	public ClickGui() {
 		super("ClickGui", ModuleCategory.CLIENT, GLFW.GLFW_KEY_RIGHT_SHIFT, "The module screeent thing", true);

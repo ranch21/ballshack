@@ -28,8 +28,8 @@ import static org.ranch.ballshack.Constants.LINE_WIDTH;
 public class Trajectories extends Module {
 	private final List<ProjectileSim.Trajectory> trajectories = new ArrayList<>();
 
-	public SettingToggle players = dGroup.add(new SettingToggle(true, "Players"));
-	public SettingSlider alpha = dGroup.add(new SettingSlider(1, "Alpha", 0, 1, 0.1));
+	public final SettingToggle players = dGroup.add(new SettingToggle(true, "Players"));
+	public final SettingSlider alpha = dGroup.add(new SettingSlider(1, "Alpha", 0, 1, 0.1));
 
 	public Trajectories() {
 		super("Trajectories", ModuleCategory.RENDER, 0, "i dont see you but now i see where my arrows are heading towards");
@@ -87,14 +87,14 @@ public class Trajectories extends Module {
 
 			Vec3d prevPos = null;
 
-			for (Vec3d pos : traj.getPositions()) {
+			for (Vec3d pos : traj.positions()) {
 
 				if (prevPos == null) {
 					prevPos = pos;
 					continue;
 				}
 
-				if (pos == traj.getPositions().get(traj.getPositions().size() - 1)) {
+				if (pos == traj.positions().get(traj.positions().size() - 1)) {
 					Box box = new Box(pos.subtract(0.1), pos.add(0.1));
 					renderer.renderCube(box, BallColor.fromColor(c).setAlpha(0.2f), matrices);
 					renderer.renderCubeOutlines(box, LINE_WIDTH, BallColor.fromColor(c).setAlpha(0.7f), matrices);

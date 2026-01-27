@@ -15,6 +15,10 @@ public class AutoTotem extends Module {
 
 	@EventSubscribe
 	public void onTick(EventTick event) {
+
+		if (mc.player == null || mc.interactionManager == null)
+			return;
+
 		boolean holdingTotem = mc.player.getOffHandStack().getItem() == Items.TOTEM_OF_UNDYING;
 
 		if (holdingTotem || !mc.player.getOffHandStack().isEmpty()) {

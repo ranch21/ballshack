@@ -12,7 +12,7 @@ public abstract class Command {
 
 	protected final MinecraftClient mc = MinecraftClient.getInstance();
 
-	protected String name;
+	protected final String name;
 	public final String desc;
 	public final CommandType type;
 
@@ -23,7 +23,7 @@ public abstract class Command {
 	}
 
 	public LiteralArgumentBuilder<ClientCommandSource> onRegisterBase() {
-		return onRegister(LiteralArgumentBuilder.<ClientCommandSource>literal(name));
+		return onRegister(LiteralArgumentBuilder.literal(name));
 	}
 
 	public abstract LiteralArgumentBuilder<ClientCommandSource> onRegister(LiteralArgumentBuilder<ClientCommandSource> builder);

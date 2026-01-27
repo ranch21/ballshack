@@ -36,9 +36,7 @@ public class HeadCommand extends Command {
 						.executes(context -> {
 							String name = StringArgumentType.getString(context, "name");
 							log(CMD(": ").append(Text.literal("Fetching...").formatted(Formatting.GRAY)));
-							PlayerUtil.fetchProfile(name).thenCompose(PlayerUtil::fetchProperties).thenAccept(profile -> {
-								InvUtil.createStack(getHead(profile));
-							});
+							PlayerUtil.fetchProfile(name).thenCompose(PlayerUtil::fetchProperties).thenAccept(profile -> InvUtil.createStack(getHead(profile)));
 							return 1;
 						}));
 	}

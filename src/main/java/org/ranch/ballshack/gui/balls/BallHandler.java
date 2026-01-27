@@ -14,7 +14,7 @@ public class BallHandler {
 
 	private final List<Ball> balls = new ArrayList<>();
 
-	public HashMap<Integer, List<Ball>> grid = new HashMap<>();
+	public final HashMap<Integer, List<Ball>> grid = new HashMap<>();
 
 	public double gravity = 10.0;
 	public boolean winCollide = true;
@@ -80,15 +80,14 @@ public class BallHandler {
 	}
 
 	public int hash(int x, int y) {
-		int h = x * 73856093 ^ y * 19349663;
-		return h;
+		return x * 73856093 ^ y * 19349663;
 	}
 
 	public int getGridSize() {
 		return size * 4;
 	}
 
-	int[][] dirs = {
+	final int[][] dirs = {
 			{0, 0},   // current cell
 			{1, 0},   // right
 			{1, 1},   // right-up
@@ -120,8 +119,8 @@ public class BallHandler {
 				for (int j = 0; j < 9; j++) {
 					List<Ball> list = grid.get(hash(gx + dirs[j][0], gy + dirs[j][1]));
 					if (list != null) {
-						for (int k = 0; k < list.size(); k++) {
-							ball.collideOther(list.get(k));
+						for (Ball value : list) {
+							ball.collideOther(value);
 						}
 					}
 				}
@@ -138,8 +137,8 @@ public class BallHandler {
 	}
 
 	public void render(DrawContext context) {
-		for (int i = 0; i < balls.size(); i++) {
-			balls.get(i).render(context);
+		for (Ball ball : balls) {
+			ball.render(context);
 		}
 	}
 }

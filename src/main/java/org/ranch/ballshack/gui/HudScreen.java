@@ -27,9 +27,9 @@ public class HudScreen extends Screen {
 	int dragX = 0;
 	int dragY = 0;
 	boolean dragging = false;
-	int snapRange = 2;
+	final int snapRange = 2;
 	ModuleHud draggingModule = null;
-	ArrayList<ModuleHud> modules = new ArrayList<>();
+	final ArrayList<ModuleHud> modules = new ArrayList<>();
 	Setting<ArrayList<HudElementData>> hudData = new Setting<>(new ArrayList<>(), "hudElements", new TypeToken<List<HudElementData>>() {
 	}.getType());
 
@@ -225,9 +225,9 @@ public class HudScreen extends Screen {
 	}
 
 	private class Snap {
-		int p;
-		int across;
-		Axis axis;
+		final int p;
+		final int across;
+		final Axis axis;
 
 		public Snap(int p, int across, Axis axis) {
 			this.p = p;

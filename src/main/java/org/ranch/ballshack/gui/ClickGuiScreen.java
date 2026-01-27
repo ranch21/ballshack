@@ -33,7 +33,7 @@ public class ClickGuiScreen extends Screen {
 
 	// how the fuck did that buttonwidget survive so much :sob: :sob: :sob: :sob:
 	private static final List<CategoryWindow> windows = new ArrayList<>();
-	public static Setting<List<WindowData>> windowData = new Setting<>(new ArrayList<>(), "windowData", new TypeToken<List<WindowData>>() {
+	public static final Setting<List<WindowData>> windowData = new Setting<>(new ArrayList<>(), "windowData", new TypeToken<List<WindowData>>() {
 	}.getType());
 
 	BallHandler ballHandler;
@@ -84,6 +84,7 @@ public class ClickGuiScreen extends Screen {
 		startPhysicsThread();
 	}
 
+	@SuppressWarnings("BusyWait")
 	private void startPhysicsThread() {
 		running = true;
 		physicsThread = new Thread(() -> {
@@ -108,7 +109,7 @@ public class ClickGuiScreen extends Screen {
 
 				try {
 					Thread.sleep(0, 500_000);
-				} catch (InterruptedException e) {
+				} catch (InterruptedException ignored) {
 				}
 			}
 		}, "Ball Physics Thread");
@@ -117,6 +118,7 @@ public class ClickGuiScreen extends Screen {
 		physicsThread.start();
 	}
 
+	@SuppressWarnings("SameParameterValue")
 	private void updatePhysics(double dt) {
 		synchronized (stateLock) {
 			ArrayList<Rect> rects = new ArrayList<>();
@@ -181,8 +183,8 @@ public class ClickGuiScreen extends Screen {
 		}
 
 		TextRenderer textRend = MinecraftClient.getInstance().textRenderer;
-		DrawUtil.drawText(context, textRend, BallsHack.title.getValue(), 5, 5, Colors.PALLETE_1, true);
-		DrawUtil.drawText(context, textRend, BallsHack.version, 5 + textRend.getWidth(BallsHack.title.getValue() + " "), 5, Color.WHITE, true);
+		context.drawText(textRend, BallsHack.title.getValue(), 5, 5, Colors.PALLETE_1.hashCode(), true);
+		context.drawText(textRend, BallsHack.version, 5 + textRend.getWidth(BallsHack.title.getValue() + " "), 5, Color.WHITE.hashCode(), true);
 
 		int i = 0;
 		for (CategoryWindow window : windows) {

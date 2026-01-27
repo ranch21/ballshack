@@ -54,7 +54,7 @@ public class SettingString extends ModuleSetting<String> {
 		TextRenderer tr = MinecraftClient.getInstance().textRenderer;
 		int ty = textAreaY + 1;
 		for (String line : splitLines) {
-			DrawUtil.drawText(context, tr, line, x + 2, ty, Color.WHITE, true);
+			context.drawText(tr, line, x + 2, ty, Color.WHITE.hashCode(), true);
 			ty += lineHeight;
 		}
 
@@ -98,7 +98,7 @@ public class SettingString extends ModuleSetting<String> {
 			return;
 		}
 		if (keyCode == GLFW.GLFW_KEY_BACKSPACE) {
-			erase(-1);
+			erase();
 		}
 		if (keyCode == GLFW.GLFW_KEY_LEFT) {
 			moveCursor(-1);
@@ -148,8 +148,8 @@ public class SettingString extends ModuleSetting<String> {
 		}
 	}
 
-	private void erase(int offset) {
-		int pos = Util.moveCursor(getText(), this.selectionStart, offset);
+	private void erase() {
+		int pos = Util.moveCursor(getText(), this.selectionStart, -1);
 
 		if (!getText().isEmpty()) {
 			if (this.selectionEnd != this.selectionStart) {

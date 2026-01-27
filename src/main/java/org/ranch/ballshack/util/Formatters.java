@@ -15,6 +15,7 @@ import java.util.function.Supplier;
 
 import static org.ranch.ballshack.BallsHack.mc;
 
+@SuppressWarnings("DataFlowIssue")
 public class Formatters {
 	public static final Map<String, Supplier<String>> FORMATTERS = new LinkedHashMap<>();
 	public static final String PREFIX = "$";

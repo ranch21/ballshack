@@ -9,7 +9,7 @@ import java.awt.*;
 
 public class TextWidget extends Widget {
 
-	public String text;
+	public final String text;
 
 	public TextWidget(int x, int y, String text) {
 		super(x, y, 1, 1);

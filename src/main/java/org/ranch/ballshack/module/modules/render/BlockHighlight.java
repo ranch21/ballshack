@@ -24,7 +24,7 @@ import static org.ranch.ballshack.Constants.LINE_WIDTH;
 
 public class BlockHighlight extends Module {
 
-	public SettingSlider alpha = dGroup.add(new SettingSlider(0.2f, "Alpha", 0, 1, 0.1));
+	public final SettingSlider alpha = dGroup.add(new SettingSlider(0.2f, "Alpha", 0, 1, 0.1));
 
 	public BlockHighlight() {
 		super("BlockHighlight", ModuleCategory.RENDER, 0, "look its purple now!");
@@ -38,11 +38,10 @@ public class BlockHighlight extends Module {
 	@EventSubscribe
 	public void onWorldRender(EventWorldRender.Post event) {
 
-		Color c = Colors.PALLETE_1;
+		if (mc.world == null) // duh
+			return;
 
-		float r = c.getRed() / 255.0f;
-		float g = c.getGreen() / 255.0f;
-		float b = c.getBlue() / 255.0f;
+		Color c = Colors.PALLETE_1;
 
 		Renderer renderer = Renderer.getInstance();
 

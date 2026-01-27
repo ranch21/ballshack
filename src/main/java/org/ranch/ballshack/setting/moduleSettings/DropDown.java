@@ -57,10 +57,8 @@ public class DropDown extends ModuleSetting<Boolean> implements SettingsList {
 			this.setValue(!this.getValue());
 			return true;
 
-		} else if (GuiUtil.mouseOverlap(mouseX, mouseY, x, y, width, height + addedHeight) && button == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
-			return true;
-		}
-		return false;
+		} else
+			return GuiUtil.mouseOverlap(mouseX, mouseY, x, y, width, height + addedHeight) && button == GLFW.GLFW_MOUSE_BUTTON_LEFT;
 	}
 
 	public void mouseReleased(double mouseX, double mouseY, int button) {

@@ -58,14 +58,14 @@ public class ModuleWidget {
 
 		int textInset = (height - textRend.fontHeight) / 2;
 
-		DrawUtil.drawText(context, textRend, module.getName(), x + 2, y + textInset, Color.WHITE, true);
+		context.drawText(textRend, module.getName(), x + 2, y + textInset, Color.WHITE.hashCode(), true);
 		if (settingsOpen && !module.isEnabled()) {
-			DrawUtil.drawText(context, textRend, "*", x + width - 8, y + textInset, Color.WHITE, true);
+			context.drawText(textRend, "*", x + width - 8, y + textInset, Color.WHITE.hashCode(), true);
 		} else if (settingsOpen && module.isEnabled() && !module.isMeta()) {
-			DrawUtil.drawText(context, textRend, "*", x + width - 16, y + textInset, Color.WHITE, true);
-			DrawUtil.drawText(context, textRend, "#", x + width - 8, y + textInset, Color.WHITE, true);
+			context.drawText(textRend, "*", x + width - 16, y + textInset, Color.WHITE.hashCode(), true);
+			context.drawText(textRend, "#", x + width - 8, y + textInset, Color.WHITE.hashCode(), true);
 		} else if (!settingsOpen && module.isEnabled() && !module.isMeta()) {
-			DrawUtil.drawText(context, textRend, "#", x + width - 8, y + textInset, Color.WHITE, true);
+			context.drawText(textRend, "#", x + width - 8, y + textInset, Color.WHITE.hashCode(), true);
 		}
 
 		if (GuiUtil.mouseOverlap(mouseX, mouseY, x, y, width, height)) {

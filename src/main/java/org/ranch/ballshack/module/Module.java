@@ -10,9 +10,9 @@ import org.ranch.ballshack.setting.SettingSaver;
 
 public abstract class Module {
 
-	protected MinecraftClient mc = MinecraftClient.getInstance();
-	protected ModuleSettings settings = new ModuleSettings();
-	protected ModuleSettingsGroup dGroup = settings.getDefaultGroup();
+	protected final MinecraftClient mc = MinecraftClient.getInstance();
+	protected final ModuleSettings settings = new ModuleSettings();
+	protected final ModuleSettingsGroup dGroup = settings.getDefaultGroup();
 	private final String name;
 	private final ModuleCategory category;
 	private Boolean subscribed;

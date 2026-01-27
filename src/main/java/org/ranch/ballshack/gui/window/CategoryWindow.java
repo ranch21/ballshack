@@ -27,17 +27,17 @@ public class CategoryWindow {
 	public static final int height = 11;
 	private int totalHeight = height;
 
-	public String title;
+	public final String title;
 
 	public boolean opened;
 
-	ModuleCategory category;
+	final ModuleCategory category;
 
 	private boolean dragging;
 	private int dragX;
 	private int dragY;
 
-	public List<ModuleWidget> moduleWidgets = new ArrayList<ModuleWidget>();
+	public final List<ModuleWidget> moduleWidgets = new ArrayList<>();
 
 	public CategoryWindow(int x, int y, String title, boolean opened, ModuleCategory category) {
 		this.x = x;
@@ -92,9 +92,9 @@ public class CategoryWindow {
 		/* window title */
 		TextRenderer textRend = MinecraftClient.getInstance().textRenderer;
 		int textInset = (height - textRend.fontHeight) / 2;
-		DrawUtil.drawText(context, textRend, title, x + 2, y + textInset, Color.WHITE, true);
+		context.drawText(textRend, title, x + 2, y + textInset, Color.WHITE.hashCode(), true);
 		// collapsed thinger
-		DrawUtil.drawText(context, textRend, opened ? "-" : "+", x + width - 8, y + textInset, Color.WHITE, true);
+		context.drawText(textRend, opened ? "-" : "+", x + width - 8, y + textInset, Color.WHITE.hashCode(), true);
 	}
 
 	public boolean mouseClicked(double mouseX, double mouseY, int button) {
@@ -125,9 +125,7 @@ public class CategoryWindow {
 				opened = !opened;
 				mc.getSoundManager().play(PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK, 1.0F));
 				return true;
-			} else if (GuiUtil.mouseOverlap(mouseX, mouseY, x, y, width, totalHeight)) {
-				return true;
-			}
+			} else return GuiUtil.mouseOverlap(mouseX, mouseY, x, y, width, totalHeight);
 		}
 		return false;
 	}

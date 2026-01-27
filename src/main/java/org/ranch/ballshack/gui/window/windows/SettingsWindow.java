@@ -8,7 +8,6 @@ import org.ranch.ballshack.BallsHack;
 import org.ranch.ballshack.gui.window.Window;
 import org.ranch.ballshack.gui.window.widgets.TextFieldWidget;
 import org.ranch.ballshack.setting.SettingSaver;
-import org.ranch.ballshack.util.rendering.DrawUtil;
 
 import java.awt.*;
 
@@ -28,7 +27,7 @@ public class SettingsWindow extends Window {
 		super.render(context, mouseX, mouseY, screen);
 		super.render(context, mouseX, mouseY, screen);
 		TextRenderer textRend = MinecraftClient.getInstance().textRenderer;
-		DrawUtil.drawText(context, textRend, "Watermark", 6 + x, 6 + y, Color.WHITE, true);
+		context.drawText(textRend, "Watermark", 6 + x, 6 + y, Color.WHITE.hashCode(), true);
 		BallsHack.title.setValue(((TextFieldWidget) widgets.get(0)).getText());
 		SettingSaver.SCHEDULE_SAVE.set(true);
 	}

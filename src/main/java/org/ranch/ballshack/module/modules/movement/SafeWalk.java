@@ -10,7 +10,7 @@ import org.ranch.ballshack.util.PlayerSim;
 
 public class SafeWalk extends Module {
 
-	public SettingToggle realAndTrue = new SettingToggle(false, "REALANDTRUE");
+	public final SettingToggle realAndTrue = new SettingToggle(false, "REALANDTRUE");
 
 	public SafeWalk() {
 		super("SafeWalk", ModuleCategory.MOVEMENT, 0, "Sneak un-sneakily");

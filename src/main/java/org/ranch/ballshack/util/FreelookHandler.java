@@ -7,7 +7,7 @@ public class FreelookHandler {
 	public static float pitch = 0F;
 
 	public static boolean enabled = false;
-	public static boolean rotateInput = true;
+	public static final boolean rotateInput = true;
 
 	public static Rotation getRotation() {
 		return new Rotation(yaw, pitch);

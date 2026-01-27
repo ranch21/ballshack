@@ -60,6 +60,7 @@ public class SettingsManager {
 		return json;
 	}
 
+	@SuppressWarnings("unchecked")
 	private static <T> void setSettingValue(Setting<T> setting, Object value) {
 		setting.setValue((T) value);
 	}

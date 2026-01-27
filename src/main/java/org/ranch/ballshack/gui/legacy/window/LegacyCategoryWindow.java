@@ -19,21 +19,21 @@ public class LegacyCategoryWindow {
 	public int x;
 	public int y;
 
-	public int width = 50;
-	public int height = 15;
+	public final int width = 50;
+	public final int height = 15;
 
-	public int moduleInset = 4;
+	public final int moduleInset = 4;
 
-	public String title;
+	public final String title;
 
-	public boolean opened;
+	public final boolean opened;
 	private boolean dragging;
 	private int dragX;
 	private int dragY;
 
 	private final ModuleCategory category;
 
-	public List<LegacyModuleWidget> moduleWidgets = new ArrayList<LegacyModuleWidget>();
+	public final List<LegacyModuleWidget> moduleWidgets = new ArrayList<>();
 
 	public LegacyCategoryWindow(int x, int y, String title, boolean opened, ModuleCategory category) {
 		this.x = x;

@@ -5,7 +5,7 @@ import org.ranch.ballshack.util.Rotation;
 
 public class EventCameraRot extends Event {
 
-	public Rotation rot;
+	public final Rotation rot;
 
 	public final Rotation origRot;
 

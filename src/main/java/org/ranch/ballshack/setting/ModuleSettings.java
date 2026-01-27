@@ -8,8 +8,8 @@ import java.util.List;
 
 public class ModuleSettings implements SettingsList {
 
-	protected ModuleSettingsGroup defaultGroup = new ModuleSettingsGroup("default");
-	protected SettingBind bind;
+	protected final ModuleSettingsGroup defaultGroup = new ModuleSettingsGroup("default");
+	protected final SettingBind bind;
 
 	public ModuleSettings() {
 		bind = defaultGroup.add(new SettingBind(0, "KeyBind"));

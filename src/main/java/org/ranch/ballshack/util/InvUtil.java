@@ -33,7 +33,7 @@ public class InvUtil {
 	}
 
 	public static List<ItemStack> getArmorSlots(PlayerEntity player) {
-		List<ItemStack> armorItems = new ArrayList<ItemStack>();
+		List<ItemStack> armorItems = new ArrayList<>();
 		for (int i = 0; i < 4; i++) {
 			armorItems.add(player.getEquippedStack(ARMOR_SLOTS[i]));
 		}

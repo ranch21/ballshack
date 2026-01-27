@@ -29,15 +29,15 @@ import java.util.OptionalInt;
 
 public class Renderer {
 
-	private MinecraftClient mc;
+	private final MinecraftClient mc;
 
 	private BufferBuilder buffer;
-	private BufferAllocator allocator = new BufferAllocator(RenderLayer.DEFAULT_BUFFER_SIZE);
+	private final BufferAllocator allocator = new BufferAllocator(RenderLayer.DEFAULT_BUFFER_SIZE);
 
 	private static Vector4f colorModulator = new Vector4f(1f, 1f, 1f, 1f);
 	MappableRingBuffer vertexBuffer;
 
-	private boolean init = false;
+	private final boolean init = false;
 
 	private static Renderer instance;
 
@@ -53,7 +53,7 @@ public class Renderer {
 	}
 
 	public void setColorModulator(float r, float g, float b, float a) {
-		this.colorModulator = new Vector4f(r, g, b, a);
+		colorModulator = new Vector4f(r, g, b, a);
 	}
 
 	public void renderCube(Box box, Color color, MatrixStack matrixStack) {
@@ -151,6 +151,9 @@ public class Renderer {
 	}
 
 	public void renderLine(Vec3d start, Vec3d end, float width, Color color, MatrixStack matrixStack) {
+		if (mc.player == null)
+			return;
+
 		setupRender(matrixStack, BallsRenderPipelines.QUADS);
 
 		float r = color.getRed() / 255.0f;

@@ -142,60 +142,32 @@ public class ProjectileSim {
 		}
 	}
 
-	public static class Trajectory {
-		private final List<Vec3d> positions;
-		private final Entity entity;
-		private final Projectile projectile;
-		private final Entity thrower;
-		private final BlockPos pos;
-		private final boolean fake;
-
-		public Trajectory(List<Vec3d> positions, @Nullable Entity entity, @Nullable BlockPos pos, boolean isFake, @Nullable Entity thrower, Projectile projectile) {
+	public record Trajectory(List<Vec3d> positions, Entity entity, BlockPos pos, boolean fake, Entity thrower,
+							 Projectile projectile) {
+		public Trajectory(List<Vec3d> positions, @Nullable Entity entity, @Nullable BlockPos pos, boolean fake, @Nullable Entity thrower, Projectile projectile) {
 			this.positions = positions;
 			this.entity = entity;
 			this.pos = pos;
-			this.fake = isFake;
+			this.fake = fake;
 			this.thrower = thrower;
 			this.projectile = projectile;
 		}
 
-		public List<Vec3d> getPositions() {
-			return positions;
-		}
 
-		public Entity getEntity() {
-			return entity;
-		}
-
-		public BlockPos getPos() {
-			return pos;
-		}
-
-		public boolean isFake() {
-			return fake;
-		}
-
-		public Entity getThrower() {
-			return thrower;
-		}
-
-		public Projectile getProjectile() {
-			return projectile;
-		}
 	}
 
 	public static class Projectile {
 		public Vec3d velocity;
 		public Vec3d pos;
 
-		public float yaw;
+		public final float yaw;
 		public float pitch;
 
-		public float prevYaw;
+		public final float prevYaw;
 		public float prevPitch;
 
-		public float width;
-		public float height;
+		public final float width;
+		public final float height;
 
 		public Entity orig;
 

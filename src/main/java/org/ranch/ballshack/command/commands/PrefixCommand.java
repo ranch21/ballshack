@@ -3,10 +3,10 @@ package org.ranch.ballshack.command.commands;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.builder.RequiredArgumentBuilder;
 import net.minecraft.client.network.ClientCommandSource;
-import org.ranch.ballshack.command.CommandType;
-import org.ranch.ballshack.command.arguments.CharacterArgumentType;
 import org.ranch.ballshack.command.Command;
 import org.ranch.ballshack.command.CommandManager;
+import org.ranch.ballshack.command.CommandType;
+import org.ranch.ballshack.command.arguments.CharacterArgumentType;
 import org.ranch.ballshack.setting.SettingSaver;
 
 public class PrefixCommand extends Command {

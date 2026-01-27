@@ -8,10 +8,10 @@ public class EventScreen extends Event {
 	public Screen screen;
 
 	public static class Render extends EventScreen {
-		public DrawContext drawContext;
-		public int mouseX;
-		public int mouseY;
-		public float tickDelta;
+		public final DrawContext drawContext;
+		public final int mouseX;
+		public final int mouseY;
+		public final float tickDelta;
 
 		public Render(Screen screen, DrawContext context, int mouseX, int mouseY, float tickDelta) {
 			this.screen = screen;

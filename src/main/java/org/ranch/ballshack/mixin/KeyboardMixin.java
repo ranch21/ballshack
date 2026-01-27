@@ -29,9 +29,4 @@ public class KeyboardMixin {
 			mc.setScreen(new ChatScreen("", true));
 		}
 	}
-
-	/*@Inject(method = "onChar", at = @At(value = "TAIL"))
-	private void onChar(long window, CharInput input, CallbackInfo ci) {
-
-	}*/
 }

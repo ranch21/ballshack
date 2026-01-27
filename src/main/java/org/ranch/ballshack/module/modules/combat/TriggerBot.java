@@ -16,9 +16,9 @@ import org.ranch.ballshack.util.EntityUtil;
 public class TriggerBot extends Module {
 	private static int cooldown = 0;
 
-	public SettingToggle swing = dGroup.add(new SettingToggle(true, "Swing"));
-	public SettingSlider maxRandDelay = dGroup.add((SettingSlider) new SettingSlider(2, "MaxRandDelay", 0, 10, 1).tooltip("i lied lol this aint random"));
-	public TargetsDropDown targets = dGroup.add(new TargetsDropDown("Targets"));
+	public final SettingToggle swing = dGroup.add(new SettingToggle(true, "Swing"));
+	public final SettingSlider maxRandDelay = dGroup.add((SettingSlider) new SettingSlider(2, "MaxRandDelay", 0, 10, 1).tooltip("i lied lol this aint random"));
+	public final TargetsDropDown targets = dGroup.add(new TargetsDropDown("Targets"));
 
 	public TriggerBot() {
 		super("TriggerBot", ModuleCategory.COMBAT, 0, "Monkey in computer press when enemy");

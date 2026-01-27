@@ -10,21 +10,22 @@ import org.apache.logging.log4j.Logger;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
+@SuppressWarnings("DataFlowIssue")
 public class BallsLogger {
-	public static Logger logger = LogManager.getFormatterLogger("BallsHack");
+	public static final Logger logger = LogManager.getFormatterLogger("BallsHack");
 
-	public static Deque<String> recentMessages = new ArrayDeque<>();
+	public static final Deque<String> recentMessages = new ArrayDeque<>();
 	public static final int maxHistMessages = 100;
 
 	private static final Text ballsText = Text.literal("BallsHack");
 
-	public static int BH_COLOR = Formatting.GOLD.getColorValue();
+	public static final int BH_COLOR = Formatting.GOLD.getColorValue();
 
-	public static int CMD_COLOR = Formatting.GOLD.getColorValue();
+	public static final int CMD_COLOR = Formatting.GOLD.getColorValue();
 
-	public static int INFO_COLOR = Formatting.GRAY.getColorValue();
-	public static int WARN_COLOR = Formatting.YELLOW.getColorValue();
-	public static int ERROR_COLOR = Formatting.RED.getColorValue();
+	public static final int INFO_COLOR = Formatting.GRAY.getColorValue();
+	public static final int WARN_COLOR = Formatting.YELLOW.getColorValue();
+	public static final int ERROR_COLOR = Formatting.RED.getColorValue();
 
 	private static void addToHistory(String message) {
 		recentMessages.addFirst(message);

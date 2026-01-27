@@ -23,10 +23,10 @@ import java.util.stream.Stream;
 public class ModuleList extends ModuleHud {
 	float totalTicks = 0;
 
-	public SettingMode colorMode = dGroup.add(new SettingMode(1, "ColMode", Arrays.asList("Cat", "Rand", "Rain")));
-	public SettingToggle backdrop = dGroup.add(new SettingToggle(true, "Backdrop"));
-	public SettingToggle shadow = dGroup.add(new SettingToggle(true, "Shadow"));
-	public SettingToggle line = dGroup.add(new SettingToggle(true, "Line"));
+	public final SettingMode colorMode = dGroup.add(new SettingMode(1, "ColMode", Arrays.asList("Cat", "Rand", "Rain")));
+	public final SettingToggle backdrop = dGroup.add(new SettingToggle(true, "Backdrop"));
+	public final SettingToggle shadow = dGroup.add(new SettingToggle(true, "Shadow"));
+	public final SettingToggle line = dGroup.add(new SettingToggle(true, "Line"));
 
 	public ModuleList() {
 		super("ModuleList", ModuleCategory.HUD, 0, 0, 0, "Incase you forgor what you enabled", ModuleAnchor.TOP_RIGHT);
@@ -87,20 +87,15 @@ public class ModuleList extends ModuleHud {
 	private Color getModuleColor(Module module, int cMode, int i) {
 		Color col;
 		Random r = new Random();
-		switch (cMode) {
-			case 0:
-				col = module.getCategory().getColor();
-				break;
-			case 1:
+		col = switch (cMode) {
+			case 0 -> module.getCategory().getColor();
+			case 1 -> {
 				r.setSeed(module.getName().hashCode());
-				col = Color.getHSBColor(r.nextFloat(), 0.7f, 1.0f);
-				break;
-			case 2:
-				col = Colors.getRainbowColorGlobal(totalTicks + i * 10);
-				break;
-			default:
-				col = Color.WHITE;
-		}
+				yield Color.getHSBColor(r.nextFloat(), 0.7f, 1.0f);
+			}
+			case 2 -> Colors.getRainbowColorGlobal(totalTicks + i * 10);
+			default -> Color.WHITE;
+		};
 		return col;
 	}
 
@@ -129,13 +124,4 @@ public class ModuleList extends ModuleHud {
 		return feat.toString();
 	}
 
-	@Override
-	public int getWidth() {
-		return width;
-	}
-
-	@Override
-	public int getHeight() {
-		return height;
-	}
 }

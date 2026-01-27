@@ -11,9 +11,9 @@ import org.ranch.ballshack.util.PlayerUtil;
 public class Speed extends Module {
 
 	private int stage;
-	private double speed, distance;
+	private double speed;
 
-	public SettingSlider speedSlider = dGroup.add(new SettingSlider(1, "Speed", 0.25, 4, 0.25));
+	public final SettingSlider speedSlider = dGroup.add(new SettingSlider(1, "Speed", 0.25, 4, 0.25));
 
 	public Speed() {
 		super("Speed", ModuleCategory.MOVEMENT, 0, "go fast(er)");
@@ -32,7 +32,7 @@ public class Speed extends Module {
 		if (mc.player.isTouchingWater() ||
 				mc.player.getAbilities().flying) return;
 
-		distance = Math.sqrt((mc.player.getX() - mc.player.lastX) * (mc.player.getX() - mc.player.lastX) + (mc.player.getZ() - mc.player.lastZ) * (mc.player.getZ() - mc.player.lastZ));
+		double distance = Math.sqrt((mc.player.getX() - mc.player.lastX) * (mc.player.getX() - mc.player.lastX) + (mc.player.getZ() - mc.player.lastZ) * (mc.player.getZ() - mc.player.lastZ));
 
 		double speedM = speedSlider.getValue();
 

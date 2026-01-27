@@ -35,8 +35,15 @@ public class PlayerSkinProviderMixin {
 			);
 
 			AssetInfo.TextureAsset cape = new AssetInfo.TextureAsset() {
-				@Override public Identifier texturePath() { return id; }
-				@Override public Identifier id() { return id; }
+				@Override
+				public Identifier texturePath() {
+					return id;
+				}
+
+				@Override
+				public Identifier id() {
+					return id;
+				}
 			};
 
 			try {
@@ -47,9 +54,7 @@ public class PlayerSkinProviderMixin {
 						original.get().model(),
 						original.get().secure()
 				);
-			} catch (InterruptedException e) {
-				throw new RuntimeException(e);
-			} catch (ExecutionException e) {
+			} catch (InterruptedException | ExecutionException e) {
 				throw new RuntimeException(e);
 			}
 		});

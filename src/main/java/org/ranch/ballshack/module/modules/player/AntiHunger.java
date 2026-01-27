@@ -15,8 +15,8 @@ public class AntiHunger extends Module {
 	private boolean prevOnGround = false;
 	private boolean ignorePacket = false;
 
-	public SettingToggle sprint = dGroup.add(new SettingToggle(true, "Sprint"));
-	public SettingToggle ground = dGroup.add(new SettingToggle(true, "Ground"));
+	public final SettingToggle sprint = dGroup.add(new SettingToggle(true, "Sprint"));
+	public final SettingToggle ground = dGroup.add(new SettingToggle(true, "Ground"));
 
 	public AntiHunger() {
 		super("AntiHunger", ModuleCategory.PLAYER, 0, "mmmmmmgghhh im soooo full");
@@ -25,7 +25,8 @@ public class AntiHunger extends Module {
 	@EventSubscribe
 	public void onPacket(EventPacketSend event) {
 
-		if (mc.player == null) return;
+		if (mc.player == null || mc.interactionManager == null)
+			return;
 
 		if (event.packet instanceof PlayerMoveC2SPacket && ignorePacket) {
 			ignorePacket = false;
@@ -45,6 +46,9 @@ public class AntiHunger extends Module {
 
 	@EventSubscribe
 	public void onTick(EventTick event) {
+
+		if (mc.player == null)
+			return;
 
 		if (mc.player.isOnGround() && !prevOnGround && ground.getValue()) {
 			ignorePacket = true;

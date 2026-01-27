@@ -20,8 +20,6 @@ public class ModuleHud extends Module {
 		this.offsety = y;
 		this.width = 10;
 		this.height = 10;
-		//this.originx = 0;
-		//this.originy = 0;
 		this.anchorPoint = anchorPoint;
 	}
 

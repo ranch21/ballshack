@@ -10,6 +10,6 @@ public class EventPlayerMovementVector extends Event {
 
 	public EventPlayerMovementVector(Vec2f movement) {
 		this.movement = movement;
-		this.origMovement = movement;
+		origMovement = movement;
 	}
 }

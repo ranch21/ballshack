@@ -14,13 +14,12 @@ public class ClearInvCommand extends Command {
 
 	@Override
 	public LiteralArgumentBuilder<ClientCommandSource> onRegister(LiteralArgumentBuilder<ClientCommandSource> builder) {
-
 		return builder
 				.executes(context -> {
-							for (int i = 0; i < mc.player.playerScreenHandler.getStacks().size(); i++) {
-								mc.interactionManager.clickCreativeStack(ItemStack.EMPTY, i);
-							}
-							return 1;
-						});
+					for (int i = 0; i < mc.player.playerScreenHandler.getStacks().size(); i++) {
+						mc.interactionManager.clickCreativeStack(ItemStack.EMPTY, i);
+					}
+					return 1;
+				});
 	}
 }
