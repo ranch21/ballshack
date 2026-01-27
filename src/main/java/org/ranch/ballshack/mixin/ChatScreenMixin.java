@@ -19,7 +19,7 @@ public class ChatScreenMixin {
 
 	@Inject(method = "sendMessage", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/ChatHud;addToMessageHistory(Ljava/lang/String;)V", ordinal = 0), cancellable = true)
 	public void sendMessage(String chatText, boolean addToHistory, CallbackInfo ci) {
-		if (!chatText.isEmpty() && chatText.charAt(0) == CommandManager.prefix) {
+		if (!chatText.isEmpty() && chatText.charAt(0) == CommandManager.prefix.getValue()) {
 			if (addToHistory) {
 				BallsHack.mc.inGameHud.getChatHud().addToMessageHistory(chatText);
 			}
@@ -31,7 +31,7 @@ public class ChatScreenMixin {
 
 	@Redirect(method = "sendMessage", at = @At(value = "INVOKE", target = "Ljava/lang/String;startsWith(Ljava/lang/String;)Z"))
 	public boolean startsWith(String instance, String prefix) {
-		if (instance.charAt(0) == CommandManager.prefix) {
+		if (instance.charAt(0) == CommandManager.prefix.getValue()) {
 			return true;
 		}
 		return instance.startsWith(prefix);

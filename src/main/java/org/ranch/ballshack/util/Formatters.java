@@ -7,6 +7,7 @@ import net.minecraft.world.GameMode;
 import org.ranch.ballshack.BallsHack;
 import org.ranch.ballshack.module.ModuleManager;
 
+import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -79,13 +80,85 @@ public class Formatters {
 			}
 		});
 
-		addFormatter("ip", () -> {
+		addFormatter("svr_ip", () -> {
 			try {
 				if (mc.isConnectedToLocalServer()) {
 					return "SinglePlayer";
 				} else {
 					return mc.getNetworkHandler().getServerInfo().address;
 				}
+			} catch (Throwable t) {
+				return "unknown";
+			}
+		});
+
+		addFormatter("svr_address", () -> {
+			try {
+				if (mc.isConnectedToLocalServer()) {
+					return "SinglePlayer";
+				} else {
+					return InetAddress.getByName(mc.getNetworkHandler().getServerInfo().address).getHostAddress();
+				}
+			} catch (Throwable t) {
+				return "unknown";
+			}
+		});
+
+		addFormatter("svr_brand", () -> {
+			try {
+				if (mc.isConnectedToLocalServer()) {
+					return "vanilla";
+				} else {
+					return mc.getNetworkHandler().getBrand();
+				}
+			} catch (Throwable t) {
+				return "unknown";
+			}
+		});
+
+		addFormatter("day", () -> {
+			try {
+				return String.valueOf(mc.world.getTimeOfDay() / 24000L);
+			} catch (Throwable t) {
+				return "unknown";
+			}
+		});
+
+		addFormatter("svr_ping", () -> {
+			try {
+				return String.valueOf(mc.getNetworkHandler().getPlayerListEntry(BallsHack.mc.player.getGameProfile().id()).getLatency());
+			} catch (Throwable t) {
+				return "unknown";
+			}
+		});
+
+		addFormatter("svr_motd", () -> {
+			try {
+				return mc.getNetworkHandler().getServerInfo().label.getString();
+			} catch (Throwable t) {
+				return "unknown";
+			}
+		});
+
+		addFormatter("svr_protocol", () -> {
+			try {
+				return String.valueOf(mc.getNetworkHandler().getServerInfo().protocolVersion);
+			} catch (Throwable t) {
+				return "unknown";
+			}
+		});
+
+		addFormatter("svr_version", () -> {
+			try {
+				return mc.getNetworkHandler().getServerInfo().version.getString();
+			} catch (Throwable t) {
+				return "unknown";
+			}
+		});
+
+		addFormatter("difficulty", () -> {
+			try {
+				return mc.world.getDifficulty().name();
 			} catch (Throwable t) {
 				return "unknown";
 			}

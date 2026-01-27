@@ -7,6 +7,7 @@ import net.minecraft.client.network.ClientCommandSource;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import org.ranch.ballshack.command.Command;
+import org.ranch.ballshack.command.CommandType;
 import org.ranch.ballshack.command.suggestors.ModuleSuggestor;
 import org.ranch.ballshack.module.Module;
 import org.ranch.ballshack.module.ModuleManager;
@@ -14,7 +15,7 @@ import org.ranch.ballshack.module.ModuleManager;
 public class ToggleCommand extends Command {
 
 	public ToggleCommand() {
-		super("toggle", "Toggles a module");
+		super("toggle", "Toggles a module", CommandType.SURVIVAL);
 	}
 
 	@Override
@@ -36,7 +37,7 @@ public class ToggleCommand extends Command {
 
 							mod.toggle();
 
-							log(CMD(": ").append(Text.literal(mod.isEnabled() ? "Enabled" : "Disabled" + " " + moduleName).formatted(Formatting.GRAY)));
+							log(CMD(": ").append((mod.isEnabled() ? Text.literal("Enabled ").formatted(Formatting.GREEN) : Text.literal("Disabled ").formatted(Formatting.RED)).append(Text.literal(moduleName).formatted(Formatting.GRAY))));
 
 							return 1;
 						})

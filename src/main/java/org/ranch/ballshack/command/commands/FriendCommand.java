@@ -9,13 +9,14 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import org.ranch.ballshack.FriendManager;
 import org.ranch.ballshack.command.Command;
+import org.ranch.ballshack.command.CommandType;
 import org.ranch.ballshack.command.suggestors.PlayerSuggestor;
 
 import java.util.List;
 
 public class FriendCommand extends Command {
 	public FriendCommand() {
-		super("friends", "Used to modify friends list");
+		super("friends", "Used to modify friends list", CommandType.CLIENT);
 	}
 
 	@Override

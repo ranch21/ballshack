@@ -7,6 +7,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ProjectileItem;
 import net.minecraft.item.RangedWeaponItem;
+import net.minecraft.network.packet.c2s.play.CreativeInventoryActionC2SPacket;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,5 +38,13 @@ public class InvUtil {
 			armorItems.add(player.getEquippedStack(ARMOR_SLOTS[i]));
 		}
 		return armorItems;
+	}
+
+	// idunno man
+	public static void createStack(ItemStack stack) {
+		if (mc.player.isInCreativeMode() && mc.getNetworkHandler().hasFeature(stack.getItem().getRequiredFeatures())) {
+			mc.getNetworkHandler().sendPacket(new CreativeInventoryActionC2SPacket(-1, stack));
+			mc.player.getInventory().setStack(-1, stack.copy());
+		}
 	}
 }

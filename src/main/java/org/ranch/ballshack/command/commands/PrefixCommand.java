@@ -3,6 +3,7 @@ package org.ranch.ballshack.command.commands;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.builder.RequiredArgumentBuilder;
 import net.minecraft.client.network.ClientCommandSource;
+import org.ranch.ballshack.command.CommandType;
 import org.ranch.ballshack.command.arguments.CharacterArgumentType;
 import org.ranch.ballshack.command.Command;
 import org.ranch.ballshack.command.CommandManager;
@@ -10,7 +11,7 @@ import org.ranch.ballshack.setting.SettingSaver;
 
 public class PrefixCommand extends Command {
 	public PrefixCommand() {
-		super("prefix", "Sets the command prefix.");
+		super("prefix", "Sets the command prefix.", CommandType.CLIENT);
 	}
 
 	@Override
@@ -18,7 +19,7 @@ public class PrefixCommand extends Command {
 		return builder
 				.then(RequiredArgumentBuilder.<ClientCommandSource, Character>argument("prefix", new CharacterArgumentType())
 						.executes(context -> {
-							CommandManager.prefix = CharacterArgumentType.getCharacter(context, "prefix");
+							CommandManager.prefix.setValue(CharacterArgumentType.getCharacter(context, "prefix"));
 							SettingSaver.SCHEDULE_SAVE.set(true);
 							return 1;
 						}));

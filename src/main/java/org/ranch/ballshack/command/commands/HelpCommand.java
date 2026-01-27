@@ -12,21 +12,25 @@ import net.minecraft.util.Formatting;
 import org.ranch.ballshack.BallsLogger;
 import org.ranch.ballshack.command.Command;
 import org.ranch.ballshack.command.CommandManager;
+import org.ranch.ballshack.command.CommandType;
 
 import java.util.Map;
 
 public class HelpCommand extends Command {
 	public HelpCommand() {
-		super("help", "Lists commands or gives command usage... i mean you just used it.");
+		super("help", "Lists commands or gives command usage... i mean you just used it.", CommandType.CLIENT);
 	}
 
 	@Override
 	public LiteralArgumentBuilder<ClientCommandSource> onRegister(LiteralArgumentBuilder<ClientCommandSource> builder) {
 		return builder
 				.executes(context -> {
-					log("commands: ");
+					log(Text.literal("Commands: ").withColor(BallsLogger.CMD_COLOR));
 					for (Command command : CommandManager.getCommands()) {
-						log(command.getName());
+						MutableText name = Text.literal(command.getName()).formatted(Formatting.WHITE);
+						MutableText desc = Text.literal(command.desc).formatted(Formatting.GRAY);
+						MutableText type = command.type == CommandType.CREATIVE || command.type == CommandType.SURVIVAL ? Text.literal("*").formatted(command.type == CommandType.CREATIVE ? Formatting.RED : Formatting.YELLOW) : Text.literal(""); // :(
+						log(name.append(" ").append(desc).append(" ").append(type));
 					}
 					return 1;
 				})
@@ -42,6 +46,7 @@ public class HelpCommand extends Command {
 
 							if (c != null) {
 								log(Text.literal(c.getName() + ": ").formatted(Formatting.WHITE).append(Text.literal(c.desc).formatted(Formatting.GRAY)));
+								log(Text.literal("Type: ").formatted(Formatting.WHITE).append(Text.literal(c.type.toString()).formatted(Formatting.GRAY)));
 								printUsage(c, context);
 							}
 							return 1;
@@ -54,9 +59,16 @@ public class HelpCommand extends Command {
 				command.onRegisterBase().build(), context.getSource()
 		);
 
+		if (map.isEmpty()) {
+			MutableText usagestr = Text.literal("Usage: ").withColor(BallsLogger.CMD_COLOR);
+			MutableText name = Text.literal(CommandManager.prefix.getValue() + command.getName() + " ").formatted(Formatting.WHITE);
+			log(usagestr.append(name));
+			return;
+		}
+
 		for (String string : map.values()) {
 			MutableText usagestr = Text.literal("Usage: ").withColor(BallsLogger.CMD_COLOR);
-			MutableText name = Text.literal(CommandManager.prefix + command.getName() + " ").formatted(Formatting.WHITE);
+			MutableText name = Text.literal(CommandManager.prefix.getValue() + command.getName() + " ").formatted(Formatting.WHITE);
 			MutableText usage = Text.literal(string).formatted(Formatting.GRAY);
 			log(usagestr.append(name.append(usage)));
 		}

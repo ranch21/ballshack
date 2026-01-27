@@ -16,6 +16,10 @@ public class SettingsManager {
 		settings.put(setting.getKey(), setting);
 	}
 
+	public static Map<String, Setting<?>> getSettings() {
+		return settings;
+	}
+
 	public static void loadSettings(JsonObject json) {
 		for (Map.Entry<String, JsonElement> jsonEntry : json.entrySet()) {
 			Setting<?> setting = settings.get(jsonEntry.getKey());
@@ -27,6 +31,8 @@ public class SettingsManager {
 					value = jsonEntry.getValue().getAsBoolean();
 				} else if (setting.getValue() instanceof Number) {
 					value = jsonEntry.getValue().getAsNumber();
+				} else if (setting.getValue() instanceof Character) {
+					value = jsonEntry.getValue().getAsString().charAt(0);
 				} else {
 					value = gson.fromJson(jsonEntry.getValue(), setting.getType());
 				}
@@ -44,6 +50,8 @@ public class SettingsManager {
 				json.addProperty(setting.getKey(), (Boolean) setting.getValue().getValue());
 			} else if (setting.getValue().getValue() instanceof Number) {
 				json.addProperty(setting.getKey(), (Number) setting.getValue().getValue());
+			} else if (setting.getValue().getValue() instanceof Character) {
+				json.addProperty(setting.getKey(), ((Character) setting.getValue().getValue()));
 			} else {
 				json.add(setting.getKey(), gson.toJsonTree(setting.getValue().getValue()));
 			}

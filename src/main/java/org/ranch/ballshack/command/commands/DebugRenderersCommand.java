@@ -8,6 +8,7 @@ import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import org.ranch.ballshack.command.Command;
+import org.ranch.ballshack.command.CommandType;
 import org.ranch.ballshack.command.suggestors.DebugRendererSuggestor;
 import org.ranch.ballshack.debug.DebugRenderers;
 
@@ -15,7 +16,7 @@ import java.util.List;
 
 public class DebugRenderersCommand extends Command {
 	public DebugRenderersCommand() {
-		super("debug_renderers", "enables / disables debug renderers");
+		super("debug_renderers", "enables / disables debug renderers", CommandType.CLIENT);
 	}
 
 	@Override

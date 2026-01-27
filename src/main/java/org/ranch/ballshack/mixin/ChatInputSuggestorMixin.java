@@ -22,7 +22,7 @@ public class ChatInputSuggestorMixin {
 
 	@Redirect(method = "refresh", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayNetworkHandler;getCommandDispatcher()Lcom/mojang/brigadier/CommandDispatcher;"))
 	public CommandDispatcher<ClientCommandSource> getCommandDispatcher(ClientPlayNetworkHandler instance) {
-		if (textField.getText().charAt(0) == CommandManager.prefix) {
+		if (textField.getText().charAt(0) == CommandManager.prefix.getValue()) {
 			return CommandManager.getCommandDispatcher();
 		}
 		return instance.getCommandDispatcher();
@@ -30,7 +30,7 @@ public class ChatInputSuggestorMixin {
 
 	@Redirect(method = "refresh", at = @At(value = "INVOKE", target = "Lcom/mojang/brigadier/StringReader;peek()C"))
 	public char peek(StringReader instance) {
-		if (instance.peek() == CommandManager.prefix) return '/'; // WORSE THAN EPSTEIN?
+		if (instance.peek() == CommandManager.prefix.getValue()) return '/'; // WORSE THAN EPSTEIN?
 		return instance.peek();
 	}
 }

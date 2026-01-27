@@ -3,6 +3,7 @@ package org.ranch.ballshack;
 import com.google.gson.reflect.TypeToken;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.client.MinecraftClient;
+import org.ranch.ballshack.command.CommandManager;
 import org.ranch.ballshack.debug.DebugRenderers;
 import org.ranch.ballshack.event.EventBus;
 import org.ranch.ballshack.gui.ClickGuiScreen;
@@ -16,7 +17,7 @@ public class BallsHack implements ModInitializer {
 
 	public static Setting<String> title = new Setting<>("BallsHack", "watermark", new TypeToken<String>() {
 	}.getType());
-	public static String version = "1.31";
+	public static String version = "1.32";
 
 	public static String ID = "ballshack";
 
@@ -29,6 +30,7 @@ public class BallsHack implements ModInitializer {
 		SettingsManager.registerSetting(DebugRenderers.enabled);
 		SettingsManager.registerSetting(ClickGuiScreen.windowData);
 		SettingsManager.registerSetting(title);
+		SettingsManager.registerSetting(CommandManager.prefix);
 		SettingSaver.readSettings();
 		FriendManager.set();
 		DebugRenderers.load();

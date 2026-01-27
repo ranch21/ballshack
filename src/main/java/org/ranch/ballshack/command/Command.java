@@ -14,10 +14,12 @@ public abstract class Command {
 
 	protected String name;
 	public final String desc;
+	public final CommandType type;
 
-	public Command(String name, String desc) {
+	public Command(String name, String desc, CommandType type) {
 		this.name = name;
 		this.desc = desc;
+		this.type = type;
 	}
 
 	public LiteralArgumentBuilder<ClientCommandSource> onRegisterBase() {

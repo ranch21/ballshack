@@ -7,8 +7,7 @@
     "BlockCollisionSpliteratorMixin",
     "CameraMixin",
     "EntityMixin",
-    "PlayerMoveC2SPacketAccessor",
-    "SkinTexturesMixin"
+    "PlayerMoveC2SPacketAccessor"
   ],
   "client": [
     "ChatInputSuggestorMixin",
@@ -25,6 +24,7 @@
     "MinecraftClientMixin",
     "MouseMixin",
     "PlayerEntityMixin",
+    "PlayerSkinProviderMixin",
     "ScreenMixin",
     "WorldRendererMixin"
   ],

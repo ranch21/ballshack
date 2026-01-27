@@ -18,11 +18,11 @@ public class BallsLogger {
 
 	private static final Text ballsText = Text.literal("BallsHack");
 
-	public static int BH_COLOR = Formatting.GREEN.getColorValue();
+	public static int BH_COLOR = Formatting.GOLD.getColorValue();
 
 	public static int CMD_COLOR = Formatting.GOLD.getColorValue();
 
-	public static int INFO_COLOR = Formatting.AQUA.getColorValue();
+	public static int INFO_COLOR = Formatting.GRAY.getColorValue();
 	public static int WARN_COLOR = Formatting.YELLOW.getColorValue();
 	public static int ERROR_COLOR = Formatting.RED.getColorValue();
 

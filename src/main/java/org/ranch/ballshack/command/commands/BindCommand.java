@@ -8,6 +8,7 @@ import net.minecraft.client.util.InputUtil;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import org.ranch.ballshack.command.Command;
+import org.ranch.ballshack.command.CommandType;
 import org.ranch.ballshack.command.arguments.CharacterArgumentType;
 import org.ranch.ballshack.command.suggestors.ModuleSuggestor;
 import org.ranch.ballshack.module.Module;
@@ -16,7 +17,7 @@ import org.ranch.ballshack.module.ModuleManager;
 public class BindCommand extends Command {
 
 	public BindCommand() {
-		super("bind", "Binds a module");
+		super("bind", "Binds a module", CommandType.CLIENT);
 	}
 
 	@Override
@@ -28,10 +29,10 @@ public class BindCommand extends Command {
 						.then(RequiredArgumentBuilder.<ClientCommandSource, String>argument("module", StringArgumentType.word())
 								.suggests(new ModuleSuggestor())
 								.then(RequiredArgumentBuilder.<ClientCommandSource, Character>argument("key", new CharacterArgumentType())
-										.executes(ctx -> {
+										.executes(context -> {
 
-											String moduleName = StringArgumentType.getString(ctx, "module");
-											Character keyChar = CharacterArgumentType.getCharacter(ctx, "key");
+											String moduleName = StringArgumentType.getString(context, "module");
+											Character keyChar = CharacterArgumentType.getCharacter(context, "key");
 
 											Module mod = ModuleManager.getModuleByName(moduleName);
 
@@ -64,9 +65,9 @@ public class BindCommand extends Command {
 
 				.then(LiteralArgumentBuilder.<ClientCommandSource>literal("clear")
 						.then(RequiredArgumentBuilder.<ClientCommandSource, String>argument("module", StringArgumentType.word())
-								.executes(ctx -> {
+								.executes(context -> {
 
-									String moduleName = StringArgumentType.getString(ctx, "module");
+									String moduleName = StringArgumentType.getString(context, "module");
 									Module mod = ModuleManager.getModuleByName(moduleName);
 
 									if (mod == null) {

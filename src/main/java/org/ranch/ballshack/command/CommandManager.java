@@ -1,12 +1,19 @@
 package org.ranch.ballshack.command;
 
+import com.google.gson.reflect.TypeToken;
 import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.ParseResults;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import net.minecraft.client.network.ClientCommandSource;
+import net.minecraft.text.Text;
+import net.minecraft.world.GameMode;
 import org.jetbrains.annotations.Nullable;
+import org.ranch.ballshack.BallsHack;
 import org.ranch.ballshack.BallsLogger;
 import org.ranch.ballshack.command.commands.*;
+import org.ranch.ballshack.setting.Setting;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +22,10 @@ public class CommandManager {
 
 	private static List<Command> commands = new ArrayList<>();
 
-	public static char prefix = '.';
+	public static final SimpleCommandExceptionType CREATIVE_EXCEPTION = new SimpleCommandExceptionType(Text.literal("Command requires creative!"));
+
+	public static Setting<Character> prefix = new Setting<>('.', "prefix", new TypeToken<Character>() {
+	}.getType());
 
 	private static @Nullable CommandDispatcher<ClientCommandSource> dispatcher;
 
@@ -44,15 +54,36 @@ public class CommandManager {
 		registerCommand(new FriendCommand());
 		registerCommand(new DebugRenderersCommand());
 		registerCommand(new BindCommand());
+		registerCommand(new SettingCommand());
+		registerCommand(new FormatCommand());
+		registerCommand(new ServerCommand());
+		registerCommand(new WatermarkCommand());
+
 		registerCommand(new ToggleCommand());
+
+		registerCommand(new ClearInvCommand());
+		registerCommand(new RenameCommand());
+		registerCommand(new HeadCommand());
 	}
 
 	public static boolean executeCommand(String command, ClientCommandSource source) {
 		try {
+			final ParseResults<ClientCommandSource> parse = dispatcher.parse(command, source);
+			String root = parse.getContext()
+					.getNodes()
+					.get(0)
+					.getNode()
+					.getName();
+			Command c = getCommandByName(root);
+
+			if (c.type == CommandType.CREATIVE && BallsHack.mc.interactionManager.getCurrentGameMode() != GameMode.CREATIVE) {
+				throw CREATIVE_EXCEPTION.createWithContext(parse.getReader());
+			}
+
 			dispatcher.execute(command, source);
 			return true;
 		} catch (CommandSyntaxException e) {
-			BallsLogger.error(e.getContext());
+			BallsLogger.error(e.getMessage());
 			return true;
 		}
 	}
