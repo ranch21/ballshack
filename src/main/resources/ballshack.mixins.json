@@ -13,6 +13,7 @@
     "ChatInputSuggestorMixin",
     "ChatScreenMixin",
     "ClientCommonNetworkHandlerMixin",
+    "ClientPlayerInteractionManagerAccessor",
     "ClientPlayerInteractionManagerMixin",
     "ClientPlayNetworkHandlerMixin",
     "ClientWorldMixin",

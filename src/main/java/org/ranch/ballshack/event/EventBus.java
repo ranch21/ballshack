@@ -1,5 +1,7 @@
 package org.ranch.ballshack.event;
 
+import org.ranch.ballshack.BallsHack;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -47,10 +49,12 @@ public class EventBus {
 		for (Map.Entry<Object, List<Method>> entry : subscribed.entrySet()) {
 			Object subscriber = entry.getKey();
 			for (Method method : entry.getValue()) {
-				try {
-					method.invoke(subscriber, event);
-				} catch (IllegalAccessException | InvocationTargetException e) {
-					e.printStackTrace();
+				if (method.isAnnotationPresent(NoWorld.class) || BallsHack.mc.world != null) {
+					try {
+						method.invoke(subscriber, event);
+					} catch (IllegalAccessException | InvocationTargetException e) {
+						e.printStackTrace();
+					}
 				}
 			}
 		}

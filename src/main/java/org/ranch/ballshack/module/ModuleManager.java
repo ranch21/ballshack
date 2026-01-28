@@ -9,10 +9,7 @@ import org.ranch.ballshack.module.modules.hud.Coordinates;
 import org.ranch.ballshack.module.modules.hud.ModuleList;
 import org.ranch.ballshack.module.modules.hud.Watermark;
 import org.ranch.ballshack.module.modules.movement.*;
-import org.ranch.ballshack.module.modules.player.AntiHunger;
-import org.ranch.ballshack.module.modules.player.AutoRespawn;
-import org.ranch.ballshack.module.modules.player.AutoWalk;
-import org.ranch.ballshack.module.modules.player.NoFall;
+import org.ranch.ballshack.module.modules.player.*;
 import org.ranch.ballshack.module.modules.render.*;
 import org.ranch.ballshack.module.modules.world.Scaffold;
 
@@ -98,7 +95,7 @@ public class ModuleManager {
 		register(new AntiHunger());
 		//register(new AutoReconnect());
 		register(new AutoRespawn());
-		//register(new AutoTool());
+		register(new AutoTool());
 		register(new AutoWalk());
 		register(new NoFall());
 
