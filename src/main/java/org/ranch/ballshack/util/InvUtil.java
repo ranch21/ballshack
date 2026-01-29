@@ -1,5 +1,6 @@
 package org.ranch.ballshack.util;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.player.PlayerEntity;
@@ -8,6 +9,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ProjectileItem;
 import net.minecraft.item.RangedWeaponItem;
 import net.minecraft.network.packet.c2s.play.CreativeInventoryActionC2SPacket;
+import net.minecraft.network.packet.c2s.play.UpdateSelectedSlotC2SPacket;
+import net.minecraft.util.hit.BlockHitResult;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,5 +49,10 @@ public class InvUtil {
 			mc.getNetworkHandler().sendPacket(new CreativeInventoryActionC2SPacket(-1, stack));
 			mc.player.getInventory().setStack(-1, stack.copy());
 		}
+	}
+
+	public static void selectSlot(int slot) {
+		mc.player.getInventory().setSelectedSlot(slot);
+		mc.getNetworkHandler().sendPacket(new UpdateSelectedSlotC2SPacket(slot));
 	}
 }

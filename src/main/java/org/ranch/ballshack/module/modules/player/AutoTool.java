@@ -14,6 +14,7 @@ import org.ranch.ballshack.mixin.ClientPlayerInteractionManagerAccessor;
 import org.ranch.ballshack.module.Module;
 import org.ranch.ballshack.module.ModuleCategory;
 import org.ranch.ballshack.setting.moduleSettings.SettingToggle;
+import org.ranch.ballshack.util.InvUtil;
 
 public class AutoTool extends Module {
 	public AutoTool() {
@@ -58,14 +59,12 @@ public class AutoTool extends Module {
 				return;
 
 			if (best < 9) {
-				mc.player.getInventory().setSelectedSlot(best);
-				mc.getNetworkHandler().sendPacket(new UpdateSelectedSlotC2SPacket(best));
+				InvUtil.selectSlot(best);
 			}
 		} else {
 			if (originalSlot != -1 && !mc.options.attackKey.isPressed()) {
 				if (goBack.getValue()) {
-					mc.player.getInventory().setSelectedSlot(originalSlot);
-					mc.getNetworkHandler().sendPacket(new UpdateSelectedSlotC2SPacket(originalSlot));
+					InvUtil.selectSlot(originalSlot);
 				}
 				originalSlot = -1;
 			}
