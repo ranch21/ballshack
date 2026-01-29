@@ -11,7 +11,7 @@ import java.util.Comparator;
 public class SortMode extends SettingMode {
 
 	public SortMode(String label) {
-		super(0, label, Arrays.asList("Dist", "Ang", "HP"));
+		super(label, 0, Arrays.asList("Dist", "Ang", "HP"));
 	}
 
 	public Comparator<Entity> getComparator() {

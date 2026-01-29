@@ -16,9 +16,9 @@ import java.awt.*;
 
 public class Coordinates extends ModuleHud {
 
-	public final SettingToggle backdrop = dGroup.add(new SettingToggle(true, "Backdrop"));
-	public final SettingToggle shadow = dGroup.add(new SettingToggle(true, "Shadow"));
-	public final SettingToggle scaled = dGroup.add(new SettingToggle(false, "Scaled"));
+	public final SettingToggle backdrop = dGroup.add(new SettingToggle("Backdrop", true));
+	public final SettingToggle shadow = dGroup.add(new SettingToggle("Shadow", true));
+	public final SettingToggle scaled = dGroup.add(new SettingToggle("Scaled", false));
 
 	public Coordinates() {
 		super("Coords", ModuleCategory.HUD, 0, 0, 0, "f3 wgat is it", ModuleAnchor.BOTTOM_LEFT);

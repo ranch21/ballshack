@@ -14,15 +14,15 @@ import java.util.Arrays;
 
 public class KillAura extends Module {
 
-	public final SettingSlider range = dGroup.add(new SettingSlider(4, "Range", 1, 8, 0.5));
+	public final SettingSlider range = dGroup.add(new SettingSlider("Range", 4, 1, 8, 0.5));
 
 	public final DropDown multiDD = dGroup.add(new DropDown("Multi"));
-	public final SettingToggle mEnabled = multiDD.add(new SettingToggle(true, "Enabled"));
-	public final SettingSlider mTargetMax = multiDD.add(new SettingSlider(4, "Targets", 2, 10, 1));
+	public final SettingToggle mEnabled = multiDD.add(new SettingToggle("Enabled", false));
+	public final SettingSlider mTargetMax = multiDD.add(new SettingSlider("Targets", 2, 2, 10, 1));
 
 	public final TargetsDropDown targets = dGroup.add(new TargetsDropDown("Targets"));
-	public final SettingMode rotate = dGroup.add((SettingMode) new SettingMode(0, "Rotate", Arrays.asList("None", "Packet", "True")).featured());
-	public final SettingToggle swing = dGroup.add(new SettingToggle(true, "Swing"));
+	public final SettingMode rotate = dGroup.add( new SettingMode("Rotate", 0, Arrays.asList("None", "Packet", "True")).featured());
+	public final SettingToggle swing = dGroup.add(new SettingToggle("Swing", true));
 	public final SortMode sort = dGroup.add(new SortMode("Sort"));
 
 	public KillAura() {

@@ -4,14 +4,39 @@ import org.ranch.ballshack.util.EntityUtil;
 
 public class TargetsDropDown extends DropDown {
 
-	private final SettingToggle friends = settings.add(new SettingToggle(false, "Friends"));
-	private final SettingToggle players = settings.add(new SettingToggle(true, "Players"));
-	private final SettingToggle monsters = settings.add(new SettingToggle(true, "Monsters"));
-	private final SettingToggle passive = settings.add(new SettingToggle(false, "Passive"));
-	private final SettingToggle other = settings.add(new SettingToggle(false, "Other"));
+	private final SettingToggle friends = settings.add(new SettingToggle("Friends", false));
+	private final SettingToggle players = settings.add(new SettingToggle("Players", true));
+	private final SettingToggle monsters = settings.add(new SettingToggle("Monsters", true));
+	private final SettingToggle passive = settings.add(new SettingToggle("Passive", false));
+	private final SettingToggle other = settings.add(new SettingToggle("Other", false));
 
 	public TargetsDropDown(String label) {
 		super(label);
+	}
+
+	public TargetsDropDown friends(boolean b) {
+		friends.setValue(b);
+		return this;
+	}
+
+	public TargetsDropDown players(boolean b) {
+		players.setValue(b);
+		return this;
+	}
+
+	public TargetsDropDown monsters(boolean b) {
+		monsters.setValue(b);
+		return this;
+	}
+
+	public TargetsDropDown passive(boolean b) {
+		passive.setValue(b);
+		return this;
+	}
+
+	public TargetsDropDown other(boolean b) {
+		other.setValue(b);
+		return this;
 	}
 
 	public boolean getFriends() {

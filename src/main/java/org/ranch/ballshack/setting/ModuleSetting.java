@@ -9,7 +9,7 @@ import org.ranch.ballshack.util.rendering.DrawUtil;
 
 import java.awt.*;
 
-public abstract class ModuleSetting<T> {
+public abstract class ModuleSetting<T, SELF extends ModuleSetting<T, SELF>> {
 
 	private final String name;
 	private String tooltip;
@@ -41,6 +41,21 @@ public abstract class ModuleSetting<T> {
 			DrawUtil.queueTooltip(x + width + 1, y, tooltip);
 		}
 		return added;
+	}
+
+	@SuppressWarnings("unchecked")
+	protected SELF self() {
+		return (SELF) this;
+	}
+
+	public SELF featured() {
+		featured = true;
+		return self();
+	}
+
+	public SELF tooltip(String tooltip) {
+		this.tooltip = tooltip;
+		return self();
 	}
 
 	public abstract int render(int mouseX, int mouseY);
@@ -89,16 +104,6 @@ public abstract class ModuleSetting<T> {
 
 	public boolean isFeatured() {
 		return featured;
-	}
-
-	public ModuleSetting<T> featured() {
-		featured = true; // TODO MAKE THIS RETURN THE TYPE OF THE ONE WHO EXTENDS NOT EG. MODULESETTING<INTEGER> TYSM
-		return this;
-	}
-
-	public ModuleSetting<T> tooltip(String tooltip) {
-		this.tooltip = tooltip; // TODO same thing here
-		return this;
 	}
 
 	public abstract String getFormattedValue();

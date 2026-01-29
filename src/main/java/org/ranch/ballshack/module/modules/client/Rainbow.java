@@ -9,9 +9,9 @@ import org.ranch.ballshack.setting.moduleSettings.SettingSlider;
 
 public class Rainbow extends Module {
 
-	public final SettingSlider saturation = dGroup.add(new SettingSlider(0.5, "Sat", 0, 1, 0.05));
-	public final SettingSlider brightness = dGroup.add(new SettingSlider(1, "Bri", 0, 1, 0.05));
-	public final SettingSlider speed = dGroup.add(new SettingSlider(1, "Speed", 0, 5, 0.5));
+	public final SettingSlider saturation = dGroup.add(new SettingSlider("Sat", 0.5, 0, 1, 0.05));
+	public final SettingSlider brightness = dGroup.add(new SettingSlider("Bri", 1, 0, 1, 0.05));
+	public final SettingSlider speed = dGroup.add(new SettingSlider("Speed", 1, 0, 5, 0.5));
 
 	public Rainbow() {
 		super("Rainbow", ModuleCategory.CLIENT, 0, "Taste the rainbow", true);

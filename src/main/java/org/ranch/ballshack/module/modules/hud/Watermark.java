@@ -16,9 +16,9 @@ import static org.ranch.ballshack.util.TextUtil.applyFormatting;
 
 public class Watermark extends ModuleHud {
 
-	public final SettingToggle backdrop = dGroup.add(new SettingToggle(true, "Backdrop"));
-	public final SettingToggle shadow = dGroup.add(new SettingToggle(true, "Shadow"));
-	public final SettingString text = dGroup.add(new SettingString("Text", "$watermark $bhversion $mcversion", 256));
+	public final SettingToggle backdrop = dGroup.add(new SettingToggle("Backdrop", true));
+	public final SettingToggle shadow = dGroup.add(new SettingToggle("Shadow", true));
+	public final SettingString text = dGroup.add(new SettingString("Text", "$watermark $bhversion $mcversion"));
 
 	public Watermark() {
 		super("Watermark", ModuleCategory.HUD, 0, 0, 0, "inbdfgnjnojlouijmijlkmijlkmijlkmijkjwwajjsdnuijksdanjnjdwadnwajkd", ModuleAnchor.TOP_LEFT);

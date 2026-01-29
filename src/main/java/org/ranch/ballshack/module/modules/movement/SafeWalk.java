@@ -10,7 +10,7 @@ import org.ranch.ballshack.util.PlayerSim;
 
 public class SafeWalk extends Module {
 
-	public final SettingToggle realAndTrue = new SettingToggle(false, "REALANDTRUE");
+	public final SettingToggle realAndTrue = new SettingToggle("REALANDTRUE", false);
 
 	public SafeWalk() {
 		super("SafeWalk", ModuleCategory.MOVEMENT, 0, "Sneak un-sneakily");
@@ -23,8 +23,8 @@ public class SafeWalk extends Module {
 		if (!realAndTrue.getValue()) {
 			event.clip = true;
 		} else {
-			PlayerSim.PlayerPoint future = PlayerSim.simulatePlayer(mc.player);
-			shouldSneak = !future.onGround() && mc.player.isOnGround();
+			int fallTick = PlayerSim.getFirst(PlayerSim.simulatePlayer(mc.player, 5), (point -> !point.onGround()));
+			shouldSneak = fallTick < 3;
 		}
 	}
 

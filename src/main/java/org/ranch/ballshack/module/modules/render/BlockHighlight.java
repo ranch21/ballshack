@@ -24,7 +24,7 @@ import static org.ranch.ballshack.Constants.LINE_WIDTH;
 
 public class BlockHighlight extends Module {
 
-	public final SettingSlider alpha = dGroup.add(new SettingSlider(0.2f, "Alpha", 0, 1, 0.1));
+	public final SettingSlider alpha = dGroup.add(new SettingSlider("Alpha", 0.2f, 0, 1, 0.1));
 
 	public BlockHighlight() {
 		super("BlockHighlight", ModuleCategory.RENDER, 0, "look its purple now!");

@@ -16,9 +16,9 @@ public class TestModule extends Module {
 
 	final ModuleSettingsGroup defaultGroup = settings.getDefaultGroup();
 
-	private final SettingSlider testSlider = defaultGroup.add(new SettingSlider(1, "test", 0, 10, 1));
-	private final DropDown dropDown = defaultGroup.add(new DropDown("YOOOWHAT"));
-	private final SettingToggle testToggle = dropDown.settings.add(new SettingToggle(false, "testToggle"));
+	private final SettingSlider testSlider = defaultGroup.add(new SettingSlider("test", 1, 0, 10, 1));
+	private final DropDown dropDown = defaultGroup.add(new DropDown("YOOOWHAT i luv this new system this is going off the side of the window"));
+	private final SettingToggle testToggle = dropDown.settings.add(new SettingToggle("testToggle", false));
 
 	public TestModule() {
 		super("Test", ModuleCategory.FUN, 0, "Testingh ahwdhghfi");

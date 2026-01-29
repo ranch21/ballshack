@@ -16,6 +16,7 @@ import org.ranch.ballshack.mixin.InputAccessor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 public class PlayerSim {
 
@@ -185,6 +186,13 @@ public class PlayerSim {
 			points.add(new PlayerPoint(fakePlayer.getEntityPos(), fakePlayer.getBoundingBox(), fakePlayer.getVelocity(), fakePlayer.isOnGround()));
 		}
 		return points;
+	}
+
+	public static int getFirst(List<PlayerPoint> future, Function<PlayerPoint, Boolean> func) {
+		for (int i = 0; i < future.size(); i++) {
+			if (func.apply(future.get(i))) return i;
+		}
+		return future.size() - 1;
 	}
 
 	public static PlayerPoint simulatePlayer(ClientPlayerEntity player) {

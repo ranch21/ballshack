@@ -37,8 +37,6 @@ public class Renderer {
 	private static Vector4f colorModulator = new Vector4f(1f, 1f, 1f, 1f);
 	MappableRingBuffer vertexBuffer;
 
-	private final boolean init = false;
-
 	private static Renderer instance;
 
 	public static Renderer getInstance() {

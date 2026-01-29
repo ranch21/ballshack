@@ -16,7 +16,7 @@ import org.ranch.ballshack.util.rendering.DrawUtil;
 import java.awt.*;
 import java.util.List;
 
-public class SettingString extends ModuleSetting<String> {
+public class SettingString extends ModuleSetting<String, SettingString> {
 
 	private boolean focused = false;
 	private int selectionStart;
@@ -27,9 +27,9 @@ public class SettingString extends ModuleSetting<String> {
 		super(name, startingValue);
 	}
 
-	public SettingString(String name, String startingValue, int maxLength) {
-		super(name, startingValue);
-		this.maxLength = Math.max(1, maxLength);
+	public SettingString maxLen(int maxLength) {
+		this.maxLength = maxLength;
+		return this;
 	}
 
 	@Override

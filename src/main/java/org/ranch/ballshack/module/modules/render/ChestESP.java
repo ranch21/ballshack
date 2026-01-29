@@ -25,7 +25,7 @@ import static org.ranch.ballshack.Constants.LINE_WIDTH;
 
 public class ChestESP extends Module {
 
-	public final SettingSlider alpha = dGroup.add(new SettingSlider(0.2f, "Alpha", 0, 1, 0.1));
+	public final SettingSlider alpha = dGroup.add(new SettingSlider("Alpha", 0.2f, 0, 1, 0.1));
 
 	public ChestESP() {
 		super("ChestESP", ModuleCategory.RENDER, 0, "\"i found a spawner\"");
@@ -38,9 +38,9 @@ public class ChestESP extends Module {
 			return;
 
 		Stream<BlockEntity> blockEntities = WorldUtil.getLoadedChunks().flatMap(chunk -> chunk.getBlockEntities().values().stream());
+		MatrixStack matrices = event.matrixStack;
 
 		Renderer renderer = Renderer.getInstance();
-		MatrixStack matrices = event.matrixStack;
 
 		for (BlockEntity bEnt : blockEntities.toList()) {
 

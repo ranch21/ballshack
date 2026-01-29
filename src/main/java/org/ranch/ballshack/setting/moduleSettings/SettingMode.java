@@ -8,13 +8,18 @@ import org.ranch.ballshack.setting.ModuleSetting;
 
 import java.util.List;
 
-public class SettingMode extends ModuleSetting<Integer> {
+public class SettingMode extends ModuleSetting<Integer, SettingMode> {
 
 	private final List<String> modes;
 
-	public SettingMode(int value, String name, List<String> modes) {
+	public SettingMode(String name, int value, List<String> modes) {
 		super(name, value);
 		this.modes = modes;
+	}
+
+	public SettingMode(String name, int value, String... modes) {
+		super(name, value);
+		this.modes = List.of(modes);
 	}
 
 	@Override

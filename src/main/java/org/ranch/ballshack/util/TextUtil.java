@@ -14,7 +14,11 @@ import static org.ranch.ballshack.util.Formatters.FORMATTERS;
 public class TextUtil {
 
 	public static String formatDecimal(double value) {
-		DecimalFormat df = new DecimalFormat("#.##");
+		return formatDecimal(value, "#.##");
+	}
+
+	public static String formatDecimal(double value, String format) {
+		DecimalFormat df = new DecimalFormat(format);
 		return df.format(value);
 	}
 

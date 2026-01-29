@@ -6,8 +6,9 @@ import org.ranch.ballshack.gui.Colors;
 import org.ranch.ballshack.gui.GuiUtil;
 import org.ranch.ballshack.setting.ModuleSetting;
 
-public class SettingToggle extends ModuleSetting<Boolean> {
-	public SettingToggle(boolean startingValue, String name) {
+public class SettingToggle extends ModuleSetting<Boolean, SettingToggle> {
+
+	public SettingToggle(String name, boolean startingValue) {
 		super(name, startingValue);
 	}
 

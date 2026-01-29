@@ -19,8 +19,8 @@ import java.util.List;
 
 public class ProjectileEvade extends Module {
 
-	public final SettingMode mode = dGroup.add(new SettingMode(0, "Mode", Arrays.asList("Legit", "LegitSprint", "TP")));
-	public final SettingSlider hExpand = dGroup.add(new SettingSlider(0.25, "HitboxExpand", 0, 1, 0.1));
+	public final SettingMode mode = dGroup.add(new SettingMode("Mode", 0, Arrays.asList("Legit", "LegitSprint", "TP")));
+	public final SettingSlider hExpand = dGroup.add(new SettingSlider("HitboxExpand", 0.5, 0, 1, 0.1));
 
 	public ProjectileEvade() {
 		super("ProjEvade", ModuleCategory.MOVEMENT, 0, "endredman");

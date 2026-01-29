@@ -1,6 +1,5 @@
 package org.ranch.ballshack.module.modules.hud;
 
-import com.google.common.collect.Streams;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
@@ -23,10 +22,10 @@ import java.util.stream.Stream;
 public class ModuleList extends ModuleHud {
 	float totalTicks = 0;
 
-	public final SettingMode colorMode = dGroup.add(new SettingMode(1, "ColMode", Arrays.asList("Cat", "Rand", "Rain")));
-	public final SettingToggle backdrop = dGroup.add(new SettingToggle(true, "Backdrop"));
-	public final SettingToggle shadow = dGroup.add(new SettingToggle(true, "Shadow"));
-	public final SettingToggle line = dGroup.add(new SettingToggle(true, "Line"));
+	public final SettingMode colorMode = dGroup.add(new SettingMode("ColMode", 1, Arrays.asList("Cat", "Rand", "Rain")));
+	public final SettingToggle backdrop = dGroup.add(new SettingToggle("Backdrop", true));
+	public final SettingToggle shadow = dGroup.add(new SettingToggle("Shadow", true));
+	public final SettingToggle line = dGroup.add(new SettingToggle("Line", true));
 
 	public ModuleList() {
 		super("ModuleList", ModuleCategory.HUD, 0, 0, 0, "Incase you forgor what you enabled", ModuleAnchor.TOP_RIGHT);
@@ -35,7 +34,7 @@ public class ModuleList extends ModuleHud {
 	@EventSubscribe
 	public void onHudRender(EventHudRender event) {
 
-		Stream<Module> modules = Streams.stream(ModuleManager.getModules());
+		Stream<Module> modules = ModuleManager.getModules().stream();
 
 		Comparator<Module> comparator = Comparator.comparing(m -> {
 			String name = m.getName();
@@ -113,7 +112,7 @@ public class ModuleList extends ModuleHud {
 
 	private String getFeaturedSettings(Module module) {
 		StringBuilder feat = new StringBuilder();
-		for (ModuleSetting<?> m : module.getSettings().getSettings()) {
+		for (ModuleSetting<?, ?> m : module.getSettings().getSettings()) {
 			if (m.isFeatured()) {
 				if (!feat.isEmpty()) {
 					feat.append(", ");

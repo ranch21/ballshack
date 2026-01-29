@@ -106,6 +106,7 @@ public class ModuleManager {
 		register(new ESP());
 		register(new Tracers());
 		register(new Trajectories());
+		register(new Nametags());
 
 		// world
 		register(new Scaffold());

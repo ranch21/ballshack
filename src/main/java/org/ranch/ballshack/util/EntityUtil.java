@@ -16,6 +16,7 @@ import net.minecraft.entity.projectile.AbstractFireballEntity;
 import net.minecraft.entity.projectile.ShulkerBulletEntity;
 import net.minecraft.util.math.Vec3d;
 import org.ranch.ballshack.FriendManager;
+import org.ranch.ballshack.gui.Colors;
 import org.ranch.ballshack.setting.moduleSettings.TargetsDropDown;
 
 import java.awt.*;
@@ -95,6 +96,17 @@ public class EntityUtil {
 								&& mc.player.distanceTo(e) <= distance).filter(e -> filterByType(e, targetsDropDown))
 				.sorted(comparator)
 				.collect(Collectors.toList());
+	}
+
+	public static Color getHPCol(LivingEntity entity) {
+		float f = entity.getHealth() / entity.getMaxHealth() * 3;
+
+		if (f < 1)
+			return Colors.DEFAULT_RED;
+		else if (f < 2)
+			return Color.YELLOW;
+		else
+			return Colors.DEFAULT_GREEN;
 	}
 
 	public enum EntityType {

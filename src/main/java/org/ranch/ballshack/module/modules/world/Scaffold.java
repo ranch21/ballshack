@@ -42,8 +42,8 @@ public class Scaffold extends Module {
 	private final double EPSILON = 0.0001;
 	private int delay = 1;
 
-	public final SettingMode rotate = dGroup.add((SettingMode) new SettingMode(0, "Rotate", Arrays.asList("None", "Packet", "True")).featured());
-	public final SettingSlider delaySlider = dGroup.add(new SettingSlider(1, "Delay", 0, 10, 1));
+	public final SettingMode rotate = dGroup.add((SettingMode) new SettingMode("Rotate", 2, Arrays.asList("None", "Packet", "True")).featured());
+	public final SettingSlider delaySlider = dGroup.add(new SettingSlider("Delay", 1, 0, 10, 1));
 
 	public Scaffold() {
 		super("Scaffold", ModuleCategory.WORLD, 0);

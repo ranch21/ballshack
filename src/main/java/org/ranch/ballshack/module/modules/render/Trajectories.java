@@ -28,8 +28,8 @@ import static org.ranch.ballshack.Constants.LINE_WIDTH;
 public class Trajectories extends Module {
 	private final List<ProjectileSim.Trajectory> trajectories = new ArrayList<>();
 
-	public final SettingToggle players = dGroup.add(new SettingToggle(true, "Players"));
-	public final SettingSlider alpha = dGroup.add(new SettingSlider(1, "Alpha", 0, 1, 0.1));
+	public final SettingToggle players = dGroup.add(new SettingToggle("Players", true));
+	public final SettingSlider alpha = dGroup.add(new SettingSlider("Alpha", 1, 0, 1, 0.1));
 
 	public Trajectories() {
 		super("Trajectories", ModuleCategory.RENDER, 0, "i dont see you but now i see where my arrows are heading towards");

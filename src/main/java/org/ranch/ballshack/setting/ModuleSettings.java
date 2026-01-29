@@ -12,7 +12,7 @@ public class ModuleSettings implements SettingsList {
 	protected final SettingBind bind;
 
 	public ModuleSettings() {
-		bind = defaultGroup.add(new SettingBind(0, "KeyBind"));
+		bind = defaultGroup.add(new SettingBind("KeyBind", 0));
 	}
 
 	public ModuleSettingsGroup getDefaultGroup() {
@@ -20,18 +20,18 @@ public class ModuleSettings implements SettingsList {
 	}
 
 	@Override
-	public <T extends ModuleSetting<?>> T add(T setting) {
+	public <T extends ModuleSetting<?, ?>> T add(T setting) {
 		return defaultGroup.add(setting);
 	}
 
 	@Override
-	public List<ModuleSetting<?>> getSettings() {
+	public List<ModuleSetting<?, ?>> getSettings() {
 		return defaultGroup.getSettings();
 	}
 
-	protected List<ModuleSetting<?>> unpackSettings(List<ModuleSetting<?>> settings) {
-		List<ModuleSetting<?>> list = new ArrayList<>();
-		for (ModuleSetting<?> setting : settings) {
+	protected List<ModuleSetting<?, ?>> unpackSettings(List<ModuleSetting<?, ?>> settings) {
+		List<ModuleSetting<?, ?>> list = new ArrayList<>();
+		for (ModuleSetting<?, ?> setting : settings) {
 			list.add(setting);
 			if (setting instanceof SettingsList) {
 				list.addAll(unpackSettings(((DropDown) setting).getSettings()));
@@ -40,8 +40,8 @@ public class ModuleSettings implements SettingsList {
 		return list;
 	}
 
-	public List<ModuleSetting<?>> getSettingsUnpacked() {
-		List<ModuleSetting<?>> merged = new ArrayList<>(unpackSettings(defaultGroup.getSettings()));
+	public List<ModuleSetting<?, ?>> getSettingsUnpacked() {
+		List<ModuleSetting<?, ?>> merged = new ArrayList<>(unpackSettings(defaultGroup.getSettings()));
 		return new ArrayList<>(merged);
 	}
 

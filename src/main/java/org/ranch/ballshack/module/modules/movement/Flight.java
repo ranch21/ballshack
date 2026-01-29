@@ -12,8 +12,8 @@ public class Flight extends Module {
 
 	private int antiKick = 0;
 
-	public final SettingSlider hSpeed = dGroup.add((SettingSlider) new SettingSlider(2, "Hspeed", 0.5, 10, 0.5).featured());
-	public final SettingSlider vSpeed = dGroup.add(new SettingSlider(2, "Vspeed", 0.5, 5, 0.5));
+	public final SettingSlider hSpeed = dGroup.add( new SettingSlider("Hspeed", 2, 0.5, 10, 0.5).featured());
+	public final SettingSlider vSpeed = dGroup.add(new SettingSlider("Vspeed", 2, 0.5, 5, 0.5));
 
 	public Flight() {
 		super("Flight", ModuleCategory.MOVEMENT, 0, "hawk tuah man!");

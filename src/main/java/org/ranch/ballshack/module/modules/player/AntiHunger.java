@@ -15,8 +15,8 @@ public class AntiHunger extends Module {
 	private boolean prevOnGround = false;
 	private boolean ignorePacket = false;
 
-	public final SettingToggle sprint = dGroup.add(new SettingToggle(true, "Sprint"));
-	public final SettingToggle ground = dGroup.add(new SettingToggle(true, "Ground"));
+	public final SettingToggle sprint = dGroup.add(new SettingToggle("Sprint", true));
+	public final SettingToggle ground = dGroup.add(new SettingToggle("Ground", true));
 
 	public AntiHunger() {
 		super("AntiHunger", ModuleCategory.PLAYER, 0, "mmmmmmgghhh im soooo full");

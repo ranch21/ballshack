@@ -16,7 +16,7 @@ import org.ranch.ballshack.util.rendering.Renderer;
 
 public class Tracers extends Module {
 
-	public final SettingSlider alpha = dGroup.add(new SettingSlider(0.4f, "Alpha", 0, 1, 0.1));
+	public final SettingSlider alpha = dGroup.add(new SettingSlider("Alpha", 0.4f, 0, 1, 0.1));
 	public final TargetsDropDown targets = dGroup.add(new TargetsDropDown("Targets"));
 
 	public Tracers() {

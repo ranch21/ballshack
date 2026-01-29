@@ -4,9 +4,9 @@ import net.minecraft.block.BlockState;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.packet.c2s.play.PlayerActionC2SPacket;
-import net.minecraft.network.packet.c2s.play.UpdateSelectedSlotC2SPacket;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult;
+import net.minecraft.world.GameMode;
 import org.ranch.ballshack.event.EventSubscribe;
 import org.ranch.ballshack.event.events.EventPacketSend;
 import org.ranch.ballshack.event.events.EventTick;
@@ -21,7 +21,7 @@ public class AutoTool extends Module {
 		super("AutoTool", ModuleCategory.PLAYER, 0, "Selects tool for you in an automatic fashion");
 	}
 
-	public final SettingToggle goBack = dGroup.add(new SettingToggle(true, "Return"));
+	public final SettingToggle goBack = dGroup.add(new SettingToggle("Return", true));
 
 	private int originalSlot = -1;
 	private boolean switched = false;
@@ -44,6 +44,10 @@ public class AutoTool extends Module {
 
 	@EventSubscribe
 	public void onTick(EventTick event) { // ouch
+
+		if (mc.interactionManager.getCurrentGameMode() == GameMode.CREATIVE)
+			return;
+
 		HitResult crosshair = mc.crosshairTarget;
 		boolean canMine = ((ClientPlayerInteractionManagerAccessor) mc.interactionManager).getBlockBreakingCooldown() <= 0;
 

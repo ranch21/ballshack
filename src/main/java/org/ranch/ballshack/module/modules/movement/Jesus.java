@@ -10,7 +10,7 @@ import org.ranch.ballshack.setting.moduleSettings.SettingToggle;
 
 public class Jesus extends Module {
 
-	public final SettingToggle sides = dGroup.add((SettingToggle) new SettingToggle(true, "Sides").featured());
+	public final SettingToggle sides = dGroup.add( new SettingToggle("Sides", true).featured());
 
 	public Jesus() {
 		super("Jesus", ModuleCategory.MOVEMENT, 0, "Atheists cannot explain");

@@ -7,7 +7,7 @@ import org.ranch.ballshack.gui.GuiUtil;
 import org.ranch.ballshack.setting.ModuleSetting;
 import org.ranch.ballshack.util.TextUtil;
 
-public class SettingSlider extends ModuleSetting<Double> {
+public class SettingSlider extends ModuleSetting<Double, SettingSlider> {
 
 	private final double min;
 	private final double max;
@@ -15,7 +15,7 @@ public class SettingSlider extends ModuleSetting<Double> {
 
 	private boolean holding = false;
 
-	public SettingSlider(double startingValue, String name, double min, double max, double step) {
+	public SettingSlider(String name, double startingValue, double min, double max, double step) {
 		super(name, startingValue);
 		this.min = min;
 		this.max = max;
@@ -66,6 +66,14 @@ public class SettingSlider extends ModuleSetting<Double> {
 
 	private double roundToStep(double value) {
 		return Math.round(value / step) * step;
+	}
+
+	public int getValueInt() {
+		return (int) (double) getValue();
+	}
+
+	public float getValueFloat() {
+		return (float) (double) getValue();
 	}
 
 	@Override

@@ -56,9 +56,9 @@ public class SettingSaver {
 		startExecutor();
 	}
 
-	private static JsonObject getSettings(List<ModuleSetting<?>> settings) {
+	private static JsonObject getSettings(List<ModuleSetting<?, ?>> settings) {
 		JsonObject settingsJson = new JsonObject();
-		for (ModuleSetting<?> setting : settings) {
+		for (ModuleSetting<?, ?> setting : settings) {
 			Object value = setting.getValue();
 
 			if (setting instanceof DropDown) {
@@ -140,7 +140,7 @@ public class SettingSaver {
 
 	private static void setSettings(JsonObject settingsJson, Module mod) {
 		BallsLogger.info(settingsJson.toString());
-		for (ModuleSetting<?> setting : mod.getSettings().getSettings()) {
+		for (ModuleSetting<?, ?> setting : mod.getSettings().getSettings()) {
 			String settingName = setting.getName();
 
 			if (settingsJson.has(settingName)) {

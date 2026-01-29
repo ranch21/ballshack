@@ -13,7 +13,7 @@ public class Speed extends Module {
 	private int stage;
 	private double speed;
 
-	public final SettingSlider speedSlider = dGroup.add(new SettingSlider(1, "Speed", 0.25, 4, 0.25));
+	public final SettingSlider speedSlider = dGroup.add(new SettingSlider("Speed", 1, 0.25, 4, 0.25));
 
 	public Speed() {
 		super("Speed", ModuleCategory.MOVEMENT, 0, "go fast(er)");

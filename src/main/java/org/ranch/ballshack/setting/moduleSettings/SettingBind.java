@@ -6,12 +6,12 @@ import org.ranch.ballshack.gui.Colors;
 import org.ranch.ballshack.gui.GuiUtil;
 import org.ranch.ballshack.setting.ModuleSetting;
 
-public class SettingBind extends ModuleSetting<Integer> {
+public class SettingBind extends ModuleSetting<Integer, SettingBind> {
 
 	private boolean selected;
 
-	public SettingBind(int startingValue, String name) {
-		super(name, startingValue);
+	public SettingBind(String name, Integer value) {
+		super(name, value);
 	}
 
 	@Override

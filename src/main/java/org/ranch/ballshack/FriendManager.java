@@ -44,7 +44,7 @@ public class FriendManager {
 	}
 
 	public static boolean has(String name) {
-		return friends.contains(name);
+		return friends.contains(name.toLowerCase());
 	}
 
 	public static List<String> getFriends() {

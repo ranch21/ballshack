@@ -21,25 +21,25 @@ public class DiscordRP extends Module {
 	private static Core core;
 	private static Activity activity;
 
-	public final SettingMode activityType = dGroup.add(new SettingMode(0, "Type", Arrays.asList(
+	public final SettingMode activityType = dGroup.add(new SettingMode("Type", 0, Arrays.asList(
 			"Playing",
 			"Streaming",
 			"Listening",
 			"Watching",
 			"Competing"
 	)));
-	public final SettingString details = dGroup.add(new SettingString("Details", "funny name i know", 256));
-	public final SettingString state = dGroup.add(new SettingString("State", "yay", 256));
+	public final SettingString details = dGroup.add(new SettingString("Details", "funny name i know"));
+	public final SettingString state = dGroup.add(new SettingString("State", "yay"));
 
 	public final DropDown partyDD = dGroup.add(new DropDown("Party"));
-	public final SettingToggle pEnabled = partyDD.add(new SettingToggle(true, "Enabled"));
-	public final SettingToggle pUsePCount = partyDD.add(new SettingToggle(false, "UsePCount"));
-	public final SettingSlider pCurrent = partyDD.add(new SettingSlider(1, "Current", 0, 100, 1));
-	public final SettingSlider pMax = partyDD.add(new SettingSlider(2, "Max", 1, 100, 1));
+	public final SettingToggle pEnabled = partyDD.add(new SettingToggle("Enabled", true));
+	public final SettingToggle pUsePCount = partyDD.add(new SettingToggle("UsePCount", false));
+	public final SettingSlider pCurrent = partyDD.add(new SettingSlider("Current", 1, 0, 100, 1));
+	public final SettingSlider pMax = partyDD.add(new SettingSlider("Max", 2, 1, 100, 1));
 
 	public final DropDown assetsDD = dGroup.add(new DropDown("Assets"));
-	public final SettingString aLarge = assetsDD.add(new SettingString("Large", "icon", 10));
-	public final SettingString aSmall = assetsDD.add(new SettingString("Small", "me", 10));
+	public final SettingString aLarge = assetsDD.add(new SettingString("Large", "icon").maxLen(10));
+	public final SettingString aSmall = assetsDD.add(new SettingString("Small", "me").maxLen(10));
 
 	public DiscordRP() {
 		super("DiscordRP", ModuleCategory.CLIENT, 0, "answer my call at ONCE kitten!!");

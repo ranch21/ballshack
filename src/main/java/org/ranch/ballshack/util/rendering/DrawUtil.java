@@ -3,7 +3,15 @@ package org.ranch.ballshack.util.rendering;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.network.AbstractClientPlayerEntity;
+import net.minecraft.client.network.ClientPlayerLikeState;
+import net.minecraft.client.render.command.OrderedRenderCommandQueue;
+import net.minecraft.client.render.state.CameraRenderState;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.RotationAxis;
+import net.minecraft.util.math.Vec3d;
 import org.joml.Vector2i;
 import org.ranch.ballshack.gui.Colors;
 import org.ranch.ballshack.util.TextUtil;
@@ -90,6 +98,31 @@ public class DrawUtil {
 		}
 	}
 
+	// pos is offset from cam
+	public static void renderText3D(Text text, Vec3d pos, MatrixStack stack, CameraRenderState state, OrderedRenderCommandQueue queue, float dist) {
+		queue.submitLabel(
+				stack,
+				pos,
+				0,
+				text,
+				true,
+				Integer.MAX_VALUE,
+				dist,
+				state
+		);
+	}
+
+	public static void unBobView(MatrixStack matrices, float tickProgress) {
+		if (mc.getCameraEntity() instanceof AbstractClientPlayerEntity abstractClientPlayerEntity) {
+			ClientPlayerLikeState clientPlayerLikeState = abstractClientPlayerEntity.getState();
+			float f = clientPlayerLikeState.getReverseLerpedDistanceMoved(tickProgress);
+			float g = clientPlayerLikeState.lerpMovement(tickProgress);
+			matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(-Math.abs(MathHelper.cos(f * (float) Math.PI - 0.2F) * g) * 5.0F));
+			matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(-MathHelper.sin(f * (float) Math.PI) * g * 3.0F));
+			matrices.translate(-MathHelper.sin(f * (float) Math.PI) * g * 0.5F, Math.abs(MathHelper.cos(f * (float) Math.PI) * g), 0.0F);
+		}
+	}
+
 	public static Color blendColor(Color color1, Color color2, float ratio) {
 
 		int red = (int) (color1.getRed() * (1 - ratio) + color2.getRed() * ratio);
@@ -97,24 +130,6 @@ public class DrawUtil {
 		int blue = (int) (color1.getBlue() * (1 - ratio) + color2.getBlue() * ratio);
 
 		return new Color(Math.min(red, 255), Math.min(green, 255), Math.min(blue, 255));
-	}
-
-	public static void drawTextRight(DrawContext context, TextRenderer textRend, String text, int x, int y, Color color, boolean shadow) {
-		drawText(context, textRend, text, x - textRend.getWidth(text), y, color, shadow);
-	}
-
-	public static void drawTextRight(DrawContext context, TextRenderer textRend, Text text, int x, int y, Color color, boolean shadow) {
-		drawText(context, textRend, text, x - textRend.getWidth(text), y, color, shadow);
-	}
-
-	@Deprecated
-	public static void drawText(DrawContext context, TextRenderer textRend, String text, int x, int y, Color color, boolean shadow) {
-		context.drawText(textRend, text, x, y, color.hashCode(), shadow);
-	}
-
-	@Deprecated
-	public static void drawText(DrawContext context, TextRenderer textRend, Text text, int x, int y, Color color, boolean shadow) {
-		context.drawText(textRend, text, x, y, color.hashCode(), shadow);
 	}
 
 	public static void drawOutline(DrawContext context, int x, int y, int width, int height, Color color) {

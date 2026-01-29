@@ -11,8 +11,8 @@ import org.ranch.ballshack.setting.moduleSettings.SettingSlider;
 
 public class Boatfly extends Module {
 
-	public final SettingSlider hSpeed = dGroup.add((SettingSlider) new SettingSlider(2, "Hspeed", 1, 10, 0.5).featured());
-	public final SettingSlider vSpeed = dGroup.add(new SettingSlider(2, "Vspeed", 1, 4, 0.5));
+	public final SettingSlider hSpeed = dGroup.add(new SettingSlider("Hspeed", 2, 1, 10, 0.5).featured());
+	public final SettingSlider vSpeed = dGroup.add(new SettingSlider("Vspeed", 2, 1, 4, 0.5));
 
 	public Boatfly() {
 		super(

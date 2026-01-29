@@ -11,7 +11,8 @@ import org.ranch.ballshack.setting.ModuleSetting;
 
 import static org.ranch.ballshack.BallsHack.mc;
 
-public class SettingHud extends ModuleSetting<HudElementData> {
+public class SettingHud extends ModuleSetting<HudElementData, SettingHud> {
+
 	public SettingHud(HudElementData startingValue) {
 		super("HudData", startingValue);
 	}

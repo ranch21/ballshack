@@ -36,16 +36,16 @@ public class AimAssist extends Module {
 	private static Vec3d offset = Vec3d.ZERO;
 	private static Vec3d prevOffset = Vec3d.ZERO;
 
-	public final SettingMode mode = dGroup.add((SettingMode) new SettingMode(0, "Mode", Arrays.asList("Linear", "\"natural\"", "Momentum")).featured());
-	public final SettingSlider range = dGroup.add(new SettingSlider(4, "Range", 1, 8, 0.5));
-	public final SettingSlider speed = dGroup.add(new SettingSlider(8, "Speed", 1, 25, 1));
+	public final SettingMode mode = dGroup.add((SettingMode) new SettingMode("Mode", 0, Arrays.asList("Linear", "\"natural\"", "Momentum")).featured());
+	public final SettingSlider range = dGroup.add(new SettingSlider("Range", 4, 1, 8, 0.5));
+	public final SettingSlider speed = dGroup.add(new SettingSlider("Speed", 8, 1, 25, 1));
 
 	public final DropDown randNoiseDD = dGroup.add(new DropDown("Random Noise"));
-	public final SettingToggle rnEnabled = randNoiseDD.add(new SettingToggle(true, "Enabled"));
-	public final SettingSlider rnAmount = randNoiseDD.add(new SettingSlider(0.4, "Amount", 0.1, 1, 0.1));
-	public final SettingSlider rnSpeed = randNoiseDD.add(new SettingSlider(0.7, "Speed", 0.1, 10, 0.1));
-	public final SettingToggle rnSBR = randNoiseDD.add(new SettingToggle(false, "SBR"));
-	public final SettingSlider rnSBRInfluence = randNoiseDD.add(new SettingSlider(0.8, "SBR Influence", 0.1, 2, 0.1));
+	public final SettingToggle rnEnabled = randNoiseDD.add(new SettingToggle("Enabled", true));
+	public final SettingSlider rnAmount = randNoiseDD.add(new SettingSlider("Amount", 0.4, 0.1, 1, 0.1));
+	public final SettingSlider rnSpeed = randNoiseDD.add(new SettingSlider("Speed", 0.7, 0.1, 10, 0.1));
+	public final SettingToggle rnSBR = randNoiseDD.add(new SettingToggle("SBR", false));
+	public final SettingSlider rnSBRInfluence = randNoiseDD.add(new SettingSlider("SBR Influence", 0.8, 0.1, 2, 0.1));
 
 	public final TargetsDropDown targetsDD = dGroup.add(new TargetsDropDown("Targets"));
 	public final SortMode sortMode = dGroup.add((SortMode) new SortMode("Sort").featured());

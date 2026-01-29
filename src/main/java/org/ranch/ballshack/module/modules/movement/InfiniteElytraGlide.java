@@ -19,9 +19,9 @@ public class InfiniteElytraGlide extends Module {
 
 	private int stage = 0;
 
-	public final SettingSlider maxHeight = dGroup.add(new SettingSlider(200, "Max Height", 1, 1000, 1));
-	public final SettingToggle instantTurn = dGroup.add(new SettingToggle(true, "Instant Turn"));
-	public final SettingSlider turnSpeed = dGroup.add(new SettingSlider(1, "Turn Speed", 1, 10, 1));
+	public final SettingSlider maxHeight = dGroup.add(new SettingSlider("Max Height", 200, 1, 1000, 1).featured());
+	public final SettingToggle instantTurn = dGroup.add(new SettingToggle("Instant Turn", true));
+	public final SettingSlider turnSpeed = dGroup.add(new SettingSlider("Turn Speed", 1, 1, 10, 1));
 
 	public InfiniteElytraGlide() {
 		super("ElytraGlide", ModuleCategory.MOVEMENT, 0, "ion need sum hacks to do this");
