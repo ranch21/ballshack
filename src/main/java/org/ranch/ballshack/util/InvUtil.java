@@ -1,6 +1,5 @@
 package org.ranch.ballshack.util;
 
-import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.player.PlayerEntity;
@@ -8,9 +7,9 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ProjectileItem;
 import net.minecraft.item.RangedWeaponItem;
+import net.minecraft.network.packet.c2s.play.CloseHandledScreenC2SPacket;
 import net.minecraft.network.packet.c2s.play.CreativeInventoryActionC2SPacket;
 import net.minecraft.network.packet.c2s.play.UpdateSelectedSlotC2SPacket;
-import net.minecraft.util.hit.BlockHitResult;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,12 +42,25 @@ public class InvUtil {
 		return armorItems;
 	}
 
-	// idunno man
-	public static void createStack(ItemStack stack) {
+	// i know man
+	public static void setSlot(ItemStack stack, int slot) {
 		if (mc.player.isInCreativeMode() && mc.getNetworkHandler().hasFeature(stack.getItem().getRequiredFeatures())) {
-			mc.getNetworkHandler().sendPacket(new CreativeInventoryActionC2SPacket(-1, stack));
-			mc.player.getInventory().setStack(-1, stack.copy());
+			mc.getNetworkHandler().sendPacket(new CreativeInventoryActionC2SPacket(slot, stack));
+			mc.getNetworkHandler().sendPacket(new CloseHandledScreenC2SPacket(mc.player.playerScreenHandler.syncId));
 		}
+	}
+
+	public static void giveItem(ItemStack stack) {
+		setSlot(stack, getFree());
+	}
+
+	public static int getFree() {
+		for (int i = 1; i < mc.player.getInventory().size(); i++) {
+			if (mc.player.getInventory().getStack(i).isEmpty())
+				return i;
+		}
+
+		return -1;
 	}
 
 	public static void selectSlot(int slot) {

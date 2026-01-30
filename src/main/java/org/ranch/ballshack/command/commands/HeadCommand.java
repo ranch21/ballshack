@@ -29,14 +29,14 @@ public class HeadCommand extends Command {
 	public LiteralArgumentBuilder<ClientCommandSource> onRegister(LiteralArgumentBuilder<ClientCommandSource> builder) {
 		return builder
 				.executes(context -> {
-					InvUtil.createStack(getHead(mc.player.getGameProfile()));
+					InvUtil.giveItem(getHead(mc.player.getGameProfile()));
 					return 1;
 				})
 				.then(RequiredArgumentBuilder.<ClientCommandSource, String>argument("name", StringArgumentType.greedyString())
 						.executes(context -> {
 							String name = StringArgumentType.getString(context, "name");
 							log(CMD(": ").append(Text.literal("Fetching...").formatted(Formatting.GRAY)));
-							PlayerUtil.fetchProfile(name).thenCompose(PlayerUtil::fetchProperties).thenAccept(profile -> InvUtil.createStack(getHead(profile)));
+							PlayerUtil.fetchProfile(name).thenCompose(PlayerUtil::fetchProperties).thenAccept(profile -> InvUtil.giveItem(getHead(profile)));
 							return 1;
 						}));
 	}

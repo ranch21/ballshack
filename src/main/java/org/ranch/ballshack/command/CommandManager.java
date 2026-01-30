@@ -65,6 +65,7 @@ public class CommandManager {
 		registerCommand(new ClearInvCommand());
 		registerCommand(new RenameCommand());
 		registerCommand(new HeadCommand());
+		registerCommand(new GiveCommand());
 	}
 
 	public static void executeCommand(String command, ClientCommandSource source) {

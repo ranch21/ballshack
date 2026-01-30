@@ -64,6 +64,7 @@ public class ModuleManager {
 		register(new DiscordRP());
 		register(new HudEditor());
 		register(new Rainbow());
+		register(new PacketLogger());
 
 		// combat
 		register(new AimAssist());
