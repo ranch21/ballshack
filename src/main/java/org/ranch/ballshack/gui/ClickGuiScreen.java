@@ -168,7 +168,7 @@ public class ClickGuiScreen extends Screen {
 		super.render(context, mouseX, mouseY, delta);
 
 		if (darken) {
-			context.fill(0, 0, width, height, Colors.CLICKGUI_BACKGROUND.hashCode());
+			context.fill(0, 0, width, height, Colors.CLICKGUI_BACKGROUND_1.getColor().hashCode());
 		}
 
 		if (ballsEnabled) {
@@ -183,7 +183,7 @@ public class ClickGuiScreen extends Screen {
 		}
 
 		TextRenderer textRend = MinecraftClient.getInstance().textRenderer;
-		context.drawText(textRend, BallsHack.title.getValue(), 5, 5, Colors.PALLETE_1.hashCode(), true);
+		context.drawText(textRend, BallsHack.title.getValue(), 5, 5, Colors.PALETTE_1.getColor().hashCode(), true);
 		context.drawText(textRend, BallsHack.version, 5 + textRend.getWidth(BallsHack.title.getValue() + " "), 5, Color.WHITE.hashCode(), true);
 
 		int i = 0;

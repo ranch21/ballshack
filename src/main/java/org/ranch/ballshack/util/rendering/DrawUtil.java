@@ -140,7 +140,7 @@ public class DrawUtil {
 	}
 
 	public static void drawOutline(DrawContext context, int x, int y, int width, int height) {
-		drawOutline(context, x, y, width, height, Colors.BORDER);
+		drawOutline(context, x, y, width, height, Colors.BORDER.getColor());
 	}
 
 	private static Vector2i tPos; // IDK what im doing

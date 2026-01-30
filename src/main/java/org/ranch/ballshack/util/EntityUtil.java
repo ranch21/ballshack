@@ -102,11 +102,11 @@ public class EntityUtil {
 		float f = entity.getHealth() / entity.getMaxHealth() * 3;
 
 		if (f < 1)
-			return Colors.DEFAULT_RED;
+			return Colors.DULL_RED;
 		else if (f < 2)
 			return Color.YELLOW;
 		else
-			return Colors.DEFAULT_GREEN;
+			return Colors.DULL_GREEN;
 	}
 
 	public enum EntityType {

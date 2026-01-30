@@ -73,7 +73,7 @@ public class ModuleList extends ModuleHud {
 		int baseY = Y() - yOffset() + (mc.textRenderer.fontHeight + 1) * index + 1;
 
 		if (background) {
-			context.fill(baseX - 1, baseY - 1, baseX + textWidth + 1, baseY + mc.textRenderer.fontHeight, Colors.BACKDROP.hashCode());
+			context.fill(baseX - 1, baseY - 1, baseX + textWidth + 1, baseY + mc.textRenderer.fontHeight, Colors.CLICKGUI_BACKGROUND_2.hashCode());
 		}
 
 		if (line && !getAnchorPoint().isCenter()) {
@@ -105,7 +105,7 @@ public class ModuleList extends ModuleHud {
 
 		String feat = getFeaturedSettings(module);
 		if (!feat.isEmpty()) {
-			text.append(Text.of(" [" + feat + "]").copy().withColor(Colors.GRAY.hashCode()));
+			text.append(Text.of(" [" + feat + "]").copy().withColor(Colors.DULL_GRAY.hashCode()));
 		}
 		return text;
 	}

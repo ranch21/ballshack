@@ -50,7 +50,7 @@ public abstract class Window {
 
 		handleDrag(mouseX, mouseY, screen);
 
-		DrawUtil.drawHorizontalGradient(context, x, y - barHeight, width, barHeight, Colors.CLICKGUI_TITLE_START, Colors.CLICKGUI_TITLE_END, width / 10);
+		DrawUtil.drawHorizontalGradient(context, x, y - barHeight, width, barHeight, Colors.CLICKGUI_TITLE_START.getColor(), Colors.CLICKGUI_TITLE_END.getColor(), width / 10);
 
 		DrawUtil.drawOutline(context, x, y - barHeight, width, height + barHeight);
 
@@ -59,7 +59,7 @@ public abstract class Window {
 		int textInset = (barHeight - textRend.fontHeight) / 2;
 		context.drawText(textRend, title, x + 2, y + textInset - barHeight, Color.WHITE.hashCode(), true);
 
-		context.fill(x, y, x + width, y + height, Colors.CLICKGUI_3.hashCode());
+		context.fill(x, y, x + width, y + height, Colors.CLICKGUI_2.getColor().hashCode());
 
 		context.enableScissor(x, y, x + width, y + height);
 

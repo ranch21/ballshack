@@ -65,6 +65,7 @@ public class ModuleManager {
 		register(new HudEditor());
 		register(new Rainbow());
 		register(new PacketLogger());
+		register(new Themes());
 
 		// combat
 		register(new AimAssist());

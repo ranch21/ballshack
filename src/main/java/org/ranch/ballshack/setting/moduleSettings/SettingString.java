@@ -34,7 +34,7 @@ public class SettingString extends ModuleSetting<String, SettingString> {
 
 	@Override
 	public int render(int mouseX, int mouseY) {
-		context.fill(x, y, x + width, y + height, Colors.CLICKGUI_3.hashCode());
+		context.fill(x, y, x + width, y + height, Colors.CLICKGUI_2.getColor().hashCode());
 
 		drawText(context, this.getName() + ": ");
 
@@ -48,7 +48,7 @@ public class SettingString extends ModuleSetting<String, SettingString> {
 		int textAreaY = y + height;
 		int lineHeight = MinecraftClient.getInstance().textRenderer.fontHeight + 1;
 		int textAreaHeight = Math.max(lineHeight, splitLines.size() * lineHeight) + 2;
-		context.fill(x, textAreaY, x + width, textAreaY + textAreaHeight, Colors.CLICKGUI_3.hashCode());
+		context.fill(x, textAreaY, x + width, textAreaY + textAreaHeight, Colors.CLICKGUI_2.getColor().hashCode());
 		DrawUtil.drawOutline(context, x, textAreaY, width, textAreaHeight - 1);
 
 		TextRenderer tr = MinecraftClient.getInstance().textRenderer;

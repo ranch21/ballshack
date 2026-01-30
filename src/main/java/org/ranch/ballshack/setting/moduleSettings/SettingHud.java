@@ -20,7 +20,7 @@ public class SettingHud extends ModuleSetting<HudElementData, SettingHud> {
 	@Override
 	public int render(int mouseX, int mouseY) {
 
-		context.fill(x, y, x + width, y + height, Colors.CLICKGUI_3.hashCode());
+		context.fill(x, y, x + width, y + height, Colors.CLICKGUI_2.getColor().hashCode());
 
 		/* setting WRHOIBNG and value */
 		HudElementData hudData = getValue();

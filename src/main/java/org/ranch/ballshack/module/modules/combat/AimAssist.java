@@ -152,7 +152,7 @@ public class AimAssist extends Module {
 	@EventSubscribe
 	public void onWorldRender(EventWorldRender.Post event) {
 		if (targetPos == null) return;
-		Color c = Colors.PALLETE_1;
+		Color c = Colors.PALETTE_1.getColor();
 
 		double alpha = 0.2f;
 		float r = c.getRed() / 255.0f;

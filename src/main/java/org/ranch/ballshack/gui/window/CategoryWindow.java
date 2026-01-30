@@ -78,14 +78,14 @@ public class CategoryWindow {
 			}
 		}
 
-		DrawUtil.drawHorizontalGradient(context, x, y, width, height, Colors.CLICKGUI_TITLE_START, Colors.CLICKGUI_TITLE_END, width / 8);
+		DrawUtil.drawHorizontalGradient(context, x, y, width, height, Colors.CLICKGUI_TITLE_START.getColor(), Colors.CLICKGUI_TITLE_END.getColor(), width / 8);
 
 		int bottomY = y + height + addedHeight;
 
-		context.drawHorizontalLine(x, x + width - 1, y - 1, Colors.BORDER.hashCode()); // top
-		context.drawHorizontalLine(x, x + width - 1, bottomY, Colors.BORDER.hashCode()); // bottom
-		context.drawVerticalLine(x - 1, y - 1, bottomY, Colors.BORDER.hashCode()); // left
-		context.drawVerticalLine(x + width, y - 1, bottomY, Colors.BORDER.hashCode()); // right
+		context.drawHorizontalLine(x, x + width - 1, y - 1, Colors.BORDER.getColor().hashCode()); // top
+		context.drawHorizontalLine(x, x + width - 1, bottomY, Colors.BORDER.getColor().hashCode()); // bottom
+		context.drawVerticalLine(x - 1, y - 1, bottomY, Colors.BORDER.getColor().hashCode()); // left
+		context.drawVerticalLine(x + width, y - 1, bottomY, Colors.BORDER.getColor().hashCode()); // right
 
 		totalHeight = height + addedHeight;
 

@@ -32,11 +32,11 @@ public class DropDown extends ModuleSetting<Boolean, DropDown> implements Settin
 
 			int bY = y + height;
 
-			context.drawVerticalLine(x, bY - 1, bY + addedHeight, Colors.CLICKGUI_3.hashCode()); // indent thinger
-			context.drawVerticalLine(x + 1, bY - 1, bY + addedHeight, Colors.BORDER.hashCode());
+			context.drawVerticalLine(x, bY - 1, bY + addedHeight, Colors.CLICKGUI_2.getColor().hashCode()); // indent thinger
+			context.drawVerticalLine(x + 1, bY - 1, bY + addedHeight, Colors.BORDER.getColor().hashCode());
 		}
 
-		context.fill(x, y, x + width, y + height, Colors.CLICKGUI_3.hashCode());
+		context.fill(x, y, x + width, y + height, Colors.CLICKGUI_2.getColor().hashCode());
 
 		/* setting name and arrow */
 		drawText(context, this.getName());

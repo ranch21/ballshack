@@ -32,23 +32,23 @@ public class Coordinates extends ModuleHud {
 
 		PlayerEntity player = mc.player;
 
-		MutableText data = Text.of(player.getBlockX() + " ").copy().withColor(Colors.RED.hashCode());
-		data.append(Text.of(player.getBlockY() + " ").copy().withColor(Colors.GREEN.hashCode()));
-		data.append(Text.of(player.getBlockZ() + " ").copy().withColor(Colors.BLUE.hashCode()));
+		MutableText data = Text.of(player.getBlockX() + " ").copy().withColor(Colors.DULL_RED.hashCode());
+		data.append(Text.of(player.getBlockY() + " ").copy().withColor(Colors.DULL_GREEN.hashCode()));
+		data.append(Text.of(player.getBlockZ() + " ").copy().withColor(Colors.DULL_BLUE.hashCode()));
 
 		if (scaled.getValue()) {
 			float mult = mc.world.getDimension().ultrawarm() ? 8.0f : 0.125f;
-			data.append(Text.of("[ ").copy().withColor(Colors.GRAY.hashCode()));
-			data.append(Text.of((int) (player.getBlockX() * mult) + " ").copy().withColor(Colors.RED.hashCode()));
-			data.append(Text.of((int) (player.getBlockY() * mult) + " ").copy().withColor(Colors.GREEN.hashCode()));
-			data.append(Text.of((int) (player.getBlockZ() * mult) + " ").copy().withColor(Colors.BLUE.hashCode()));
-			data.append(Text.of("] ").copy().withColor(Colors.GRAY.hashCode()));
+			data.append(Text.of("[ ").copy().withColor(Colors.DULL_GRAY.hashCode()));
+			data.append(Text.of((int) (player.getBlockX() * mult) + " ").copy().withColor(Colors.DULL_RED.hashCode()));
+			data.append(Text.of((int) (player.getBlockY() * mult) + " ").copy().withColor(Colors.DULL_GREEN.hashCode()));
+			data.append(Text.of((int) (player.getBlockZ() * mult) + " ").copy().withColor(Colors.DULL_BLUE.hashCode()));
+			data.append(Text.of("] ").copy().withColor(Colors.DULL_GRAY.hashCode()));
 		}
 
 		width = mc.textRenderer.getWidth(data) - 2;
 		height = mc.textRenderer.fontHeight + 1;
 
-		if (backdrop.getValue()) context.fill(x, y, x + width, y + height, Colors.BACKDROP.hashCode());
+		if (backdrop.getValue()) context.fill(x, y, x + width, y + height, Colors.CLICKGUI_BACKGROUND_2.hashCode());
 
 		context.drawText(mc.textRenderer, data, x + 1, y + 1, Color.WHITE.hashCode(), shadow.getValue());
 	}

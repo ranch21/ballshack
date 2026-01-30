@@ -7,9 +7,15 @@ import org.ranch.ballshack.command.CommandManager;
 import org.ranch.ballshack.debug.DebugRenderers;
 import org.ranch.ballshack.event.EventBus;
 import org.ranch.ballshack.gui.ClickGuiScreen;
+import org.ranch.ballshack.gui.ThemeManager;
+import org.ranch.ballshack.module.ModuleManager;
+import org.ranch.ballshack.module.modules.client.Themes;
 import org.ranch.ballshack.setting.Setting;
 import org.ranch.ballshack.setting.SettingSaver;
 import org.ranch.ballshack.setting.SettingsManager;
+
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class BallsHack implements ModInitializer {
 
@@ -26,13 +32,23 @@ public class BallsHack implements ModInitializer {
 	@Override
 	public void onInitialize() {
 		SettingSaver.init();
+		SettingsManager.registerSetting(ThemeManager.loaded);
 		SettingsManager.registerSetting(FriendManager.setting);
 		SettingsManager.registerSetting(DebugRenderers.enabled);
 		SettingsManager.registerSetting(ClickGuiScreen.windowData);
 		SettingsManager.registerSetting(title);
 		SettingsManager.registerSetting(CommandManager.prefix);
 		SettingSaver.readSettings();
+
+		if (ThemeManager.loaded.getValue()) {
+			ThemeManager.loadTheme(((Themes) ModuleManager.getModuleByName("themes")).theme.getValue());
+		}
+
 		FriendManager.set();
 		DebugRenderers.load();
+	}
+
+	public static Path getSaveDir() {
+		return Paths.get(MinecraftClient.getInstance().runDirectory.getPath(), "ballshack/");
 	}
 }

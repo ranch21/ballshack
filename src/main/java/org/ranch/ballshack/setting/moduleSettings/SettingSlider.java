@@ -25,7 +25,7 @@ public class SettingSlider extends ModuleSetting<Double, SettingSlider> {
 	@Override
 	public int render(int mouseX, int mouseY) {
 
-		context.fill(x, y, x + width, y + height, Colors.CLICKGUI_3.hashCode());
+		context.fill(x, y, x + width, y + height, Colors.CLICKGUI_2.getColor().hashCode());
 
 		if (holding) {
 			double mousePercent = (mouseX - x) / (double) width;
@@ -36,7 +36,7 @@ public class SettingSlider extends ModuleSetting<Double, SettingSlider> {
 
 		int notchPos = (int) (valuePercent * (width));
 
-		context.fill(x, y, x + notchPos, y + height, Colors.SELECTABLE.hashCode());
+		context.fill(x, y, x + notchPos, y + height, Colors.SELECTABLE.getColor().hashCode());
 
 		/* setting name and value */
 		drawText(context, this.getName() + ": " + getFormattedValue());

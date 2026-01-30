@@ -27,7 +27,7 @@ public class HelpCommand extends Command {
 				.executes(context -> {
 					log(Text.literal("Commands: ").withColor(BallsLogger.CMD_COLOR));
 					for (Command command : CommandManager.getCommands()) {
-						MutableText name = Text.literal(command.getName()).formatted(Formatting.WHITE);
+						MutableText name = Text.literal("." + command.getName()).formatted(Formatting.WHITE);
 						MutableText desc = Text.literal(command.desc).formatted(Formatting.GRAY);
 						MutableText type = command.type == CommandType.CREATIVE || command.type == CommandType.SURVIVAL ? Text.literal("*").formatted(command.type == CommandType.CREATIVE ? Formatting.RED : Formatting.YELLOW) : Text.literal(""); // :(
 						log(name.append(" ").append(desc).append(" ").append(type));

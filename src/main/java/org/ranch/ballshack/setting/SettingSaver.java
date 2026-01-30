@@ -1,7 +1,7 @@
 package org.ranch.ballshack.setting;
 
 import com.google.gson.*;
-import net.minecraft.client.MinecraftClient;
+import org.ranch.ballshack.BallsHack;
 import org.ranch.ballshack.BallsLogger;
 import org.ranch.ballshack.Constants;
 import org.ranch.ballshack.module.Module;
@@ -17,7 +17,6 @@ import java.io.IOException;
 import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.concurrent.ScheduledExecutorService;
@@ -33,7 +32,7 @@ public class SettingSaver {
 
 	private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
-	private static Path saveDir;
+	public static Path saveDir;
 
 	public static void startExecutor() {
 		if (scheduler == null)
@@ -44,7 +43,7 @@ public class SettingSaver {
 	}
 
 	public static void init() {
-		saveDir = Paths.get(MinecraftClient.getInstance().runDirectory.getPath(), "ballshack/");
+		saveDir = BallsHack.getSaveDir();
 		if (!Files.exists(saveDir)) {
 			try {
 				Files.createDirectories(saveDir);

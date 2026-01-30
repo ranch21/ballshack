@@ -60,27 +60,27 @@ public class HudScreen extends Screen {
 			List<Snap> snaps = handleDrag(mouseX, mouseY);
 			if (snaps != null) {
 				if (snaps.get(0) != null) {
-					snaps.get(0).drawSnap(context, Colors.PALLETE_2);
+					snaps.get(0).drawSnap(context, Colors.PALETTE_2.getColor());
 				}
 				if (snaps.get(1) != null) {
-					snaps.get(1).drawSnap(context, Colors.PALLETE_2);
+					snaps.get(1).drawSnap(context, Colors.PALETTE_2.getColor());
 				}
 			}
 		}
 		clampPositions();
 
-		drawAnchorRegions(context, Colors.BACKDROP);
+		drawAnchorRegions(context, Colors.CLICKGUI_BACKGROUND_2.getColor());
 
 		for (ModuleHud module : modules) {
 
 			if (!module.isEnabled()) continue;
 
-			context.fill(module.X() - module.xOffset(), module.Y() - module.yOffset(), module.X() - module.xOffset() + module.getWidth(), module.Y() - module.yOffset() + module.getHeight(), Colors.CLICKGUI_2.hashCode());
-			DrawUtil.drawPoint(context, module.X() - 1, module.Y(), Colors.BORDER);
-			DrawUtil.drawPoint(context, module.X() + 1, module.Y(), Colors.BORDER);
-			DrawUtil.drawPoint(context, module.X(), module.Y() - 1, Colors.BORDER);
-			DrawUtil.drawPoint(context, module.X(), module.Y() + 1, Colors.BORDER);
-			DrawUtil.drawLine(context, module.getAnchorPoint().getX(width), module.getAnchorPoint().getY(height), module.X(), module.Y(), Colors.PALLETE_1);
+			context.fill(module.X() - module.xOffset(), module.Y() - module.yOffset(), module.X() - module.xOffset() + module.getWidth(), module.Y() - module.yOffset() + module.getHeight(), Colors.CLICKGUI_1.hashCode());
+			DrawUtil.drawPoint(context, module.X() - 1, module.Y(), Colors.BORDER.getColor());
+			DrawUtil.drawPoint(context, module.X() + 1, module.Y(), Colors.BORDER.getColor());
+			DrawUtil.drawPoint(context, module.X(), module.Y() - 1, Colors.BORDER.getColor());
+			DrawUtil.drawPoint(context, module.X(), module.Y() + 1, Colors.BORDER.getColor());
+			DrawUtil.drawLine(context, module.getAnchorPoint().getX(width), module.getAnchorPoint().getY(height), module.X(), module.Y(), Colors.PALETTE_1.getColor());
 		}
 	}
 

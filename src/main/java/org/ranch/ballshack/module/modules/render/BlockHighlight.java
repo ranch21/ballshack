@@ -41,7 +41,7 @@ public class BlockHighlight extends Module {
 		if (mc.world == null) // duh
 			return;
 
-		Color c = Colors.PALLETE_1;
+		Color c = Colors.PALETTE_1.getColor();
 
 		Renderer renderer = Renderer.getInstance();
 

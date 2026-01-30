@@ -36,7 +36,7 @@ public class TextFieldWidget extends Widget {
 		}
 
 		DrawUtil.drawOutline(context, x, y, width, height);
-		context.fill(x, y, x + width, y + height, Colors.CLICKGUI_BACKGROUND.hashCode());
+		context.fill(x, y, x + width, y + height, Colors.CLICKGUI_BACKGROUND_1.hashCode());
 		TextRenderer textRend = MinecraftClient.getInstance().textRenderer;
 		int yInset = (height - textRend.fontHeight) / 2;
 		boolean line = selected && (counter / 100) % 2 == 0;

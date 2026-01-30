@@ -45,7 +45,7 @@ public class Nametags extends Module {
 					tagT = tagT.copy().append(Text.literal(" " + TextUtil.formatDecimal(le.getHealth(), "#.#")).withColor(EntityUtil.getHPCol(le).hashCode()));
 				}
 				if (health.getValue() == 2 && e instanceof LivingEntity le) { // bradar vat is this??
-					tagT = tagT.copy().append(Text.literal("/").formatted(Formatting.WHITE)).append(TextUtil.formatDecimal(le.getMaxHealth(), "#.#")).withColor(Colors.DEFAULT_GREEN.hashCode());
+					tagT = tagT.copy().append(Text.literal("/").formatted(Formatting.WHITE)).append(TextUtil.formatDecimal(le.getMaxHealth(), "#.#")).withColor(Colors.DULL_GREEN.hashCode());
 				}
 
 				DrawUtil.renderText3D(tagT.copy(), diff, event.matrixStack, event.state.cameraRenderState, event.queue, 1);

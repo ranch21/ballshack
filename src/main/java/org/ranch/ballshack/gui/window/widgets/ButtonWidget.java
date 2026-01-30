@@ -27,7 +27,7 @@ public class ButtonWidget extends Widget {
 	public void render(DrawContext context, int mouseX, int mouseY) {
 
 		DrawUtil.drawOutline(context, x, y, width, height);
-		Color c = GuiUtil.mouseOverlap(mouseX, mouseY, x, y, width, height) ? Colors.SELECTABLE.brighter() : Colors.SELECTABLE;
+		Color c = GuiUtil.mouseOverlap(mouseX, mouseY, x, y, width, height) ? Colors.SELECTABLE.getColor().brighter() : Colors.SELECTABLE.getColor();
 		context.fill(x, y, x + width, y + height, c.hashCode());
 		TextRenderer textRend = MinecraftClient.getInstance().textRenderer;
 		int yInset = (height - textRend.fontHeight) / 2;

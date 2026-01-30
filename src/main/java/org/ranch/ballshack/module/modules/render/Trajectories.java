@@ -79,7 +79,7 @@ public class Trajectories extends Module {
 
 		for (ProjectileSim.Trajectory traj : trajectories) {
 
-			Color c = Colors.PALLETE_1;
+			Color c = Colors.PALETTE_1.getColor();
 
 			float r = c.getRed() / 255.0f;
 			float g = c.getGreen() / 255.0f;

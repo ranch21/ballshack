@@ -49,7 +49,7 @@ public class CommandManager {
 	}
 
 	public static void registerCommands() {
-		registerCommand(new TestCommand());
+		//registerCommand(new TestCommand());
 		registerCommand(new HelpCommand());
 		registerCommand(new PrefixCommand());
 		registerCommand(new FriendCommand());
@@ -59,6 +59,7 @@ public class CommandManager {
 		registerCommand(new FormatCommand());
 		registerCommand(new ServerCommand());
 		registerCommand(new WatermarkCommand());
+		registerCommand(new ThemeCommand());
 
 		registerCommand(new ToggleCommand());
 

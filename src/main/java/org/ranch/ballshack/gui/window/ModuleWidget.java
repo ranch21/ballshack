@@ -48,9 +48,9 @@ public class ModuleWidget {
 		}
 
 		if (GuiUtil.mouseOverlap(mouseX, mouseY, x, y, width, height)) {
-			context.fill(x, y, x + width, y + height, Colors.CLICKGUI_2.brighter().hashCode());
+			context.fill(x, y, x + width, y + height, Colors.CLICKGUI_1.getColor().brighter().hashCode());
 		} else {
-			context.fill(x, y, x + width, y + height, Colors.CLICKGUI_2.hashCode());
+			context.fill(x, y, x + width, y + height, Colors.CLICKGUI_1.getColor().hashCode());
 		}
 
 		/* module name */

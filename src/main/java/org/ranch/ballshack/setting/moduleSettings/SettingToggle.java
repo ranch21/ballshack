@@ -16,9 +16,9 @@ public class SettingToggle extends ModuleSetting<Boolean, SettingToggle> {
 	public int render(int mouseX, int mouseY) {
 
 		if (this.getValue()) {
-			context.fill(x, y, x + width, y + height, Colors.CLICKGUI_3.brighter().hashCode());
+			context.fill(x, y, x + width, y + height, Colors.CLICKGUI_2.getColor().brighter().hashCode());
 		} else {
-			context.fill(x, y, x + width, y + height, Colors.CLICKGUI_3.hashCode());
+			context.fill(x, y, x + width, y + height, Colors.CLICKGUI_2.getColor().hashCode());
 		}
 
 		/* setting name and value */
