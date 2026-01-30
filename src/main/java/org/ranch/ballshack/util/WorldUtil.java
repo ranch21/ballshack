@@ -2,7 +2,6 @@ package org.ranch.ballshack.util;
 
 import net.minecraft.block.entity.*;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -75,11 +74,11 @@ public class WorldUtil {
 		BARREL
 	}
 
-	public static void placeBlock(ClientPlayerEntity player, Hand hand, BlockPos pos, Direction side) {
-		if (mc.world == null || !mc.world.getWorldBorder().contains(pos) || !mc.world.getBlockState(pos).isSideSolidFullSquare(mc.world, pos, side) || !mc.world.getBlockState(pos.offset(side)).isReplaceable() || new Box(pos.offset(side)).intersects(player.getBoundingBox()))
+	public static void placeBlock(Hand hand, BlockPos pos, Direction side) {
+		if (mc.world == null || !mc.world.getWorldBorder().contains(pos) || !mc.world.getBlockState(pos).isSideSolidFullSquare(mc.world, pos, side) || !mc.world.getBlockState(pos.offset(side)).isReplaceable() || new Box(pos.offset(side)).intersects(mc.player.getBoundingBox()))
 			return;
 
-		ItemStack stack = player.getStackInHand(hand);
+		ItemStack stack = mc.player.getStackInHand(hand);
 
 		if (stack == null || stack == ItemStack.EMPTY || !stack.isItemEnabled(mc.world.getEnabledFeatures()))
 			return;
@@ -92,6 +91,6 @@ public class WorldUtil {
 		Vec3d faceMiddle = pos.toCenterPos().add(side.getDoubleVector().multiply(0.5d));
 		BlockHitResult hitResult = new BlockHitResult(faceMiddle, side, pos, false);
 
-		mc.interactionManager.interactBlock(player, hand, hitResult);
+		mc.interactionManager.interactBlock(mc.player, hand, hitResult);
 	}
 }

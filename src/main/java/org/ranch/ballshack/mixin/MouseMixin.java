@@ -33,7 +33,7 @@ public class MouseMixin {
 
 	@Redirect(method = "updateMouse", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;changeLookDirection(DD)V"))
 	public void changeLookDirection(ClientPlayerEntity instance, double yaw, double pitch) {
-		if (FreelookHandler.enabled) {
+		if (FreelookHandler.getEnabled()) {
 			FreelookHandler.updateDirection(yaw, pitch);
 		} else {
 			instance.changeLookDirection(yaw, pitch);

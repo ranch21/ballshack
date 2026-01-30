@@ -17,7 +17,7 @@ public class CameraMixin {
 	public void update(Args args) {
 		float yaw = args.get(0);
 		float pitch = args.get(1);
-		if (FreelookHandler.enabled) {
+		if (FreelookHandler.getEnabled()) {
 			yaw = FreelookHandler.yaw;
 			pitch = FreelookHandler.pitch;
 		}

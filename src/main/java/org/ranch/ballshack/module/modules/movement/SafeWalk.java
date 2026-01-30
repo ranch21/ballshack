@@ -3,6 +3,7 @@ package org.ranch.ballshack.module.modules.movement;
 import org.ranch.ballshack.event.EventSubscribe;
 import org.ranch.ballshack.event.events.EventClipLedge;
 import org.ranch.ballshack.event.events.EventPlayerInput;
+import org.ranch.ballshack.event.events.EventTick;
 import org.ranch.ballshack.module.Module;
 import org.ranch.ballshack.module.ModuleCategory;
 import org.ranch.ballshack.setting.moduleSettings.SettingToggle;
@@ -10,7 +11,7 @@ import org.ranch.ballshack.util.PlayerSim;
 
 public class SafeWalk extends Module {
 
-	public final SettingToggle realAndTrue = new SettingToggle("REALANDTRUE", false);
+	public final SettingToggle realAndTrue = dGroup.add(new SettingToggle("REALANDTRUE", false));
 
 	public SafeWalk() {
 		super("SafeWalk", ModuleCategory.MOVEMENT, 0, "Sneak un-sneakily");
@@ -20,11 +21,8 @@ public class SafeWalk extends Module {
 
 	@EventSubscribe
 	public void onClip(EventClipLedge event) {
-		if (!realAndTrue.getValue()) {
+		if (mc.player.isOnGround()) {
 			event.clip = true;
-		} else {
-			int fallTick = PlayerSim.getFirst(PlayerSim.simulatePlayer(mc.player, 5), (point -> !point.onGround()));
-			shouldSneak = fallTick < 3;
 		}
 	}
 
@@ -32,6 +30,16 @@ public class SafeWalk extends Module {
 	public void onPlayerInput(EventPlayerInput event) {
 		if (shouldSneak) {
 			event.sneak = true;
+		}
+	}
+
+	@EventSubscribe
+	public void onTick(EventTick event) {
+		if (realAndTrue.getValue() && mc.player.isOnGround()) {
+			int fallTick = PlayerSim.getFirst(PlayerSim.simulatePlayer(mc.player, 5), (point -> !point.onGround()));
+			shouldSneak = fallTick < 3;
+		} else {
+			shouldSneak = false;
 		}
 	}
 }

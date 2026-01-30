@@ -43,7 +43,7 @@ public class ModuleWidget {
 
 		if (settingsOpen) {
 			for (ModuleSetting<?, ?> setting : settings.getSettings()) {
-				addedHeight += setting.render(context, x, y + height + addedHeight, width, height, mouseX, mouseY);
+				addedHeight += setting.renderBase(context, x, y + height + addedHeight, width, height, mouseX, mouseY);
 			}
 		}
 
@@ -79,7 +79,7 @@ public class ModuleWidget {
 
 		if (settingsOpen) {
 			for (ModuleSetting<?, ?> setting : settings.getSettings()) {
-				setting.mouseClicked(mouseX, mouseY, button);
+				setting.mouseClickedBase(mouseX, mouseY, button);
 			}
 		}
 
@@ -101,7 +101,7 @@ public class ModuleWidget {
 	public void mouseReleased(double mouseX, double mouseY, int button) {
 		if (settingsOpen) {
 			for (ModuleSetting<?, ?> setting : settings.getSettings()) {
-				setting.mouseReleased(mouseX, mouseY, button);
+				setting.mouseReleasedBase(mouseX, mouseY, button);
 			}
 		}
 	}
@@ -109,7 +109,7 @@ public class ModuleWidget {
 	public void keyPressed(int keyCode, int scanCode, int modifiers) {
 		if (settingsOpen) {
 			for (ModuleSetting<?, ?> setting : settings.getSettings()) {
-				setting.keyPressed(keyCode, scanCode, modifiers);
+				setting.keyPressedBase(keyCode, scanCode, modifiers);
 			}
 		}
 	}
@@ -117,7 +117,7 @@ public class ModuleWidget {
 	public boolean charTyped(char chr, int modifiers) {
 		if (settingsOpen) {
 			for (ModuleSetting<?, ?> setting : settings.getSettings()) {
-				if (setting.charTyped(chr, modifiers)) {
+				if (setting.charTypedBase(chr, modifiers)) {
 					return true;
 				}
 			}

@@ -19,12 +19,10 @@ import java.awt.*;
 public class ClientWorldMixin {
 	@Inject(at = @At("HEAD"), method = "tickEntities")
 	private void tickEntities(CallbackInfo info) {
-		if (!FreelookHandler.enabled && BallsHack.mc.player != null)
+		if (!FreelookHandler.getEnabled() && BallsHack.mc.player != null)
 			FreelookHandler.setRotation(EntityUtil.getRotation(BallsHack.mc.player));
-		BallsHack.eventBus.post(new EventTick());
-
 		PlayerSimDebugRenderer debugRenderer = (PlayerSimDebugRenderer) DebugRenderers.getRenderer("playersim");
 		if (debugRenderer.getEnabled())
-			debugRenderer.setData(PlayerSim.simulatePlayer(BallsHack.mc.player, 20), new Color(255, 255, 255, 100));
-	}
+			debugRenderer.setData(PlayerSim.simulatePlayer(BallsHack.mc.player, 20*5), new Color(255, 255, 255, 100));
+		BallsHack.eventBus.post(new EventTick());}
 }

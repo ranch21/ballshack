@@ -1,8 +1,6 @@
 package org.ranch.ballshack.debug;
 
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.util.math.MatrixStack;
-import org.ranch.ballshack.util.rendering.Renderer;
+import org.ranch.ballshack.BallsHack;
 
 public abstract class DebugRenderer {
 
@@ -13,14 +11,14 @@ public abstract class DebugRenderer {
 	}
 
 	public void setEnabled(boolean enabled) {
+		if (enabled)
+			BallsHack.eventBus.subscribe(this);
+		else
+			BallsHack.eventBus.unsubscribe(this);
 		this.enabled = enabled;
 	}
 
 	public boolean getEnabled() {
 		return enabled;
 	}
-
-	public abstract void renderGui(DrawContext context);
-
-	public abstract void render3d(Renderer context, MatrixStack matrixStack);
 }

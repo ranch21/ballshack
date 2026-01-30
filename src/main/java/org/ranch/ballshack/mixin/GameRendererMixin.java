@@ -9,11 +9,8 @@ import net.minecraft.util.math.Vec3d;
 import org.joml.Matrix4f;
 import org.ranch.ballshack.BallsHack;
 import org.ranch.ballshack.debug.DebugRenderers;
-import org.ranch.ballshack.debug.renderers.PlayerSimDebugRenderer;
-import org.ranch.ballshack.debug.renderers.ScaffoldDebugRenderer;
 import org.ranch.ballshack.debug.renderers.VecDebugRenderer;
 import org.ranch.ballshack.event.events.EventWorldRender;
-import org.ranch.ballshack.util.rendering.Renderer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -47,22 +44,10 @@ public class GameRendererMixin {
 		Vec2f input = BallsHack.mc.player.input.getMovementInput();
 		Vec3d input3 = new Vec3d(input.x, 0, input.y);
 		debugInput.setData(BallsHack.mc.player.getLerpedPos(tickCounter.getTickProgress(false)), input3.rotateY((float) Math.toRadians(-BallsHack.mc.player.getYaw())), new Color(0, 0, 255));
-		if (debugInput.getEnabled())
-			debugInput.render3d(Renderer.getInstance(), matrixStack);
 
 		VecDebugRenderer debugVel = (VecDebugRenderer) DebugRenderers.getRenderer("velocity");
 		debugVel.setData(BallsHack.mc.player.getLerpedPos(tickCounter.getTickProgress(false)), BallsHack.mc.player.getVelocity(), new Color(255, 0, 255));
-		if (debugVel.getEnabled())
-			debugVel.render3d(Renderer.getInstance(), matrixStack);
 
-		PlayerSimDebugRenderer debugPredict = (PlayerSimDebugRenderer) DebugRenderers.getRenderer("playersim");
-		if (debugPredict.getEnabled())
-			debugPredict.render3d(Renderer.getInstance(), matrixStack);
-
-		ScaffoldDebugRenderer debugScaffold = (ScaffoldDebugRenderer) DebugRenderers.getRenderer("scaffold");
-		if (debugScaffold.getEnabled()) {
-			debugScaffold.render3d(Renderer.getInstance(), matrixStack);
-		}
 		BallsHack.eventBus.post(event);
 		if (event.isCancelled()) {
 			ci.cancel();

@@ -8,11 +8,13 @@ import org.ranch.ballshack.gui.GuiUtil;
 import org.ranch.ballshack.util.rendering.DrawUtil;
 
 import java.awt.*;
+import java.util.function.Supplier;
 
 public abstract class ModuleSetting<T, SELF extends ModuleSetting<T, SELF>> {
 
 	private final String name;
 	private String tooltip;
+	private Supplier<Boolean> dependencyCondition;
 
 	private boolean featured;
 
@@ -30,12 +32,14 @@ public abstract class ModuleSetting<T, SELF extends ModuleSetting<T, SELF>> {
 		this.value = value;
 	}
 
-	public int render(DrawContext context, int x, int y, int width, int height, int mouseX, int mouseY) {
+	public int renderBase(DrawContext context, int x, int y, int width, int height, int mouseX, int mouseY) {
 		this.context = context;
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
+		if (!dependencyMet())
+			return 0;
 		int added = render(mouseX, mouseY);
 		if (GuiUtil.mouseOverlap(mouseX, mouseY, x, y, width, height)) {
 			DrawUtil.queueTooltip(x + width + 1, y, tooltip);
@@ -58,22 +62,53 @@ public abstract class ModuleSetting<T, SELF extends ModuleSetting<T, SELF>> {
 		return self();
 	}
 
+	public SELF depends(Supplier<Boolean> condition) {
+		this.dependencyCondition = condition;
+		return self();
+	}
+
+	public boolean dependencyMet() {
+		if (dependencyCondition == null)
+			return true;
+		return dependencyCondition.get();
+	}
+
 	public abstract int render(int mouseX, int mouseY);
 
+	public boolean mouseClickedBase(double mouseX, double mouseY, int button) {
+		if (!dependencyMet())
+			return false;
+		return mouseClicked(mouseX, mouseY, button);
+	}
+
+	public void mouseReleasedBase(double mouseX, double mouseY, int button) {
+		if (!dependencyMet())
+			return;
+		mouseReleased(mouseX, mouseY, button);
+	}
+
+	public void keyPressedBase(int keyCode, int scanCode, int modifiers) {
+		if (!dependencyMet())
+			return;
+		keyPressed(keyCode, scanCode, modifiers);
+	}
+
+	public boolean charTypedBase(char chr, int modifiers) {
+		if (!dependencyMet())
+			return false;
+		return charTyped(chr, modifiers);
+	}
+
 	@SuppressWarnings("UnusedReturnValue")
-	public boolean mouseClicked(double mouseX, double mouseY, int button) {
+	protected boolean mouseClicked(double mouseX, double mouseY, int button) {
 		return false;
 	}
 
-	public void mouseReleased(double mouseX, double mouseY, int button) {
+	protected void mouseReleased(double mouseX, double mouseY, int button) {}
 
-	}
+	protected void keyPressed(int keyCode, int scanCode, int modifiers) {}
 
-	public void keyPressed(int keyCode, int scanCode, int modifiers) {
-
-	}
-
-	public boolean charTyped(char chr, int modifiers) {
+	protected boolean charTyped(char chr, int modifiers) {
 		return false;
 	}
 

@@ -109,6 +109,7 @@ public class ModuleManager {
 		register(new Tracers());
 		register(new Trajectories());
 		register(new Nametags());
+		register(new FreeLook());
 
 		// world
 		register(new Scaffold());

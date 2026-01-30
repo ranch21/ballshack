@@ -27,7 +27,7 @@ public class DropDown extends ModuleSetting<Boolean, DropDown> implements Settin
 
 		if (this.getValue()) {
 			for (ModuleSetting<?, ?> setting : settings.getSettings()) {
-				addedHeight += setting.render(context, x + 2, y + height + addedHeight, width - 2, height, mouseX, mouseY);
+				addedHeight += setting.renderBase(context, x + 2, y + height + addedHeight, width - 2, height, mouseX, mouseY);
 			}
 
 			int bY = y + height;
@@ -49,7 +49,7 @@ public class DropDown extends ModuleSetting<Boolean, DropDown> implements Settin
 	public boolean mouseClicked(double mouseX, double mouseY, int button) {
 		if (this.getValue()) {
 			for (ModuleSetting<?, ?> setting : settings.getSettings()) {
-				setting.mouseClicked(mouseX, mouseY, button);
+				setting.mouseClickedBase(mouseX, mouseY, button);
 			}
 		}
 
@@ -64,7 +64,7 @@ public class DropDown extends ModuleSetting<Boolean, DropDown> implements Settin
 	public void mouseReleased(double mouseX, double mouseY, int button) {
 		if (this.getValue()) {
 			for (ModuleSetting<?, ?> setting : settings.getSettings()) {
-				setting.mouseReleased(mouseX, mouseY, button);
+				setting.mouseReleasedBase(mouseX, mouseY, button);
 			}
 		}
 	}
@@ -73,7 +73,7 @@ public class DropDown extends ModuleSetting<Boolean, DropDown> implements Settin
 	public void keyPressed(int keyCode, int scanCode, int modifiers) {
 		if (this.getValue()) {
 			for (ModuleSetting<?, ?> setting : settings.getSettings()) {
-				setting.keyPressed(keyCode, scanCode, modifiers);
+				setting.keyPressedBase(keyCode, scanCode, modifiers);
 			}
 		}
 	}
@@ -82,7 +82,7 @@ public class DropDown extends ModuleSetting<Boolean, DropDown> implements Settin
 	public boolean charTyped(char chr, int modifiers) {
 		if (this.getValue()) {
 			for (ModuleSetting<?, ?> setting : settings.getSettings()) {
-				if (setting.charTyped(chr, modifiers)) {
+				if (setting.charTypedBase(chr, modifiers)) {
 					return true;
 				}
 			}

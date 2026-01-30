@@ -1,9 +1,9 @@
 package org.ranch.ballshack.debug.renderers;
 
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.Vec3d;
 import org.ranch.ballshack.debug.DebugRenderer;
+import org.ranch.ballshack.event.EventSubscribe;
+import org.ranch.ballshack.event.events.EventWorldRender;
 import org.ranch.ballshack.util.rendering.BallsRenderPipelines;
 import org.ranch.ballshack.util.rendering.Renderer;
 
@@ -21,14 +21,12 @@ public class VecDebugRenderer extends DebugRenderer {
 		this.color = color;
 	}
 
-	@Override
-	public void renderGui(DrawContext context) {
+	@EventSubscribe
+	public void onWorldRender(EventWorldRender.Post event) {
 
-	}
+		Renderer renderer = Renderer.getInstance();
 
-	@Override
-	public void render3d(Renderer context, MatrixStack matrixStack) {
-		context.renderArrow(pos, pos.add(vec), 4, 0.2f, color, matrixStack);
-		context.draw(BallsRenderPipelines.QUADS);
+		renderer.renderArrow(pos, pos.add(vec), 4, 0.2f, color, event.matrixStack);
+		renderer.draw(BallsRenderPipelines.QUADS);
 	}
 }

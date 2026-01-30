@@ -39,7 +39,7 @@ public class KeyboardInputMixin {
 		}
 
 		((InputAccessor) input).setMovementVector(vecEvent.movement);
-		if (BallsHack.mc.player == null || !FreelookHandler.enabled || !FreelookHandler.rotateInput)
+		if (BallsHack.mc.player == null || !FreelookHandler.getEnabled() || !FreelookHandler.rotateInput)
 			return;
 		Vec3d movement = new Vec3d(input.getMovementInput().x, 0, input.getMovementInput().y);
 		movement = movement.rotateY((float) Math.toRadians(player.getYaw() - FreelookHandler.yaw));

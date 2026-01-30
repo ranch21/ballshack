@@ -17,7 +17,7 @@ public class ClickGui extends Module {
 	private ClickGuiScreen screen;
 
 	public final DropDown ballsDrop = dGroup.add(new DropDown("Balls"));
-	public final SettingToggle bEnabled = ballsDrop.add(new SettingToggle("Enabled", true));
+	public final SettingToggle bEnabled = ballsDrop.add(new SettingToggle("Enabled", false));
 	public final SettingSlider bAmount = ballsDrop.add(new SettingSlider("Amount", 500, 1, 2000, 100));
 	public final SettingSlider bGrav = ballsDrop.add(new SettingSlider("Gravity", 1, 0, 3, 0.1));
 	public final SettingSlider bSize = ballsDrop.add(new SettingSlider("Size", 16, 1, 32, 1));

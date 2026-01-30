@@ -16,6 +16,7 @@ import org.ranch.ballshack.mixin.InputAccessor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Function;
 
 public class PlayerSim {
@@ -23,7 +24,7 @@ public class PlayerSim {
 	private static final MinecraftClient mc = BallsHack.mc;
 
 	public record PlayerPoint(Vec3d position, Box boundingBox, Vec3d velocity,
-							  boolean onGround) implements Position {
+							  boolean onGround, Optional<BlockPos> supportingBlock, Vec3d eyePos) implements Position {
 
 		@Override
 		public double getX() {
@@ -183,7 +184,7 @@ public class PlayerSim {
 		List<PlayerPoint> points = new ArrayList<>();
 		for (int i = 0; i < ticks; i++) {
 			fakePlayer.tick();
-			points.add(new PlayerPoint(fakePlayer.getEntityPos(), fakePlayer.getBoundingBox(), fakePlayer.getVelocity(), fakePlayer.isOnGround()));
+			points.add(new PlayerPoint(fakePlayer.getEntityPos(), fakePlayer.getBoundingBox(), fakePlayer.getVelocity(), fakePlayer.isOnGround(), fakePlayer.supportingBlockPos, fakePlayer.getEyePos()));
 		}
 		return points;
 	}

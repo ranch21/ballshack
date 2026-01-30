@@ -1,8 +1,8 @@
 package org.ranch.ballshack.debug.renderers;
 
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.util.math.MatrixStack;
 import org.ranch.ballshack.debug.DebugRenderer;
+import org.ranch.ballshack.event.EventSubscribe;
+import org.ranch.ballshack.event.events.EventWorldRender;
 import org.ranch.ballshack.util.PlayerSim;
 import org.ranch.ballshack.util.rendering.BallsRenderPipelines;
 import org.ranch.ballshack.util.rendering.Renderer;
@@ -20,19 +20,15 @@ public class PlayerSimDebugRenderer extends DebugRenderer {
 		this.color = color;
 	}
 
-	@Override
-	public void renderGui(DrawContext context) {
-
-	}
-
-	@Override
-	public void render3d(Renderer context, MatrixStack matrixStack) {
+	@EventSubscribe
+	public void onWorldRender(EventWorldRender.Post event) {
+		Renderer renderer = Renderer.getInstance();
 		if (path == null)
 			return;
 		float size = 0.2f;
 		for (PlayerSim.PlayerPoint pos : path) {
-			context.renderCubeOutlines(pos.boundingBox(), 1, color, matrixStack);
+			renderer.renderCubeOutlines(pos.boundingBox(), 1, color, event.matrixStack);
 		}
-		context.draw(BallsRenderPipelines.QUADS);
+		renderer.draw(BallsRenderPipelines.QUADS);
 	}
 }

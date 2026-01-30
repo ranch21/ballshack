@@ -177,7 +177,6 @@ public class ClickGuiScreen extends Screen {
 				BallGridDebugRenderer dbug = (BallGridDebugRenderer) DebugRenderers.getRenderer("ballgrid");
 				if (dbug.getEnabled()) {
 					dbug.setData(ballHandler, width, height);
-					dbug.renderGui(context);
 				}
 			}
 		}
