@@ -27,20 +27,13 @@ public class Scaffold extends Module {
 	public record BlockPlacement(BlockPos blockPos, Direction bestDir) {
 	}
 
-	private static final Direction[] SEARCH_DIRECTIONS = {
-			Direction.NORTH,
-			Direction.EAST,
-			Direction.SOUTH,
-			Direction.WEST,
-			Direction.DOWN
-	};
-
 	private static final Direction[] ALL_DIRECTIONS = Direction.values();
 
-	private final double EPSILON = 0.0001;
+	private final double EPSILON = 0.001;
 	private int delay = 1;
 
 	public final SettingMode rotate = dGroup.add(new SettingMode("Rotate", 2, Arrays.asList("None", "Packet", "True")).featured());
+	public final SettingToggle freeLook = dGroup.add(new SettingToggle("FreeLook", true).depends(() -> rotate.getValue() == 2));
 	public final SettingToggle slowRotate = dGroup.add(new SettingToggle("SlowRotate", true).depends(() -> rotate.getValue() == 2));
 	public final SettingSlider rotSpeed = dGroup.add(new SettingSlider("RotateSpeed", 5, 2, 40, 1).depends(slowRotate::getValue));
 	public final SettingSlider delaySlider = dGroup.add(new SettingSlider("Delay", 1, 0, 10, 1));
@@ -78,6 +71,8 @@ public class Scaffold extends Module {
 			return;
 		}
 
+		FreelookHandler.setEnabled(freeLook.getValue() && freeLook.dependencyMet());
+
 		Vec3d faceMiddle = winner.get().blockPos.toCenterPos().add(winner.get().bestDir.getDoubleVector().multiply(0.5));
 		Vec3d faceMiddleAnticipated = faceMiddle.subtract(firstAir.position().subtract(mc.player.getEntityPos()));
 
@@ -92,7 +87,6 @@ public class Scaffold extends Module {
 				PlayerUtil.facePosPacket(faceMiddleAnticipated);
 				break;
 			case 2:
-				FreelookHandler.enable();
 				if (slowRotate.getValue()) {
 					Rotation target = PlayerUtil.getPosRotation(mc.player, faceMiddleAnticipated);
 					Rotation step = RotationUtil.slowlyTurnTowards(target, rotSpeed.getValueFloat());

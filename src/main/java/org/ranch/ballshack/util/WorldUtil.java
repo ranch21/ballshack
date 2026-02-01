@@ -92,5 +92,6 @@ public class WorldUtil {
 		BlockHitResult hitResult = new BlockHitResult(faceMiddle, side, pos, false);
 
 		mc.interactionManager.interactBlock(mc.player, hand, hitResult);
+		mc.player.swingHand(hand);
 	}
 }

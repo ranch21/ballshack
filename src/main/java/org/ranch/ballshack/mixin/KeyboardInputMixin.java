@@ -42,7 +42,10 @@ public class KeyboardInputMixin {
 		if (BallsHack.mc.player == null || !FreelookHandler.getEnabled() || !FreelookHandler.rotateInput)
 			return;
 		Vec3d movement = new Vec3d(input.getMovementInput().x, 0, input.getMovementInput().y);
-		movement = movement.rotateY((float) Math.toRadians(player.getYaw() - FreelookHandler.yaw));
+		float rotation = player.getYaw() - FreelookHandler.yaw;
+		if (FreelookHandler.snapInput)
+			rotation = Math.round(rotation / 45) * 45;
+		movement = movement.rotateY((float) Math.toRadians(rotation));
 		((InputAccessor) input).setMovementVector(new Vec2f((float) movement.x, (float) movement.z));
 	}
 }

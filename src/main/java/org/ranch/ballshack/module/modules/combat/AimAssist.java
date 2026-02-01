@@ -1,16 +1,12 @@
 package org.ranch.ballshack.module.modules.combat;
 
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.noise.PerlinNoiseSampler;
 import net.minecraft.util.math.random.Random;
 import org.ranch.ballshack.event.EventSubscribe;
 import org.ranch.ballshack.event.events.EventMouseUpdate;
 import org.ranch.ballshack.event.events.EventTick;
-import org.ranch.ballshack.event.events.EventWorldRender;
-import org.ranch.ballshack.gui.Colors;
 import org.ranch.ballshack.module.Module;
 import org.ranch.ballshack.module.ModuleCategory;
 import org.ranch.ballshack.setting.moduleSettings.*;
@@ -18,10 +14,7 @@ import org.ranch.ballshack.util.EntityUtil;
 import org.ranch.ballshack.util.PlayerUtil;
 import org.ranch.ballshack.util.Rotation;
 import org.ranch.ballshack.util.RotationUtil;
-import org.ranch.ballshack.util.rendering.BallsRenderPipelines;
-import org.ranch.ballshack.util.rendering.Renderer;
 
-import java.awt.*;
 import java.util.Arrays;
 import java.util.List;
 
@@ -36,7 +29,7 @@ public class AimAssist extends Module {
 	private static Vec3d offset = Vec3d.ZERO;
 	private static Vec3d prevOffset = Vec3d.ZERO;
 
-	public final SettingMode mode = dGroup.add((SettingMode) new SettingMode("Mode", 0, Arrays.asList("Linear", "\"natural\"", "Momentum")).featured());
+	public final SettingMode mode = dGroup.add(new SettingMode("Mode", 0, Arrays.asList("Linear", "\"natural\"", "Momentum")).featured());
 	public final SettingSlider range = dGroup.add(new SettingSlider("Range", 4, 1, 8, 0.5));
 	public final SettingSlider speed = dGroup.add(new SettingSlider("Speed", 8, 1, 25, 1));
 
@@ -66,6 +59,9 @@ public class AimAssist extends Module {
 		int moveMode = mode.getValue();
 
 		double speed = this.speed.getValue();
+
+		if (rnEnabled.getValue())
+			speed *= (noise.sample(0.22, mc.world.getTime() * (rnSpeed.getValue() / 20), 0.74) / 2) + 1;
 
 		Rotation desired = PlayerUtil.getPosRotation(mc.player, prevTargetPos.lerp(targetPos, event.timeDelta).add(prevOffset.lerp(offset, event.timeDelta)));
 
@@ -147,31 +143,5 @@ public class AimAssist extends Module {
 
 			offset = offset.multiply(mult);
 		}
-	}
-
-	@EventSubscribe
-	public void onWorldRender(EventWorldRender.Post event) {
-		if (targetPos == null) return;
-		Color c = Colors.PALETTE_1.getColor();
-
-		double alpha = 0.2f;
-		float r = c.getRed() / 255.0f;
-		float g = c.getGreen() / 255.0f;
-		float b = c.getBlue() / 255.0f;
-
-		MatrixStack matrices = event.matrixStack;
-
-		Vec3d tpos = prevTargetPos.lerp(targetPos, event.tickDelta);
-		Vec3d tposoff = tpos.add(prevOffset.lerp(offset, event.tickDelta));
-
-		Box box = new Box(tposoff.subtract(0.2), tposoff.add(0.2));
-		Box box2 = new Box(tpos.subtract(0.2), tpos.add(0.2));
-
-		Renderer renderer = Renderer.getInstance();
-
-		renderer.renderCube(box2, c, matrices);
-		renderer.renderCubeOutlines(box2, 2, c, matrices);
-
-		renderer.draw(BallsRenderPipelines.QUADS);
 	}
 }

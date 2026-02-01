@@ -48,7 +48,7 @@ public class Coordinates extends ModuleHud {
 		width = mc.textRenderer.getWidth(data) - 2;
 		height = mc.textRenderer.fontHeight + 1;
 
-		if (backdrop.getValue()) context.fill(x, y, x + width, y + height, Colors.CLICKGUI_BACKGROUND_2.hashCode());
+		if (backdrop.getValue()) context.fill(x, y, x + width, y + height, Colors.CLICKGUI_BACKGROUND_2.getColor().hashCode());
 
 		context.drawText(mc.textRenderer, data, x + 1, y + 1, Color.WHITE.hashCode(), shadow.getValue());
 	}

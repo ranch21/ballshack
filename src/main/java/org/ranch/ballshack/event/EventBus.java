@@ -1,6 +1,7 @@
 package org.ranch.ballshack.event;
 
 import org.ranch.ballshack.BallsHack;
+import org.ranch.ballshack.BallsLogger;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -53,6 +54,7 @@ public class EventBus {
 					try {
 						method.invoke(subscriber, event);
 					} catch (IllegalAccessException | InvocationTargetException e) {
+						BallsLogger.error("Error while executing " + subscriber.getClass().getName() + " " + method.getName());
 						e.printStackTrace();
 					}
 				}

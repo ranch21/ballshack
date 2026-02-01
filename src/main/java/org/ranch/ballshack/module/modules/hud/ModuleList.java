@@ -73,7 +73,7 @@ public class ModuleList extends ModuleHud {
 		int baseY = Y() - yOffset() + (mc.textRenderer.fontHeight + 1) * index + 1;
 
 		if (background) {
-			context.fill(baseX - 1, baseY - 1, baseX + textWidth + 1, baseY + mc.textRenderer.fontHeight, Colors.CLICKGUI_BACKGROUND_2.hashCode());
+			context.fill(baseX - 1, baseY - 1, baseX + textWidth + 1, baseY + mc.textRenderer.fontHeight, Colors.CLICKGUI_BACKGROUND_2.getColor().hashCode());
 		}
 
 		if (line && !getAnchorPoint().isCenter()) {

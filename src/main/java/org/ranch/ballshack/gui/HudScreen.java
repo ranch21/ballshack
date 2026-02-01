@@ -74,8 +74,8 @@ public class HudScreen extends Screen {
 		for (ModuleHud module : modules) {
 
 			if (!module.isEnabled()) continue;
-
-			context.fill(module.X() - module.xOffset(), module.Y() - module.yOffset(), module.X() - module.xOffset() + module.getWidth(), module.Y() - module.yOffset() + module.getHeight(), Colors.CLICKGUI_1.hashCode());
+			DrawUtil.drawOutline(context, module.X() - module.xOffset(), module.Y() - module.yOffset(), module.getWidth(), module.getHeight(), Colors.CLICKGUI_1.getColor());
+			//context.fill(module.X() - module.xOffset(), module.Y() - module.yOffset(), module.X() - module.xOffset() + module.getWidth(), module.Y() - module.yOffset() + module.getHeight(), Colors.CLICKGUI_1.getColor().hashCode());
 			DrawUtil.drawPoint(context, module.X() - 1, module.Y(), Colors.BORDER.getColor());
 			DrawUtil.drawPoint(context, module.X() + 1, module.Y(), Colors.BORDER.getColor());
 			DrawUtil.drawPoint(context, module.X(), module.Y() - 1, Colors.BORDER.getColor());

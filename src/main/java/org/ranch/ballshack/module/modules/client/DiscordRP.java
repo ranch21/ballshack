@@ -4,6 +4,7 @@ import de.jcm.discordgamesdk.Core;
 import de.jcm.discordgamesdk.CreateParams;
 import de.jcm.discordgamesdk.activity.Activity;
 import de.jcm.discordgamesdk.activity.ActivityType;
+import org.ranch.ballshack.BallsLogger;
 import org.ranch.ballshack.event.EventSubscribe;
 import org.ranch.ballshack.event.events.EventScreen;
 import org.ranch.ballshack.event.events.EventTick;
@@ -52,9 +53,13 @@ public class DiscordRP extends Module {
 
 		int updateSpeed = 20 * 4;
 		if (mc.world.getTime() % updateSpeed != 0) return;
-		core.runCallbacks();
-		setActivity();
-		core.activityManager().updateActivity(activity);
+		try {
+			core.runCallbacks();
+			setActivity();
+			core.activityManager().updateActivity(activity);
+		} catch (Exception ignored) {
+
+		}
 	}
 
 	@EventSubscribe
@@ -77,18 +82,16 @@ public class DiscordRP extends Module {
 			params.setClientID(1403578974352707675L);
 			params.setFlags(CreateParams.getDefaultFlags());
 			// Create the Core
-			core = new Core(params);
-
-			activity = new Activity();
-
-			setActivity();
-
-			activity.timestamps().setStart(Instant.now());
-			// Setting a join secret and a party ID causes an "Ask to Join" button to appear
-			//activity.party().setID("Party!");
-			//activity.secrets().setJoinSecret("Join!");
-			// Finally, update the current activity to our activity
-			core.activityManager().updateActivity(activity);
+			try {
+				DiscordRP.core = new Core(params);
+				activity = new Activity();
+				setActivity();
+				activity.timestamps().setStart(Instant.now());
+				core.activityManager().updateActivity(activity);
+			} catch (Exception e) {
+				BallsLogger.error("Discord not open");
+				super.onDisable();
+			}
 		}
 	}
 

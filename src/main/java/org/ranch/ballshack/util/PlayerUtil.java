@@ -175,6 +175,8 @@ public class PlayerUtil {
 			return "jeffito";
 		} else if (uuid.equals(UUID.fromString("39590f72-cdfb-4bd8-b32e-69d82a020ae6"))) {
 			return "walinchi";
+		} else if (uuid.equals(UUID.fromString("eefc1e48-bc40-44ec-a7c0-25e89b66e543"))) {
+			return "valentina";
 		}
 
 		return null;

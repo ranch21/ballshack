@@ -15,6 +15,8 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.AbstractFireballEntity;
 import net.minecraft.entity.projectile.ShulkerBulletEntity;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.noise.PerlinNoiseSampler;
+import net.minecraft.util.math.random.Random;
 import org.ranch.ballshack.FriendManager;
 import org.ranch.ballshack.gui.Colors;
 import org.ranch.ballshack.setting.moduleSettings.TargetsDropDown;
@@ -28,6 +30,7 @@ import java.util.stream.Stream;
 
 public class EntityUtil {
 
+	private static final PerlinNoiseSampler noise = new PerlinNoiseSampler(Random.create());
 	private static final MinecraftClient mc = MinecraftClient.getInstance();
 
 	public static Vec3d getCenter(Entity e) {
@@ -107,6 +110,17 @@ public class EntityUtil {
 			return Color.YELLOW;
 		else
 			return Colors.DULL_GREEN;
+	}
+
+	public static Vec3d getNoiseOffset(double randSpeed, double randAmount) {
+		double time = mc.world.getTime() * (randSpeed / 100);
+		Vec3d offset = new Vec3d(
+				noise.sample(time, 0.23, 0.11),
+				noise.sample(0.86, time, 0.55),
+				noise.sample(0.28, 0.58, time)
+		);
+
+		return offset.multiply(randAmount);
 	}
 
 	public enum EntityType {

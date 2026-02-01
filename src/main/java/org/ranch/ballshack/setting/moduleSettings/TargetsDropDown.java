@@ -67,7 +67,10 @@ public class TargetsDropDown extends DropDown {
 			case MONSTER, NEUTRAL -> {
 				if (!getMobs()) return false;
 			}
-			case PLAYER, FRIEND -> {
+			case FRIEND -> {
+				if (!getFriends()) return false;
+			}
+			case PLAYER -> {
 				if (!getPlayers()) return false;
 			}
 			case OTHER -> {
