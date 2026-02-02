@@ -37,9 +37,6 @@ public class WorldUtil {
 						z++;
 					}
 
-					if (z > max.z)
-						throw new IllegalStateException("Stream limit didn't work.");
-
 					return new ChunkPos(x, z);
 
 				}).limit((long) diameter * diameter)

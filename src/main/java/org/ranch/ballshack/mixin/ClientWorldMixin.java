@@ -2,6 +2,7 @@ package org.ranch.ballshack.mixin;
 
 import net.minecraft.client.world.ClientWorld;
 import org.ranch.ballshack.BallsHack;
+import org.ranch.ballshack.BallsLogger;
 import org.ranch.ballshack.debug.DebugRenderers;
 import org.ranch.ballshack.debug.renderers.PlayerSimDebugRenderer;
 import org.ranch.ballshack.event.events.EventTick;
@@ -24,5 +25,7 @@ public class ClientWorldMixin {
 		PlayerSimDebugRenderer debugRenderer = (PlayerSimDebugRenderer) DebugRenderers.getRenderer("playersim");
 		if (debugRenderer.getEnabled())
 			debugRenderer.setData(PlayerSim.simulatePlayer(BallsHack.mc.player, 20*5), new Color(255, 255, 255, 100));
-		BallsHack.eventBus.post(new EventTick());}
+		BallsHack.eventBus.post(new EventTick());
+		BallsLogger.onTick();
+	}
 }

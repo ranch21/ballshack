@@ -12,10 +12,7 @@ import org.ranch.ballshack.setting.moduleSettings.SettingSlider;
 import org.ranch.ballshack.setting.moduleSettings.TargetsDropDown;
 import org.ranch.ballshack.util.EntityUtil;
 import org.ranch.ballshack.util.rendering.BallColor;
-import org.ranch.ballshack.util.rendering.BallsRenderPipelines;
 import org.ranch.ballshack.util.rendering.Renderer;
-
-import static org.ranch.ballshack.Constants.LINE_WIDTH;
 
 public class ESP extends Module {
 
@@ -46,11 +43,9 @@ public class ESP extends Module {
 
 				Box box = new Box(c1, c1.add(size));
 
-				renderer.renderCube(box, BallColor.fromColor(type.getColor()).setAlpha((float) (double) alpha.getValue()), matrices);
-				renderer.renderCubeOutlines(box, LINE_WIDTH, type.getColor(), matrices);
+				renderer.queueCube(box, BallColor.fromColor(type.getColor()).setAlpha(alpha.getValueFloat()), matrices);
+				renderer.queueCubeOutline(box, type.getColor(), matrices);
 			}
 		}
-
-		renderer.draw(BallsRenderPipelines.QUADS);
 	}
 }

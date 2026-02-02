@@ -3,7 +3,7 @@ package org.ranch.ballshack.module.modules.player;
 import net.minecraft.network.packet.c2s.play.ClientCommandC2SPacket;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 import org.ranch.ballshack.event.EventSubscribe;
-import org.ranch.ballshack.event.events.EventPacketSend;
+import org.ranch.ballshack.event.events.EventPacket;
 import org.ranch.ballshack.event.events.EventTick;
 import org.ranch.ballshack.mixin.PlayerMoveC2SPacketAccessor;
 import org.ranch.ballshack.module.Module;
@@ -23,7 +23,7 @@ public class AntiHunger extends Module {
 	}
 
 	@EventSubscribe
-	public void onPacket(EventPacketSend event) {
+	public void onPacket(EventPacket.Send event) {
 
 		if (mc.player == null || mc.interactionManager == null)
 			return;

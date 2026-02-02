@@ -15,12 +15,9 @@ import org.ranch.ballshack.module.Module;
 import org.ranch.ballshack.module.ModuleCategory;
 import org.ranch.ballshack.setting.moduleSettings.SettingSlider;
 import org.ranch.ballshack.util.rendering.BallColor;
-import org.ranch.ballshack.util.rendering.BallsRenderPipelines;
 import org.ranch.ballshack.util.rendering.Renderer;
 
 import java.awt.*;
-
-import static org.ranch.ballshack.Constants.LINE_WIDTH;
 
 public class BlockHighlight extends Module {
 
@@ -57,10 +54,9 @@ public class BlockHighlight extends Module {
 
 					for (Box box : shape.getBoundingBoxes()) {
 						box = box.offset(blockPos);
-						renderer.renderCube(box, BallColor.fromColor(c).setAlpha((float) (double) alpha.getValue()), matrices);
-						renderer.renderCubeOutlines(box, LINE_WIDTH, c, matrices);
+						renderer.queueCube(box, BallColor.fromColor(c).setAlpha(alpha.getValueFloat()), matrices);
+						renderer.queueCubeOutline(box, c, matrices);
 					}
-					renderer.draw(BallsRenderPipelines.QUADS);
 				}
 			}
 		}

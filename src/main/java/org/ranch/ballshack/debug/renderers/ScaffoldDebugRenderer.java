@@ -8,7 +8,6 @@ import net.minecraft.util.math.Vec3d;
 import org.ranch.ballshack.debug.DebugRenderer;
 import org.ranch.ballshack.event.EventSubscribe;
 import org.ranch.ballshack.event.events.EventWorldRender;
-import org.ranch.ballshack.util.rendering.BallsRenderPipelines;
 import org.ranch.ballshack.util.rendering.Renderer;
 
 import java.awt.*;
@@ -36,8 +35,7 @@ public class ScaffoldDebugRenderer extends DebugRenderer {
 
 		Vec3d faceCenter = bpos.toCenterPos().add(bface.getDoubleVector().multiply(0.5));
 
-		renderer.renderArrow(faceCenter, faceCenter.add(bface.getDoubleVector().multiply(0.2)), 4, 0.2f, new Color(255, 0, 0), event.matrixStack);
-		renderer.renderCube(new Box(bpos), new Color(0, 255, 0, 50), event.matrixStack);
-		renderer.draw(BallsRenderPipelines.QUADS);
+		renderer.queueArrow(faceCenter, faceCenter.add(bface.getDoubleVector().multiply(0.2)), 4, new Color(255, 0, 0), event.matrixStack);
+		renderer.queueCube(new Box(bpos), new Color(0, 255, 0, 50), event.matrixStack);
 	}
 }

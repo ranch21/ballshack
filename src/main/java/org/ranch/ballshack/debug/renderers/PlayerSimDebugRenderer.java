@@ -4,7 +4,6 @@ import org.ranch.ballshack.debug.DebugRenderer;
 import org.ranch.ballshack.event.EventSubscribe;
 import org.ranch.ballshack.event.events.EventWorldRender;
 import org.ranch.ballshack.util.PlayerSim;
-import org.ranch.ballshack.util.rendering.BallsRenderPipelines;
 import org.ranch.ballshack.util.rendering.Renderer;
 
 import java.awt.*;
@@ -27,8 +26,7 @@ public class PlayerSimDebugRenderer extends DebugRenderer {
 			return;
 		float size = 0.2f;
 		for (PlayerSim.PlayerPoint pos : path) {
-			renderer.renderCubeOutlines(pos.boundingBox(), 1, color, event.matrixStack);
+			renderer.queueCubeOutline(pos.boundingBox(), color, event.matrixStack);
 		}
-		renderer.draw(BallsRenderPipelines.QUADS);
 	}
 }

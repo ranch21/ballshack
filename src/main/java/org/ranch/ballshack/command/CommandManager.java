@@ -60,6 +60,7 @@ public class CommandManager {
 		registerCommand(new ServerCommand());
 		registerCommand(new WatermarkCommand());
 		registerCommand(new ThemeCommand());
+		registerCommand(new SearchCommand());
 
 		registerCommand(new ToggleCommand());
 

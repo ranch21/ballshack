@@ -4,7 +4,6 @@ import net.minecraft.util.math.Vec3d;
 import org.ranch.ballshack.debug.DebugRenderer;
 import org.ranch.ballshack.event.EventSubscribe;
 import org.ranch.ballshack.event.events.EventWorldRender;
-import org.ranch.ballshack.util.rendering.BallsRenderPipelines;
 import org.ranch.ballshack.util.rendering.Renderer;
 
 import java.awt.*;
@@ -26,7 +25,6 @@ public class VecDebugRenderer extends DebugRenderer {
 
 		Renderer renderer = Renderer.getInstance();
 
-		renderer.renderArrow(pos, pos.add(vec), 4, 0.2f, color, event.matrixStack);
-		renderer.draw(BallsRenderPipelines.QUADS);
+		renderer.queueArrow(pos, pos.add(vec), 4, color, event.matrixStack);
 	}
 }

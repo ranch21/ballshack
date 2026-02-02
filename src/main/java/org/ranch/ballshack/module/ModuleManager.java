@@ -60,7 +60,6 @@ public class ModuleManager {
 	static {
 		// client
 		register(new ClickGui());
-		register(new ColorsConfig());
 		register(new DiscordRP());
 		register(new HudEditor());
 		register(new Rainbow());
@@ -110,6 +109,7 @@ public class ModuleManager {
 		register(new Trajectories());
 		register(new Nametags());
 		register(new FreeLook());
+		register(new Search());
 
 		// world
 		register(new Scaffold());

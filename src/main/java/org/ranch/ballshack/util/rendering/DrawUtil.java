@@ -3,14 +3,10 @@ package org.ranch.ballshack.util.rendering;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.network.AbstractClientPlayerEntity;
-import net.minecraft.client.network.ClientPlayerLikeState;
 import net.minecraft.client.render.command.OrderedRenderCommandQueue;
 import net.minecraft.client.render.state.CameraRenderState;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.RotationAxis;
 import net.minecraft.util.math.Vec3d;
 import org.joml.Vector2i;
 import org.ranch.ballshack.gui.Colors;
@@ -110,17 +106,6 @@ public class DrawUtil {
 				dist,
 				state
 		);
-	}
-
-	public static void unBobView(MatrixStack matrices, float tickProgress) {
-		if (mc.getCameraEntity() instanceof AbstractClientPlayerEntity abstractClientPlayerEntity) {
-			ClientPlayerLikeState clientPlayerLikeState = abstractClientPlayerEntity.getState();
-			float f = clientPlayerLikeState.getReverseLerpedDistanceMoved(tickProgress);
-			float g = clientPlayerLikeState.lerpMovement(tickProgress);
-			matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(-Math.abs(MathHelper.cos(f * (float) Math.PI - 0.2F) * g) * 5.0F));
-			matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(-MathHelper.sin(f * (float) Math.PI) * g * 3.0F));
-			matrices.translate(-MathHelper.sin(f * (float) Math.PI) * g * 0.5F, Math.abs(MathHelper.cos(f * (float) Math.PI) * g), 0.0F);
-		}
 	}
 
 	public static Color blendColor(Color color1, Color color2, float ratio) {

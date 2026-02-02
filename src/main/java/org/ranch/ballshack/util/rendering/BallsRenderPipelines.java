@@ -22,4 +22,16 @@ public class BallsRenderPipelines {
 			.withDepthTestFunction(DepthTestFunction.NO_DEPTH_TEST)
 			.withCull(false)
 			.build();
+
+	public static final RenderPipeline LINES = RenderPipeline.builder()
+			.withUniform("DynamicTransforms", UniformType.UNIFORM_BUFFER)
+			.withUniform("Projection", UniformType.UNIFORM_BUFFER)
+			.withVertexShader(Identifier.tryParse(BallsHack.ID, "core/lines"))
+			.withFragmentShader(Identifier.tryParse(BallsHack.ID, "core/lines"))
+			.withBlend(BlendFunction.TRANSLUCENT)
+			.withLocation(Identifier.tryParse(BallsHack.ID, "pipeline/lines"))
+			.withVertexFormat(VertexFormats.POSITION_COLOR_NORMAL, VertexFormat.DrawMode.LINES)
+			.withDepthTestFunction(DepthTestFunction.NO_DEPTH_TEST)
+			.withCull(false)
+			.build();
 }

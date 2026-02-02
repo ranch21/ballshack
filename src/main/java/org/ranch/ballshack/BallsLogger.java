@@ -8,13 +8,18 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Deque;
+import java.util.List;
+
+import static org.ranch.ballshack.BallsHack.mc;
 
 @SuppressWarnings("DataFlowIssue")
 public class BallsLogger {
 	public static final Logger logger = LogManager.getFormatterLogger("BallsHack");
 
 	public static final Deque<String> recentMessages = new ArrayDeque<>();
+	private static final List<Text> queuedInGameLogs = new ArrayList<>();
 	public static final int maxHistMessages = 100;
 
 	private static final Text ballsText = Text.literal("BallsHack");
@@ -49,9 +54,7 @@ public class BallsLogger {
 	public static void info(Text info) {
 		logger.info(info.getString());
 		ClientPlayerEntity player = MinecraftClient.getInstance().player;
-		if (player != null) {
-			player.sendMessage(addBallText(info, INFO_COLOR), false);
-		}
+		queuedInGameLogs.add(addBallText(info, INFO_COLOR));
 		addToHistory(info.toString());
 	}
 
@@ -66,9 +69,7 @@ public class BallsLogger {
 	public static void warn(Text warn) {
 		logger.warn(warn.getString());
 		ClientPlayerEntity player = MinecraftClient.getInstance().player;
-		if (player != null) {
-			player.sendMessage(addBallText(warn, WARN_COLOR), false);
-		}
+		queuedInGameLogs.add(addBallText(warn, WARN_COLOR));
 		addToHistory(warn.toString());
 	}
 
@@ -83,9 +84,14 @@ public class BallsLogger {
 	public static void error(Text error) {
 		logger.info(error.getString());
 		ClientPlayerEntity player = MinecraftClient.getInstance().player;
-		if (player != null) {
-			player.sendMessage(addBallText(error, ERROR_COLOR), false);
-		}
+		queuedInGameLogs.add(addBallText(error, ERROR_COLOR));
 		addToHistory(error.toString());
+	}
+
+	public static void onTick() {
+		for (Text msg : new ArrayList<>(queuedInGameLogs)) {
+			mc.player.sendMessage(msg, false);
+		}
+		queuedInGameLogs.clear();
 	}
 }

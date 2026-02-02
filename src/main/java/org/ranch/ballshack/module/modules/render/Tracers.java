@@ -11,7 +11,6 @@ import org.ranch.ballshack.setting.moduleSettings.SettingSlider;
 import org.ranch.ballshack.setting.moduleSettings.TargetsDropDown;
 import org.ranch.ballshack.util.EntityUtil;
 import org.ranch.ballshack.util.rendering.BallColor;
-import org.ranch.ballshack.util.rendering.BallsRenderPipelines;
 import org.ranch.ballshack.util.rendering.Renderer;
 
 public class Tracers extends Module {
@@ -39,15 +38,8 @@ public class Tracers extends Module {
 
 				Vec3d pos = e.getLerpedPos(event.tickDelta);
 
-				Vec3d tracerStart = new Vec3d(0, 0, 200)
-						.rotateX(-(float) Math.toRadians(mc.gameRenderer.getCamera().getPitch()))
-						.rotateY(-(float) Math.toRadians(mc.gameRenderer.getCamera().getYaw()))
-						.add(mc.gameRenderer.getCamera().getPos());
-
-				renderer.renderLine(tracerStart, pos, 1, BallColor.fromColor(type.getColor()).setAlpha((float) (double) alpha.getValue()), matrices);
+				renderer.queueTracer(pos, BallColor.fromColor(type.getColor()).setAlpha(alpha.getValueFloat()), matrices);
 			}
 		}
-
-		renderer.draw(BallsRenderPipelines.QUADS);
 	}
 }

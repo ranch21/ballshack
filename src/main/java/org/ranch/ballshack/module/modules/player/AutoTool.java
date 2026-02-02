@@ -8,7 +8,7 @@ import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.world.GameMode;
 import org.ranch.ballshack.event.EventSubscribe;
-import org.ranch.ballshack.event.events.EventPacketSend;
+import org.ranch.ballshack.event.events.EventPacket;
 import org.ranch.ballshack.event.events.EventTick;
 import org.ranch.ballshack.mixin.ClientPlayerInteractionManagerAccessor;
 import org.ranch.ballshack.module.Module;
@@ -28,7 +28,7 @@ public class AutoTool extends Module {
 	private boolean mining = false;
 
 	@EventSubscribe
-	public void onPacket(EventPacketSend event) {
+	public void onPacket(EventPacket.Send event) {
 		if (!(event.packet instanceof PlayerActionC2SPacket)) {
 			return;
 		}

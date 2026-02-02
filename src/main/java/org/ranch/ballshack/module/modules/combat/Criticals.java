@@ -4,7 +4,7 @@ import net.minecraft.network.packet.c2s.play.PlayerInteractEntityC2SPacket;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 import net.minecraft.util.math.Vec3d;
 import org.ranch.ballshack.event.EventSubscribe;
-import org.ranch.ballshack.event.events.EventPacketSend;
+import org.ranch.ballshack.event.events.EventPacket;
 import org.ranch.ballshack.module.Module;
 import org.ranch.ballshack.module.ModuleCategory;
 
@@ -14,7 +14,7 @@ public class Criticals extends Module {
 	}
 
 	@EventSubscribe
-	public void onPacketSent(EventPacketSend event) {
+	public void onPacketSent(EventPacket.Send event) {
 		if (mc.player == null) return;
 
 		if (event.packet instanceof PlayerInteractEntityC2SPacket packet) {

@@ -15,7 +15,6 @@ import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.util.BufferAllocator;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.Box;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
@@ -24,6 +23,8 @@ import org.lwjgl.system.MemoryUtil;
 import org.ranch.ballshack.BallsHack;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
 
@@ -32,12 +33,19 @@ public class Renderer {
 	private final MinecraftClient mc;
 
 	private BufferBuilder buffer;
+	private boolean building = false;
 	private final BufferAllocator allocator = new BufferAllocator(RenderLayer.DEFAULT_BUFFER_SIZE);
 
 	private static Vector4f colorModulator = new Vector4f(1f, 1f, 1f, 1f);
 	MappableRingBuffer vertexBuffer;
 
 	private static Renderer instance;
+
+	private final List<QuadRenderCommand> quadRenderCommandList;
+	private final List<LineRenderCommand> lineRenderCommandList;
+
+	public record QuadRenderCommand(Vec3d v1, Vec3d v2, Vec3d v3, Vec3d v4, Color color, MatrixStack matrixStack) {}
+	public record LineRenderCommand(Vec3d start, Vec3d end, Color color, MatrixStack matrixStack) {}
 
 	public static Renderer getInstance() {
 		if (instance == null) {
@@ -48,65 +56,29 @@ public class Renderer {
 
 	private Renderer(MinecraftClient mc) {
 		this.mc = mc;
+		quadRenderCommandList = new ArrayList<>();
+		lineRenderCommandList = new ArrayList<>();
 	}
 
 	public void setColorModulator(float r, float g, float b, float a) {
 		colorModulator = new Vector4f(r, g, b, a);
 	}
 
-	public void renderCube(Box box, Color color, MatrixStack matrixStack) {
-		setupRender(matrixStack, BallsRenderPipelines.QUADS);
-
-		float x1 = (float) box.minX;
-		float y1 = (float) box.minY;
-		float z1 = (float) box.minZ;
-
-		float x2 = (float) box.maxX;
-		float y2 = (float) box.maxY;
-		float z2 = (float) box.maxZ;
-
-		float r = color.getRed() / 255.0f;
-		float g = color.getGreen() / 255.0f;
-		float b = color.getBlue() / 255.0f;
-		float a = color.getAlpha() / 255.0f;
-
-		Matrix4f matrix = matrixStack.peek().getPositionMatrix();
-
-		buffer.vertex(matrix, x1, y1, z1).color(r, g, b, a);
-		buffer.vertex(matrix, x1, y2, z1).color(r, g, b, a);
-		buffer.vertex(matrix, x2, y2, z1).color(r, g, b, a);
-		buffer.vertex(matrix, x2, y1, z1).color(r, g, b, a);
-
-		buffer.vertex(matrix, x2, y1, z1).color(r, g, b, a);
-		buffer.vertex(matrix, x2, y2, z1).color(r, g, b, a);
-		buffer.vertex(matrix, x2, y2, z2).color(r, g, b, a);
-		buffer.vertex(matrix, x2, y1, z2).color(r, g, b, a);
-
-		buffer.vertex(matrix, x2, y1, z2).color(r, g, b, a);
-		buffer.vertex(matrix, x2, y2, z2).color(r, g, b, a);
-		buffer.vertex(matrix, x1, y2, z2).color(r, g, b, a);
-		buffer.vertex(matrix, x1, y1, z2).color(r, g, b, a);
-
-		buffer.vertex(matrix, x1, y1, z2).color(r, g, b, a);
-		buffer.vertex(matrix, x1, y2, z2).color(r, g, b, a);
-		buffer.vertex(matrix, x1, y2, z1).color(r, g, b, a);
-		buffer.vertex(matrix, x1, y1, z1).color(r, g, b, a);
-
-		buffer.vertex(matrix, x1, y2, z1).color(r, g, b, a);
-		buffer.vertex(matrix, x1, y2, z2).color(r, g, b, a);
-		buffer.vertex(matrix, x2, y2, z2).color(r, g, b, a);
-		buffer.vertex(matrix, x2, y2, z1).color(r, g, b, a);
-
-		buffer.vertex(matrix, x1, y1, z2).color(r, g, b, a);
-		buffer.vertex(matrix, x1, y1, z1).color(r, g, b, a);
-		buffer.vertex(matrix, x2, y1, z1).color(r, g, b, a);
-		buffer.vertex(matrix, x2, y1, z2).color(r, g, b, a);
-
-		matrixStack.pop();
+	/* Quad queuing */
+	public void queueQuad(Vec3d v1, Vec3d v2, Vec3d v3, Vec3d v4, Color color, MatrixStack matrixStack) {
+		quadRenderCommandList.add(
+				new QuadRenderCommand(
+						v1,
+						v2,
+						v3,
+						v4,
+						color,
+						matrixStack
+				)
+		);
 	}
 
-	public void renderCubeOutlines(Box box, float width, Color color, MatrixStack matrixStack) {
-
+	public void queueCube(Box box, Color color, MatrixStack matrixStack) {
 		float x1 = (float) box.minX;
 		float y1 = (float) box.minY;
 		float z1 = (float) box.minZ;
@@ -115,127 +87,227 @@ public class Renderer {
 		float y2 = (float) box.maxY;
 		float z2 = (float) box.maxZ;
 
-		float r = color.getRed() / 255.0f;
-		float g = color.getGreen() / 255.0f;
-		float b = color.getBlue() / 255.0f;
-		float a = color.getAlpha() / 255.0f;
+		queueQuad(
+				new Vec3d(x1, y1, z1), new Vec3d(x1, y2, z1), new Vec3d(x2, y2, z1), new Vec3d(x2, y1, z1),
+				color, matrixStack
+		);
+
+		queueQuad(
+				new Vec3d(x2, y1, z1), new Vec3d(x2, y2, z1), new Vec3d(x2, y2, z2), new Vec3d(x2, y1, z2),
+				color, matrixStack
+		);
+
+		queueQuad(
+				new Vec3d(x2, y1, z2), new Vec3d(x2, y2, z2), new Vec3d(x1, y2, z2), new Vec3d(x1, y1, z2),
+				color, matrixStack
+		);
+
+		queueQuad(
+				new Vec3d(x1, y1, z2), new Vec3d(x1, y2, z2), new Vec3d(x1, y2, z1), new Vec3d(x1, y1, z1),
+				color, matrixStack
+		);
+
+		queueQuad(
+				new Vec3d(x1, y2, z1), new Vec3d(x1, y2, z2), new Vec3d(x2, y2, z2), new Vec3d(x2, y2, z1),
+				color, matrixStack
+		);
+
+		queueQuad(
+				new Vec3d(x1, y1, z2), new Vec3d(x1, y1, z1), new Vec3d(x2, y1, z1), new Vec3d(x2, y1, z2),
+				color, matrixStack
+		);
+	}
+
+	/* Line queuing */
+	public void queueLine(Vec3d start, Vec3d end, Color color, MatrixStack matrixStack) {
+		lineRenderCommandList.add(
+				new LineRenderCommand(
+						start,
+						end,
+						color,
+						matrixStack
+				)
+		);
+	}
+
+	public void queueTracer(Vec3d end, Color color, MatrixStack matrixStack) {
+
+		Vec3d tracerStart = new Vec3d(0, 0, 100)
+			.rotateX(-(float) Math.toRadians(mc.gameRenderer.getCamera().getPitch()))
+			.rotateY(-(float) Math.toRadians(mc.gameRenderer.getCamera().getYaw()))
+			.add(mc.gameRenderer.getCamera().getPos());
+
+		lineRenderCommandList.add(
+				new LineRenderCommand(
+						tracerStart,
+						end,
+						color,
+						matrixStack
+				)
+		);
+	}
+
+	public void queueCubeOutline(Box box, Color color, MatrixStack matrixStack) {
+
+		float x1 = (float) box.minX;
+		float y1 = (float) box.minY;
+		float z1 = (float) box.minZ;
+
+		float x2 = (float) box.maxX;
+		float y2 = (float) box.maxY;
+		float z2 = (float) box.maxZ;
 
 		//lower square
-		renderLine(new Vec3d(x1, y1, z1), new Vec3d(x2, y1, z1), width, color, matrixStack);
-
-		renderLine(new Vec3d(x2, y1, z1), new Vec3d(x2, y1, z2), width, color, matrixStack);
-
-		renderLine(new Vec3d(x2, y1, z2), new Vec3d(x1, y1, z2), width, color, matrixStack);
-
-		renderLine(new Vec3d(x1, y1, z2), new Vec3d(x1, y1, z1), width, color, matrixStack);
+		queueLine(new Vec3d(x1, y1, z1), new Vec3d(x2, y1, z1), color, matrixStack);
+		queueLine(new Vec3d(x2, y1, z1), new Vec3d(x2, y1, z2), color, matrixStack);
+		queueLine(new Vec3d(x2, y1, z2), new Vec3d(x1, y1, z2), color, matrixStack);
+		queueLine(new Vec3d(x1, y1, z2), new Vec3d(x1, y1, z1), color, matrixStack);
 
 		//vertical lines
-		renderLine(new Vec3d(x1, y1, z1), new Vec3d(x1, y2, z1), width, color, matrixStack);
-
-		renderLine(new Vec3d(x2, y1, z1), new Vec3d(x2, y2, z1), width, color, matrixStack);
-
-		renderLine(new Vec3d(x2, y1, z2), new Vec3d(x2, y2, z2), width, color, matrixStack);
-
-		renderLine(new Vec3d(x1, y1, z2), new Vec3d(x1, y2, z2), width, color, matrixStack);
+		queueLine(new Vec3d(x1, y1, z1), new Vec3d(x1, y2, z1), color, matrixStack);
+		queueLine(new Vec3d(x2, y1, z1), new Vec3d(x2, y2, z1), color, matrixStack);
+		queueLine(new Vec3d(x2, y1, z2), new Vec3d(x2, y2, z2), color, matrixStack);
+		queueLine(new Vec3d(x1, y1, z2), new Vec3d(x1, y2, z2), color, matrixStack);
 
 		//upper square
-		renderLine(new Vec3d(x1, y2, z1), new Vec3d(x2, y2, z1), width, color, matrixStack);
-
-		renderLine(new Vec3d(x2, y2, z1), new Vec3d(x2, y2, z2), width, color, matrixStack);
-
-		renderLine(new Vec3d(x2, y2, z2), new Vec3d(x1, y2, z2), width, color, matrixStack);
-
-		renderLine(new Vec3d(x1, y2, z2), new Vec3d(x1, y2, z1), width, color, matrixStack);
+		queueLine(new Vec3d(x1, y2, z1), new Vec3d(x2, y2, z1), color, matrixStack);
+		queueLine(new Vec3d(x2, y2, z1), new Vec3d(x2, y2, z2), color, matrixStack);
+		queueLine(new Vec3d(x2, y2, z2), new Vec3d(x1, y2, z2), color, matrixStack);
+		queueLine(new Vec3d(x1, y2, z2), new Vec3d(x1, y2, z1), color, matrixStack);
 	}
 
-	public void renderLine(Vec3d start, Vec3d end, float width, Color color, MatrixStack matrixStack) {
-		if (mc.player == null)
-			return;
-
-		setupRender(matrixStack, BallsRenderPipelines.QUADS);
-
-		float r = color.getRed() / 255.0f;
-		float g = color.getGreen() / 255.0f;
-		float b = color.getBlue() / 255.0f;
-		float a = color.getAlpha() / 255.0f;
-
-		Matrix4f matrix = matrixStack.peek().getPositionMatrix();
-
-		Vec3d cameraPos = mc.gameRenderer.getCamera().getPos();
-
-		double startDistance = cameraPos.distanceTo(start);
-		double endDistance = cameraPos.distanceTo(end);
-
-		boolean bl = mc.options.getPerspective().isFirstPerson();
-		float f = mc.options.getFovEffectScale().getValue().floatValue();
-		float fovMultiplier = (float) MathHelper.clamp(mc.player.getFovMultiplier(bl, f), 0.1f, 1.5);
-
-		float fov = (float) mc.options.getFov().getValue() * fovMultiplier;
-		float screenHeight = (float) mc.getWindow().getHeight();
-
-		double v = Math.tan(Math.toRadians(fov) / 2.0);
-		double startWorldWidth = width * (startDistance * 2.0 * v / screenHeight);
-		double endWorldWidth = width * (endDistance * 2.0 * v / screenHeight);
-
-		Vec3d lineDir = end.subtract(start).normalize();
-		Vec3d toCam = cameraPos.subtract(start).normalize();
-
-		Vec3d perpendicularDir = lineDir.crossProduct(toCam).normalize();
-
-		Vec3d perpendicularStart = perpendicularDir.multiply(startWorldWidth / 2.0);
-
-		Vec3d perpendicularEnd = perpendicularDir.multiply(endWorldWidth / 2.0);
-
-		Vec3d v1 = start.add(perpendicularStart);
-		Vec3d v2 = start.subtract(perpendicularStart);
-
-		Vec3d v3 = end.subtract(perpendicularEnd);
-		Vec3d v4 = end.add(perpendicularEnd);
-
-		// V1 and V2 define the near edge, V3 and V4 define the far edge
-		buffer.vertex(matrix, (float) v1.x, (float) v1.y, (float) v1.z).color(r, g, b, a);
-		buffer.vertex(matrix, (float) v2.x, (float) v2.y, (float) v2.z).color(r, g, b, a);
-		buffer.vertex(matrix, (float) v3.x, (float) v3.y, (float) v3.z).color(r, g, b, a);
-		buffer.vertex(matrix, (float) v4.x, (float) v4.y, (float) v4.z).color(r, g, b, a);
-
-		matrixStack.pop();
-	}
-
-	public void renderArrow(Vec3d start, Vec3d end, float width, float tipSize /* AYYO SUSS LMAOOO DANK*/, Color color, MatrixStack matrixStack) {
+	public void queueArrow(Vec3d start, Vec3d end, float tipSize /* AYYO SUSS LMAOOO DANK*/, Color color, MatrixStack matrixStack) {
 		Vec3d cameraPos = mc.gameRenderer.getCamera().getPos();
 		Vec3d toCam = cameraPos.subtract(start).normalize();
 		Vec3d dir = end.subtract(start);
 		Vec3d perp = dir.crossProduct(toCam).normalize().multiply(tipSize);
 
-		renderLine(start, end, width, color, matrixStack);
-		renderLine(end, perp.add(end.subtract(dir.normalize().multiply(tipSize))), width, color, matrixStack); // good luck understading this future me
-		renderLine(end, perp.negate().add(end.subtract(dir.normalize().multiply(tipSize))), width, color, matrixStack);
+		queueLine(start, end, color, matrixStack);
+		queueLine(end, perp.add(end.subtract(dir.normalize().multiply(tipSize))), color, matrixStack); // good luck understading this future me
+		queueLine(end, perp.negate().add(end.subtract(dir.normalize().multiply(tipSize))), color, matrixStack);
 	}
 
-
-	public void renderCustom(GeometryWriter geometryWriter, MatrixStack matrixStack, RenderPipeline pipeline) {
-		setupRender(matrixStack, pipeline);
-
-		Matrix4f matrix = matrixStack.peek().getPositionMatrix();
-
-		geometryWriter.write(buffer, matrix);
-
-		matrixStack.pop();
-	}
-
-	private void setupRender(MatrixStack matrixStack, RenderPipeline pipeline) {
-		matrixStack.push();
+	/* Queue rendering */
+	public void renderQueues(MatrixStack stack) {
+		stack.push();
 		Vec3d cameraPos = mc.gameRenderer.getCamera().getPos();
-		matrixStack.translate(-cameraPos.x, -cameraPos.y, -cameraPos.z);
+		stack.translate(-cameraPos.x, -cameraPos.y, -cameraPos.z);
 
-		if (buffer == null) {
-			buffer = new BufferBuilder(allocator, pipeline.getVertexFormatMode(), pipeline.getVertexFormat());
+		// quads
+		setBuffer(BallsRenderPipelines.QUADS);
+		for (QuadRenderCommand quadCommand : quadRenderCommandList) {
+			renderQuad(quadCommand);
 		}
+		if (!quadRenderCommandList.isEmpty())
+			draw(BallsRenderPipelines.QUADS);
+		quadRenderCommandList.clear();
+
+		// lines
+		setBuffer(BallsRenderPipelines.LINES);
+		for (LineRenderCommand lineCommand : lineRenderCommandList) {
+			renderLine(lineCommand);
+		}
+		if (!lineRenderCommandList.isEmpty())
+			draw(BallsRenderPipelines.LINES);
+		lineRenderCommandList.clear();
+
+		stack.pop();
 	}
 
-	public void draw(RenderPipeline renderPipeline) {
+	private void renderQuad(QuadRenderCommand command) {
+		float r = command.color.getRed() / 255.0f;
+		float g = command.color.getGreen() / 255.0f;
+		float b = command.color.getBlue() / 255.0f;
+		float a = command.color.getAlpha() / 255.0f;
+
+		Matrix4f matrix = command.matrixStack.peek().getPositionMatrix();
+
+		buffer.vertex(matrix, (float) command.v1().x, (float) command.v1().y, (float) command.v1().z).color(r, g, b, a);
+		buffer.vertex(matrix, (float) command.v2().x, (float) command.v2().y, (float) command.v2().z).color(r, g, b, a);
+		buffer.vertex(matrix, (float) command.v3().x, (float) command.v3().y, (float) command.v3().z).color(r, g, b, a);
+		buffer.vertex(matrix, (float) command.v4().x, (float) command.v4().y, (float) command.v4().z).color(r, g, b, a);
+	}
+
+	private void renderLine(LineRenderCommand command) {
+		float r = command.color.getRed() / 255.0f;
+		float g = command.color.getGreen() / 255.0f;
+		float b = command.color.getBlue() / 255.0f;
+		float a = command.color.getAlpha() / 255.0f;
+
+		float x1 = (float) command.start.getX();
+		float y1 = (float) command.start.getY();
+		float z1 = (float) command.start.getZ();
+
+		float x2 = (float) command.end.getX();
+		float y2 = (float) command.end.getY();
+		float z2 = (float) command.end.getZ();
+
+		Vec3d camPos = mc.gameRenderer.getCamera().getPos();
+		float yawRad = (float) Math.toRadians(mc.gameRenderer.getCamera().getYaw());
+		float pitchRad = (float) Math.toRadians(mc.gameRenderer.getCamera().getPitch());
+
+		float fx = -(float)(Math.sin(yawRad) * Math.cos(pitchRad));
+		float fy = -(float)(Math.sin(pitchRad));
+		float fz =  (float)(Math.cos(yawRad) * Math.cos(pitchRad));
+
+		final float NEAR = 0.01f;
+		float px = (float)(camPos.x + fx * NEAR);
+		float py = (float)(camPos.y + fy * NEAR);
+		float pz = (float)(camPos.z + fz * NEAR);
+
+		float s = fx * (x1 - px) + fy * (y1 - py) + fz * (z1 - pz);
+		float e = fx * (x2 - px) + fy * (y2 - py) + fz * (z2 - pz);
+
+		/*if (s <= 0.0f && e <= 0.0f) {
+			command.matrixStack.pop();
+			return;
+		}*/
+
+		float ix = 0f, iy = 0f, iz = 0f;
+		boolean hasIntersection = false;
+
+		float denom = s - e;
+		if (Math.abs(denom) > 1e-6f && (s > 0.0f && e <= 0.0f || s <= 0.0f && e > 0.0f)) {
+			float u = s / denom;
+			if (u > 0.0f && u < 1.0f) {
+				ix = x1 + (x2 - x1) * u;
+				iy = y1 + (y2 - y1) * u;
+				iz = z1 + (z2 - z1) * u;
+				hasIntersection = true;
+			}
+		}
+
+		float ax = x1, ay = y1, azf = z1;
+		float bx = x2, by = y2, bz = z2;
+
+		if (s <= 0.0f && e > 0.0f) {
+			ax = ix; ay = iy; azf = iz;
+		} else if (s > 0.0f && e <= 0.0f) {
+			bx = ix; by = iy; bz = iz;
+		}
+
+		Vector3f normal = new Vector3f(bx - ax, by - ay, bz - azf);
+		normal.normalize();
+
+		buffer.vertex(command.matrixStack.peek(), ax, ay, azf).color(r, g, b, a).normal(command.matrixStack.peek(), normal);
+
+		if (hasIntersection) {
+			buffer.vertex(command.matrixStack.peek(), ix, iy, iz).color(r, g, b, a).normal(command.matrixStack.peek(), normal);
+			buffer.vertex(command.matrixStack.peek(), ix, iy, iz).color(r, g, b, a).normal(command.matrixStack.peek(), normal);
+		}
+
+		buffer.vertex(command.matrixStack.peek(), bx, by, bz).color(r, g, b, a).normal(command.matrixStack.peek(), normal);
+	}
+
+	private void setBuffer(RenderPipeline pipeline) {
+		buffer = new BufferBuilder(allocator, pipeline.getVertexFormatMode(), pipeline.getVertexFormat());
+	}
+
+	private void draw(RenderPipeline renderPipeline) {
 		if (buffer == null) return;
 		try (BuiltBuffer builtBuffer = buffer.end()) {
+
+			building = false;
 
 			BuiltBuffer.DrawParameters drawParameters = builtBuffer.getDrawParameters();
 			VertexFormat vertexFormat = drawParameters.format();

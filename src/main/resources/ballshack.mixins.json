@@ -6,6 +6,7 @@
   "mixins": [
     "BlockCollisionSpliteratorMixin",
     "CameraMixin",
+    "ClientConnectionMixin",
     "EntityMixin",
     "PlayerMoveC2SPacketAccessor"
   ],

@@ -15,13 +15,10 @@ import org.ranch.ballshack.module.ModuleCategory;
 import org.ranch.ballshack.setting.moduleSettings.SettingSlider;
 import org.ranch.ballshack.util.WorldUtil;
 import org.ranch.ballshack.util.rendering.BallColor;
-import org.ranch.ballshack.util.rendering.BallsRenderPipelines;
 import org.ranch.ballshack.util.rendering.Renderer;
 
 import java.awt.*;
 import java.util.stream.Stream;
-
-import static org.ranch.ballshack.Constants.LINE_WIDTH;
 
 public class ChestESP extends Module {
 
@@ -56,18 +53,11 @@ public class ChestESP extends Module {
 
 			VoxelShape shape = blockState.getOutlineShape(mc.world, blockPos, ShapeContext.of(mc.gameRenderer.getCamera().getFocusedEntity()));
 
-			float r = c.getRed() / 255.0f;
-			float g = c.getGreen() / 255.0f;
-			float b = c.getBlue() / 255.0f;
-
 			for (Box box : shape.getBoundingBoxes()) {
 				box = box.offset(blockPos);
-				renderer.renderCube(box, BallColor.fromColor(c).setAlpha((float) (double) alpha.getValue()), matrices);
-				renderer.renderCubeOutlines(box, LINE_WIDTH, BallColor.fromColor(c).setAlpha((float) (double) alpha.getValue()), matrices);
+				renderer.queueCube(box, BallColor.fromColor(c).setAlpha(alpha.getValueFloat()), matrices);
+				renderer.queueCubeOutline(box, BallColor.fromColor(c).setAlpha(alpha.getValueFloat()), matrices);
 			}
-
 		}
-
-		renderer.draw(BallsRenderPipelines.QUADS);
 	}
 }

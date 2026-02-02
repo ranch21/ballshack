@@ -11,6 +11,7 @@ import org.ranch.ballshack.BallsHack;
 import org.ranch.ballshack.debug.DebugRenderers;
 import org.ranch.ballshack.debug.renderers.VecDebugRenderer;
 import org.ranch.ballshack.event.events.EventWorldRender;
+import org.ranch.ballshack.util.rendering.Renderer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -49,6 +50,8 @@ public class GameRendererMixin {
 		debugVel.setData(BallsHack.mc.player.getLerpedPos(tickCounter.getTickProgress(false)), BallsHack.mc.player.getVelocity(), new Color(255, 0, 255));
 
 		BallsHack.eventBus.post(event);
+
+		Renderer.getInstance().renderQueues(matrixStack);
 		if (event.isCancelled()) {
 			ci.cancel();
 		}

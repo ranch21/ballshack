@@ -40,11 +40,6 @@ public class ModuleSettings implements SettingsList {
 		return list;
 	}
 
-	public List<ModuleSetting<?, ?>> getSettingsUnpacked() {
-		List<ModuleSetting<?, ?>> merged = new ArrayList<>(unpackSettings(defaultGroup.getSettings()));
-		return new ArrayList<>(merged);
-	}
-
 	public SettingBind getBind() {
 		return bind;
 	}

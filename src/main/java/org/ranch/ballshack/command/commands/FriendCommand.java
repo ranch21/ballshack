@@ -66,7 +66,7 @@ public class FriendCommand extends Command {
 				.then(LiteralArgumentBuilder.<ClientCommandSource>literal("clear")
 						.executes(context -> {
 							FriendManager.clear();
-							log(CMD(": ").append("Cleared friends").formatted(Formatting.GRAY));
+							log(CMD(": ").append(Text.literal("Cleared friends").formatted(Formatting.GRAY)));
 							return 1;
 						}));
 	}

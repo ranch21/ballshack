@@ -16,14 +16,11 @@ import org.ranch.ballshack.setting.moduleSettings.SettingSlider;
 import org.ranch.ballshack.setting.moduleSettings.SettingToggle;
 import org.ranch.ballshack.util.ProjectileSim;
 import org.ranch.ballshack.util.rendering.BallColor;
-import org.ranch.ballshack.util.rendering.BallsRenderPipelines;
 import org.ranch.ballshack.util.rendering.Renderer;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.ranch.ballshack.Constants.LINE_WIDTH;
 
 public class Trajectories extends Module {
 	private final List<ProjectileSim.Trajectory> trajectories = new ArrayList<>();
@@ -96,17 +93,15 @@ public class Trajectories extends Module {
 
 				if (pos == traj.positions().get(traj.positions().size() - 1)) {
 					Box box = new Box(pos.subtract(0.1), pos.add(0.1));
-					renderer.renderCube(box, BallColor.fromColor(c).setAlpha(0.2f), matrices);
-					renderer.renderCubeOutlines(box, LINE_WIDTH, BallColor.fromColor(c).setAlpha(0.7f), matrices);
+					renderer.queueCube(box, BallColor.fromColor(c).setAlpha(0.2f), matrices);
+					renderer.queueCubeOutline(box, BallColor.fromColor(c).setAlpha(0.7f), matrices);
 				} else {
-					renderer.renderLine(prevPos, pos, LINE_WIDTH, BallColor.fromColor(c).setAlpha((float) (double) alpha.getValue()), matrices);
+					renderer.queueLine(prevPos, pos, BallColor.fromColor(c).setAlpha(alpha.getValueFloat()), matrices);
 				}
 
 				prevPos = pos;
 
 			}
 		}
-
-		renderer.draw(BallsRenderPipelines.QUADS);
 	}
 }

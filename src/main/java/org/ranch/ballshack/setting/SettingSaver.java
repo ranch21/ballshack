@@ -58,7 +58,6 @@ public class SettingSaver {
 	private static JsonObject getSettings(List<ModuleSetting<?, ?>> settings) {
 		JsonObject settingsJson = new JsonObject();
 		for (ModuleSetting<?, ?> setting : settings) {
-			Object value = setting.getValue();
 
 			if (setting instanceof DropDown) {
 				settingsJson.add(setting.getName(), getSettings(((DropDown) setting).getSettings()));
@@ -133,12 +132,10 @@ public class SettingSaver {
 
 				setSettings(settingsJson, mod);
 			}
-			BallsLogger.info("Loaded settings for " + modName);
 		}
 	}
 
 	private static void setSettings(JsonObject settingsJson, Module mod) {
-		BallsLogger.info(settingsJson.toString());
 		for (ModuleSetting<?, ?> setting : mod.getSettings().getSettings()) {
 			String settingName = setting.getName();
 
@@ -183,22 +180,4 @@ public class SettingSaver {
 			e.printStackTrace();
 		}
 	}
-
-	private static Object getTypedValue(JsonElement element, Object defaultValue) {
-		if (defaultValue instanceof String) {
-			return element.getAsString();
-		} else if (defaultValue instanceof Integer) {
-			return element.getAsInt();
-		} else if (defaultValue instanceof Double) {
-			return element.getAsDouble();
-		} else if (defaultValue instanceof Float) {
-			return element.getAsFloat();
-		} else if (defaultValue instanceof Long) {
-			return element.getAsLong();
-		} else if (defaultValue instanceof Boolean) {
-			return element.getAsBoolean();
-		}
-		return null;
-	}
-
 }
