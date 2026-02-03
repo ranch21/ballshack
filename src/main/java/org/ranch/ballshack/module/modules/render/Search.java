@@ -148,10 +148,6 @@ public class Search extends Module {
 			queuedChunks.add(cpos);
 		}
 
-		if (event.packet instanceof ExplosionS2CPacket) {
-			reload();
-		}
-
 		if (event.packet instanceof DisconnectS2CPacket || event.packet instanceof GameJoinS2CPacket) {
 			reload();
 		}
