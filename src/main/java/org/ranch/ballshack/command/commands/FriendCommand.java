@@ -10,7 +10,7 @@ import net.minecraft.util.Formatting;
 import org.ranch.ballshack.FriendManager;
 import org.ranch.ballshack.command.Command;
 import org.ranch.ballshack.command.CommandType;
-import org.ranch.ballshack.command.suggestors.PlayerSuggestor;
+import org.ranch.ballshack.command.suggestors.PlayerSuggester;
 
 import java.util.List;
 
@@ -24,7 +24,7 @@ public class FriendCommand extends Command {
 		return builder
 				.then(LiteralArgumentBuilder.<ClientCommandSource>literal("add")
 						.then(RequiredArgumentBuilder.<ClientCommandSource, String>argument("name", StringArgumentType.string())
-								.suggests(new PlayerSuggestor())
+								.suggests(new PlayerSuggester())
 								.executes(context -> {
 									String name = StringArgumentType.getString(context, "name");
 									if (FriendManager.add(name)) {
@@ -35,7 +35,7 @@ public class FriendCommand extends Command {
 
 				.then(LiteralArgumentBuilder.<ClientCommandSource>literal("remove")
 						.then(RequiredArgumentBuilder.<ClientCommandSource, String>argument("name", StringArgumentType.string())
-								.suggests(new PlayerSuggestor())
+								.suggests(new PlayerSuggester())
 								.executes(context -> {
 									String name = StringArgumentType.getString(context, "name");
 									if (FriendManager.remove(name)) {

@@ -43,7 +43,7 @@ public class KillAura extends Module {
 
 		FreelookHandler.disable();
 
-		for (Entity e : EntityUtil.getEntities(distance, targets, sort.getComparator())) {
+		for (Entity e : EntityUtil.getEntities(distance, targets, sort.getComparator(), true)) {
 
 			FreelookHandler.setEnabled(freeLook.getValue() && freeLook.dependencyMet());
 
@@ -55,7 +55,8 @@ public class KillAura extends Module {
 					attack = canAttack;
 					break;
 				case 1:
-					PlayerUtil.facePosPacket(EntityUtil.getCenter(e));
+					if (canAttack)
+						PlayerUtil.facePosPacket(EntityUtil.getCenter(e));
 					attack = canAttack;
 					break;
 				case 2:
