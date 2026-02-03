@@ -6,10 +6,7 @@ import net.minecraft.block.Blocks;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.network.packet.s2c.common.DisconnectS2CPacket;
-import net.minecraft.network.packet.s2c.play.BlockUpdateS2CPacket;
-import net.minecraft.network.packet.s2c.play.ChunkDataS2CPacket;
-import net.minecraft.network.packet.s2c.play.ExplosionS2CPacket;
-import net.minecraft.network.packet.s2c.play.GameJoinS2CPacket;
+import net.minecraft.network.packet.s2c.play.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.ChunkPos;
@@ -42,7 +39,7 @@ public class Search extends Module {
 	private final Set<BlockPos> foundBlocks = ConcurrentHashMap.newKeySet();
 	private final Set<ChunkPos> queuedChunks = ConcurrentHashMap.newKeySet();
 
-	private final ExecutorService executorService = Executors.newFixedThreadPool(4);
+	private final ExecutorService executorService = Executors.newFixedThreadPool(2);
 
 	public final SettingSlider alpha = dGroup.add(new SettingSlider("Alpha", 0.2f, 0, 1, 0.1));
 	public final SettingToggle tracers = dGroup.add(new SettingToggle("Tracers", true));
@@ -64,6 +61,11 @@ public class Search extends Module {
 
 		for (BlockPos foundBlock : foundBlocks) {
 			BlockState foundState = mc.world.getBlockState(foundBlock);
+			if (foundState.isAir()) {
+				foundBlocks.remove(foundBlock);
+				continue;
+			}
+
 			VoxelShape shape = foundState.getOutlineShape(mc.world, foundBlock, ShapeContext.of(mc.gameRenderer.getCamera().getFocusedEntity()));
 
 			Color color = getBlockColor(foundState);
@@ -83,8 +85,6 @@ public class Search extends Module {
 
 		if (mc.world == null || queuedChunks.isEmpty())
 			return;
-
-		clearUnloaded();
 
 		List<ChunkPos> sortedList = queuedChunks.stream().sorted(Comparator.comparingDouble(this::getChunkDistance)).toList();
 		for (ChunkPos cpos : sortedList){
@@ -112,6 +112,7 @@ public class Search extends Module {
 
 		queuedChunks.clear();
 		foundBlocks.clear();
+		clearUnloaded();
 
 		WorldUtil.getLoadedChunks().forEach((worldChunk -> {
 			queuedChunks.add(worldChunk.getPos());
@@ -130,6 +131,16 @@ public class Search extends Module {
 		if (event.packet instanceof ChunkDataS2CPacket chunkDataS2CPacket) {
 			ChunkPos cpos = new ChunkPos(chunkDataS2CPacket.getChunkX(), chunkDataS2CPacket.getChunkZ());
 			queuedChunks.add(cpos);
+		}
+
+		if (event.packet instanceof ChunkDeltaUpdateS2CPacket chunkDeltaUpdateS2CPacket) {
+			chunkDeltaUpdateS2CPacket.visitUpdates((bpos, bstate) -> {
+				queuedChunks.add(mc.world.getChunk(bpos).getPos());
+			});
+		}
+
+		if (event.packet instanceof UnloadChunkS2CPacket unloadChunkS2CPacket) {
+			queuedChunks.remove(unloadChunkS2CPacket.pos());
 		}
 
 		if (event.packet instanceof BlockUpdateS2CPacket blockUpdateS2CPacket) {

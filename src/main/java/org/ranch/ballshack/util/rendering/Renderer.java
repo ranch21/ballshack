@@ -20,6 +20,7 @@ import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 import org.lwjgl.system.MemoryUtil;
+import org.ranch.ballshack.AiSlop;
 import org.ranch.ballshack.BallsHack;
 
 import java.awt.*;
@@ -33,7 +34,6 @@ public class Renderer {
 	private final MinecraftClient mc;
 
 	private BufferBuilder buffer;
-	private boolean building = false;
 	private final BufferAllocator allocator = new BufferAllocator(RenderLayer.DEFAULT_BUFFER_SIZE);
 
 	private static Vector4f colorModulator = new Vector4f(1f, 1f, 1f, 1f);
@@ -228,6 +228,7 @@ public class Renderer {
 		buffer.vertex(matrix, (float) command.v4().x, (float) command.v4().y, (float) command.v4().z).color(r, g, b, a);
 	}
 
+	@AiSlop
 	private void renderLine(LineRenderCommand command) {
 		float r = command.color.getRed() / 255.0f;
 		float g = command.color.getGreen() / 255.0f;
@@ -303,12 +304,10 @@ public class Renderer {
 		buffer = new BufferBuilder(allocator, pipeline.getVertexFormatMode(), pipeline.getVertexFormat());
 	}
 
+	@AiSlop
 	private void draw(RenderPipeline renderPipeline) {
 		if (buffer == null) return;
 		try (BuiltBuffer builtBuffer = buffer.end()) {
-
-			building = false;
-
 			BuiltBuffer.DrawParameters drawParameters = builtBuffer.getDrawParameters();
 			VertexFormat vertexFormat = drawParameters.format();
 

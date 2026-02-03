@@ -5,9 +5,6 @@ public class WindowData {
 	public int y;
 	public boolean opened;
 
-	public WindowData() {
-	}
-
 	public WindowData(int x, int y, boolean opened) {
 		this.x = x;
 		this.y = y;

@@ -5,13 +5,13 @@ import org.ranch.ballshack.event.Event;
 
 public class EventPlayerInput extends Event {
 
-	public final boolean forward;
-	public final boolean backward;
-	public final boolean left;
-	public final boolean right;
-	public final boolean jump;
+	public boolean forward;
+	public boolean backward;
+	public boolean left;
+	public boolean right;
+	public boolean jump;
 	public boolean sneak;
-	public final boolean sprint;
+	public boolean sprint;
 
 	public final boolean origForward;
 	public final boolean origBackward;

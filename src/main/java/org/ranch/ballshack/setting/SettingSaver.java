@@ -38,7 +38,6 @@ public class SettingSaver {
 		if (scheduler == null)
 			scheduler = new ScheduledThreadPoolExecutor(1);
 
-		//if (SCHEDULE_SAVE.getAndSet(false)) saveSettings();
 		scheduler.scheduleAtFixedRate(SettingSaver::saveSettings, 0, 5, TimeUnit.SECONDS);
 	}
 

@@ -23,7 +23,7 @@ public class BallsHack implements ModInitializer {
 
 	public static final Setting<String> title = new Setting<>("BallsHack", "watermark", new TypeToken<String>() {
 	}.getType());
-	public static final String version = "1.32";
+	public static final String version = "1.33";
 
 	public static final String ID = "ballshack";
 

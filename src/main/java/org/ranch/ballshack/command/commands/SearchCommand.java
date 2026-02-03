@@ -59,6 +59,13 @@ public class SearchCommand extends Command {
 									}
 									return 0;
 								})))
+				.then(LiteralArgumentBuilder.<ClientCommandSource>literal("reload")
+						.executes(context -> {
+							Search search = (Search) ModuleManager.getModuleByName("search");
+							search.reload();
+							log(CMD(": ").append(Text.literal("Reloaded chunks").formatted(Formatting.GRAY)));
+							return 0;
+						}))
 				.then(LiteralArgumentBuilder.<ClientCommandSource>literal("clear")
 								.executes(context -> {
 									Search search = (Search) ModuleManager.getModuleByName("search");

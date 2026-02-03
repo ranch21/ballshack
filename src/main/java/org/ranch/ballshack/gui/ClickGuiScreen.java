@@ -12,6 +12,7 @@ import net.minecraft.client.util.NarratorManager;
 import org.apache.commons.lang3.StringUtils;
 import org.joml.Vector2d;
 import org.lwjgl.glfw.GLFW;
+import org.ranch.ballshack.AiSlop;
 import org.ranch.ballshack.BallsHack;
 import org.ranch.ballshack.debug.DebugRenderers;
 import org.ranch.ballshack.debug.renderers.BallGridDebugRenderer;
@@ -84,6 +85,7 @@ public class ClickGuiScreen extends Screen {
 		startPhysicsThread();
 	}
 
+	@AiSlop
 	@SuppressWarnings("BusyWait")
 	private void startPhysicsThread() {
 		running = true;

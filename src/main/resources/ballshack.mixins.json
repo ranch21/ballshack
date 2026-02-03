@@ -8,6 +8,7 @@
     "CameraMixin",
     "ClientConnectionMixin",
     "EntityMixin",
+    "LivingEntityMixin",
     "PlayerMoveC2SPacketAccessor"
   ],
   "client": [

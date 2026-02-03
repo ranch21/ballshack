@@ -22,4 +22,12 @@ public class PacketLogger extends Module {
 
 		last = event.packet;
 	}
+
+	@EventSubscribe
+	public void onPacketSend(EventPacket.Receive event) {
+		if (last != event.packet)
+			BallsLogger.info(event.packet.getClass().getName());
+
+		last = event.packet;
+	}
 }

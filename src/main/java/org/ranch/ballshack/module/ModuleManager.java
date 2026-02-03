@@ -110,6 +110,7 @@ public class ModuleManager {
 		register(new Nametags());
 		register(new FreeLook());
 		register(new Search());
+		register(new ThirdPersonCam());
 
 		// world
 		register(new Scaffold());
