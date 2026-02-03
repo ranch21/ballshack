@@ -15,10 +15,10 @@ out vec4 vertexColor;
 
 const float VIEW_SHRINK = 1.0 - (1.0 / 256.0);
 const mat4 VIEW_SCALE = mat4(
-VIEW_SHRINK, 0.0, 0.0, 0.0,
-0.0, VIEW_SHRINK, 0.0, 0.0,
-0.0, 0.0, VIEW_SHRINK, 0.0,
-0.0, 0.0, 0.0, 1.0
+    VIEW_SHRINK, 0.0, 0.0, 0.0,
+    0.0, VIEW_SHRINK, 0.0, 0.0,
+    0.0, 0.0, VIEW_SHRINK, 0.0,
+    0.0, 0.0, 0.0, 1.0
 );
 
 void main() {
