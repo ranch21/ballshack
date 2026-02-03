@@ -72,6 +72,7 @@ public class ModuleManager {
 		register(new Criticals());
 		register(new KillAura());
 		register(new TriggerBot());
+		register(new CrystalAura());
 
 		// fun
 		register(new TestModule());
@@ -111,6 +112,7 @@ public class ModuleManager {
 		register(new FreeLook());
 		register(new Search());
 		register(new ThirdPersonCam());
+		register(new HoleESP());
 
 		// world
 		register(new Scaffold());

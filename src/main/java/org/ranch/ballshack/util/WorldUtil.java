@@ -82,9 +82,6 @@ public class WorldUtil {
 
 		Item item = stack.getItem();
 
-		if (!(item instanceof BlockItem))
-			return;
-
 		Vec3d faceMiddle = pos.toCenterPos().add(side.getDoubleVector().multiply(0.5d));
 		BlockHitResult hitResult = new BlockHitResult(faceMiddle, side, pos, false);
 

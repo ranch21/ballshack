@@ -1,6 +1,7 @@
 package org.ranch.ballshack.module.modules.world;
 
 import net.minecraft.block.ShapeContext;
+import net.minecraft.item.BlockItem;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult;
@@ -50,6 +51,9 @@ public class Scaffold extends Module {
 
 	@EventSubscribe
 	public void onTick(EventTick event) {
+		if (!(mc.player.getStackInHand(Hand.MAIN_HAND).getItem() instanceof BlockItem))
+			return;
+
 		int mode = rotate.getValue();
 		int delayS = (int) (double) delaySlider.getValue();
 

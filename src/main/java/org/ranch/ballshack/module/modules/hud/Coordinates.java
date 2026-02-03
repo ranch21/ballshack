@@ -38,11 +38,11 @@ public class Coordinates extends ModuleHud {
 
 		if (scaled.getValue()) {
 			float mult = mc.world.getDimension().ultrawarm() ? 8.0f : 0.125f;
-			data.append(Text.of("[ ").copy().withColor(Colors.DULL_GRAY.hashCode()));
+			data.append(Text.of("[").copy().withColor(Colors.DULL_GRAY.hashCode()));
 			data.append(Text.of((int) (player.getBlockX() * mult) + " ").copy().withColor(Colors.DULL_RED.hashCode()));
 			data.append(Text.of((int) (player.getBlockY() * mult) + " ").copy().withColor(Colors.DULL_GREEN.hashCode()));
 			data.append(Text.of((int) (player.getBlockZ() * mult) + " ").copy().withColor(Colors.DULL_BLUE.hashCode()));
-			data.append(Text.of("] ").copy().withColor(Colors.DULL_GRAY.hashCode()));
+			data.append(Text.of("]").copy().withColor(Colors.DULL_GRAY.hashCode()));
 		}
 
 		width = mc.textRenderer.getWidth(data) - 2;
