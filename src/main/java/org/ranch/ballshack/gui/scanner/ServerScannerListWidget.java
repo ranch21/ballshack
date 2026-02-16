@@ -26,6 +26,7 @@ import net.minecraft.client.network.LanServerInfo;
 import net.minecraft.client.network.ServerInfo;
 import net.minecraft.client.option.ServerList;
 import net.minecraft.client.texture.NativeImage;
+import net.minecraft.network.NetworkingBackend;
 import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.OrderedText;
@@ -162,7 +163,7 @@ public class ServerScannerListWidget extends AlwaysSelectedEntryListWidget<Serve
 						this.screen.getServerListPinger().add(this.server, () -> this.client.execute(this::saveFile), () -> {
 							this.server.setStatus(this.server.protocolVersion == SharedConstants.getGameVersion().protocolVersion() ? ScannedServerInfo.Status.SUCCESSFUL : ScannedServerInfo.Status.INCOMPATIBLE);
 							this.client.execute(this::update);
-						});
+						}, NetworkingBackend.remote(true));
 					} catch (UnknownHostException unknownHostException) {
 						this.server.setStatus(ScannedServerInfo.Status.UNREACHABLE);
 						this.server.label = CANNOT_RESOLVE_TEXT;

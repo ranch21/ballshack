@@ -34,7 +34,7 @@ public class Renderer {
 	private final MinecraftClient mc;
 
 	private BufferBuilder buffer;
-	private final BufferAllocator allocator = new BufferAllocator(RenderLayer.DEFAULT_BUFFER_SIZE);
+	private final BufferAllocator allocator = new BufferAllocator(RenderLayer.field_64008); // uhh idk
 
 	private static Vector4f colorModulator = new Vector4f(1f, 1f, 1f, 1f);
 	MappableRingBuffer vertexBuffer;
@@ -135,7 +135,7 @@ public class Renderer {
 		Vec3d tracerStart = new Vec3d(0, 0, 100)
 			.rotateX(-(float) Math.toRadians(mc.gameRenderer.getCamera().getPitch()))
 			.rotateY(-(float) Math.toRadians(mc.gameRenderer.getCamera().getYaw()))
-			.add(mc.gameRenderer.getCamera().getPos());
+			.add(mc.gameRenderer.getCamera().getCameraPos());
 
 		lineRenderCommandList.add(
 				new LineRenderCommand(
@@ -177,7 +177,7 @@ public class Renderer {
 	}
 
 	public void queueArrow(Vec3d start, Vec3d end, float tipSize /* AYYO SUSS LMAOOO DANK*/, Color color, MatrixStack matrixStack) {
-		Vec3d cameraPos = mc.gameRenderer.getCamera().getPos();
+		Vec3d cameraPos = mc.gameRenderer.getCamera().getCameraPos();
 		Vec3d toCam = cameraPos.subtract(start).normalize();
 		Vec3d dir = end.subtract(start);
 		Vec3d perp = dir.crossProduct(toCam).normalize().multiply(tipSize);
@@ -190,7 +190,7 @@ public class Renderer {
 	/* Queue rendering */
 	public void renderQueues(MatrixStack stack) {
 		stack.push();
-		Vec3d cameraPos = mc.gameRenderer.getCamera().getPos();
+		Vec3d cameraPos = mc.gameRenderer.getCamera().getCameraPos();
 		stack.translate(-cameraPos.x, -cameraPos.y, -cameraPos.z);
 
 		// quads
@@ -243,7 +243,7 @@ public class Renderer {
 		float y2 = (float) command.end.getY();
 		float z2 = (float) command.end.getZ();
 
-		Vec3d camPos = mc.gameRenderer.getCamera().getPos();
+		Vec3d camPos = mc.gameRenderer.getCamera().getCameraPos();
 		float yawRad = (float) Math.toRadians(mc.gameRenderer.getCamera().getYaw());
 		float pitchRad = (float) Math.toRadians(mc.gameRenderer.getCamera().getPitch());
 
@@ -328,7 +328,7 @@ public class Renderer {
 			}
 
 			GpuBufferSlice dynamicTransforms = RenderSystem.getDynamicUniforms()
-					.write(RenderSystem.getModelViewMatrix(), colorModulator, new Vector3f(), RenderSystem.getTextureMatrix(), 1f);
+					.write(RenderSystem.getModelViewMatrix(), colorModulator, new Vector3f(), new Matrix4f());
 			try (RenderPass renderPass = RenderSystem.getDevice().createCommandEncoder()
 					.createRenderPass(() -> BallsHack.ID + " renderer", mc.getFramebuffer().getColorAttachmentView(), OptionalInt.empty(), mc.getFramebuffer().getDepthAttachmentView(), OptionalDouble.empty())) {
 				renderPass.setPipeline(renderPipeline);

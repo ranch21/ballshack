@@ -123,7 +123,7 @@ public class CategoryWindow {
 		if (button == GLFW.GLFW_MOUSE_BUTTON_RIGHT) {
 			if (GuiUtil.mouseOverlap(mouseX, mouseY, x, y, width, height)) {
 				opened = !opened;
-				mc.getSoundManager().play(PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK, 1.0F));
+				mc.getSoundManager().play(PositionedSoundInstance.ui(SoundEvents.UI_BUTTON_CLICK, 1.0F));
 				return true;
 			} else return GuiUtil.mouseOverlap(mouseX, mouseY, x, y, width, totalHeight);
 		}

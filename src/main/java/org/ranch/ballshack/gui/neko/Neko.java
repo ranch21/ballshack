@@ -150,7 +150,6 @@ public class Neko {
 	@NoWorld
 	@EventSubscribe
 	public void onScreenRender(EventScreen.Render event) {
-		//if (event.screen.getTitle().getString().isEmpty()) return;
 		update(event.tickDelta, event.mouseX, event.mouseY);
 		draw(event.drawContext, event.mouseX, event.mouseY);
 	}

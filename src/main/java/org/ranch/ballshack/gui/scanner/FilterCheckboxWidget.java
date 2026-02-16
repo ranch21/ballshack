@@ -38,7 +38,7 @@ public class FilterCheckboxWidget extends PressableWidget {
 	FilterCheckboxWidget(int x, int y, int maxWidth, Text message, TextRenderer textRenderer, DatabaseFetcher.ServerFilters.FilterBool checked, Callback callback) {
 		super(x, y, 0, 0, message);
 		this.width = this.calculateWidth(maxWidth, message, textRenderer);
-		this.textWidget = (new MultilineTextWidget(message, textRenderer)).setMaxWidth(this.width).setTextColor(-2039584);
+		this.textWidget = (new MultilineTextWidget(message.copy().withColor(-2039584), textRenderer)).setMaxWidth(this.width);
 		this.height = this.calculateHeight(textRenderer);
 		this.checked = checked;
 		this.callback = callback;
@@ -86,7 +86,8 @@ public class FilterCheckboxWidget extends PressableWidget {
 
 	}
 
-	public void renderWidget(DrawContext context, int mouseX, int mouseY, float deltaTicks) {
+	@Override
+	protected void drawIcon(DrawContext context, int mouseX, int mouseY, float deltaTicks) {
 		MinecraftClient minecraftClient = MinecraftClient.getInstance();
 		TextRenderer textRenderer = minecraftClient.textRenderer;
 		Identifier identifier;

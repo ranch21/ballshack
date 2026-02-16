@@ -4,6 +4,8 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
+import net.minecraft.world.attribute.EnvironmentAttributeMap;
+import net.minecraft.world.attribute.EnvironmentAttributes;
 import org.ranch.ballshack.event.EventSubscribe;
 import org.ranch.ballshack.event.events.EventHudRender;
 import org.ranch.ballshack.gui.Colors;
@@ -37,10 +39,16 @@ public class Coordinates extends ModuleHud {
 		data.append(Text.of(player.getBlockZ() + " ").copy().withColor(Colors.DULL_BLUE.hashCode()));
 
 		if (scaled.getValue()) {
-			float mult = mc.world.getDimension().ultrawarm() ? 8.0f : 0.125f;
+			EnvironmentAttributeMap.Entry<Boolean, ?> entry = mc.world.getDimension().attributes().getEntry(EnvironmentAttributes.WATER_EVAPORATES_GAMEPLAY);
+			float mult;
+			if (entry == null) {
+				mult = 0.125f;
+			} else {
+				mult = entry.apply(true) ? 8.0f : 0.125f;
+			}
 			data.append(Text.of("[").copy().withColor(Colors.DULL_GRAY.hashCode()));
 			data.append(Text.of((int) (player.getBlockX() * mult) + " ").copy().withColor(Colors.DULL_RED.hashCode()));
-			data.append(Text.of((int) (player.getBlockY() * mult) + " ").copy().withColor(Colors.DULL_GREEN.hashCode()));
+			data.append(Text.of((player.getBlockY()) + " ").copy().withColor(Colors.DULL_GREEN.hashCode()));
 			data.append(Text.of((int) (player.getBlockZ() * mult) + " ").copy().withColor(Colors.DULL_BLUE.hashCode()));
 			data.append(Text.of("]").copy().withColor(Colors.DULL_GRAY.hashCode()));
 		}
