@@ -87,7 +87,7 @@ public class EntityUtil {
 		return t.selected(getEntityType(e));
 	}
 
-	public static List<Entity> getEntities(double distance, TargetsDropDown targetsDropDown, Comparator<Entity> comparator) {
+	public static List<Entity> getEntities(double distance, TargetsDropDown targetsDropDown, Comparator<Entity> comparator, boolean raycast) {
 		Stream<Entity> targets;
 
 		if (mc.world == null) return new ArrayList<>();
@@ -96,7 +96,7 @@ public class EntityUtil {
 
 		return targets.filter(
 						e -> EntityUtil.isAttackable(e)
-								&& mc.player.canSee(e)
+								&& (mc.player.canSee(e) || raycast)
 								&& mc.player.distanceTo(e) <= distance).filter(e -> filterByType(e, targetsDropDown))
 				.sorted(comparator)
 				.collect(Collectors.toList());

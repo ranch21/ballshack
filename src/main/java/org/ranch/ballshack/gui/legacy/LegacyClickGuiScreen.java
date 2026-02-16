@@ -9,7 +9,7 @@ import net.minecraft.client.util.NarratorManager;
 import org.ranch.ballshack.gui.legacy.window.LegacyCategoryWindow;
 import org.ranch.ballshack.module.ModuleCategory;
 import org.ranch.ballshack.module.ModuleManager;
-import org.ranch.ballshack.setting.moduleSettings.SettingToggle;
+import org.ranch.ballshack.module.modules.client.ClickGui;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -54,7 +54,7 @@ public class LegacyClickGuiScreen extends Screen {
 	public boolean mouseClicked(Click click, boolean doubled) {
 
 		if (LegacyGuiUtil.mouseOverlap(click.x(), click.y(), width - 50, height - 10, 50, 10)) { //NOTLEGACY
-			((SettingToggle) ModuleManager.getModuleByName("ClickGui").getSettings().getSettings().get(2)).setValue(false); //NOTLEGACY also TODO DONT DO THIS
+			((ClickGui) ModuleManager.getModuleByName("ClickGui")).legacy.setValue(false); //NOTLEGACY
 		} //NOTLEGACY
 
 		for (LegacyCategoryWindow window : windows) {

@@ -4,6 +4,7 @@ import net.minecraft.util.math.MathHelper;
 
 import static org.ranch.ballshack.BallsHack.mc;
 
+//todo very easy to break
 public class FreelookHandler {
 	public static float yaw = 0F;
 	public static float pitch = 0F;
@@ -41,9 +42,18 @@ public class FreelookHandler {
 	}
 
 	public static void disable() {
+
+		if (enabled) {
+			if (mc.options.getPerspective().isFrontView()) {
+				mc.player.setPitch(-mc.gameRenderer.getCamera().getPitch());
+				mc.player.setYaw(mc.gameRenderer.getCamera().getYaw() + 180F);
+			} else {
+				mc.player.setPitch(mc.gameRenderer.getCamera().getPitch());
+				mc.player.setYaw(mc.gameRenderer.getCamera().getYaw());
+			}
+		}
+
 		enabled = false;
-		mc.player.setPitch(mc.gameRenderer.getCamera().getPitch());
-		mc.player.setYaw(mc.gameRenderer.getCamera().getYaw());
 	}
 
 	public static void enable() {

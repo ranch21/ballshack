@@ -12,12 +12,12 @@ import java.util.concurrent.CompletableFuture;
 
 import static org.ranch.ballshack.Constants.mc;
 
-public class PlayerSuggestor implements SuggestionProvider<ClientCommandSource> {
+public class PlayerSuggester implements SuggestionProvider<ClientCommandSource> {
 	@Override
 	public CompletableFuture<Suggestions> getSuggestions(CommandContext<ClientCommandSource> context, SuggestionsBuilder builder) {
 		for (PlayerListEntry p : mc.player.networkHandler.getPlayerList()) {
 			GameProfile profile = p.getProfile();
-			builder.suggest(profile.name());
+			builder.suggest(profile.name().toLowerCase());
 		}
 		return builder.buildFuture();
 	}

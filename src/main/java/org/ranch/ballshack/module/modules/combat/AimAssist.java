@@ -109,7 +109,7 @@ public class AimAssist extends Module {
 		boolean SBR = rnSBR.getValue();
 		double SBRinf = rnSBRInfluence.getValue();
 
-		List<Entity> entities = EntityUtil.getEntities(distance, targetsDD, sortMode.getComparator());
+		List<Entity> entities = EntityUtil.getEntities(distance, targetsDD, sortMode.getComparator(), true);
 
 		if (entities.isEmpty()) {
 			targetPos = null;
