@@ -90,7 +90,6 @@ public abstract class Module {
 		return isMeta;
 	}
 
-
 	public boolean isSubscribed() {
 		return subscribed;
 	}

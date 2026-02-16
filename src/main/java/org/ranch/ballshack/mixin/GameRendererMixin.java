@@ -1,6 +1,8 @@
 package org.ranch.ballshack.mixin;
 
 import com.llamalad7.mixinextras.sugar.Local;
+import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.client.util.math.MatrixStack;
@@ -10,6 +12,7 @@ import org.joml.Matrix4f;
 import org.ranch.ballshack.BallsHack;
 import org.ranch.ballshack.debug.DebugRenderers;
 import org.ranch.ballshack.debug.renderers.VecDebugRenderer;
+import org.ranch.ballshack.event.events.EventScreen;
 import org.ranch.ballshack.event.events.EventWorldRender;
 import org.ranch.ballshack.util.rendering.Renderer;
 import org.spongepowered.asm.mixin.Mixin;
@@ -23,12 +26,12 @@ import java.awt.*;
 public class GameRendererMixin {
 
 	@Inject(
+			method = "renderWorld(Lnet/minecraft/client/render/RenderTickCounter;)V",
 			at = @At(
 					value = "INVOKE",
 					target = "Lnet/minecraft/client/render/WorldRenderer;render(Lnet/minecraft/client/util/ObjectAllocator;Lnet/minecraft/client/render/RenderTickCounter;ZLnet/minecraft/client/render/Camera;Lorg/joml/Matrix4f;Lorg/joml/Matrix4f;Lorg/joml/Matrix4f;Lcom/mojang/blaze3d/buffers/GpuBufferSlice;Lorg/joml/Vector4f;Z)V",
 					shift = At.Shift.AFTER
 			),
-			method = "renderWorld(Lnet/minecraft/client/render/RenderTickCounter;)V",
 			cancellable = true
 	)
 	private void onRenderWorldHandRendering(
@@ -55,5 +58,22 @@ public class GameRendererMixin {
 		if (event.isCancelled()) {
 			ci.cancel();
 		}
+	}
+
+	@Inject(
+			method = "render",
+			at = @At(
+					value = "INVOKE",
+					target = "Lnet/minecraft/client/gui/screen/Screen;renderWithTooltip(Lnet/minecraft/client/gui/DrawContext;IIF)V",
+					shift = At.Shift.AFTER
+			),
+			cancellable = true
+	)
+	private void onScreenRender(RenderTickCounter tickCounter, boolean tick, CallbackInfo ci, @Local(name = "drawContext") DrawContext drawContext) {
+		int mouseX = (int)BallsHack.mc.mouse.getScaledX(BallsHack.mc.getWindow());
+		int mouseY = (int)BallsHack.mc.mouse.getScaledY(BallsHack.mc.getWindow());
+
+		EventScreen.Render event = new EventScreen.Render(BallsHack.mc.currentScreen, drawContext, mouseX, mouseY, tickCounter.getDynamicDeltaTicks());
+		BallsHack.eventBus.post(event);
 	}
 }

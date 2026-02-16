@@ -65,6 +65,7 @@ public class ModuleManager {
 		register(new Rainbow());
 		register(new PacketLogger());
 		register(new Themes());
+		register(new NekoModule());
 
 		// combat
 		register(new AimAssist());

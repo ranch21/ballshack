@@ -11,9 +11,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Screen.class)
 public class ScreenMixin {
-	@Inject(method = "render", at = @At(value = "HEAD"))
+	@Inject(method = "render", at = @At(value = "TAIL"))
 	public void render(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
-		EventScreen.Render event = new EventScreen.Render((Screen) (Object) this, context, mouseX, mouseY, delta);
-		BallsHack.eventBus.post(event);
+
 	}
 }

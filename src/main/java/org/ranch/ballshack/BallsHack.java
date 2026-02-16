@@ -8,6 +8,7 @@ import org.ranch.ballshack.debug.DebugRenderers;
 import org.ranch.ballshack.event.EventBus;
 import org.ranch.ballshack.gui.ClickGuiScreen;
 import org.ranch.ballshack.gui.ThemeManager;
+import org.ranch.ballshack.gui.neko.Neko;
 import org.ranch.ballshack.module.ModuleManager;
 import org.ranch.ballshack.module.modules.client.Themes;
 import org.ranch.ballshack.setting.Setting;
@@ -29,6 +30,8 @@ public class BallsHack implements ModInitializer {
 	public static final String ID = "ballshack";
 
 	public static final MinecraftClient mc = Constants.mc;
+
+	public static final Neko neko = new Neko();
 
 	@Override
 	public void onInitialize() {
