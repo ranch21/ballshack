@@ -1,13 +1,20 @@
-bleachhack if it was bad
+
+# BallsHack
+
+mostly a joke so expect it to be very broken
 
 latest build inside github actions.
 
-pls contribute
+<details>
+  <summary>media</summary>
 
-<img width="1920" height="1008" alt="image" src="https://github.com/user-attachments/assets/a7d97e02-23fa-4fa1-b837-3487e6d8b515" />
-<img width="1920" height="1008" alt="image" src="https://github.com/user-attachments/assets/ce58f0e7-fa36-4f34-9231-561053729c1a" />
-<img width="1920" height="1008" alt="image" src="https://github.com/user-attachments/assets/8f9bc4aa-b196-46c9-b8f2-d48607d1a68d" />
-<img width="2560" height="1508" alt="image" src="https://github.com/user-attachments/assets/4c8efef3-b1e4-4422-9cb3-0b169db2a235" />
+  <img width="2560" height="1493" alt="image" src="https://github.com/user-attachments/assets/3fbf48d4-530b-4fac-9f92-6c7573c689a6" />
+  <img width="2560" height="1493" alt="image" src="https://github.com/user-attachments/assets/e9b62747-f360-48a5-afbd-f58734b8fa31" />
 
+  <sub>The database is not public, neither is the scanner.</sub>
+  
+  <img width="1920" height="1009" alt="image" src="https://github.com/user-attachments/assets/ca35eed3-bd7f-4686-bf61-b3d25706fc70" />
 
-funny name i know
+</details>
+
+pls contribute, i will *probably* accept the pr
