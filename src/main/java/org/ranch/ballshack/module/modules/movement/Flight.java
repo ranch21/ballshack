@@ -1,5 +1,9 @@
 package org.ranch.ballshack.module.modules.movement;
 
+import net.minecraft.entity.Entity;
+import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import org.ranch.ballshack.event.EventSubscribe;
 import org.ranch.ballshack.event.events.EventSetSneaking;
 import org.ranch.ballshack.event.events.EventTick;
@@ -7,6 +11,8 @@ import org.ranch.ballshack.module.Module;
 import org.ranch.ballshack.module.ModuleCategory;
 import org.ranch.ballshack.setting.moduleSettings.SettingSlider;
 import org.ranch.ballshack.util.PlayerUtil;
+
+import static org.ranch.ballshack.util.EntityUtil.getMaxAllowedFloatingTicks;
 
 public class Flight extends Module {
 
@@ -26,15 +32,17 @@ public class Flight extends Module {
 		double horizontalSpeed = hSpeed.getValue() / 3;
 		double verticalSpeed = vSpeed.getValue() / 3;
 
-		mc.player.setVelocity(PlayerUtil.getMovementVector(horizontalSpeed, verticalSpeed));
-
-		if (antiKick % 2 == 0) {
-			mc.player.setVelocity(mc.player.getVelocity().add(0, -0.08, 0));
-		} else {
-			mc.player.setVelocity(mc.player.getVelocity().add(0, 0.08, 0));
-		}
+		Vec3d movementVec = PlayerUtil.getMovementVector(horizontalSpeed, verticalSpeed);
 
 		antiKick++;
+		if (antiKick > getMaxAllowedFloatingTicks(mc.player) - 20) {
+			antiKick = 0;
+			movementVec = new Vec3d(movementVec.x, movementVec.y - 0.2, movementVec.z);
+		} else if (antiKick == 2) {
+			movementVec = new Vec3d(movementVec.x, movementVec.y + 0.2, movementVec.z);
+		}
+		mc.player.setVelocity(movementVec);
+
 	}
 
 	@EventSubscribe

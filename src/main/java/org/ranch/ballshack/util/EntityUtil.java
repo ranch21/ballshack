@@ -14,6 +14,7 @@ import net.minecraft.entity.passive.SnowGolemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.AbstractFireballEntity;
 import net.minecraft.entity.projectile.ShulkerBulletEntity;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.noise.PerlinNoiseSampler;
 import net.minecraft.util.math.random.Random;
@@ -121,6 +122,16 @@ public class EntityUtil {
 		);
 
 		return offset.multiply(randAmount);
+	}
+
+	public static int getMaxAllowedFloatingTicks(Entity entity) {
+		double d = entity.getFinalGravity();
+		if (d < 9.999999747378752E-6) {
+			return Integer.MAX_VALUE;
+		} else {
+			double e = 0.08 / d;
+			return MathHelper.ceil(80.0 * Math.max(e, 1.0));
+		}
 	}
 
 	public enum EntityType {

@@ -12,7 +12,11 @@ import org.ranch.ballshack.module.ModuleCategory;
 import org.ranch.ballshack.setting.moduleSettings.SettingSlider;
 import org.ranch.ballshack.setting.moduleSettings.SettingToggle;
 
+import static org.ranch.ballshack.util.EntityUtil.getMaxAllowedFloatingTicks;
+
 public class Boatfly extends Module {
+
+	private int antiKick = 0;
 
 	public final SettingSlider hSpeed = dGroup.add(new SettingSlider("Hspeed", 2, 1, 10, 0.5).featured());
 	public final SettingSlider vSpeed = dGroup.add(new SettingSlider("Vspeed", 2, 1, 4, 0.5));
@@ -74,7 +78,15 @@ public class Boatfly extends Module {
 			yVel = -1;
 		}
 
-		boat.setVelocity(xVel, yVel + boat.getFinalGravity(), zVel);
+		antiKick++;
+		if (antiKick > getMaxAllowedFloatingTicks(mc.player) - 20) {
+			antiKick = 0;
+			boat.setVelocity(xVel, yVel + boat.getFinalGravity() - 0.06, zVel);
+		} else if (antiKick == 1) {
+			boat.setVelocity(xVel, yVel + boat.getFinalGravity() - 0.06, zVel);
+		} else {
+			boat.setVelocity(xVel, yVel + boat.getFinalGravity(), zVel);
+		}
 	}
 
 	@EventSubscribe

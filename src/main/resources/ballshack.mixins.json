@@ -27,9 +27,12 @@
     "KeyboardMixin",
     "MinecraftClientMixin",
     "MouseMixin",
+    "MultiplayerScreenAccessor",
+    "MultiplayerScreenInvoker",
     "PlayerEntityMixin",
     "PlayerSkinProviderMixin",
     "ScreenMixin",
+    "TitleScreenMixin",
     "WorldRendererMixin"
   ],
   "injectors": {
