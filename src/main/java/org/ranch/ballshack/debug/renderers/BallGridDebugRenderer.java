@@ -24,7 +24,7 @@ public class BallGridDebugRenderer extends DebugRenderer {
 	}
 
 	@EventSubscribe
-	public void onHudRender(EventHudRender event) {
+	public void onHudRender(EventHudRender.Post event) {
 		event.drawContext.drawText(MinecraftClient.getInstance().textRenderer, String.valueOf(ballHandler.frameTime), 5, 20, 0xFFFFFFFF, true);
 		int gs = ballHandler.getGridSize();
 		for (int i = 0; i < width / gs; i++) {

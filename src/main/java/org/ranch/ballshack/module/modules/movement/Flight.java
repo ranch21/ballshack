@@ -35,11 +35,12 @@ public class Flight extends Module {
 		Vec3d movementVec = PlayerUtil.getMovementVector(horizontalSpeed, verticalSpeed);
 
 		antiKick++;
-		if (antiKick > getMaxAllowedFloatingTicks(mc.player) - 20) {
-			antiKick = 0;
-			movementVec = new Vec3d(movementVec.x, movementVec.y - 0.2, movementVec.z);
-		} else if (antiKick == 2) {
-			movementVec = new Vec3d(movementVec.x, movementVec.y + 0.2, movementVec.z);
+		if (antiKick > getMaxAllowedFloatingTicks(mc.player) - 3) {
+			if (antiKick > getMaxAllowedFloatingTicks(mc.player))
+				antiKick = 0;
+			movementVec = new Vec3d(movementVec.x, -0.05, movementVec.z);
+		} else if (antiKick == 1) {
+			movementVec = new Vec3d(movementVec.x, 0.05 * 3, movementVec.z);
 		}
 		mc.player.setVelocity(movementVec);
 

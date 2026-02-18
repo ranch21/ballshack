@@ -142,13 +142,13 @@ public class DatabaseFetcher {
 			List<String> conditions = new ArrayList<>();
 			boolean shouldFilter = false;
 
-			if (minPlayers > 0 && minPlayers < Integer.MAX_VALUE) {
-				conditions.add("playercount > " + minPlayers);
+			if (minPlayers >= 0 && minPlayers < Integer.MAX_VALUE) {
+				conditions.add("playercount >= " + minPlayers);
 				shouldFilter = true;
 			}
 
-			if (maxPlayers > 0 && maxPlayers < Integer.MAX_VALUE) {
-				conditions.add("playercount < " + maxPlayers);
+			if (maxPlayers >= 0 && maxPlayers < Integer.MAX_VALUE) {
+				conditions.add("playercount <= " + maxPlayers);
 				shouldFilter = true;
 			}
 

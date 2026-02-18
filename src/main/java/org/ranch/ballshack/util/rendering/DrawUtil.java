@@ -1,18 +1,27 @@
 package org.ranch.ballshack.util.rendering;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.network.AbstractClientPlayerEntity;
+import net.minecraft.client.network.ClientPlayerLikeState;
+import net.minecraft.client.render.RawProjectionMatrix;
 import net.minecraft.client.render.command.OrderedRenderCommandQueue;
 import net.minecraft.client.render.state.CameraRenderState;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.RotationAxis;
 import net.minecraft.util.math.Vec3d;
-import org.joml.Vector2i;
+import org.joml.*;
 import org.ranch.ballshack.gui.Colors;
+import org.ranch.ballshack.mixin.GameRendererAccessor;
+import org.ranch.ballshack.mixin.GameRendererInvoker;
 import org.ranch.ballshack.util.TextUtil;
 
 import java.awt.*;
+import java.lang.Math;
 import java.util.Comparator;
 import java.util.List;
 
@@ -117,6 +126,13 @@ public class DrawUtil {
 		return new Color(Math.min(red, 255), Math.min(green, 255), Math.min(blue, 255));
 	}
 
+	public static void drawOutlineWithCorners(DrawContext context, int x, int y, int width, int height, Color color) {
+		context.drawHorizontalLine(x, x + width, y, color.hashCode()); // top
+		context.drawHorizontalLine(x, x + width, y + height, color.hashCode()); // bottom
+		context.drawVerticalLine(x, y, y + height, color.hashCode()); // left
+		context.drawVerticalLine(x + width, y, y + height, color.hashCode()); // right
+	}
+
 	public static void drawOutline(DrawContext context, int x, int y, int width, int height, Color color) {
 		context.drawHorizontalLine(x, x + width - 1, y - 1, color.hashCode()); // top
 		context.drawHorizontalLine(x, x + width - 1, y + height, color.hashCode()); // bottom
@@ -126,6 +142,27 @@ public class DrawUtil {
 
 	public static void drawOutline(DrawContext context, int x, int y, int width, int height) {
 		drawOutline(context, x, y, width, height, Colors.BORDER.getColor());
+	}
+
+	public static Vector2f worldToScreen(Vec3d pos, Matrix4f modelViewMatrix, float partialTicks) {
+		float fov = ((GameRendererInvoker) mc.gameRenderer).ballshack$invokeGetFov(mc.gameRenderer.getCamera(), partialTicks, true);
+		Matrix4f projectionMatrix = mc.gameRenderer.getBasicProjectionMatrix(fov);
+
+		bobView(projectionMatrix, partialTicks);
+
+		pos = pos.subtract(mc.gameRenderer.getCamera().getCameraPos());
+
+		Vector3f posf = new Vector3f((float) pos.x, (float) pos.y, (float) pos.z);
+
+		posf.rotate(new Quaternionf(mc.gameRenderer.getCamera().getRotation()).invert());
+
+		Vector4f clipSpace = new Vector4f(posf.x, posf.y, posf.z, 1.0f);
+
+		modelViewMatrix.transform(clipSpace);
+		projectionMatrix.transform(clipSpace);
+		if (clipSpace.w < 0) return null;
+		clipSpace.div(clipSpace.w);
+		return new Vector2f(clipSpace.x, clipSpace.y);
 	}
 
 	private static Vector2i tPos; // IDK what im doing
@@ -140,6 +177,17 @@ public class DrawUtil {
 	public static void clearTooltip() {
 		tPos = null;
 		tTip = null;
+	}
+
+	private static void bobView(Matrix4f matrix, float tickProgress) {
+		if (mc.getCameraEntity() instanceof AbstractClientPlayerEntity abstractClientPlayerEntity) {
+			ClientPlayerLikeState clientPlayerLikeState = abstractClientPlayerEntity.getState();
+			float f = clientPlayerLikeState.getReverseLerpedDistanceMoved(tickProgress);
+			float g = clientPlayerLikeState.lerpMovement(tickProgress);
+			matrix.translate(MathHelper.sin(f * (float) Math.PI) * g * 0.5F, -Math.abs(MathHelper.cos(f * (float) Math.PI) * g), 0.0F);
+			matrix.rotate(RotationAxis.POSITIVE_Z.rotationDegrees(MathHelper.sin(f * (float) Math.PI) * g * 3.0F));
+			matrix.rotate(RotationAxis.POSITIVE_X.rotationDegrees(Math.abs(MathHelper.cos(f * (float) Math.PI - 0.2F) * g) * 5.0F));
+		}
 	}
 
 	public static void drawTooltip(DrawContext context) {

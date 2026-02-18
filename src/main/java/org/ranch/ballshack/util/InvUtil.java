@@ -2,6 +2,7 @@ package org.ranch.ballshack.util;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -34,10 +35,10 @@ public class InvUtil {
 		return item instanceof RangedWeaponItem || item instanceof ProjectileItem;
 	}
 
-	public static List<ItemStack> getArmorSlots(PlayerEntity player) {
+	public static List<ItemStack> getArmorSlots(LivingEntity entity) {
 		List<ItemStack> armorItems = new ArrayList<>();
 		for (int i = 0; i < 4; i++) {
-			armorItems.add(player.getEquippedStack(ARMOR_SLOTS[i]));
+			armorItems.add(entity.getEquippedStack(ARMOR_SLOTS[i]));
 		}
 		return armorItems;
 	}

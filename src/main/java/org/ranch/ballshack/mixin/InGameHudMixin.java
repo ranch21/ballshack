@@ -14,8 +14,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class InGameHudMixin {
 
 	@Inject(method = "render", at = @At("TAIL"))
-	private void render(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
-		EventHudRender event = new EventHudRender(context, tickCounter.getDynamicDeltaTicks());
+	private void renderPost(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
+		EventHudRender.Post event = new EventHudRender.Post(context, tickCounter);
+		BallsHack.eventBus.post(event);
+	}
+
+	@Inject(method = "render", at = @At("HEAD"))
+	private void renderPre(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
+		EventHudRender.Pre event = new EventHudRender.Pre(context, tickCounter);
 		BallsHack.eventBus.post(event);
 	}
 }

@@ -20,6 +20,8 @@
     "ClientPlayNetworkHandlerMixin",
     "ClientWorldMixin",
     "EntityRendererMixin",
+    "GameRendererAccessor",
+    "GameRendererInvoker",
     "GameRendererMixin",
     "InGameHudMixin",
     "InputAccessor",

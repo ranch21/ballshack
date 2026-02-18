@@ -114,6 +114,7 @@ public class ModuleManager {
 		register(new Search());
 		register(new ThirdPersonCam());
 		register(new HoleESP());
+		register(new Environment());
 
 		// world
 		register(new Scaffold());

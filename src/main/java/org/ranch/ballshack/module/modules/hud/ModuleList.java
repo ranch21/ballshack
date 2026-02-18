@@ -32,7 +32,7 @@ public class ModuleList extends ModuleHud {
 	}
 
 	@EventSubscribe
-	public void onHudRender(EventHudRender event) {
+	public void onHudRender(EventHudRender.Post event) {
 
 		Stream<Module> modules = ModuleManager.getModules().stream();
 

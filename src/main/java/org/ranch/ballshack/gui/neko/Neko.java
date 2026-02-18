@@ -155,10 +155,10 @@ public class Neko {
 	}
 
 	@EventSubscribe
-	public void onHudRender(EventHudRender event) {
+	public void onHudRender(EventHudRender.Post event) {
 		if (BallsHack.mc.currentScreen != null) return;
 		int y = event.drawContext.getScaledWindowHeight() - 20;
-		update(event.tickDelta, getSlotX(event), y);
+		update(event.tickCounter.getDynamicDeltaTicks(), getSlotX(event), y);
 		if (Math.abs(pos.y - y) < SPEED * 2)
 			pos.y = y - SIZE / 2;
 		draw(event.drawContext, getSlotX(event), y - SIZE / 2);
@@ -222,7 +222,7 @@ public class Neko {
 		return atTarget(x, y, REST_DISTANCE);
 	}
 
-	public int getSlotX(EventHudRender event) {
+	public int getSlotX(EventHudRender.Post event) {
 		int hotbarStart = event.drawContext.getScaledWindowWidth() / 2 - 91;
 		return hotbarStart + BallsHack.mc.player.getInventory().getSelectedSlot() * 20 + 10;
 	}

@@ -103,7 +103,11 @@ public class EntityUtil {
 	}
 
 	public static Color getHPCol(LivingEntity entity) {
-		float f = entity.getHealth() / entity.getMaxHealth() * 3;
+		return getCol(entity.getHealth() / entity.getMaxHealth());
+	}
+
+	public static Color getCol(float t) {
+		float f = t * 3;
 
 		if (f < 1)
 			return Colors.DULL_RED;

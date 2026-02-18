@@ -18,7 +18,7 @@ public class ArmorHud extends ModuleHud {
 	}
 
 	@EventSubscribe
-	public void onHudRender(EventHudRender event) {
+	public void onHudRender(EventHudRender.Post event) {
 		int x = X() - xOffset();
 		int y = Y() - yOffset();
 		DrawContext context = event.drawContext;
