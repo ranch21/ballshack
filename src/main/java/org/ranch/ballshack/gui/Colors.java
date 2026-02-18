@@ -14,7 +14,8 @@ public class Colors {
 	public static final ThemeManager.SavedColor CLICKGUI_BACKGROUND_2 = new ThemeManager.SavedColor(new Color(0, 0, 0, 50), "clickgui_bg_2");
 
 	public static final ThemeManager.SavedColor CLICKGUI_TITLE_START = new ThemeManager.SavedColor(PALETTE_1.defaultCol(), "title_start");
-	public static final ThemeManager.SavedColor CLICKGUI_TITLE_END = new ThemeManager.SavedColor(PALETTE_2.defaultCol(), "title_end");;
+	public static final ThemeManager.SavedColor CLICKGUI_TITLE_END = new ThemeManager.SavedColor(PALETTE_2.defaultCol(), "title_end");
+	;
 
 	public static final ThemeManager.SavedColor BORDER = new ThemeManager.SavedColor(Color.WHITE, "border");
 

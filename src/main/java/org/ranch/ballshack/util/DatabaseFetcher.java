@@ -133,7 +133,7 @@ public class DatabaseFetcher {
 
 			if (clause == null) {
 				return "";
-			} else  {
+			} else {
 				return clause;
 			}
 		}
@@ -153,12 +153,12 @@ public class DatabaseFetcher {
 			}
 
 			if (modded.active()) {
-				conditions.add("modded = " + (modded.asBool() ?  "true" : "false"));
+				conditions.add("modded = " + (modded.asBool() ? "true" : "false"));
 				shouldFilter = true;
 			}
 
 			if (canjoin.active()) {
-				conditions.add("canjoin = " + (canjoin.asBool() ?  "true" : "false"));
+				conditions.add("canjoin = " + (canjoin.asBool() ? "true" : "false"));
 				shouldFilter = true;
 			}
 

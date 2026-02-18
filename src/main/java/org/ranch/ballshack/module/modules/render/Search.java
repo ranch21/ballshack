@@ -87,7 +87,7 @@ public class Search extends Module {
 			return;
 
 		List<ChunkPos> sortedList = queuedChunks.stream().sorted(Comparator.comparingDouble(this::getChunkDistance)).toList();
-		for (ChunkPos cpos : sortedList){
+		for (ChunkPos cpos : sortedList) {
 			queuedChunks.remove(cpos);
 			WorldChunk chunk = mc.world.getChunk(cpos.x, cpos.z);
 			executorService.submit(() -> {

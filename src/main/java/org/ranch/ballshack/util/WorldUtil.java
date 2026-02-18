@@ -2,7 +2,6 @@ package org.ranch.ballshack.util;
 
 import net.minecraft.block.entity.*;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;

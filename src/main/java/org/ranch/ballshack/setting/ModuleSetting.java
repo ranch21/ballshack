@@ -104,9 +104,11 @@ public abstract class ModuleSetting<T, SELF extends ModuleSetting<T, SELF>> {
 		return false;
 	}
 
-	protected void mouseReleased(double mouseX, double mouseY, int button) {}
+	protected void mouseReleased(double mouseX, double mouseY, int button) {
+	}
 
-	protected void keyPressed(int keyCode, int scanCode, int modifiers) {}
+	protected void keyPressed(int keyCode, int scanCode, int modifiers) {
+	}
 
 	protected boolean charTyped(char chr, int modifiers) {
 		return false;

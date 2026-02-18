@@ -1,27 +1,21 @@
 package org.ranch.ballshack.module.modules.render;
 
 import net.minecraft.block.BlockState;
-import net.minecraft.block.ShapeContext;
-import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.shape.VoxelShape;
 import org.ranch.ballshack.event.EventSubscribe;
 import org.ranch.ballshack.event.events.EventWorldRender;
-import org.ranch.ballshack.gui.Colors;
 import org.ranch.ballshack.module.Module;
 import org.ranch.ballshack.module.ModuleCategory;
 import org.ranch.ballshack.setting.moduleSettings.SettingSlider;
-import org.ranch.ballshack.util.WorldUtil;
 import org.ranch.ballshack.util.rendering.BallColor;
 import org.ranch.ballshack.util.rendering.Renderer;
 
 import java.awt.*;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Stream;
 
 public class HoleESP extends Module {
 
@@ -36,7 +30,8 @@ public class HoleESP extends Module {
 			Direction.WEST
 	};
 
-	private record Hole(BlockPos pos, float lowestResistance) {}
+	private record Hole(BlockPos pos, float lowestResistance) {
+	}
 
 	public HoleESP() {
 		super("HoleESP", ModuleCategory.RENDER, 0, "ihgfz");

@@ -30,15 +30,15 @@ public class SearchCommand extends Command {
 
 		return builder
 				.then(LiteralArgumentBuilder.<ClientCommandSource>literal("add")
-					.then(RequiredArgumentBuilder.<ClientCommandSource, BlockStateArgument>argument("block", BlockStateArgumentType.blockState(getRegistry()))
-							.executes(context -> {
-								Search search = (Search) ModuleManager.getModuleByName("search");
-								Identifier id = Registries.BLOCK.getId(context.getArgument("block", BlockStateArgument.class).getBlockState().getBlock());
-								search.blocks.getValue().add(id);
-								search.reload();
-								log(CMD(": ").append(Text.literal("Added " + id).formatted(Formatting.GRAY)));
-								return 0;
-							})))
+						.then(RequiredArgumentBuilder.<ClientCommandSource, BlockStateArgument>argument("block", BlockStateArgumentType.blockState(getRegistry()))
+								.executes(context -> {
+									Search search = (Search) ModuleManager.getModuleByName("search");
+									Identifier id = Registries.BLOCK.getId(context.getArgument("block", BlockStateArgument.class).getBlockState().getBlock());
+									search.blocks.getValue().add(id);
+									search.reload();
+									log(CMD(": ").append(Text.literal("Added " + id).formatted(Formatting.GRAY)));
+									return 0;
+								})))
 				.then(LiteralArgumentBuilder.<ClientCommandSource>literal("remove")
 						.then(RequiredArgumentBuilder.<ClientCommandSource, String>argument("block", StringArgumentType.greedyString())
 								.suggests((context, builder2) -> {
@@ -67,13 +67,13 @@ public class SearchCommand extends Command {
 							return 0;
 						}))
 				.then(LiteralArgumentBuilder.<ClientCommandSource>literal("clear")
-								.executes(context -> {
-									Search search = (Search) ModuleManager.getModuleByName("search");
-									search.blocks.getValue().clear();
-									search.reload();
-									log(CMD(": ").append(Text.literal("Cleared blocks").formatted(Formatting.GRAY)));
-									return 0;
-								}))
+						.executes(context -> {
+							Search search = (Search) ModuleManager.getModuleByName("search");
+							search.blocks.getValue().clear();
+							search.reload();
+							log(CMD(": ").append(Text.literal("Cleared blocks").formatted(Formatting.GRAY)));
+							return 0;
+						}))
 				.then(LiteralArgumentBuilder.<ClientCommandSource>literal("list")
 						.executes(context -> {
 							Search search = (Search) ModuleManager.getModuleByName("search");

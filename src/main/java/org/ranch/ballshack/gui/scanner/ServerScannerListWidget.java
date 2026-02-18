@@ -3,13 +3,6 @@ package org.ranch.ballshack.gui.scanner;
 import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.mojang.logging.LogUtils;
-import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
-import java.util.concurrent.ThreadPoolExecutor;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.SharedConstants;
@@ -17,14 +10,9 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gui.Click;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.screen.multiplayer.MultiplayerScreen;
 import net.minecraft.client.gui.screen.world.WorldIcon;
 import net.minecraft.client.gui.widget.AlwaysSelectedEntryListWidget;
-import net.minecraft.client.gui.widget.LoadingWidget;
 import net.minecraft.client.input.KeyInput;
-import net.minecraft.client.network.LanServerInfo;
-import net.minecraft.client.network.ServerInfo;
-import net.minecraft.client.option.ServerList;
 import net.minecraft.client.texture.NativeImage;
 import net.minecraft.network.NetworkingBackend;
 import net.minecraft.screen.ScreenTexts;
@@ -40,7 +28,14 @@ import net.minecraft.util.logging.UncaughtExceptionLogger;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 
-@Environment(value=EnvType.CLIENT)
+import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.ThreadPoolExecutor;
+
+@Environment(value = EnvType.CLIENT)
 public class ServerScannerListWidget extends AlwaysSelectedEntryListWidget<ServerScannerListWidget.Entry> {
 	static final Identifier INCOMPATIBLE_TEXTURE = Identifier.ofVanilla("server_list/incompatible");
 	static final Identifier UNREACHABLE_TEXTURE = Identifier.ofVanilla("server_list/unreachable");
@@ -114,7 +109,7 @@ public class ServerScannerListWidget extends AlwaysSelectedEntryListWidget<Serve
 	public void onRemoved() {
 	}
 
-	@Environment(value=EnvType.CLIENT)
+	@Environment(value = EnvType.CLIENT)
 	public static abstract class Entry extends AlwaysSelectedEntryListWidget.Entry<ServerScannerListWidget.Entry>
 			implements AutoCloseable {
 		@Override
@@ -126,7 +121,7 @@ public class ServerScannerListWidget extends AlwaysSelectedEntryListWidget<Serve
 		public abstract void connect();
 	}
 
-	@Environment(value=EnvType.CLIENT)
+	@Environment(value = EnvType.CLIENT)
 	public class ServerEntry extends ServerScannerListWidget.Entry {
 		private final ServerScannerScreen screen;
 		private final MinecraftClient client;
@@ -200,7 +195,7 @@ public class ServerScannerListWidget extends AlwaysSelectedEntryListWidget<Serve
 			this.draw(context, this.getContentX(), this.getContentY(), this.icon.getTextureId());
 			i = ServerScannerListWidget.this.children().indexOf(this);
 			if (this.server.getStatus() == ScannedServerInfo.Status.PINGING) {
-				j = (int)(Util.getMeasuringTimeMs() / 100L + (long)(i * 2) & 7L);
+				j = (int) (Util.getMeasuringTimeMs() / 100L + (long) (i * 2) & 7L);
 				if (j > 4) {
 					j = 8 - j;
 				}
@@ -336,8 +331,8 @@ public class ServerScannerListWidget extends AlwaysSelectedEntryListWidget<Serve
 
 		@Override
 		public boolean mouseClicked(Click click, boolean doubled) {
-			double d = click.x() - (double)this.getX();
-			double e = click.y() - (double)this.getY();
+			double d = click.x() - (double) this.getX();
+			double e = click.y() - (double) this.getY();
 			if (d <= 32.0) {
 				if (d < 32.0 && d > 16.0 && this.canConnect()) {
 					this.connect();
@@ -413,7 +408,7 @@ public class ServerScannerListWidget extends AlwaysSelectedEntryListWidget<Serve
 		@Override
 		boolean isOfSameType(ServerScannerListWidget.Entry entry) {
 			if (!(entry instanceof ServerScannerListWidget.ServerEntry)) return false;
-			ServerScannerListWidget.ServerEntry serverEntry = (ServerScannerListWidget.ServerEntry)entry;
+			ServerScannerListWidget.ServerEntry serverEntry = (ServerScannerListWidget.ServerEntry) entry;
 			if (serverEntry.server != this.server) return false;
 			return true;
 		}

@@ -17,7 +17,8 @@ public class ThemeManager {
 
 	public static final String folder = "themes/";
 
-	public static final Setting<Boolean> loaded = new Setting<>(false, "theme_loaded", new TypeToken<Boolean>() {}.getType());
+	public static final Setting<Boolean> loaded = new Setting<>(false, "theme_loaded", new TypeToken<Boolean>() {
+	}.getType());
 
 	private static JsonObject themeJson;
 

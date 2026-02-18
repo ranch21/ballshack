@@ -1,8 +1,5 @@
 package org.ranch.ballshack.module.modules.movement;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import org.ranch.ballshack.event.EventSubscribe;
 import org.ranch.ballshack.event.events.EventSetSneaking;
@@ -18,7 +15,7 @@ public class Flight extends Module {
 
 	private int antiKick = 0;
 
-	public final SettingSlider hSpeed = dGroup.add( new SettingSlider("Hspeed", 2, 0.5, 10, 0.5).featured());
+	public final SettingSlider hSpeed = dGroup.add(new SettingSlider("Hspeed", 2, 0.5, 10, 0.5).featured());
 	public final SettingSlider vSpeed = dGroup.add(new SettingSlider("Vspeed", 2, 0.5, 5, 0.5));
 
 	public Flight() {
