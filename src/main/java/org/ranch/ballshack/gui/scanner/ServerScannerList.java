@@ -6,6 +6,7 @@ import net.minecraft.client.network.ServerInfo;
 import net.minecraft.client.option.ServerList;
 import org.ranch.ballshack.BallsLogger;
 import org.ranch.ballshack.util.DatabaseFetcher;
+
 import java.util.List;
 
 public class ServerScannerList extends ServerList {

@@ -44,8 +44,11 @@ public class Renderer {
 	private final List<QuadRenderCommand> quadRenderCommandList;
 	private final List<LineRenderCommand> lineRenderCommandList;
 
-	public record QuadRenderCommand(Vec3d v1, Vec3d v2, Vec3d v3, Vec3d v4, Color color, MatrixStack matrixStack) {}
-	public record LineRenderCommand(Vec3d start, Vec3d end, Color color, MatrixStack matrixStack) {}
+	public record QuadRenderCommand(Vec3d v1, Vec3d v2, Vec3d v3, Vec3d v4, Color color, MatrixStack matrixStack) {
+	}
+
+	public record LineRenderCommand(Vec3d start, Vec3d end, Color color, MatrixStack matrixStack) {
+	}
 
 	public static Renderer getInstance() {
 		if (instance == null) {
@@ -133,9 +136,9 @@ public class Renderer {
 	public void queueTracer(Vec3d end, Color color, MatrixStack matrixStack) {
 
 		Vec3d tracerStart = new Vec3d(0, 0, 100)
-			.rotateX(-(float) Math.toRadians(mc.gameRenderer.getCamera().getPitch()))
-			.rotateY(-(float) Math.toRadians(mc.gameRenderer.getCamera().getYaw()))
-			.add(mc.gameRenderer.getCamera().getCameraPos());
+				.rotateX(-(float) Math.toRadians(mc.gameRenderer.getCamera().getPitch()))
+				.rotateY(-(float) Math.toRadians(mc.gameRenderer.getCamera().getYaw()))
+				.add(mc.gameRenderer.getCamera().getCameraPos());
 
 		lineRenderCommandList.add(
 				new LineRenderCommand(
@@ -247,14 +250,14 @@ public class Renderer {
 		float yawRad = (float) Math.toRadians(mc.gameRenderer.getCamera().getYaw());
 		float pitchRad = (float) Math.toRadians(mc.gameRenderer.getCamera().getPitch());
 
-		float fx = -(float)(Math.sin(yawRad) * Math.cos(pitchRad));
-		float fy = -(float)(Math.sin(pitchRad));
-		float fz =  (float)(Math.cos(yawRad) * Math.cos(pitchRad));
+		float fx = -(float) (Math.sin(yawRad) * Math.cos(pitchRad));
+		float fy = -(float) (Math.sin(pitchRad));
+		float fz = (float) (Math.cos(yawRad) * Math.cos(pitchRad));
 
 		final float NEAR = 0.01f;
-		float px = (float)(camPos.x + fx * NEAR);
-		float py = (float)(camPos.y + fy * NEAR);
-		float pz = (float)(camPos.z + fz * NEAR);
+		float px = (float) (camPos.x + fx * NEAR);
+		float py = (float) (camPos.y + fy * NEAR);
+		float pz = (float) (camPos.z + fz * NEAR);
 
 		float s = fx * (x1 - px) + fy * (y1 - py) + fz * (z1 - pz);
 		float e = fx * (x2 - px) + fy * (y2 - py) + fz * (z2 - pz);
@@ -282,9 +285,13 @@ public class Renderer {
 		float bx = x2, by = y2, bz = z2;
 
 		if (s <= 0.0f && e > 0.0f) {
-			ax = ix; ay = iy; azf = iz;
+			ax = ix;
+			ay = iy;
+			azf = iz;
 		} else if (s > 0.0f && e <= 0.0f) {
-			bx = ix; by = iy; bz = iz;
+			bx = ix;
+			by = iy;
+			bz = iz;
 		}
 
 		Vector3f normal = new Vector3f(bx - ax, by - ay, bz - azf);

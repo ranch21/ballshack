@@ -32,6 +32,6 @@ public class CrystalAura extends Module {
 		float f = power * 2.0F;
 		double d = Math.sqrt(entity.squaredDistanceTo(explosionPos)) / f;
 		double e = (1.0 - d) * amount;
-		return (float)((e * e + e) / 2.0 * 7.0 * f + 1.0);
+		return (float) ((e * e + e) / 2.0 * 7.0 * f + 1.0);
 	}
 }

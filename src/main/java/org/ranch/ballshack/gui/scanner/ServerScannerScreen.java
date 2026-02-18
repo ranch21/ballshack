@@ -3,10 +3,14 @@ package org.ranch.ballshack.gui.scanner;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.TitleScreen;
-import net.minecraft.client.gui.screen.multiplayer.*;
+import net.minecraft.client.gui.screen.multiplayer.AddServerScreen;
+import net.minecraft.client.gui.screen.multiplayer.ConnectScreen;
+import net.minecraft.client.gui.screen.multiplayer.MultiplayerScreen;
 import net.minecraft.client.gui.widget.*;
 import net.minecraft.client.input.KeyInput;
-import net.minecraft.client.network.*;
+import net.minecraft.client.network.MultiplayerServerListPinger;
+import net.minecraft.client.network.ServerAddress;
+import net.minecraft.client.network.ServerInfo;
 import net.minecraft.client.option.ServerList;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.screen.ScreenTexts;
@@ -15,7 +19,6 @@ import org.ranch.ballshack.mixin.MultiplayerScreenAccessor;
 import org.ranch.ballshack.mixin.MultiplayerScreenInvoker;
 import org.ranch.ballshack.util.DatabaseFetcher;
 import org.slf4j.Logger;
-import java.awt.*;
 
 public class ServerScannerScreen extends Screen {
 	private static final Logger LOGGER = LogUtils.getLogger();
@@ -107,7 +110,7 @@ public class ServerScannerScreen extends Screen {
 				MultiplayerScreen screen = new MultiplayerScreen(new TitleScreen());
 				((MultiplayerScreenAccessor) screen).setSelectedEntry(serverEntry.getServer());
 				client.setScreen(screen);
-				client.setScreen(new AddServerScreen(screen, Text.literal("Save Server"), (confirmed) -> ((MultiplayerScreenInvoker)screen).ballshack$invokeAddEntry(confirmed), serverEntry.getServer()));
+				client.setScreen(new AddServerScreen(screen, Text.literal("Save Server"), (confirmed) -> ((MultiplayerScreenInvoker) screen).ballshack$invokeAddEntry(confirmed), serverEntry.getServer()));
 			}
 		}).width(100).build());
 		actionButtons.add(ButtonWidget.builder(Text.translatable("selectServer.refresh"), button -> this.refresh()).width(74).build());
@@ -115,7 +118,7 @@ public class ServerScannerScreen extends Screen {
 
 		addDrawableChild(clauseField);
 		this.field_62178.forEachChild(element -> {
-			ClickableWidget cfr_ignored_0 = (ClickableWidget)this.addDrawableChild(element);
+			ClickableWidget cfr_ignored_0 = (ClickableWidget) this.addDrawableChild(element);
 		});
 
 		serverCount = addDrawableChild(new TextWidget(Text.literal(""), this.textRenderer));

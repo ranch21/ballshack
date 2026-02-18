@@ -24,7 +24,7 @@ public class ClientWorldMixin {
 			FreelookHandler.setRotation(EntityUtil.getRotation(BallsHack.mc.player));
 		PlayerSimDebugRenderer debugRenderer = (PlayerSimDebugRenderer) DebugRenderers.getRenderer("playersim");
 		if (debugRenderer.getEnabled())
-			debugRenderer.setData(PlayerSim.simulatePlayer(BallsHack.mc.player, 20*5), new Color(255, 255, 255, 100));
+			debugRenderer.setData(PlayerSim.simulatePlayer(BallsHack.mc.player, 20 * 5), new Color(255, 255, 255, 100));
 		BallsHack.eventBus.post(new EventTick());
 		BallsLogger.onTick();
 	}

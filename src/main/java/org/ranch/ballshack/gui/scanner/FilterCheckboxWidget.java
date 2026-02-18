@@ -53,7 +53,7 @@ public class FilterCheckboxWidget extends PressableWidget {
 	}
 
 	static int calculateWidth(Text text, TextRenderer textRenderer) {
-		return getCheckboxSize(textRenderer) + 4 + textRenderer.getWidth((StringVisitable)text);
+		return getCheckboxSize(textRenderer) + 4 + textRenderer.getWidth((StringVisitable) text);
 	}
 
 	public static Builder builder(Text text, TextRenderer textRenderer) {
@@ -75,12 +75,12 @@ public class FilterCheckboxWidget extends PressableWidget {
 	}
 
 	public void appendClickableNarrations(NarrationMessageBuilder builder) {
-		builder.put(NarrationPart.TITLE, (Text)this.getNarrationMessage());
+		builder.put(NarrationPart.TITLE, (Text) this.getNarrationMessage());
 		if (this.active) {
 			if (this.isFocused()) {
-				builder.put(NarrationPart.USAGE, (Text)Text.translatable("narration.checkbox.usage.focused"));
+				builder.put(NarrationPart.USAGE, (Text) Text.translatable("narration.checkbox.usage.focused"));
 			} else {
-				builder.put(NarrationPart.USAGE, (Text)Text.translatable("narration.checkbox.usage.hovered"));
+				builder.put(NarrationPart.USAGE, (Text) Text.translatable("narration.checkbox.usage.hovered"));
 			}
 		}
 

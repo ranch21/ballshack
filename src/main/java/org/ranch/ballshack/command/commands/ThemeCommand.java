@@ -28,9 +28,9 @@ public class ThemeCommand extends Command {
 								})))
 
 				.then(LiteralArgumentBuilder.<ClientCommandSource>literal("unload")
-								.executes(context -> {
-									ThemeManager.clearTheme();
-									return 1;
-								}));
+						.executes(context -> {
+							ThemeManager.clearTheme();
+							return 1;
+						}));
 	}
 }

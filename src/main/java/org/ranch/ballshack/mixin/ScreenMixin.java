@@ -2,8 +2,6 @@ package org.ranch.ballshack.mixin;
 
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
-import org.ranch.ballshack.BallsHack;
-import org.ranch.ballshack.event.events.EventScreen;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
