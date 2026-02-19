@@ -20,7 +20,6 @@ import net.minecraft.util.math.noise.PerlinNoiseSampler;
 import net.minecraft.util.math.random.Random;
 import org.ranch.ballshack.FriendManager;
 import org.ranch.ballshack.gui.Colors;
-import org.ranch.ballshack.setting.moduleSettings.TargetsDropDown;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -81,25 +80,6 @@ public class EntityUtil {
 				|| e instanceof WaterCreatureEntity
 				|| e instanceof IronGolemEntity
 				|| e instanceof SnowGolemEntity;
-	}
-
-	public static boolean filterByType(Entity e, TargetsDropDown t) {
-		return t.selected(getEntityType(e));
-	}
-
-	public static List<Entity> getEntities(double distance, TargetsDropDown targetsDropDown, Comparator<Entity> comparator, boolean raycast) {
-		Stream<Entity> targets;
-
-		if (mc.world == null) return new ArrayList<>();
-
-		targets = Streams.stream(mc.world.getEntities());
-
-		return targets.filter(
-						e -> EntityUtil.isAttackable(e)
-								&& (mc.player.canSee(e) || raycast)
-								&& mc.player.distanceTo(e) <= distance).filter(e -> filterByType(e, targetsDropDown))
-				.sorted(comparator)
-				.collect(Collectors.toList());
 	}
 
 	public static Color getHPCol(LivingEntity entity) {

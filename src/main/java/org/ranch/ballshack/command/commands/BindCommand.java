@@ -54,7 +54,7 @@ public class BindCommand extends Command {
 												return 0;
 											}
 
-											mod.getSettings().getBind().setValue(key);
+											//mod.getSettings().getBind().setValue(key);
 											log(CMD(": ").append(Text.literal("Bound " + moduleName + " to " + keyChar).formatted(Formatting.GRAY)));
 
 											return 1;
@@ -75,7 +75,7 @@ public class BindCommand extends Command {
 										return 0;
 									}
 
-									mod.getSettings().getBind().setValue(0);
+									//mod.getSettings().getBind().setValue(0);
 									log(CMD(": ").append(Text.literal("Cleared bind for " + moduleName).formatted(Formatting.GRAY)));
 
 									return 1;

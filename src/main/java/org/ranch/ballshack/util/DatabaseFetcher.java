@@ -36,7 +36,7 @@ public class DatabaseFetcher {
 		SettingsManager.registerSetting(password);
 	}
 
-	public static List<Server> getServers(ServerFilters filters) {
+	public static List<Server> getServers(ServerFilters filters, int max) {
 		List<Server> servers = new ArrayList<>();
 
 		try (Connection connection = DriverManager.getConnection("jdbc:postgresql://" + host.getValue() + ":5432/servers", user.getValue(), password.getValue())) {
@@ -47,7 +47,8 @@ public class DatabaseFetcher {
 			}
 			ResultSet resultSet = statement.executeQuery(query);
 
-			while (resultSet.next()) {
+			int count = 0;
+			while (resultSet.next() && (count++ < max || max == -1)) {
 				String address = resultSet.getString("address");
 				int port = resultSet.getInt("port");
 				boolean canJoin = resultSet.getBoolean("canjoin");

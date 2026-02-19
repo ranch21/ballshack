@@ -14,7 +14,6 @@ import net.minecraft.util.Identifier;
 import org.ranch.ballshack.command.Command;
 import org.ranch.ballshack.command.CommandType;
 import org.ranch.ballshack.module.ModuleManager;
-import org.ranch.ballshack.module.modules.render.Search;
 
 public class SearchCommand extends Command {
 	public SearchCommand() {
@@ -28,7 +27,7 @@ public class SearchCommand extends Command {
 	@Override
 	public LiteralArgumentBuilder<ClientCommandSource> onRegister(LiteralArgumentBuilder<ClientCommandSource> builder) {
 
-		return builder
+		/*return builder
 				.then(LiteralArgumentBuilder.<ClientCommandSource>literal("add")
 						.then(RequiredArgumentBuilder.<ClientCommandSource, BlockStateArgument>argument("block", BlockStateArgumentType.blockState(getRegistry()))
 								.executes(context -> {
@@ -82,6 +81,7 @@ public class SearchCommand extends Command {
 								log(Text.literal(id.toString()).formatted(Formatting.GRAY));
 							}
 							return 0;
-						}));
+						}));*/
+		return builder;
 	}
 }

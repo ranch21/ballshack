@@ -6,7 +6,7 @@ import net.minecraft.client.gui.tooltip.Tooltip;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.text.Text;
 import org.ranch.ballshack.BallsHack;
-import org.ranch.ballshack.gui.ClickGuiScreen;
+import org.ranch.ballshack.gui.clickgui.ClickGuiScreen;
 import org.ranch.ballshack.gui.scanner.ServerScannerScreen;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;

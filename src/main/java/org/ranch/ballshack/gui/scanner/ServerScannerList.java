@@ -21,7 +21,7 @@ public class ServerScannerList extends ServerList {
 	@Override
 	public void loadFile() {
 		servers.clear();
-		servers = DatabaseFetcher.getServers(serverFilters);
+		servers = DatabaseFetcher.getServers(serverFilters, 200);
 		BallsLogger.info("Loaded " + servers.size() + " servers");
 	}
 

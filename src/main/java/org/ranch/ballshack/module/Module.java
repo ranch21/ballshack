@@ -12,7 +12,6 @@ public abstract class Module {
 
 	protected final MinecraftClient mc = MinecraftClient.getInstance();
 	protected final ModuleSettings settings = new ModuleSettings();
-	protected final ModuleSettingsGroup dGroup = settings.getDefaultGroup();
 	private final String name;
 	private final ModuleCategory category;
 	private Boolean subscribed;
@@ -33,7 +32,7 @@ public abstract class Module {
 	public Module(String name, ModuleCategory category, int bind, @Nullable String tooltip, boolean isMeta) {
 		this.name = name;
 		this.category = category;
-		settings.getBind().setValue(bind);
+		//settings.getBind().setValue(bind);
 		this.tooltip = tooltip;
 		this.isMeta = isMeta;
 	}
@@ -55,7 +54,8 @@ public abstract class Module {
 	}
 
 	public int getBind() {
-		return settings.getBind().getValue();
+		//return settings.getBind().getValue();
+		return 0;
 	}
 
 	public ModuleCategory getCategory() {

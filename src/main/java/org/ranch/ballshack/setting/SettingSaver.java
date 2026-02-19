@@ -8,8 +8,6 @@ import org.ranch.ballshack.module.Module;
 import org.ranch.ballshack.module.ModuleAnchor;
 import org.ranch.ballshack.module.ModuleHud;
 import org.ranch.ballshack.module.ModuleManager;
-import org.ranch.ballshack.setting.moduleSettings.DropDown;
-import org.ranch.ballshack.setting.moduleSettings.SettingHud;
 
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -58,7 +56,7 @@ public class SettingSaver {
 		JsonObject settingsJson = new JsonObject();
 		for (ModuleSetting<?, ?> setting : settings) {
 
-			if (setting instanceof DropDown) {
+			/*if (setting instanceof DropDown) {
 				settingsJson.add(setting.getName(), getSettings(((DropDown) setting).getSettings()));
 				continue;
 			}
@@ -68,7 +66,7 @@ public class SettingSaver {
 				settingsJson.addProperty("y", hsetting.value.y);
 				settingsJson.addProperty("anchor", hsetting.value.anchor.ordinal());
 				continue;
-			}
+			}*/
 
 			settingsJson.add(setting.getName(), setting.getJson());
 		}

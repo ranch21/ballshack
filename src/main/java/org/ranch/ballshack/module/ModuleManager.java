@@ -2,16 +2,7 @@ package org.ranch.ballshack.module;
 
 import net.minecraft.client.input.KeyInput;
 import org.ranch.ballshack.module.modules.client.*;
-import org.ranch.ballshack.module.modules.combat.*;
 import org.ranch.ballshack.module.modules.fun.TestModule;
-import org.ranch.ballshack.module.modules.hud.ArmorHud;
-import org.ranch.ballshack.module.modules.hud.Coordinates;
-import org.ranch.ballshack.module.modules.hud.ModuleList;
-import org.ranch.ballshack.module.modules.hud.Watermark;
-import org.ranch.ballshack.module.modules.movement.*;
-import org.ranch.ballshack.module.modules.player.*;
-import org.ranch.ballshack.module.modules.render.*;
-import org.ranch.ballshack.module.modules.world.Scaffold;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,63 +51,20 @@ public class ModuleManager {
 	static {
 		// client
 		register(new ClickGui());
-		register(new DiscordRP());
-		register(new HudEditor());
-		register(new Rainbow());
-		register(new PacketLogger());
-		register(new Themes());
-		register(new NekoModule());
 
 		// combat
-		register(new AimAssist());
-		register(new AutoTotem());
-		register(new Criticals());
-		register(new KillAura());
-		register(new TriggerBot());
-		register(new CrystalAura());
 
 		// fun
 		register(new TestModule());
 
 		// hud
-		register(new ArmorHud());
-		register(new Coordinates());
-		register(new ModuleList());
-		register(new Watermark());
 
 		// movement
-		register(new Boatfly());
-		register(new Flight());
-		register(new InfiniteElytraGlide());
-		register(new Jesus());
-		//register(new ProjectileEvade());
-		register(new SafeWalk());
-		register(new Speed());
-		register(new Sprint());
 
 		// player
-		register(new AntiHunger());
-		//register(new AutoReconnect());
-		register(new AutoRespawn());
-		register(new AutoTool());
-		register(new AutoWalk());
-		register(new NoFall());
 
 		// render
-		register(new BlockHighlight());
-		register(new ChestESP());
-		register(new Debug());
-		register(new ESP());
-		register(new Tracers());
-		register(new Trajectories());
-		register(new Nametags());
-		register(new FreeLook());
-		register(new Search());
-		register(new ThirdPersonCam());
-		register(new HoleESP());
-		register(new Environment());
 
 		// world
-		register(new Scaffold());
 	}
 }

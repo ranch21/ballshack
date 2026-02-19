@@ -6,11 +6,9 @@ import net.minecraft.client.MinecraftClient;
 import org.ranch.ballshack.command.CommandManager;
 import org.ranch.ballshack.debug.DebugRenderers;
 import org.ranch.ballshack.event.EventBus;
-import org.ranch.ballshack.gui.ClickGuiScreen;
+import org.ranch.ballshack.gui.clickgui.ClickGuiScreen;
 import org.ranch.ballshack.gui.ThemeManager;
 import org.ranch.ballshack.gui.neko.Neko;
-import org.ranch.ballshack.module.ModuleManager;
-import org.ranch.ballshack.module.modules.client.Themes;
 import org.ranch.ballshack.setting.Setting;
 import org.ranch.ballshack.setting.SettingSaver;
 import org.ranch.ballshack.setting.SettingsManager;
@@ -46,7 +44,7 @@ public class BallsHack implements ModInitializer {
 		SettingSaver.readSettings();
 
 		if (ThemeManager.loaded.getValue()) {
-			ThemeManager.loadTheme(((Themes) ModuleManager.getModuleByName("themes")).theme.getValue());
+			//ThemeManager.loadTheme(((Themes) ModuleManager.getModuleByName("themes")).theme.getValue());
 		}
 
 		FriendManager.set();
