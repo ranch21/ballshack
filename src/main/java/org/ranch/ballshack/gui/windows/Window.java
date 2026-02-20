@@ -22,6 +22,11 @@ import java.util.List;
 
 public class Window implements IWindow, Element {
 
+	public static final int NO_TITLE = 1;
+	public static final int NO_BORDER = 2;
+	public static final int NO_FILL = 4;
+	public static final int NO_SCROLL = 8;
+
 	protected Identifier CLOSE_TEXTURE = Identifier.of(BallsHack.ID, "textures/gui/close.png");
 
 	private final List<Window> children = new ArrayList<>();
@@ -41,10 +46,7 @@ public class Window implements IWindow, Element {
 
 	public final String title;
 
-	public boolean hasBorder;
-	public boolean hasTitle;
-	public boolean fillBackground;
-	public boolean scrollable;
+	public int style;
 
 	protected boolean dragging;
 	protected int dragX;
@@ -62,10 +64,11 @@ public class Window implements IWindow, Element {
 		this.height = height;
 		this.insideOffsetX = 0;
 		this.insideOffsetY = 0;
-		this.hasBorder = true;
-		this.hasTitle = true;
-		this.fillBackground = true;
-		this.scrollable = true;
+		this.style = 0;
+	}
+
+	public void init() {
+
 	}
 
 	public void render(DrawContext context, double mouseX, double mouseY) {
@@ -74,20 +77,20 @@ public class Window implements IWindow, Element {
 
 		handleDrag(mouseX, mouseY);
 
-		if (hasBorder)
-			DrawUtil.drawOutline(context, getX(), getY() - (hasTitle ? BAR_HEIGHT : 0), getWidth(), getHeight() + (hasTitle ? BAR_HEIGHT : 0));
+		if ((style & NO_BORDER) == 0)
+			drawOutline(context);
 
-		if (hasTitle) {
+		if ((style & NO_TITLE) == 0) {
 			if (GuiUtil.mouseOverlap(mouseX, mouseY, getX() + getWidth() - 7, getY() - BAR_HEIGHT + 2, 5, 5)) {
 				context.setCursor(StandardCursors.POINTING_HAND);
 			}
 			drawTitle(context);
 		}
 
-		if (fillBackground)
-			context.fill(getX(), getY(), getX() + getWidth(), getY() + getHeight(), Colors.CLICKGUI_2.getColor().hashCode());
+		if ((style & NO_BORDER) == 0)
+			drawBackground(context);
 
-		if (scrollable)
+		if ((style & NO_SCROLL) == 0)
 			drawScrollBars(context);
 
 		context.enableScissor(getX(), getY(), getX() + getWidth(), getY() + getHeight());
@@ -100,7 +103,7 @@ public class Window implements IWindow, Element {
 		context.disableScissor();
 	}
 
-	private void drawTitle(DrawContext context) {
+	protected void drawTitle(DrawContext context) {
 		DrawUtil.drawHorizontalGradient(context, getX(), getY() - BAR_HEIGHT, getWidth() - 1, BAR_HEIGHT, Colors.CLICKGUI_TITLE_START.getColor(), Colors.CLICKGUI_TITLE_END.getColor(), getWidth() / 10);
 		TextRenderer textRend = MinecraftClient.getInstance().textRenderer;
 		int textInset = (BAR_HEIGHT - textRend.fontHeight) / 2;
@@ -116,7 +119,7 @@ public class Window implements IWindow, Element {
 		);
 	}
 
-	private void drawScrollBars(DrawContext context) {
+	protected void drawScrollBars(DrawContext context) {
 		if (needsScrollY()) {
 			int scrollH = (int) (((float) getHeight() / getMaxScrollY()) * getHeight());
 			int scrollP = getY() - getInsideOffsetY();
@@ -139,6 +142,14 @@ public class Window implements IWindow, Element {
 		}
 	}
 
+	protected void drawOutline(DrawContext context) {
+		DrawUtil.drawOutline(context, getX(), getY() - ((style & NO_TITLE) == 0 ? BAR_HEIGHT : 0), getWidth(), getHeight() + ((style & NO_TITLE) == 0 ? BAR_HEIGHT : 0));
+	}
+
+	protected void drawBackground(DrawContext context) {
+		context.fill(getX(), getY(), getX() + getWidth(), getY() + getHeight(), Colors.CLICKGUI_2.getColor().hashCode());
+	}
+
 	public RemovalReason getRemovalReason() {
 		return removalReason;
 	}
@@ -148,7 +159,7 @@ public class Window implements IWindow, Element {
 	}
 
 	private boolean needsScrollX() {
-		if (!scrollable) return false;
+		if ((style & NO_SCROLL) != 0) return false;
 		for (Window window : children) {
 			if (window.getX() - getInsideOffsetX() + window.getWidth() > getX() + getWidth()) return true;
 		}
@@ -160,11 +171,11 @@ public class Window implements IWindow, Element {
 		for (Window window : children) {
 			max = Math.max(max, window.getX() - getInsideOffsetX() + window.getWidth());
 		}
-		return max - getX();
+		return Math.max(0, max - getX());
 	}
 
 	private boolean needsScrollY() {
-		if (!scrollable) return false;
+		if ((style & NO_SCROLL) != 0) return false;
 		for (Window window : children) {
 			if (window.getY() - getInsideOffsetY() + window.getHeight() > getY() + getHeight()) return true;
 		}
@@ -176,7 +187,15 @@ public class Window implements IWindow, Element {
 		for (Window window : children) {
 			max = Math.max(max, window.getY() - getInsideOffsetY() + window.getHeight());
 		}
-		return max - getY();
+		return Math.max(0, max - getY());
+	}
+
+	public void addFlags(int flags) {
+		this.style |= flags;
+	}
+
+	public void removeFlags(int flags) {
+		this.style &= ~(flags);
 	}
 
 	@Override
@@ -187,10 +206,10 @@ public class Window implements IWindow, Element {
 	@Override
 	public boolean mouseClicked(Click click, boolean doubled) {
 		if (click.button() == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
-			if (GuiUtil.mouseOverlap(click.x(), click.y(), getX() + getWidth() - 7, getY() - BAR_HEIGHT + 2, 5, 5) && hasTitle) {
+			if (GuiUtil.mouseOverlap(click.x(), click.y(), getX() + getWidth() - 7, getY() - BAR_HEIGHT + 2, 5, 5) && (style & NO_TITLE) == 0) {
 				remove(RemovalReason.CLOSED);
 				return true;
-			} else if (GuiUtil.mouseOverlap(click.x(), click.y(), getX(), getY() - BAR_HEIGHT, getWidth(), BAR_HEIGHT) && hasTitle) {
+			} else if (GuiUtil.mouseOverlap(click.x(), click.y(), getX(), getY() - BAR_HEIGHT, getWidth(), BAR_HEIGHT) && (style & NO_TITLE) == 0) {
 				dragging = true;
 				dragX = (int) click.x() - getX();
 				dragY = (int) click.y() - getY();
@@ -298,6 +317,7 @@ public class Window implements IWindow, Element {
 	public void addChild(Window child) {
 		children.add(child);
 		child.setParent(this);
+		child.init();
 	}
 
 	@Override

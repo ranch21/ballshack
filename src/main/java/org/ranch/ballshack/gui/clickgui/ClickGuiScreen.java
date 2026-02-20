@@ -44,6 +44,9 @@ public class ClickGuiScreen extends WindowScreen {
 	public void init() {
 		super.init();
 
+		int s = 10;
+		int w = 60;
+		int i = 0;
 		for (ModuleCategory category : ModuleCategory.values()) {
 			List<Module> modules = ModuleManager.getModulesByCategory(category);
 
@@ -51,7 +54,7 @@ public class ClickGuiScreen extends WindowScreen {
 
 			addChild(new CategoryWindow(
 					category,
-					10, 10, 60, 100
+					i++ * (s + w) + s, textRenderer.fontHeight + s * 2, w, 100
 			));
 		}
 	}

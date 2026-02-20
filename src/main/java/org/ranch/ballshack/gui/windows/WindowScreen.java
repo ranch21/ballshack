@@ -98,6 +98,7 @@ public class WindowScreen extends Screen implements IWindow {
 	public void addChild(Window child) {
 		windows.add(child);
 		child.setParent(this);
+		child.init();
 	}
 
 	@Override

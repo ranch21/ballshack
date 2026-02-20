@@ -5,6 +5,8 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.input.KeyInput;
+import org.lwjgl.glfw.GLFW;
 import org.ranch.ballshack.BallsHack;
 import org.ranch.ballshack.gui.Colors;
 import org.ranch.ballshack.gui.WindowData;
@@ -32,10 +34,15 @@ public class ModuleSettingScreen extends WindowScreen {
 	public void init() {
 		super.init();
 
+		int w = 110;
+		int s = 10;
+
 		int i = 0;
 		for (ModuleSettingsGroup group : module.getSettings()) {
 			addChild(new ModuleSettingWindow(
-					group, i++ * 60 + 10, 10, 110, 150
+					group,
+					i++ * (w + s) + s, textRenderer.fontHeight + s * 2,
+					w, 0
 			));
 		}
 	}
@@ -44,12 +51,16 @@ public class ModuleSettingScreen extends WindowScreen {
 	public void render(DrawContext context, int mouseX, int mouseY, float delta) {
 		super.render(context, mouseX, mouseY, delta);
 
-		if (getChildren().isEmpty()) {
-			client.setScreen(new ClickGuiScreen());
-		}
-
 		TextRenderer textRend = MinecraftClient.getInstance().textRenderer;
 		context.drawText(textRend, BallsHack.title.getValue(), 5, 5, Colors.PALETTE_1.getColor().hashCode(), true);
 		context.drawText(textRend, BallsHack.version, 5 + textRend.getWidth(BallsHack.title.getValue() + " "), 5, Color.WHITE.hashCode(), true);
+	}
+
+	@Override
+	public boolean keyPressed(KeyInput input) {
+		if (input.getKeycode() == GLFW.GLFW_KEY_ESCAPE)
+			client.setScreen(new ClickGuiScreen());
+
+		return super.keyPressed(input);
 	}
 }

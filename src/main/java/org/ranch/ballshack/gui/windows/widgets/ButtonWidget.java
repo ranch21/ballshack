@@ -21,7 +21,7 @@ public class ButtonWidget extends PressableWidget {
 	public void render(DrawContext context, double mouseX, double mouseY) {
 		super.render(context, mouseX, mouseY);
 
-		text(title, 2, 2, 0xFFFFFFFF, true);
+		text(title, (getWidth() - mc.textRenderer.getWidth(title)) / 2, (getHeight() - mc.textRenderer.fontHeight) / 2 - 1, 0xFFFFFFFF, true);
 	}
 
 	@Override

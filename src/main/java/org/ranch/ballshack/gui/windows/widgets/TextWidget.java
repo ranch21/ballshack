@@ -5,9 +5,7 @@ import net.minecraft.client.gui.DrawContext;
 public class TextWidget extends Widget {
 	public TextWidget(String text, int x, int y, int width, int height) {
 		super(text, x, y, width, height);
-		hasBorder = false;
-		hasTitle = false;
-		fillBackground = false;
+		addFlags(NO_FILL | NO_TITLE | NO_BORDER);
 	}
 
 	@Override
