@@ -41,8 +41,8 @@ public class WindowScreen extends Screen implements IWindow {
 	public void render(DrawContext context, int mouseX, int mouseY, float delta) {
 		windows.removeIf(window -> window.getRemovalReason() != null);
 
-		for (Window window : windows) {
-			window.render(context, mouseX, mouseY);
+		for (int i = windows.size() - 1; i >= 0; i--) {
+			windows.get(i).render(context, mouseX, mouseY);
 		}
 		DrawUtil.drawTooltip(context);
 		DrawUtil.clearTooltip();

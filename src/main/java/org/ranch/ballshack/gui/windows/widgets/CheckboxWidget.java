@@ -2,6 +2,8 @@ package org.ranch.ballshack.gui.windows.widgets;
 
 import net.minecraft.client.gui.Click;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.gui.cursor.StandardCursors;
+import org.ranch.ballshack.gui.Colors;
 import org.ranch.ballshack.setting.ISetting;
 
 public class CheckboxWidget extends SettingWidget<Boolean> {
@@ -19,12 +21,7 @@ public class CheckboxWidget extends SettingWidget<Boolean> {
 	}
 
 	@Override
-	public boolean mouseClicked(Click click, boolean doubled) {
-		super.mouseClicked(click, doubled);
-		if (overlaps(click)) {
-			setting.setValue(!setting.getValue());
-			return true;
-		}
-		return false;
+	public void onPress(Widget widget, Click click) {
+		setting.setValue(!setting.getValue());
 	}
 }

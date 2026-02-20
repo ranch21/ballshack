@@ -6,6 +6,7 @@ import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gui.Click;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.Element;
+import net.minecraft.client.gui.cursor.StandardCursors;
 import net.minecraft.client.input.CharInput;
 import net.minecraft.client.input.KeyInput;
 import net.minecraft.util.Identifier;
@@ -76,8 +77,12 @@ public class Window implements IWindow, Element {
 		if (hasBorder)
 			DrawUtil.drawOutline(context, getX(), getY() - (hasTitle ? BAR_HEIGHT : 0), getWidth(), getHeight() + (hasTitle ? BAR_HEIGHT : 0));
 
-		if (hasTitle)
+		if (hasTitle) {
+			if (GuiUtil.mouseOverlap(mouseX, mouseY, getX() + getWidth() - 7, getY() - BAR_HEIGHT + 2, 5, 5)) {
+				context.setCursor(StandardCursors.POINTING_HAND);
+			}
 			drawTitle(context);
+		}
 
 		if (fillBackground)
 			context.fill(getX(), getY(), getX() + getWidth(), getY() + getHeight(), Colors.CLICKGUI_2.getColor().hashCode());
@@ -89,14 +94,10 @@ public class Window implements IWindow, Element {
 
 		children.removeIf(window -> window.getRemovalReason() != null);
 
-		for (Window window : children) {
-			window.render(context, mouseX, mouseY);
+		for (int i = children.size() - 1; i >= 0; i--) {
+			children.get(i).render(context, mouseX, mouseY);
 		}
 		context.disableScissor();
-
-		//text(title, 2, 2, 0xFF0000FF, true);
-		DrawUtil.drawOutlineWithCorners(context, getX() - 1, getY() - 1, getWidth() + 1, getHeight() + 1, Color.RED);
-
 	}
 
 	private void drawTitle(DrawContext context) {
@@ -188,6 +189,7 @@ public class Window implements IWindow, Element {
 		if (click.button() == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
 			if (GuiUtil.mouseOverlap(click.x(), click.y(), getX() + getWidth() - 7, getY() - BAR_HEIGHT + 2, 5, 5) && hasTitle) {
 				remove(RemovalReason.CLOSED);
+				return true;
 			} else if (GuiUtil.mouseOverlap(click.x(), click.y(), getX(), getY() - BAR_HEIGHT, getWidth(), BAR_HEIGHT) && hasTitle) {
 				dragging = true;
 				dragX = (int) click.x() - getX();
@@ -197,8 +199,9 @@ public class Window implements IWindow, Element {
 		}
 		if (GuiUtil.mouseOverlap(click.x(), click.y(), getX(), getY(), getWidth(), getHeight())) {
 			for (Window window : children) {
-				if (window.mouseClicked(click, doubled)) return true;
+				window.mouseClicked(click, doubled);
 			}
+			return true;
 		}
 		return false;
 	}
@@ -274,7 +277,11 @@ public class Window implements IWindow, Element {
 	}
 
 	public boolean overlaps(Click click) {
-		return GuiUtil.mouseOverlap(click.x(), click.y(), getX(), getY(), getWidth(), getHeight());
+		return overlaps(click.x(), click.y());
+	}
+
+	public boolean overlaps(double x, double y) {
+		return GuiUtil.mouseOverlap(x, y, getX(), getY(), getWidth(), getHeight());
 	}
 
 	@Override

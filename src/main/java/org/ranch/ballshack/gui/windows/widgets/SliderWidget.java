@@ -45,13 +45,8 @@ public class SliderWidget extends SettingWidget<Double> {
 	}
 
 	@Override
-	public boolean mouseClicked(Click click, boolean doubled) {
-		super.mouseClicked(click, doubled);
-		if (overlaps(click)) {
-			holding = true;
-			return true;
-		}
-		return false;
+	public void onPress(Widget widget, Click click) {
+		holding = true;
 	}
 
 	@Override

@@ -2,12 +2,13 @@ package org.ranch.ballshack.gui.windows.widgets;
 
 import net.minecraft.client.gui.Click;
 import net.minecraft.client.gui.DrawContext;
+import org.ranch.ballshack.gui.Colors;
 import org.ranch.ballshack.gui.windows.Window;
 
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
-public class ButtonWidget extends Widget {
+public class ButtonWidget extends PressableWidget {
 
 	private final BiConsumer<Window, Click> callback;
 
@@ -24,12 +25,7 @@ public class ButtonWidget extends Widget {
 	}
 
 	@Override
-	public boolean mouseClicked(Click click, boolean doubled) {
-		super.mouseClicked(click, doubled);
-		if (overlaps(click)) {
-			callback.accept(this, click);
-			return true;
-		}
-		return false;
+	public void onPress(Widget widget, Click click) {
+		callback.accept(widget, click);
 	}
 }

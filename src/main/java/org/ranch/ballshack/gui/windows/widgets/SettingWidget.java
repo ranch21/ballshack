@@ -1,8 +1,9 @@
 package org.ranch.ballshack.gui.windows.widgets;
 
+import net.minecraft.client.gui.Click;
 import org.ranch.ballshack.setting.ISetting;
 
-public class SettingWidget<T> extends Widget {
+public abstract class SettingWidget<T> extends PressableWidget {
 
 	protected ISetting<T> setting;
 
