@@ -51,6 +51,7 @@ public class ModuleManager {
 	static {
 		// client
 		register(new ClickGui());
+		register(new NekoModule());
 
 		// combat
 

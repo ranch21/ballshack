@@ -8,10 +8,15 @@ import org.ranch.ballshack.setting.ModuleSettings;
 import org.ranch.ballshack.setting.ModuleSettingsGroup;
 import org.ranch.ballshack.setting.SettingSaver;
 
+import java.util.AbstractList;
+import java.util.ArrayList;
+import java.util.List;
+
 public abstract class Module {
 
 	protected final MinecraftClient mc = MinecraftClient.getInstance();
-	protected final ModuleSettings settings = new ModuleSettings();
+	protected final List<ModuleSettingsGroup> settings = new ArrayList<>();
+	protected final ModuleSettingsGroup dGroup = new ModuleSettingsGroup("General");
 	private final String name;
 	private final ModuleCategory category;
 	private Boolean subscribed;
@@ -30,6 +35,7 @@ public abstract class Module {
 	}
 
 	public Module(String name, ModuleCategory category, int bind, @Nullable String tooltip, boolean isMeta) {
+		settings.add(dGroup);
 		this.name = name;
 		this.category = category;
 		//settings.getBind().setValue(bind);
@@ -66,8 +72,13 @@ public abstract class Module {
 		return name;
 	}
 
-	public ModuleSettings getSettings() {
+	public List<ModuleSettingsGroup> getSettings() {
 		return settings;
+	}
+
+	public ModuleSettingsGroup addGroup(ModuleSettingsGroup group) {
+		settings.add(group);
+		return group;
 	}
 
 	public String getTooltip() {

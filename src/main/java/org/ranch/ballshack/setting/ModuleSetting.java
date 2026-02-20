@@ -6,24 +6,23 @@ import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import org.ranch.ballshack.gui.GuiUtil;
 import org.ranch.ballshack.gui.clickgui.ModuleSettingRenderer;
+import org.ranch.ballshack.gui.windows.widgets.Widget;
 import org.ranch.ballshack.util.rendering.DrawUtil;
 
 import java.awt.*;
 import java.util.function.Supplier;
 
-public abstract class ModuleSetting<T, SELF extends ModuleSetting<T, SELF>> {
+public abstract class ModuleSetting<T, SELF extends ModuleSetting<T, SELF>> implements ISetting<T> {
 
 	private final String name;
 	private String tooltip;
 	private Supplier<Boolean> dependencyCondition;
 	private boolean featured;
-	public final ModuleSettingRenderer<T> renderer;
 
 	protected T value;
 
-	public ModuleSetting(String name, T value, ModuleSettingRenderer<T> renderer) {
+	public ModuleSetting(String name, T value) {
 		this.name = name;
-		this.renderer = renderer;
 		this.value = value;
 	}
 
@@ -73,6 +72,8 @@ public abstract class ModuleSetting<T, SELF extends ModuleSetting<T, SELF>> {
 	public boolean isFeatured() {
 		return featured;
 	}
+
+	public abstract Widget getWidget(int x, int y, int width, int height);
 
 	public abstract String getFormattedValue();
 

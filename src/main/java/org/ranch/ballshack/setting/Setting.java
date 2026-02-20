@@ -2,7 +2,7 @@ package org.ranch.ballshack.setting;
 
 import java.lang.reflect.Type;
 
-public class Setting<T> {
+public class Setting<T> implements ISetting<T> {
 	private T value;
 	private final String key;
 	private final Type type;
@@ -28,5 +28,10 @@ public class Setting<T> {
 	public void setValue(T value) {
 		this.value = value;
 		SettingSaver.SCHEDULE_SAVE.set(true);
+	}
+
+	@Override
+	public String getFormattedValue() {
+		return String.valueOf(value);
 	}
 }

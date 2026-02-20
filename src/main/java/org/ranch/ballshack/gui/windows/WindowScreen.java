@@ -101,6 +101,11 @@ public class WindowScreen extends Screen implements IWindow {
 	}
 
 	@Override
+	public List<Window> getChildren() {
+		return windows;
+	}
+
+	@Override
 	public void setParent(IWindow parent) {
 
 	}
@@ -133,6 +138,16 @@ public class WindowScreen extends Screen implements IWindow {
 	@Override
 	public void setHeight(int height) {
 
+	}
+
+	@Override
+	public int getInsideOffsetX() {
+		return 0;
+	}
+
+	@Override
+	public int getInsideOffsetY() {
+		return 0;
 	}
 
 	@Override

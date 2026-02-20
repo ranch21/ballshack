@@ -7,9 +7,20 @@ import org.ranch.ballshack.event.events.EventTick;
 import org.ranch.ballshack.module.Module;
 import org.ranch.ballshack.module.ModuleCategory;
 import org.ranch.ballshack.setting.ModuleSettingsGroup;
+import org.ranch.ballshack.setting.settings.BooleanSetting;
+import org.ranch.ballshack.setting.settings.NumberSetting;
 import org.ranch.ballshack.util.PlayerUtil;
 
 public class TestModule extends Module {
+
+	public final NumberSetting slider = dGroup.add(new NumberSetting("Slider", 10).min(0).max(20));
+	public final BooleanSetting toggle = dGroup.add(new BooleanSetting("Toggle", false));
+
+	public final ModuleSettingsGroup oGroup = addGroup(new ModuleSettingsGroup("Other"));
+	public final NumberSetting slider2 = oGroup.add(new NumberSetting("Slider", 10).min(0).max(20));
+	public final BooleanSetting toggle2 = oGroup.add(new BooleanSetting("Toggle", false));
+	public final NumberSetting slider3 = oGroup.add(new NumberSetting("Slider", 10).min(0).max(20));
+	public final BooleanSetting toggle4 = oGroup.add(new BooleanSetting("Toggle", false));
 
 	public TestModule() {
 		super("Test", ModuleCategory.FUN, 0, "Testingh ahwdhghfi");

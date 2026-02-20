@@ -11,6 +11,7 @@ import org.ranch.ballshack.event.events.EventHudRender;
 import org.ranch.ballshack.event.events.EventScreen;
 
 import org.ranch.ballshack.module.ModuleManager;
+import org.ranch.ballshack.module.modules.client.NekoModule;
 
 import static org.ranch.ballshack.gui.neko.NekoTextures.*;
 
@@ -93,7 +94,7 @@ public class Neko {
 
 	public void update(float tickDelta, int targetX, int targetY) {
 
-		//size = ((NekoModule) ModuleManager.getModuleByName("Neko")).size.getValueInt();
+		size = ((NekoModule) ModuleManager.getModuleByName("Neko")).size.getValueInt();
 
 		life += tickDelta;
 		float stateLen = life - stateStart;

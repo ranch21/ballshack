@@ -33,7 +33,6 @@ public class BallsHack implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-		SettingSaver.init();
 		SettingsManager.registerSetting(ThemeManager.loaded);
 		SettingsManager.registerSetting(FriendManager.setting);
 		SettingsManager.registerSetting(DebugRenderers.enabled);
@@ -41,7 +40,6 @@ public class BallsHack implements ModInitializer {
 		SettingsManager.registerSetting(title);
 		SettingsManager.registerSetting(CommandManager.prefix);
 		DatabaseFetcher.registerSettings();
-		SettingSaver.readSettings();
 
 		if (ThemeManager.loaded.getValue()) {
 			//ThemeManager.loadTheme(((Themes) ModuleManager.getModuleByName("themes")).theme.getValue());
