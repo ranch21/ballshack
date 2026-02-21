@@ -8,13 +8,21 @@ import org.ranch.ballshack.module.Module;
 import org.ranch.ballshack.module.ModuleCategory;
 import org.ranch.ballshack.setting.ModuleSettingsGroup;
 import org.ranch.ballshack.setting.settings.BooleanSetting;
+import org.ranch.ballshack.setting.settings.ModeSetting;
 import org.ranch.ballshack.setting.settings.NumberSetting;
+import org.ranch.ballshack.setting.settings.StringSetting;
 import org.ranch.ballshack.util.PlayerUtil;
 
 public class TestModule extends Module {
 
+	public static enum EnumTest {
+		ONE, TWO, THREE
+	}
+
 	public final NumberSetting slider = dGroup.add(new NumberSetting("Slider", 10).min(0).max(20));
 	public final BooleanSetting toggle = dGroup.add(new BooleanSetting("Toggle", false));
+	public final ModeSetting<EnumTest> mode = dGroup.add(new ModeSetting<>("Mode", EnumTest.ONE, EnumTest.values()));
+	public final StringSetting string = dGroup.add(new StringSetting("String", "hello balls"));
 
 	public final ModuleSettingsGroup oGroup = addGroup(new ModuleSettingsGroup("Other"));
 	public final NumberSetting slider2 = oGroup.add(new NumberSetting("Slider", 10).min(0).max(20));

@@ -10,7 +10,6 @@ public abstract class PressableWidget extends Widget {
 
 	public PressableWidget(String title, int x, int y, int width, int height) {
 		super(title, x, y, width, height);
-		addFlags(NO_FILL);
 	}
 
 	@Override
@@ -18,13 +17,16 @@ public abstract class PressableWidget extends Widget {
 		super.render(context, mouseX, mouseY);
 
 		if (overlaps(mouseX, mouseY)) {
+			context.setCursor(StandardCursors.POINTING_HAND);
+		}
+	}
+
+	@Override
+	protected void drawBackground(DrawContext context, double mouseX, double mouseY) {
+		if (overlaps(mouseX, mouseY)) {
 			fill(0, 0, getWidth(), getHeight(), Colors.SELECTABLE.getColor().darker().hashCode());
 		} else {
 			fill(0, 0, getWidth(), getHeight(), Colors.CLICKGUI_2.getColor().hashCode());
-		}
-
-		if (overlaps(mouseX, mouseY)) {
-			context.setCursor(StandardCursors.POINTING_HAND);
 		}
 	}
 

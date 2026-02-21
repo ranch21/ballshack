@@ -1,8 +1,7 @@
 package org.ranch.ballshack.setting.settings;
 
 import com.google.gson.JsonObject;
-import org.ranch.ballshack.gui.clickgui.ModuleSettingRenderer;
-import org.ranch.ballshack.gui.windows.widgets.SliderWidget;
+import org.ranch.ballshack.gui.windows.widgets.setting.SliderWidget;
 import org.ranch.ballshack.gui.windows.widgets.Widget;
 import org.ranch.ballshack.setting.ModuleSetting;
 import org.ranch.ballshack.util.TextUtil;
@@ -60,7 +59,7 @@ public class NumberSetting extends ModuleSetting<Double, NumberSetting> {
 
 	@Override
 	public String getFormattedValue() {
-		return TextUtil.formatDecimal(getValue(), "#.#");
+		return TextUtil.formatDecimal(getValue(), "#.##");
 	}
 
 	@Override

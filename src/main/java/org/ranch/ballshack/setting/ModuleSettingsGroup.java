@@ -2,6 +2,7 @@ package org.ranch.ballshack.setting;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 
 public class ModuleSettingsGroup implements SettingsList {
 

@@ -1,4 +1,4 @@
-package org.ranch.ballshack.gui.clickgui;
+package org.ranch.ballshack.gui.windows.clickgui;
 
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.Element;

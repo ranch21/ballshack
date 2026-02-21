@@ -1,24 +1,27 @@
 package org.ranch.ballshack.setting.settings;
 
 import com.google.gson.JsonObject;
-import org.ranch.ballshack.gui.windows.widgets.setting.CheckboxWidget;
+import net.minecraft.client.input.KeyInput;
 import org.ranch.ballshack.gui.windows.widgets.Widget;
+import org.ranch.ballshack.gui.windows.widgets.setting.BindWidget;
 import org.ranch.ballshack.setting.ModuleSetting;
 
-public class BooleanSetting extends ModuleSetting<Boolean, BooleanSetting> {
+public class BindSetting extends ModuleSetting<Integer, BindSetting> {
 
-	public BooleanSetting(String name, boolean value) {
+	public static final int NONE = 0;
+
+	public BindSetting(String name, int value) {
 		super(name, value);
 	}
 
 	@Override
 	public Widget getWidget(int x, int y, int width, int height) {
-		return new CheckboxWidget(getName(), x, y, height, height, this);
+		return new BindWidget(getName(), x, y, width, height, this);
 	}
 
 	@Override
 	public String getFormattedValue() {
-		return value ? "True" : "False";
+		return String.valueOf(getValue());
 	}
 
 	@Override

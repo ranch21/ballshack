@@ -20,6 +20,7 @@ import net.minecraft.util.math.noise.PerlinNoiseSampler;
 import net.minecraft.util.math.random.Random;
 import org.ranch.ballshack.FriendManager;
 import org.ranch.ballshack.gui.Colors;
+import org.ranch.ballshack.setting.TargetsSettingGroup;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -116,6 +117,25 @@ public class EntityUtil {
 			double e = 0.08 / d;
 			return MathHelper.ceil(80.0 * Math.max(e, 1.0));
 		}
+	}
+
+	public static boolean filterByType(Entity e, TargetsSettingGroup t) {
+		return t.selected(getEntityType(e));
+	}
+
+	public static List<Entity> getEntities(double distance, TargetsSettingGroup targetsSettingGroup, Comparator<Entity> comparator, boolean raycast) {
+		Stream<Entity> targets;
+
+		if (mc.world == null) return new ArrayList<>();
+
+		targets = Streams.stream(mc.world.getEntities());
+
+		return targets.filter(
+						e -> EntityUtil.isAttackable(e)
+								&& (mc.player.canSee(e) || raycast)
+								&& mc.player.distanceTo(e) <= distance).filter(e -> filterByType(e, targetsSettingGroup))
+				.sorted(comparator)
+				.collect(Collectors.toList());
 	}
 
 	public enum EntityType {

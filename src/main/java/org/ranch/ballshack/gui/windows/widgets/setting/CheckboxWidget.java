@@ -1,9 +1,8 @@
-package org.ranch.ballshack.gui.windows.widgets;
+package org.ranch.ballshack.gui.windows.widgets.setting;
 
 import net.minecraft.client.gui.Click;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.cursor.StandardCursors;
-import org.ranch.ballshack.gui.Colors;
+import org.ranch.ballshack.gui.windows.widgets.Widget;
 import org.ranch.ballshack.setting.ISetting;
 
 public class CheckboxWidget extends SettingWidget<Boolean> {

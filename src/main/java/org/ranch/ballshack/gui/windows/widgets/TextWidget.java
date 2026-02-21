@@ -1,11 +1,20 @@
 package org.ranch.ballshack.gui.windows.widgets;
 
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.text.Text;
 
 public class TextWidget extends Widget {
+
+	private Text text;
+
 	public TextWidget(String text, int x, int y, int width, int height) {
-		super(text, x, y, width, height);
+		this(Text.of(text), x, y, width, height);
+	}
+
+	public TextWidget(Text text, int x, int y, int width, int height) {
+		super(text.getString(), x, y, width, height);
 		addFlags(NO_FILL | NO_TITLE | NO_BORDER);
+		this.text = text;
 	}
 
 	@Override
@@ -15,6 +24,6 @@ public class TextWidget extends Widget {
 		setWidth(mc.textRenderer.getWidth(title));
 		setHeight(mc.textRenderer.fontHeight);
 
-		text(title, 0, 0, 0xFFFFFFFF, true);
+		text(text, 0, 0, -1, true);
 	}
 }

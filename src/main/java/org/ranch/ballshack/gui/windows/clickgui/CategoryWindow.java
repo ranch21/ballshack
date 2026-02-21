@@ -1,6 +1,5 @@
-package org.ranch.ballshack.gui.clickgui;
+package org.ranch.ballshack.gui.windows.clickgui;
 
-import org.ranch.ballshack.gui.windows.Window;
 import org.ranch.ballshack.gui.windows.widgets.AutoFitWindow;
 import org.ranch.ballshack.module.Module;
 import org.ranch.ballshack.module.ModuleCategory;
@@ -14,6 +13,7 @@ public class CategoryWindow extends AutoFitWindow {
 
 	public CategoryWindow(ModuleCategory category, int x, int y, int width, int height) {
 		super(category.name(), x, y, width, height, true, true, 5, 5);
+		addFlags(NO_CLOSE);
 		this.category = category;
 	}
 
@@ -23,11 +23,11 @@ public class CategoryWindow extends AutoFitWindow {
 		List<Module> modules = ModuleManager.getModulesByCategory(category);
 
 		int s = 5;
-		int h = 15;
+		int h = mc.textRenderer.fontHeight + 2;
 
 		int i = 0;
 		for (Module module : modules) {
-			addChild(new ModuleWindow(module, 5, i++ * (s + h) + s, 40, h));
+			addChild(new ModuleWindow(module, 5, i++ * (s + h) + s, 65, h));
 		}
 	}
 }

@@ -5,6 +5,7 @@ import net.minecraft.client.gui.screen.ChatScreen;
 import net.minecraft.client.input.KeyInput;
 import org.lwjgl.glfw.GLFW;
 import org.ranch.ballshack.BallsHack;
+import org.ranch.ballshack.BallsLogger;
 import org.ranch.ballshack.command.CommandManager;
 import org.ranch.ballshack.event.events.EventKeyPress;
 import org.ranch.ballshack.module.ModuleManager;
@@ -20,8 +21,9 @@ public class KeyboardMixin {
 	@Inject(method = "onKey", at = @At(value = "TAIL"))
 	public void onKey(long window, int action, KeyInput input, CallbackInfo ci) {
 
+		ModuleManager.handleKeyPress(input, action);
+
 		if (action == GLFW.GLFW_PRESS && mc.currentScreen == null) {
-			ModuleManager.handleKeyPress(input);
 			BallsHack.eventBus.post(new EventKeyPress(input));
 		}
 

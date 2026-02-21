@@ -1,22 +1,12 @@
 package org.ranch.ballshack.gui.windows;
 
-import com.google.gson.reflect.TypeToken;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.Click;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.input.CharInput;
 import net.minecraft.client.input.KeyInput;
 import net.minecraft.text.Text;
-import org.ranch.ballshack.BallsHack;
-import org.ranch.ballshack.gui.Colors;
-import org.ranch.ballshack.gui.WindowData;
-import org.ranch.ballshack.gui.balls.Ball;
-import org.ranch.ballshack.module.ModuleCategory;
-import org.ranch.ballshack.module.ModuleManager;
-import org.ranch.ballshack.module.modules.client.ClickGui;
-import org.ranch.ballshack.setting.Setting;
+import org.joml.Matrix3x2fStack;
 import org.ranch.ballshack.util.rendering.DrawUtil;
 
 import java.awt.*;
@@ -26,9 +16,12 @@ import java.util.List;
 public class WindowScreen extends Screen implements IWindow {
 
 	private static final List<Window> windows = new ArrayList<>();
+	public Screen parent;
+	private float scale = 0.5F;
 
-	public WindowScreen() {
+	public WindowScreen(Screen parent) {
 		super(Text.empty());
+		this.parent = parent;
 	}
 
 	@Override
@@ -39,13 +32,39 @@ public class WindowScreen extends Screen implements IWindow {
 
 	@Override
 	public void render(DrawContext context, int mouseX, int mouseY, float delta) {
+
+		Matrix3x2fStack stack = context.getMatrices();
+		stack.pushMatrix();
+		stack.scale(scale);
+
 		windows.removeIf(window -> window.getRemovalReason() != null);
 
+		sortChildren();
+
 		for (int i = windows.size() - 1; i >= 0; i--) {
-			windows.get(i).render(context, mouseX, mouseY);
+			windows.get(i).render(context, mouseX / scale, mouseY / scale);
 		}
 		DrawUtil.drawTooltip(context);
 		DrawUtil.clearTooltip();
+
+		stack.popMatrix();
+	}
+
+	protected void sortChildren() {
+		windows.sort((a, b) -> Boolean.compare(b.isFocused(), a.isFocused()));
+		windows.sort((a, b) -> Boolean.compare(b.alwaysOnTop(), a.alwaysOnTop()));
+	}
+
+	public void setScale(float scale) {
+		this.scale = scale;
+	}
+
+	public float getScale() {
+		return scale;
+	}
+
+	private Click scaleClick(Click click) {
+		return new Click(click.x() / scale, click.y() / scale, click.buttonInfo());
 	}
 
 	@Override
@@ -54,28 +73,28 @@ public class WindowScreen extends Screen implements IWindow {
 	}
 
 	public void mouseMoved(double mouseX, double mouseY) {
-		windows.forEach(window -> window.mouseMoved(mouseX, mouseY));
+		windows.forEach(window -> window.mouseMoved(mouseX / scale, mouseY / scale));
 	}
 
 	public boolean mouseClicked(Click click, boolean doubled) {
 		for (Window window : windows) {
-			if (window.mouseClicked(click, doubled)) return true;
+			if (window.mouseClicked(scaleClick(click), doubled)) return true;
 		}
 		return false;
 	}
 
 	public boolean mouseReleased(Click click) {
-		windows.forEach(window -> window.mouseReleased(click));
+		windows.forEach(window -> window.mouseReleased(scaleClick(click)));
 		return false;
 	}
 
 	public boolean mouseDragged(Click click, double offsetX, double offsetY) {
-		windows.forEach(window -> window.mouseDragged(click, offsetX, offsetY));
+		windows.forEach(window -> window.mouseDragged(scaleClick(click), offsetX, offsetY));
 		return false;
 	}
 
 	public boolean mouseScrolled(double mouseX, double mouseY, double horizontalAmount, double verticalAmount) {
-		windows.forEach(window -> window.mouseScrolled(mouseX, mouseY, horizontalAmount, verticalAmount));
+		windows.forEach(window -> window.mouseScrolled(mouseX / scale, mouseY / scale, horizontalAmount, verticalAmount));
 		return false;
 	}
 
@@ -107,6 +126,18 @@ public class WindowScreen extends Screen implements IWindow {
 	}
 
 	@Override
+	public List<Window> getAllChildren() {
+		List<Window> list = new ArrayList<>(windows);
+		windows.forEach((c) -> list.addAll(c.getAllChildren()));
+		return list;
+	}
+
+	@Override
+	public boolean alwaysOnTop() {
+		return false;
+	}
+
+	@Override
 	public void setParent(IWindow parent) {
 
 	}
@@ -122,8 +153,13 @@ public class WindowScreen extends Screen implements IWindow {
 	}
 
 	@Override
+	public WindowScreen getRootScreen() {
+		return this;
+	}
+
+	@Override
 	public int getWidth() {
-		return width;
+		return (int) (width * scale);
 	}
 
 	@Override
@@ -133,7 +169,7 @@ public class WindowScreen extends Screen implements IWindow {
 
 	@Override
 	public int getHeight() {
-		return height;
+		return (int) (height * scale);
 	}
 
 	@Override
@@ -147,8 +183,18 @@ public class WindowScreen extends Screen implements IWindow {
 	}
 
 	@Override
+	public void setInsideOffsetX(int insideOffsetX) {
+
+	}
+
+	@Override
 	public int getInsideOffsetY() {
 		return 0;
+	}
+
+	@Override
+	public void setInsideOffsetY(int insideOffsetY) {
+
 	}
 
 	@Override

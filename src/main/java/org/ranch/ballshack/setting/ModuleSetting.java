@@ -1,18 +1,11 @@
 package org.ranch.ballshack.setting;
 
 import com.google.gson.JsonObject;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.font.TextRenderer;
-import net.minecraft.client.gui.DrawContext;
-import org.ranch.ballshack.gui.GuiUtil;
-import org.ranch.ballshack.gui.clickgui.ModuleSettingRenderer;
 import org.ranch.ballshack.gui.windows.widgets.Widget;
-import org.ranch.ballshack.util.rendering.DrawUtil;
 
-import java.awt.*;
 import java.util.function.Supplier;
 
-public abstract class ModuleSetting<T, SELF extends ModuleSetting<T, SELF>> implements ISetting<T> {
+public abstract class ModuleSetting<T, SELF extends ModuleSetting<T, SELF>> implements ISetting<T>, Dependency {
 
 	private final String name;
 	private String tooltip;
@@ -42,14 +35,8 @@ public abstract class ModuleSetting<T, SELF extends ModuleSetting<T, SELF>> impl
 	}
 
 	public SELF depends(Supplier<Boolean> condition) {
-		this.dependencyCondition = condition;
+		setDependency(condition);
 		return self();
-	}
-
-	public boolean dependencyMet() {
-		if (dependencyCondition == null)
-			return true;
-		return dependencyCondition.get();
 	}
 
 	public T getValue() {
@@ -71,6 +58,14 @@ public abstract class ModuleSetting<T, SELF extends ModuleSetting<T, SELF>> impl
 
 	public boolean isFeatured() {
 		return featured;
+	}
+
+	public Supplier<Boolean> getDependency() {
+		return dependencyCondition;
+	}
+
+	public void setDependency(Supplier<Boolean> condition) {
+		this.dependencyCondition = condition;
 	}
 
 	public abstract Widget getWidget(int x, int y, int width, int height);

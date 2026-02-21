@@ -1,32 +1,27 @@
-package org.ranch.ballshack.gui.clickgui;
+package org.ranch.ballshack.gui.windows.clickgui;
 
-import com.google.gson.reflect.TypeToken;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.input.KeyInput;
 import org.lwjgl.glfw.GLFW;
 import org.ranch.ballshack.BallsHack;
 import org.ranch.ballshack.gui.Colors;
-import org.ranch.ballshack.gui.WindowData;
 import org.ranch.ballshack.gui.windows.WindowScreen;
 import org.ranch.ballshack.module.Module;
-import org.ranch.ballshack.module.ModuleCategory;
 import org.ranch.ballshack.module.ModuleManager;
+import org.ranch.ballshack.module.modules.client.ClickGui;
 import org.ranch.ballshack.setting.ModuleSettingsGroup;
-import org.ranch.ballshack.setting.Setting;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class ModuleSettingScreen extends WindowScreen {
 
 	private Module module;
 
-	public ModuleSettingScreen(Module module) {
-		super();
+	public ModuleSettingScreen(Module module, Screen parent) {
+		super(parent);
 		this.module = module;
 	}
 
@@ -59,7 +54,7 @@ public class ModuleSettingScreen extends WindowScreen {
 	@Override
 	public boolean keyPressed(KeyInput input) {
 		if (input.getKeycode() == GLFW.GLFW_KEY_ESCAPE)
-			client.setScreen(new ClickGuiScreen());
+			client.setScreen(parent);
 
 		return super.keyPressed(input);
 	}

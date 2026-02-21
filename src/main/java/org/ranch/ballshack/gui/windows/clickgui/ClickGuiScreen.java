@@ -1,27 +1,23 @@
-package org.ranch.ballshack.gui.clickgui;
+package org.ranch.ballshack.gui.windows.clickgui;
 
 import com.google.gson.reflect.TypeToken;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
-import net.minecraft.client.gui.Click;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.input.CharInput;
 import net.minecraft.client.input.KeyInput;
-import net.minecraft.text.Text;
+import org.lwjgl.glfw.GLFW;
 import org.ranch.ballshack.BallsHack;
 import org.ranch.ballshack.gui.Colors;
 import org.ranch.ballshack.gui.WindowData;
-import org.ranch.ballshack.gui.balls.Ball;
-import org.ranch.ballshack.gui.windows.Window;
+import org.ranch.ballshack.gui.windows.ConsoleWindow;
 import org.ranch.ballshack.gui.windows.WindowScreen;
 import org.ranch.ballshack.module.Module;
 import org.ranch.ballshack.module.ModuleCategory;
 import org.ranch.ballshack.module.ModuleManager;
 import org.ranch.ballshack.module.modules.client.ClickGui;
 import org.ranch.ballshack.setting.Setting;
-import org.ranch.ballshack.util.rendering.DrawUtil;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -36,8 +32,8 @@ public class ClickGuiScreen extends WindowScreen {
 	}.getType());
 
 
-	public ClickGuiScreen() {
-		super();
+	public ClickGuiScreen(Screen parent) {
+		super(parent);
 	}
 
 	@Override
@@ -45,7 +41,7 @@ public class ClickGuiScreen extends WindowScreen {
 		super.init();
 
 		int s = 10;
-		int w = 60;
+		int w = 70;
 		int i = 0;
 		for (ModuleCategory category : ModuleCategory.values()) {
 			List<Module> modules = ModuleManager.getModulesByCategory(category);
@@ -57,6 +53,8 @@ public class ClickGuiScreen extends WindowScreen {
 					i++ * (s + w) + s, textRenderer.fontHeight + s * 2, w, 100
 			));
 		}
+
+		addChild(new ConsoleWindow("Console", 50,5, 4 * 40, 3 * 40));
 	}
 
 	@Override
@@ -66,5 +64,12 @@ public class ClickGuiScreen extends WindowScreen {
 		TextRenderer textRend = MinecraftClient.getInstance().textRenderer;
 		context.drawText(textRend, BallsHack.title.getValue(), 5, 5, Colors.PALETTE_1.getColor().hashCode(), true);
 		context.drawText(textRend, BallsHack.version, 5 + textRend.getWidth(BallsHack.title.getValue() + " "), 5, Color.WHITE.hashCode(), true);
+	}
+
+	@Override
+	public boolean keyPressed(KeyInput input) {
+		if (input.getKeycode() == GLFW.GLFW_KEY_ESCAPE)
+			client.setScreen(parent);
+		return super.keyPressed(input);
 	}
 }

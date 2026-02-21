@@ -1,8 +1,9 @@
-package org.ranch.ballshack.gui.windows.widgets;
+package org.ranch.ballshack.gui.windows.widgets.setting;
 
 import net.minecraft.client.gui.Click;
 import net.minecraft.client.gui.DrawContext;
 import org.ranch.ballshack.gui.Colors;
+import org.ranch.ballshack.gui.windows.widgets.Widget;
 import org.ranch.ballshack.setting.ISetting;
 
 public class SliderWidget extends SettingWidget<Double> {
@@ -35,7 +36,7 @@ public class SliderWidget extends SettingWidget<Double> {
 		fill(0, 0, notchPos, getHeight(), Colors.SELECTABLE.getColor().hashCode());
 
 		/* setting name and value */
-		text(setting.getFormattedValue(), 0, 0, 0xFFFFFFFF, true);
+		text(setting.getFormattedValue(), 2, (getHeight() - mc.textRenderer.fontHeight) / 2 + 1, 0xFFFFFFFF, true);
 		//drawText(context, TextUtil.formatDecimal(this.getValue()), true);
 	}
 

@@ -1,7 +1,10 @@
 package org.ranch.ballshack.module;
 
 import net.minecraft.client.input.KeyInput;
+import org.lwjgl.glfw.GLFW;
+import org.ranch.ballshack.BallsLogger;
 import org.ranch.ballshack.module.modules.client.*;
+import org.ranch.ballshack.module.modules.combat.*;
 import org.ranch.ballshack.module.modules.fun.TestModule;
 
 import java.util.ArrayList;
@@ -40,9 +43,20 @@ public class ModuleManager {
 		return null;
 	}
 
-	public static void handleKeyPress(KeyInput key) {
+	public static <T extends Module> T getModuleByClass(Class<T> clazz) {
 		for (Module module : modules) {
-			if (module.getBind() == key.key()) {
+			if (module.getClass() == clazz) {
+				return (T)module;
+			}
+		}
+		return null;
+	}
+
+	public static void handleKeyPress(KeyInput key, int action) {
+		for (Module module : modules) {
+			if (module.getBind() == key.key() && action == GLFW.GLFW_PRESS) {
+				module.toggle();
+			} else if (module.holdSetting.getValue() && action == GLFW.GLFW_RELEASE) {
 				module.toggle();
 			}
 		}
@@ -52,8 +66,17 @@ public class ModuleManager {
 		// client
 		register(new ClickGui());
 		register(new NekoModule());
+		register(new DiscordRP());
+		register(new HudEditor());
+		register(new Rainbow());
+		register(new Themes());
 
 		// combat
+		register(new AimAssist());
+		register(new AutoTotem());
+		register(new Criticals());
+		register(new CrystalAura());
+		register(new KillAura());
 
 		// fun
 		register(new TestModule());

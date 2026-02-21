@@ -7,8 +7,10 @@ import net.minecraft.client.gui.Click;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.cursor.StandardCursors;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.input.CharInput;
 import net.minecraft.client.input.KeyInput;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import org.lwjgl.glfw.GLFW;
 import org.ranch.ballshack.BallsHack;
@@ -18,6 +20,7 @@ import org.ranch.ballshack.util.rendering.DrawUtil;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Window implements IWindow, Element {
@@ -26,6 +29,7 @@ public class Window implements IWindow, Element {
 	public static final int NO_BORDER = 2;
 	public static final int NO_FILL = 4;
 	public static final int NO_SCROLL = 8;
+	public static final int NO_CLOSE = 16;
 
 	protected Identifier CLOSE_TEXTURE = Identifier.of(BallsHack.ID, "textures/gui/close.png");
 
@@ -47,6 +51,8 @@ public class Window implements IWindow, Element {
 	public final String title;
 
 	public int style;
+
+	private boolean focused;
 
 	protected boolean dragging;
 	protected int dragX;
@@ -72,26 +78,25 @@ public class Window implements IWindow, Element {
 	}
 
 	public void render(DrawContext context, double mouseX, double mouseY) {
-
 		this.drawContext = context;
 
 		handleDrag(mouseX, mouseY);
 
 		if ((style & NO_BORDER) == 0)
-			drawOutline(context);
+			drawOutline(context, mouseX, mouseY);
 
 		if ((style & NO_TITLE) == 0) {
-			if (GuiUtil.mouseOverlap(mouseX, mouseY, getX() + getWidth() - 7, getY() - BAR_HEIGHT + 2, 5, 5)) {
+			if ((style & NO_CLOSE) == 0 && GuiUtil.mouseOverlap(mouseX, mouseY, getX() + getWidth() - 7, getY() - BAR_HEIGHT + 2, 5, 5)) {
 				context.setCursor(StandardCursors.POINTING_HAND);
 			}
-			drawTitle(context);
+			drawTitle(context, mouseX, mouseY);
 		}
 
 		if ((style & NO_BORDER) == 0)
-			drawBackground(context);
+			drawBackground(context, mouseX, mouseY);
 
 		if ((style & NO_SCROLL) == 0)
-			drawScrollBars(context);
+			drawScrollBars(context, mouseX, mouseY);
 
 		context.enableScissor(getX(), getY(), getX() + getWidth(), getY() + getHeight());
 
@@ -103,50 +108,59 @@ public class Window implements IWindow, Element {
 		context.disableScissor();
 	}
 
-	protected void drawTitle(DrawContext context) {
+	protected void sortChildren() {
+		children.sort((a, b) -> Boolean.compare(b.isFocused(), a.isFocused()));
+		children.sort((a, b) -> Boolean.compare(b.alwaysOnTop(), a.alwaysOnTop()));
+	}
+
+	protected void drawTitle(DrawContext context, double mouseX, double mouseY) {
 		DrawUtil.drawHorizontalGradient(context, getX(), getY() - BAR_HEIGHT, getWidth() - 1, BAR_HEIGHT, Colors.CLICKGUI_TITLE_START.getColor(), Colors.CLICKGUI_TITLE_END.getColor(), getWidth() / 10);
 		TextRenderer textRend = MinecraftClient.getInstance().textRenderer;
 		int textInset = (BAR_HEIGHT - textRend.fontHeight) / 2;
 		context.drawText(textRend, title, getX() + 2, getY() + textInset - BAR_HEIGHT + 1, Color.WHITE.hashCode(), true);
-		context.drawTexture(
-				RenderPipelines.GUI_TEXTURED,
-				CLOSE_TEXTURE,
-				getX() + getWidth() - 7,
-				getY() - BAR_HEIGHT + 2,
-				0, 0,
-				5, 5,
-				5, 5
-		);
+		if ((style & NO_CLOSE) == 0) {
+			context.drawTexture(
+					RenderPipelines.GUI_TEXTURED,
+					CLOSE_TEXTURE,
+					getX() + getWidth() - 7,
+					getY() - BAR_HEIGHT + 2,
+					0, 0,
+					5, 5,
+					5, 5
+			);
+		}
 	}
 
-	protected void drawScrollBars(DrawContext context) {
+	protected void drawScrollBars(DrawContext context, double mouseX, double mouseY) {
 		if (needsScrollY()) {
-			int scrollH = (int) (((float) getHeight() / getMaxScrollY()) * getHeight());
-			int scrollP = getY() - getInsideOffsetY();
+			int maxScroll = getMaxScrollY();
+			int scrollH = (int) (((float) getHeight() / maxScroll) * getHeight());
+			int scrollP = (int) (((float) -getInsideOffsetY() / (maxScroll - getHeight())) * (getHeight() - scrollH));
 			context.drawVerticalLine(
 					getX() + getWidth() - 1,
-					scrollP - 1,
-					scrollP + scrollH,
+					getY() + scrollP - 1,
+					getY() + scrollP + scrollH,
 					0xFF999999
 			);
 		}
 		if (needsScrollX()) {
-			int scrollH = (int) (((float) getWidth() / getMaxScrollX()) * getWidth());
-			int scrollP = getX() - getInsideOffsetX();
+			int maxScroll = getMaxScrollX();
+			int scrollW = (int) (((float) getWidth() / maxScroll) * getWidth());
+			int scrollP = (int) (((float) -getInsideOffsetX() / (maxScroll - getWidth())) * (getWidth() - scrollW));
 			context.drawHorizontalLine(
-					scrollP - 1,
-					scrollP + scrollH,
+					getX() + scrollP - 1,
+					getX() + scrollP + scrollW,
 					getY() + getHeight() - 1,
 					0xFF999999
 			);
 		}
 	}
 
-	protected void drawOutline(DrawContext context) {
+	protected void drawOutline(DrawContext context, double mouseX, double mouseY) {
 		DrawUtil.drawOutline(context, getX(), getY() - ((style & NO_TITLE) == 0 ? BAR_HEIGHT : 0), getWidth(), getHeight() + ((style & NO_TITLE) == 0 ? BAR_HEIGHT : 0));
 	}
 
-	protected void drawBackground(DrawContext context) {
+	protected void drawBackground(DrawContext context, double mouseX, double mouseY) {
 		context.fill(getX(), getY(), getX() + getWidth(), getY() + getHeight(), Colors.CLICKGUI_2.getColor().hashCode());
 	}
 
@@ -206,17 +220,20 @@ public class Window implements IWindow, Element {
 	@Override
 	public boolean mouseClicked(Click click, boolean doubled) {
 		if (click.button() == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
-			if (GuiUtil.mouseOverlap(click.x(), click.y(), getX() + getWidth() - 7, getY() - BAR_HEIGHT + 2, 5, 5) && (style & NO_TITLE) == 0) {
+			if ((style & NO_CLOSE) == 0 && GuiUtil.mouseOverlap(click.x(), click.y(), getX() + getWidth() - 7, getY() - BAR_HEIGHT + 2, 5, 5) && (style & NO_TITLE) == 0) {
 				remove(RemovalReason.CLOSED);
+				setFocused(true);
 				return true;
 			} else if (GuiUtil.mouseOverlap(click.x(), click.y(), getX(), getY() - BAR_HEIGHT, getWidth(), BAR_HEIGHT) && (style & NO_TITLE) == 0) {
 				dragging = true;
 				dragX = (int) click.x() - getX();
 				dragY = (int) click.y() - getY();
+				setFocused(true);
 				return true;
 			}
 		}
 		if (GuiUtil.mouseOverlap(click.x(), click.y(), getX(), getY(), getWidth(), getHeight())) {
+			setFocused(true);
 			for (Window window : children) {
 				window.mouseClicked(click, doubled);
 			}
@@ -292,6 +309,10 @@ public class Window implements IWindow, Element {
 	}
 
 	protected void text(String text, int x, int y, int color, boolean shadow) {
+		text(Text.of(text), x, y, color, shadow);
+	}
+
+	protected void text(Text text, int x, int y, int color, boolean shadow) {
 		drawContext.drawText(mc.textRenderer, text, getX() + x, getY() + y, color, shadow);
 	}
 
@@ -305,12 +326,14 @@ public class Window implements IWindow, Element {
 
 	@Override
 	public void setFocused(boolean focused) {
-
+		if (focused)
+			getRoot().getAllChildren().forEach(window -> window.setFocused(false));
+		this.focused = focused;
 	}
 
 	@Override
 	public boolean isFocused() {
-		return false;
+		return focused;
 	}
 
 	@Override
@@ -326,6 +349,18 @@ public class Window implements IWindow, Element {
 	}
 
 	@Override
+	public List<Window> getAllChildren() {
+		List<Window> list = new ArrayList<>(children);
+		children.forEach((c) -> list.addAll(c.getAllChildren()));
+		return list;
+	}
+
+	@Override
+	public boolean alwaysOnTop() {
+		return false;
+	}
+
+	@Override
 	public void setParent(IWindow parent) {
 		this.parent = parent;
 	}
@@ -338,6 +373,11 @@ public class Window implements IWindow, Element {
 	@Override
 	public IWindow getRoot() {
 		return parent.getRoot();
+	}
+
+	@Override
+	public WindowScreen getRootScreen() {
+		return getParent().getRootScreen();
 	}
 
 	@Override
@@ -366,8 +406,18 @@ public class Window implements IWindow, Element {
 	}
 
 	@Override
+	public void setInsideOffsetX(int insideOffsetX) {
+		this.insideOffsetX = insideOffsetX;
+	}
+
+	@Override
 	public int getInsideOffsetY() {
 		return insideOffsetY;
+	}
+
+	@Override
+	public void setInsideOffsetY(int insideOffsetY) {
+		this.insideOffsetY = insideOffsetY;
 	}
 
 	@Override
