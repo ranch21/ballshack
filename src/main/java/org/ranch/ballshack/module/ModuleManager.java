@@ -6,6 +6,10 @@ import org.ranch.ballshack.BallsLogger;
 import org.ranch.ballshack.module.modules.client.*;
 import org.ranch.ballshack.module.modules.combat.*;
 import org.ranch.ballshack.module.modules.fun.TestModule;
+import org.ranch.ballshack.module.modules.hud.ArmorHud;
+import org.ranch.ballshack.module.modules.hud.Coordinates;
+import org.ranch.ballshack.module.modules.hud.ModuleList;
+import org.ranch.ballshack.module.modules.hud.Watermark;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -82,6 +86,10 @@ public class ModuleManager {
 		register(new TestModule());
 
 		// hud
+		register(new ArmorHud());
+		register(new Coordinates());
+		register(new ModuleList());
+		register(new Watermark());
 
 		// movement
 

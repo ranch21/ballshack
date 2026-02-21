@@ -216,4 +216,9 @@ public class WindowScreen extends Screen implements IWindow {
 	public void setY(int y) {
 
 	}
+
+	@Override
+	public boolean shouldPause() {
+		return false;
+	}
 }

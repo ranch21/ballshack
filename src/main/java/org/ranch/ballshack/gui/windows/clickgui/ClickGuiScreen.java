@@ -54,7 +54,7 @@ public class ClickGuiScreen extends WindowScreen {
 			));
 		}
 
-		addChild(new ConsoleWindow("Console", 50,5, 4 * 40, 3 * 40));
+		addChild(new ConsoleWindow("Console", 50,200, 4 * 40, 3 * 40));
 	}
 
 	@Override

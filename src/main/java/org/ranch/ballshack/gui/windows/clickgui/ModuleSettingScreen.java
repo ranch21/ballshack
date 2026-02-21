@@ -34,6 +34,7 @@ public class ModuleSettingScreen extends WindowScreen {
 
 		int i = 0;
 		for (ModuleSettingsGroup group : module.getSettings()) {
+			if (group.getSettings().isEmpty()) continue;
 			addChild(new ModuleSettingWindow(
 					group,
 					i++ * (w + s) + s, textRenderer.fontHeight + s * 2,
