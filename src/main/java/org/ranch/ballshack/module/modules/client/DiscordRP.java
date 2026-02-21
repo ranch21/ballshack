@@ -17,7 +17,6 @@ import org.ranch.ballshack.setting.settings.NumberSetting;
 import org.ranch.ballshack.setting.settings.StringSetting;
 
 import java.time.Instant;
-import java.util.Arrays;
 
 import static org.ranch.ballshack.util.TextUtil.applyFormatting;
 
@@ -25,6 +24,7 @@ public class DiscordRP extends Module {
 	public DiscordRP(String name, ModuleCategory category, int bind) {
 		super(name, category, bind);
 	}
+
 	private static Core core;
 	private static Activity activity;
 

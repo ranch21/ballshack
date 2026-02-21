@@ -1,12 +1,8 @@
 package org.ranch.ballshack.setting.settings;
- 
-import com.google.gson.JsonObject;
+
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import org.ranch.ballshack.gui.windows.widgets.Widget;
-import org.ranch.ballshack.gui.windows.widgets.setting.ModeWidget;
-import org.ranch.ballshack.setting.ModuleSetting;
 import org.ranch.ballshack.util.PlayerUtil;
 
 import java.util.Comparator;

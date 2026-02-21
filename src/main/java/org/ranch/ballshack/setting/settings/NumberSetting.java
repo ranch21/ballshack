@@ -1,8 +1,8 @@
 package org.ranch.ballshack.setting.settings;
 
 import com.google.gson.JsonObject;
-import org.ranch.ballshack.gui.windows.widgets.setting.SliderWidget;
 import org.ranch.ballshack.gui.windows.widgets.Widget;
+import org.ranch.ballshack.gui.windows.widgets.setting.SliderWidget;
 import org.ranch.ballshack.setting.ModuleSetting;
 import org.ranch.ballshack.util.TextUtil;
 

@@ -1,12 +1,10 @@
 package org.ranch.ballshack.util.rendering;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.network.ClientPlayerLikeState;
-import net.minecraft.client.render.RawProjectionMatrix;
 import net.minecraft.client.render.command.OrderedRenderCommandQueue;
 import net.minecraft.client.render.state.CameraRenderState;
 import net.minecraft.client.util.math.MatrixStack;
@@ -16,7 +14,6 @@ import net.minecraft.util.math.RotationAxis;
 import net.minecraft.util.math.Vec3d;
 import org.joml.*;
 import org.ranch.ballshack.gui.Colors;
-import org.ranch.ballshack.mixin.GameRendererAccessor;
 import org.ranch.ballshack.mixin.GameRendererInvoker;
 import org.ranch.ballshack.util.TextUtil;
 

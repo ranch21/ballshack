@@ -7,7 +7,6 @@ import net.minecraft.client.network.ClientCommandSource;
 import org.ranch.ballshack.command.Command;
 import org.ranch.ballshack.command.CommandType;
 import org.ranch.ballshack.gui.ThemeManager;
-import org.ranch.ballshack.module.ModuleManager;
 
 public class ThemeCommand extends Command {
 	public ThemeCommand() {

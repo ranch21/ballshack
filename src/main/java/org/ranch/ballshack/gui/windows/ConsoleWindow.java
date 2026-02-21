@@ -1,14 +1,11 @@
 package org.ranch.ballshack.gui.windows;
 
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.realms.util.TextRenderingUtils;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.OrderedText;
 import net.minecraft.text.Text;
-import org.joml.Matrix3x2fStack;
 import org.ranch.ballshack.BallsLogger;
 import org.ranch.ballshack.gui.windows.widgets.TextWidget;
-import org.ranch.ballshack.util.TextUtil;
 
 public class ConsoleWindow extends Window {
 

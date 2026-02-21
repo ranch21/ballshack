@@ -16,7 +16,6 @@ import org.ranch.ballshack.gui.windows.WindowScreen;
 import org.ranch.ballshack.module.Module;
 import org.ranch.ballshack.module.ModuleCategory;
 import org.ranch.ballshack.module.ModuleManager;
-import org.ranch.ballshack.module.modules.client.ClickGui;
 import org.ranch.ballshack.setting.Setting;
 
 import java.awt.*;
@@ -54,7 +53,7 @@ public class ClickGuiScreen extends WindowScreen {
 			));
 		}
 
-		addChild(new ConsoleWindow("Console", 50,200, 4 * 40, 3 * 40));
+		addChild(new ConsoleWindow("Console", 50, 200, 4 * 40, 3 * 40));
 	}
 
 	@Override

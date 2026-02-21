@@ -21,7 +21,6 @@ import org.ranch.ballshack.util.Rotation;
 import org.ranch.ballshack.util.RotationUtil;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class AimAssist extends Module {

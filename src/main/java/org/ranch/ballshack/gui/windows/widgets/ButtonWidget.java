@@ -2,11 +2,9 @@ package org.ranch.ballshack.gui.windows.widgets;
 
 import net.minecraft.client.gui.Click;
 import net.minecraft.client.gui.DrawContext;
-import org.ranch.ballshack.gui.Colors;
 import org.ranch.ballshack.gui.windows.Window;
 
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 
 public class ButtonWidget extends PressableWidget {
 
@@ -18,7 +16,8 @@ public class ButtonWidget extends PressableWidget {
 	}
 
 	public ButtonWidget(String title, int x, int y, int width, int height) {
-		this(title, x, y, width, height, (w, c) -> {});
+		this(title, x, y, width, height, (w, c) -> {
+		});
 	}
 
 	public void setCallback(BiConsumer<Window, Click> callback) {

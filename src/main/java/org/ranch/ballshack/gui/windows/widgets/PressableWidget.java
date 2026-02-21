@@ -2,7 +2,6 @@ package org.ranch.ballshack.gui.windows.widgets;
 
 import net.minecraft.client.gui.Click;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.cursor.Cursor;
 import net.minecraft.client.gui.cursor.StandardCursors;
 import org.ranch.ballshack.gui.Colors;
 

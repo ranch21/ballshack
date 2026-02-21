@@ -2,7 +2,6 @@ package org.ranch.ballshack.module;
 
 import net.minecraft.client.input.KeyInput;
 import org.lwjgl.glfw.GLFW;
-import org.ranch.ballshack.BallsLogger;
 import org.ranch.ballshack.module.modules.client.*;
 import org.ranch.ballshack.module.modules.combat.*;
 import org.ranch.ballshack.module.modules.fun.TestModule;
@@ -10,6 +9,9 @@ import org.ranch.ballshack.module.modules.hud.ArmorHud;
 import org.ranch.ballshack.module.modules.hud.Coordinates;
 import org.ranch.ballshack.module.modules.hud.ModuleList;
 import org.ranch.ballshack.module.modules.hud.Watermark;
+import org.ranch.ballshack.module.modules.movement.*;
+import org.ranch.ballshack.module.modules.player.*;
+import org.ranch.ballshack.module.modules.render.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,7 +52,7 @@ public class ModuleManager {
 	public static <T extends Module> T getModuleByClass(Class<T> clazz) {
 		for (Module module : modules) {
 			if (module.getClass() == clazz) {
-				return (T)module;
+				return (T) module;
 			}
 		}
 		return null;
@@ -92,10 +94,33 @@ public class ModuleManager {
 		register(new Watermark());
 
 		// movement
+		register(new Boatfly());
+		register(new Flight());
+		register(new InfiniteElytraGlide());
+		register(new Jesus());
+		register(new SafeWalk());
+		register(new Sprint());
 
 		// player
+		register(new AntiHunger());
+		register(new AutoRespawn());
+		register(new AutoTool());
+		register(new AutoWalk());
+		register(new NoFall());
 
 		// render
+		register(new BlockHighlight());
+		register(new ChestESP());
+		register(new Debug());
+		register(new ESP());
+		register(new Tracers());
+		register(new Trajectories());
+		register(new Nametags());
+		register(new FreeLook());
+		register(new Search());
+		register(new ThirdPersonCam());
+		register(new HoleESP());
+		register(new Environment());
 
 		// world
 	}

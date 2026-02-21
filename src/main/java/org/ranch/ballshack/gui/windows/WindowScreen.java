@@ -9,7 +9,6 @@ import net.minecraft.text.Text;
 import org.joml.Matrix3x2fStack;
 import org.ranch.ballshack.util.rendering.DrawUtil;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 

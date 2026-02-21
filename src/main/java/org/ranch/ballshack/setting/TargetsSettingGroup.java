@@ -1,10 +1,7 @@
 package org.ranch.ballshack.setting;
- 
+
 import org.ranch.ballshack.setting.settings.BooleanSetting;
 import org.ranch.ballshack.util.EntityUtil;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class TargetsSettingGroup extends ModuleSettingsGroup {
 

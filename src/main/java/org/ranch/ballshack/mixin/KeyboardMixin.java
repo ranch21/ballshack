@@ -5,7 +5,6 @@ import net.minecraft.client.gui.screen.ChatScreen;
 import net.minecraft.client.input.KeyInput;
 import org.lwjgl.glfw.GLFW;
 import org.ranch.ballshack.BallsHack;
-import org.ranch.ballshack.BallsLogger;
 import org.ranch.ballshack.command.CommandManager;
 import org.ranch.ballshack.event.events.EventKeyPress;
 import org.ranch.ballshack.module.ModuleManager;

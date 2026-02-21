@@ -4,12 +4,8 @@ import net.minecraft.client.gui.Click;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.input.KeyInput;
 import org.lwjgl.glfw.GLFW;
-import org.ranch.ballshack.gui.Colors;
-import org.ranch.ballshack.gui.GuiUtil;
-import org.ranch.ballshack.gui.windows.RemovalReason;
 import org.ranch.ballshack.gui.windows.widgets.Widget;
 import org.ranch.ballshack.setting.settings.BindSetting;
-import org.ranch.ballshack.setting.settings.ModeSetting;
 
 public class BindWidget extends SettingWidget<Integer> {
 

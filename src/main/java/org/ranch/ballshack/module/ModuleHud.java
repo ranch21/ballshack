@@ -1,7 +1,6 @@
 package org.ranch.ballshack.module;
 
 import org.jetbrains.annotations.Nullable;
-import org.ranch.ballshack.setting.HudElementData;
 import org.ranch.ballshack.util.rendering.DrawUtil;
 
 public class ModuleHud extends Module {

@@ -1,7 +1,5 @@
 package org.ranch.ballshack.gui.windows.widgets.setting;
 
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.Click;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.input.CharInput;
@@ -10,13 +8,10 @@ import net.minecraft.util.StringHelper;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.MathHelper;
 import org.lwjgl.glfw.GLFW;
-import org.ranch.ballshack.gui.Colors;
-import org.ranch.ballshack.gui.GuiUtil;
 import org.ranch.ballshack.gui.windows.widgets.Widget;
 import org.ranch.ballshack.setting.ISetting;
 import org.ranch.ballshack.setting.settings.StringSetting;
 import org.ranch.ballshack.util.TextUtil;
-import org.ranch.ballshack.util.rendering.DrawUtil;
 
 import java.awt.*;
 import java.util.List;

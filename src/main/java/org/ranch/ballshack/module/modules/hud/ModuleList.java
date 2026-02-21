@@ -14,7 +14,6 @@ import org.ranch.ballshack.setting.settings.BooleanSetting;
 import org.ranch.ballshack.setting.settings.ModeSetting;
 
 import java.awt.*;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Random;

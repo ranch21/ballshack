@@ -2,14 +2,8 @@ package org.ranch.ballshack.module.modules.client;
 
 import net.minecraft.client.MinecraftClient;
 import org.lwjgl.glfw.GLFW;
-import org.ranch.ballshack.BallsLogger;
-import org.ranch.ballshack.event.EventSubscribe;
-import org.ranch.ballshack.event.NoWorld;
-import org.ranch.ballshack.event.events.EventScreen;
-import org.ranch.ballshack.event.events.EventTick;
-import org.ranch.ballshack.gui.windows.WindowScreen;
-import org.ranch.ballshack.gui.windows.clickgui.ClickGuiScreen;
 import org.ranch.ballshack.gui.legacy.LegacyClickGuiScreen;
+import org.ranch.ballshack.gui.windows.clickgui.ClickGuiScreen;
 import org.ranch.ballshack.module.Module;
 import org.ranch.ballshack.module.ModuleCategory;
 import org.ranch.ballshack.module.ModuleManager;

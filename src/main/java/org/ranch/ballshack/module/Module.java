@@ -19,11 +19,11 @@ public abstract class Module {
 
 	protected final MinecraftClient mc = MinecraftClient.getInstance();
 	protected final List<ModuleSettingsGroup> settings = new ArrayList<>();
-	protected final ModuleSettingsGroup dGroup = new ModuleSettingsGroup("General");
-	protected final ModuleSettingsGroup bGroup = new ModuleSettingsGroup("Bind");
-	protected final BindSetting bindSetting = bGroup.add(new BindSetting("Bind", BindSetting.NONE));
-	protected final BooleanSetting alertSetting = bGroup.add(new BooleanSetting("Notify", true));
-	protected final BooleanSetting holdSetting = bGroup.add(new BooleanSetting("Hold", false));
+	public final ModuleSettingsGroup dGroup = new ModuleSettingsGroup("General");
+	public final ModuleSettingsGroup bGroup = new ModuleSettingsGroup("Bind");
+	public final BindSetting bindSetting = bGroup.add(new BindSetting("Bind", BindSetting.NONE));
+	public final BooleanSetting alertSetting = bGroup.add(new BooleanSetting("Notify", true));
+	public final BooleanSetting holdSetting = bGroup.add(new BooleanSetting("Hold", false));
 	private final String name;
 	private final ModuleCategory category;
 	private Boolean subscribed;
@@ -84,7 +84,7 @@ public abstract class Module {
 		return settings;
 	}
 
-	public ModuleSettingsGroup addGroup(ModuleSettingsGroup group) {
+	public <G extends ModuleSettingsGroup> G addGroup(G group) {
 		settings.add(group);
 		return group;
 	}

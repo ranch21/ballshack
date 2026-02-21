@@ -1,5 +1,5 @@
 package org.ranch.ballshack.module.modules.combat;
- 
+
 import net.minecraft.entity.Entity;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.EntityHitResult;

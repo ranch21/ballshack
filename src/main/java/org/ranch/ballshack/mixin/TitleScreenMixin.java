@@ -6,7 +6,6 @@ import net.minecraft.client.gui.tooltip.Tooltip;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.text.Text;
 import org.ranch.ballshack.BallsHack;
-import org.ranch.ballshack.gui.windows.clickgui.ClickGuiScreen;
 import org.ranch.ballshack.gui.scanner.ServerScannerScreen;
 import org.ranch.ballshack.module.ModuleManager;
 import org.ranch.ballshack.module.modules.client.ClickGui;

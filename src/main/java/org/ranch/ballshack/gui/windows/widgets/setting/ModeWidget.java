@@ -7,7 +7,6 @@ import org.ranch.ballshack.gui.Colors;
 import org.ranch.ballshack.gui.GuiUtil;
 import org.ranch.ballshack.gui.windows.RemovalReason;
 import org.ranch.ballshack.gui.windows.widgets.Widget;
-import org.ranch.ballshack.setting.ISetting;
 import org.ranch.ballshack.setting.settings.ModeSetting;
 
 public class ModeWidget<E extends Enum<?>> extends SettingWidget<E> {
@@ -39,7 +38,7 @@ public class ModeWidget<E extends Enum<?>> extends SettingWidget<E> {
 
 			dropdown = new Dropdown("Select",
 					getX(), getY(), getWidth(),
-					getHeight() * ((ModeSetting<E>)setting).getEnumValues().length, (ModeSetting<E>) setting
+					getHeight() * ((ModeSetting<E>) setting).getEnumValues().length, (ModeSetting<E>) setting
 			);
 
 			getRoot().addChild(dropdown);
@@ -76,7 +75,8 @@ public class ModeWidget<E extends Enum<?>> extends SettingWidget<E> {
 			for (E mode : ((ModeSetting<E>) setting).getEnumValues()) {
 
 				int col = Colors.CLICKGUI_2.getColor().hashCode();
-				if (GuiUtil.mouseOverlap(mouseX, mouseY, getX(), getY() + i * h, getWidth(), h)) col = Colors.SELECTABLE.getColor().darker().hashCode();
+				if (GuiUtil.mouseOverlap(mouseX, mouseY, getX(), getY() + i * h, getWidth(), h))
+					col = Colors.SELECTABLE.getColor().darker().hashCode();
 				if (setting.getValue() == mode) col = Colors.SELECTABLE.getColor().hashCode();
 
 				fill(0, i * h, getWidth(), i * h + h, col);

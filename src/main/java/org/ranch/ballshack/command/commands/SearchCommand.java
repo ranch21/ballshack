@@ -14,6 +14,7 @@ import net.minecraft.util.Identifier;
 import org.ranch.ballshack.command.Command;
 import org.ranch.ballshack.command.CommandType;
 import org.ranch.ballshack.module.ModuleManager;
+import org.ranch.ballshack.module.modules.render.Search;
 
 public class SearchCommand extends Command {
 	public SearchCommand() {
@@ -27,11 +28,11 @@ public class SearchCommand extends Command {
 	@Override
 	public LiteralArgumentBuilder<ClientCommandSource> onRegister(LiteralArgumentBuilder<ClientCommandSource> builder) {
 
-		/*return builder
+		return builder
 				.then(LiteralArgumentBuilder.<ClientCommandSource>literal("add")
 						.then(RequiredArgumentBuilder.<ClientCommandSource, BlockStateArgument>argument("block", BlockStateArgumentType.blockState(getRegistry()))
 								.executes(context -> {
-									Search search = (Search) ModuleManager.getModuleByName("search");
+									Search search = ModuleManager.getModuleByClass(Search.class);
 									Identifier id = Registries.BLOCK.getId(context.getArgument("block", BlockStateArgument.class).getBlockState().getBlock());
 									search.blocks.getValue().add(id);
 									search.reload();
@@ -41,13 +42,13 @@ public class SearchCommand extends Command {
 				.then(LiteralArgumentBuilder.<ClientCommandSource>literal("remove")
 						.then(RequiredArgumentBuilder.<ClientCommandSource, String>argument("block", StringArgumentType.greedyString())
 								.suggests((context, builder2) -> {
-									for (Identifier id : ((Search) ModuleManager.getModuleByName("search")).blocks.getValue()) {
+									for (Identifier id : ModuleManager.getModuleByClass(Search.class).blocks.getValue()) {
 										builder2.suggest(id.toString());
 									}
 									return builder2.buildFuture();
 								})
 								.executes(context -> {
-									Search search = (Search) ModuleManager.getModuleByName("search");
+									Search search = ModuleManager.getModuleByClass(Search.class);
 									Identifier id = Identifier.of(StringArgumentType.getString(context, "block"));
 									if (search.blocks.getValue().contains(id)) {
 										search.blocks.getValue().remove(id);
@@ -60,14 +61,14 @@ public class SearchCommand extends Command {
 								})))
 				.then(LiteralArgumentBuilder.<ClientCommandSource>literal("reload")
 						.executes(context -> {
-							Search search = (Search) ModuleManager.getModuleByName("search");
+							Search search = ModuleManager.getModuleByClass(Search.class);
 							search.reload();
 							log(CMD(": ").append(Text.literal("Reloaded chunks").formatted(Formatting.GRAY)));
 							return 0;
 						}))
 				.then(LiteralArgumentBuilder.<ClientCommandSource>literal("clear")
 						.executes(context -> {
-							Search search = (Search) ModuleManager.getModuleByName("search");
+							Search search = ModuleManager.getModuleByClass(Search.class);
 							search.blocks.getValue().clear();
 							search.reload();
 							log(CMD(": ").append(Text.literal("Cleared blocks").formatted(Formatting.GRAY)));
@@ -75,13 +76,12 @@ public class SearchCommand extends Command {
 						}))
 				.then(LiteralArgumentBuilder.<ClientCommandSource>literal("list")
 						.executes(context -> {
-							Search search = (Search) ModuleManager.getModuleByName("search");
+							Search search = ModuleManager.getModuleByClass(Search.class);
 							log(CMD(": "));
 							for (Identifier id : search.blocks.getValue()) {
 								log(Text.literal(id.toString()).formatted(Formatting.GRAY));
 							}
 							return 0;
-						}));*/
-		return builder;
+						}));
 	}
 }

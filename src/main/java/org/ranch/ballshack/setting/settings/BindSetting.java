@@ -1,7 +1,6 @@
 package org.ranch.ballshack.setting.settings;
 
 import com.google.gson.JsonObject;
-import net.minecraft.client.input.KeyInput;
 import org.ranch.ballshack.gui.windows.widgets.Widget;
 import org.ranch.ballshack.gui.windows.widgets.setting.BindWidget;
 import org.ranch.ballshack.setting.ModuleSetting;

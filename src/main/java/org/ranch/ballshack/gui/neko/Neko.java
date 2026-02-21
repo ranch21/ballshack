@@ -9,7 +9,6 @@ import org.ranch.ballshack.event.EventSubscribe;
 import org.ranch.ballshack.event.NoWorld;
 import org.ranch.ballshack.event.events.EventHudRender;
 import org.ranch.ballshack.event.events.EventScreen;
-
 import org.ranch.ballshack.module.ModuleManager;
 import org.ranch.ballshack.module.modules.client.NekoModule;
 
@@ -34,15 +33,24 @@ public class Neko {
 			int sector = Math.round(angle / (float) (Math.PI / 4)) % 8;
 
 			switch (sector) {
-				case 0: return RIGHT;
-				case 1: return DOWN_RIGHT;
-				case 2: return DOWN;
-				case 3: return DOWN_LEFT;
-				case 4: return LEFT;
-				case 5: return UP_LEFT;
-				case 6: return UP;
-				case 7: return UP_RIGHT;
-				default: return null;
+				case 0:
+					return RIGHT;
+				case 1:
+					return DOWN_RIGHT;
+				case 2:
+					return DOWN;
+				case 3:
+					return DOWN_LEFT;
+				case 4:
+					return LEFT;
+				case 5:
+					return UP_LEFT;
+				case 6:
+					return UP;
+				case 7:
+					return UP_RIGHT;
+				default:
+					return null;
 			}
 		}
 	}
