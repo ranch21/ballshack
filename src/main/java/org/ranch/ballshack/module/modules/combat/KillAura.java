@@ -12,16 +12,12 @@ import org.ranch.ballshack.module.ModuleCategory;
 import org.ranch.ballshack.setting.ModuleSettingsGroup;
 import org.ranch.ballshack.setting.TargetsSettingGroup;
 import org.ranch.ballshack.setting.settings.BooleanSetting;
-import org.ranch.ballshack.setting.settings.ModeSetting;
 import org.ranch.ballshack.setting.settings.NumberSetting;
+import org.ranch.ballshack.setting.settings.RotateModeSetting;
 import org.ranch.ballshack.setting.settings.SortModeSetting;
 import org.ranch.ballshack.util.*;
 
 public class KillAura extends Module {
-
-	public static enum RotateMode {
-		NONE, PACKET, TRUE
-	}
 
 	public final NumberSetting range = dGroup.add(new NumberSetting("Range", 4).min(1).max(8).step(0.5));
 
@@ -29,12 +25,12 @@ public class KillAura extends Module {
 	public final BooleanSetting mEnabled = mGroup.add(new BooleanSetting("Enabled", false));
 	public final NumberSetting mTargetMax = mGroup.add(new NumberSetting("Targets", 2).min(2).max(10).step(1));
 
-	public final TargetsSettingGroup targets = (TargetsSettingGroup) addGroup(new TargetsSettingGroup("Targets"));
-	public final ModeSetting<RotateMode> rotate = dGroup.add(new ModeSetting<>("Rotate", RotateMode.NONE, RotateMode.values()).featured());
+	public final TargetsSettingGroup targets = addGroup(new TargetsSettingGroup("Targets"));
+	public final RotateModeSetting rotate = dGroup.add(new RotateModeSetting("Rotate"));
 
-	public final BooleanSetting randomNoise = dGroup.add(new BooleanSetting("Noise", true).depends(() -> rotate.getValue() == RotateMode.TRUE));
-	public final BooleanSetting freeLook = dGroup.add(new BooleanSetting("FreeLook", true).depends(() -> rotate.getValue() == RotateMode.TRUE));
-	public final BooleanSetting slowRotate = dGroup.add(new BooleanSetting("SlowRotate", true).depends(() -> rotate.getValue() == RotateMode.TRUE));
+	public final BooleanSetting randomNoise = dGroup.add(new BooleanSetting("Noise", true).depends(() -> rotate.getValue() == RotateModeSetting.RotateMode.TRUE));
+	public final BooleanSetting freeLook = dGroup.add(new BooleanSetting("FreeLook", true).depends(() -> rotate.getValue() == RotateModeSetting.RotateMode.TRUE));
+	public final BooleanSetting slowRotate = dGroup.add(new BooleanSetting("SlowRotate", true).depends(() -> rotate.getValue() == RotateModeSetting.RotateMode.TRUE));
 	public final NumberSetting rotSpeed = dGroup.add(new NumberSetting("RotateSpeed", 5).min(2).max(60).step(1).depends(slowRotate::getValue));
 	public final BooleanSetting swing = dGroup.add(new BooleanSetting("Swing", true));
 	public final SortModeSetting sort = dGroup.add(new SortModeSetting("Sort"));
@@ -55,7 +51,7 @@ public class KillAura extends Module {
 
 			FreelookHandler.setEnabled(freeLook.getValue() && freeLook.dependencyMet());
 
-			RotateMode mode = rotate.getValue();
+			RotateModeSetting.RotateMode mode = rotate.getValue();
 			boolean attack = false;
 
 			switch (mode) {

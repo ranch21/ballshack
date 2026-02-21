@@ -12,6 +12,7 @@ import org.ranch.ballshack.module.modules.hud.Watermark;
 import org.ranch.ballshack.module.modules.movement.*;
 import org.ranch.ballshack.module.modules.player.*;
 import org.ranch.ballshack.module.modules.render.*;
+import org.ranch.ballshack.module.modules.world.Scaffold;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -123,5 +124,6 @@ public class ModuleManager {
 		register(new Environment());
 
 		// world
+		register(new Scaffold());
 	}
 }
