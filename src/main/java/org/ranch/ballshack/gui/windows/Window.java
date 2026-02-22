@@ -28,6 +28,7 @@ public class Window implements IWindow, Element {
 	public static final int NO_FILL = 4;
 	public static final int NO_SCROLL = 8;
 	public static final int NO_CLOSE = 16;
+	public static final int INDENTED = 32;
 
 	protected Identifier CLOSE_TEXTURE = Identifier.of(BallsHack.ID, "textures/gui/close.png");
 
@@ -44,7 +45,7 @@ public class Window implements IWindow, Element {
 	private int insideOffsetX;
 	private int insideOffsetY;
 
-	public final int BAR_HEIGHT = 10;
+	public final int BAR_HEIGHT = 11;
 
 	public final String title;
 
@@ -78,11 +79,13 @@ public class Window implements IWindow, Element {
 	public void render(DrawContext context, double mouseX, double mouseY) {
 		this.drawContext = context;
 
+		handleDrag(mouseX, mouseY);
+
 		if ((style & NO_BORDER) == 0)
 			drawOutline(context, mouseX, mouseY);
 
 		if ((style & NO_TITLE) == 0) {
-			if ((style & NO_CLOSE) == 0 && GuiUtil.mouseOverlap(mouseX, mouseY, getX() + getWidth() - 7, getY() - BAR_HEIGHT + 2, 5, 5)) {
+			if ((style & NO_CLOSE) == 0 && GuiUtil.mouseOverlap(mouseX, mouseY, getX() + getWidth() - 10, getY() - BAR_HEIGHT + 1, 9, 9)) {
 				context.setCursor(StandardCursors.POINTING_HAND);
 			}
 			drawTitle(context, mouseX, mouseY);
@@ -118,11 +121,11 @@ public class Window implements IWindow, Element {
 			context.drawTexture(
 					RenderPipelines.GUI_TEXTURED,
 					CLOSE_TEXTURE,
-					getX() + getWidth() - 7,
-					getY() - BAR_HEIGHT + 2,
+					getX() + getWidth() - 10,
+					getY() - BAR_HEIGHT + 1,
 					0, 0,
-					5, 5,
-					5, 5
+					9, 9,
+					9, 9
 			);
 		}
 	}
@@ -153,11 +156,23 @@ public class Window implements IWindow, Element {
 	}
 
 	protected void drawOutline(DrawContext context, double mouseX, double mouseY) {
-		DrawUtil.drawOutline(context, getX(), getY() - ((style & NO_TITLE) == 0 ? BAR_HEIGHT : 0), getWidth(), getHeight() + ((style & NO_TITLE) == 0 ? BAR_HEIGHT : 0));
+		if ((style & INDENTED) == 0) {
+			DrawUtil.drawOutline(context, getX(), getY() - ((style & NO_TITLE) == 0 ? BAR_HEIGHT : 0), getWidth(), getHeight() + ((style & NO_TITLE) == 0 ? BAR_HEIGHT : 0));
+		} else {
+			DrawUtil.drawOutline(
+					context,
+					getX(), getY() - ((style & NO_TITLE) == 0 ? BAR_HEIGHT : 0),
+					getWidth(), getHeight() + ((style & NO_TITLE) == 0 ? BAR_HEIGHT : 0),
+					Colors.BORDER_BOTTOM.getColor(), Colors.BORDER_TOP.getColor());
+		}
 	}
 
 	protected void drawBackground(DrawContext context, double mouseX, double mouseY) {
-		context.fill(getX(), getY(), getX() + getWidth(), getY() + getHeight(), Colors.FILL.getColor().hashCode());
+		if ((style & INDENTED) == 0) {
+			context.fill(getX(), getY(), getX() + getWidth(), getY() + getHeight(), Colors.FILL.getColor().hashCode());
+		} else {
+			context.fill(getX(), getY(), getX() + getWidth(), getY() + getHeight(), Colors.FILL_DARK.getColor().hashCode());
+		}
 	}
 
 	public RemovalReason getRemovalReason() {
@@ -216,7 +231,7 @@ public class Window implements IWindow, Element {
 	@Override
 	public boolean mouseClicked(Click click, boolean doubled) {
 		if (click.button() == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
-			if ((style & NO_CLOSE) == 0 && GuiUtil.mouseOverlap(click.x(), click.y(), getX() + getWidth() - 7, getY() - BAR_HEIGHT + 2, 5, 5) && (style & NO_TITLE) == 0) {
+			if ((style & NO_CLOSE) == 0 && GuiUtil.mouseOverlap(click.x(), click.y(), getX() + getWidth() - 10, getY() - BAR_HEIGHT + 1, 9, 9) && (style & NO_TITLE) == 0) {
 				remove(RemovalReason.CLOSED);
 				setFocused(true);
 				return true;
@@ -286,6 +301,13 @@ public class Window implements IWindow, Element {
 	public boolean charTyped(CharInput input) {
 		children.forEach(window -> window.charTyped(input));
 		return false;
+	}
+
+	protected void handleDrag(double mouseX, double mouseY) {
+		if (dragging) {
+			x = (int) (mouseX - dragX);
+			y = (int) (mouseY - dragY);
+		}
 	}
 
 	protected void fill(int x1, int y1, int x2, int y2, int color) {

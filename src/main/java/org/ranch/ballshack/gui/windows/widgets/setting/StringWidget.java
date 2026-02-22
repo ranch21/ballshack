@@ -23,6 +23,7 @@ public class StringWidget extends SettingWidget<String> {
 
 	public StringWidget(String title, int x, int y, int width, int height, ISetting<String> setting) {
 		super(title, x, y, width, height, setting);
+		addFlags(INDENTED);
 	}
 
 	@Override

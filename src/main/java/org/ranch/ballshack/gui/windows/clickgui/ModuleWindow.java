@@ -31,6 +31,11 @@ public class ModuleWindow extends ButtonWidget {
 	@Override
 	public void render(DrawContext context, double mouseX, double mouseY) {
 		super.render(context, mouseX, mouseY);
+		if (module.isEnabled()) {
+			addFlags(INDENTED);
+		} else {
+			removeFlags(INDENTED);
+		}
 		if (overlaps(mouseX, mouseY)) {
 			DrawUtil.queueTooltip(getX() + getWidth(), getY(), module.getTooltip());
 		}
@@ -38,12 +43,6 @@ public class ModuleWindow extends ButtonWidget {
 
 	@Override
 	protected void drawBackground(DrawContext context, double mouseX, double mouseY) {
-		if (overlaps(mouseX, mouseY)) {
-			fill(0, 0, getWidth(), getHeight(), Colors.SELECTABLE.getColor().hashCode());
-		} else if (module.isEnabled()) {
-			fill(0, 0, getWidth(), getHeight(), Colors.SELECTABLE.getColor().hashCode());
-		} else {
-			fill(0, 0, getWidth(), getHeight(), Colors.FILL.getColor().hashCode());
-		}
+		super.drawBackground(context, mouseX, mouseY);
 	}
 }

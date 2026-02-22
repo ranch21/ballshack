@@ -13,7 +13,7 @@ public class ThirdPersonCam extends Module {
 	public final NumberSetting zOffset = dGroup.add(new NumberSetting("ZOffset", 0).min(-5).max(5).step(0.25));
 
 	public ThirdPersonCam() {
-		super("ThirdPersonCam", ModuleCategory.RENDER, 0, "stuff it into the wall");
+		super("BetterF5", ModuleCategory.RENDER, 0, "stuff it into the wall");
 	}
 
 	@EventSubscribe

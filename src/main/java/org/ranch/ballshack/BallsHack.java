@@ -10,6 +10,7 @@ import org.ranch.ballshack.gui.ThemeManager;
 import org.ranch.ballshack.gui.neko.Neko;
 import org.ranch.ballshack.gui.windows.clickgui.ClickGuiScreen;
 import org.ranch.ballshack.module.ModuleManager;
+import org.ranch.ballshack.module.modules.client.Themes;
 import org.ranch.ballshack.setting.ModuleSettingSaver;
 import org.ranch.ballshack.setting.Setting;
 import org.ranch.ballshack.setting.SettingsManager;
@@ -43,7 +44,7 @@ public class BallsHack implements ModInitializer {
 		DatabaseFetcher.registerSettings();
 
 		if (ThemeManager.loaded.getValue()) {
-			//ThemeManager.loadTheme(((Themes) ModuleManager.getModuleByName("themes")).theme.getValue());
+			ThemeManager.loadTheme((ModuleManager.getModuleByClass(Themes.class)).theme.getValue());
 		}
 
 		FriendManager.set();

@@ -25,7 +25,7 @@ public abstract class PressableWidget extends Widget {
 		if (overlaps(mouseX, mouseY)) {
 			fill(0, 0, getWidth(), getHeight(), Colors.SELECTABLE.getColor().hashCode());
 		} else {
-			fill(0, 0, getWidth(), getHeight(), Colors.FILL.getColor().hashCode());
+			super.drawBackground(context, mouseX, mouseY);
 		}
 	}
 

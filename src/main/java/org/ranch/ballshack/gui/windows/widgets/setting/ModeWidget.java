@@ -18,6 +18,7 @@ public class ModeWidget<E extends Enum<?>> extends SettingWidget<E> {
 
 	public ModeWidget(String title, int x, int y, int width, int height, ModeSetting<E> setting) {
 		super(title, x, y, width, height, setting);
+		addFlags(INDENTED);
 	}
 
 	@Override

@@ -10,6 +10,7 @@ public class CheckboxWidget extends SettingWidget<Boolean> {
 
 	public CheckboxWidget(String title, int x, int y, int width, int height, ISetting<Boolean> setting) {
 		super(title, x, y, width, height, setting);
+		addFlags(INDENTED);
 	}
 
 	@Override

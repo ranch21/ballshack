@@ -11,6 +11,7 @@ public class BindWidget extends SettingWidget<Integer> {
 
 	public BindWidget(String title, int x, int y, int width, int height, BindSetting setting) {
 		super(title, x, y, width, height, setting);
+		addFlags(INDENTED);
 	}
 
 	@Override
