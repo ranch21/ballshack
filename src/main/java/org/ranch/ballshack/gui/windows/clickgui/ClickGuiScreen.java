@@ -16,7 +16,7 @@ import org.ranch.ballshack.gui.windows.WindowScreen;
 import org.ranch.ballshack.module.Module;
 import org.ranch.ballshack.module.ModuleCategory;
 import org.ranch.ballshack.module.ModuleManager;
-import org.ranch.ballshack.setting.Setting;
+import org.ranch.ballshack.setting.ClientSetting;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -27,9 +27,6 @@ public class ClickGuiScreen extends WindowScreen {
 	// how the fuck did that buttonwidget survive so much :sob: :sob: :sob: :sob:
 	// update: its back
 	ButtonWidget button;
-	public static final Setting<List<WindowData>> windowData = new Setting<>(new ArrayList<>(), "windowData", new TypeToken<List<WindowData>>() {
-	}.getType());
-
 
 	public ClickGuiScreen(Screen parent) {
 		super(parent);
@@ -61,14 +58,14 @@ public class ClickGuiScreen extends WindowScreen {
 		super.render(context, mouseX, mouseY, delta);
 
 		TextRenderer textRend = MinecraftClient.getInstance().textRenderer;
-		context.drawText(textRend, BallsHack.title.getValue(), 5, 5, Colors.PALETTE_1.getColor().hashCode(), true);
+		context.drawText(textRend, BallsHack.title.getValue(), 5, 5, 0xFFFFFFFF, true);
 		context.drawText(textRend, BallsHack.version, 5 + textRend.getWidth(BallsHack.title.getValue() + " "), 5, Color.WHITE.hashCode(), true);
 	}
 
 	@Override
 	public boolean keyPressed(KeyInput input) {
 		if (input.getKeycode() == GLFW.GLFW_KEY_ESCAPE)
-			client.setScreen(parent);
+			client.setScreen(null);
 		return super.keyPressed(input);
 	}
 }

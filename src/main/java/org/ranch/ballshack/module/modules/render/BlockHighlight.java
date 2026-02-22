@@ -24,7 +24,7 @@ public class BlockHighlight extends Module {
 	public final NumberSetting alpha = dGroup.add(new NumberSetting("Alpha", 0.2f).min(0).max(1).step(0.1));
 
 	public BlockHighlight() {
-		super("BlockOutline", ModuleCategory.RENDER, 0, "look its purple now!");
+		super("BlockOutline", ModuleCategory.RENDER, 0, "look its yellow now!");
 	}
 
 	@EventSubscribe
@@ -38,7 +38,7 @@ public class BlockHighlight extends Module {
 		if (mc.world == null) // duh
 			return;
 
-		Color c = Colors.PALETTE_1.getColor();
+		Color c = Colors.SELECTED.getColor();
 
 		Renderer renderer = Renderer.getInstance();
 

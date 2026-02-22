@@ -37,7 +37,7 @@ public class Debug extends Module {
 		//test shapes
 		Vec3d offset1 = lpos.add(3, 0, 3);
 		renderer.queueCube(new Box(offset1, offset1.add(1, 1, 1)), Colors.HUD_BACKGROUND.getColor(), matrices);
-		renderer.queueCubeOutline(new Box(offset1, offset1.add(1, 1, 1)), Colors.PALETTE_1.getColor(), matrices);
+		renderer.queueCubeOutline(new Box(offset1, offset1.add(1, 1, 1)), Colors.SELECTED.getColor(), matrices);
 
 		//stresstest
 		Vec3d offset2 = lpos.add(3, 0, -3);

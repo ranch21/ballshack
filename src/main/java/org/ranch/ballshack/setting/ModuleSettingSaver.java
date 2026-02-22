@@ -28,21 +28,11 @@ public class ModuleSettingSaver {
 	private static final ScheduledExecutorService SAVE_EXECUTOR = Executors.newSingleThreadScheduledExecutor();
 
 	static {
-		Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-			try {
-				save();
-			} catch (IOException e) {
-				throw new RuntimeException(e);
-			}
-		}));
+		Runtime.getRuntime().addShutdownHook(new Thread(ModuleSettingSaver::save));
 		SAVE_EXECUTOR.scheduleAtFixedRate(
 				() -> {
 					if (SHOULD_SAVE.getAndSet(false)) {
-						try {
-							save();
-						} catch (IOException e) {
-							throw new RuntimeException(e);
-						}
+						save();
 					}
 				}, 5, 5, TimeUnit.SECONDS
 		);
@@ -104,8 +94,7 @@ public class ModuleSettingSaver {
 		}
 	}
 
-	public static void save() throws IOException {
-		BallsLogger.info("Saving modules");
+	public static void save() {
 		JsonObject json = new JsonObject();
 		JsonObject modules = new JsonObject();
 
@@ -116,7 +105,11 @@ public class ModuleSettingSaver {
 		json.addProperty("version", Constants.SETTINGS_FORMAT_VERSION);
 		json.add("modules", modules);
 
-		Files.createDirectories(path);
+		try {
+			Files.createDirectories(path);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
 		try (Writer writer = new FileWriter(path.resolve("settings.json").toFile())) {
 			gson.toJson(json, writer);
 		} catch (IOException e) {

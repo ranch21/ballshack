@@ -1,16 +1,12 @@
 package org.ranch.ballshack.setting;
 
-import java.lang.reflect.Type;
-
-public class Setting<T> implements ISetting<T> {
+public class ClientSetting<T> implements ISetting<T> {
 	private T value;
 	private final String key;
-	private final Type type;
 
-	public Setting(T value, String key, Type type) {
+	public ClientSetting(String key, T value) {
 		this.value = value;
 		this.key = key;
-		this.type = type;
 	}
 
 	public T getValue() {
@@ -21,12 +17,14 @@ public class Setting<T> implements ISetting<T> {
 		return key;
 	}
 
-	public Type getType() {
-		return type;
-	}
-
 	public void setValue(T value) {
 		this.value = value;
+		ClientSettingSaver.markDirty();
+	}
+
+	@SuppressWarnings("unchecked")
+	public void setRawValue(Object value) {
+		this.value = (T) value;
 	}
 
 	@Override

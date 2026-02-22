@@ -4,8 +4,8 @@ import com.google.gson.reflect.TypeToken;
 import net.minecraft.client.network.ServerInfo;
 import org.ranch.ballshack.BallsLogger;
 import org.ranch.ballshack.gui.scanner.ScannedServerInfo;
-import org.ranch.ballshack.setting.Setting;
-import org.ranch.ballshack.setting.SettingsManager;
+import org.ranch.ballshack.setting.ClientSetting;
+import org.ranch.ballshack.setting.ClientSettingSaver;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -13,12 +13,9 @@ import java.util.List;
 
 public class DatabaseFetcher {
 
-	public static final Setting<String> host = new Setting<>("", "db-host", new TypeToken<String>() {
-	}.getType());
-	public static final Setting<String> user = new Setting<>("", "db-user", new TypeToken<String>() {
-	}.getType());
-	public static final Setting<String> password = new Setting<>("", "db-password", new TypeToken<String>() {
-	}.getType());
+	public static final ClientSetting<String> host = new ClientSetting<>("database.host", "");
+	public static final ClientSetting<String> user = new ClientSetting<>("database.user", "");
+	public static final ClientSetting<String> password = new ClientSetting<>("database.password", "");
 
 	public record Server(String address, int port, boolean canJoin, boolean modded, int id) {
 		public ScannedServerInfo getServerInfo() {
@@ -31,9 +28,9 @@ public class DatabaseFetcher {
 	}
 
 	public static void registerSettings() {
-		SettingsManager.registerSetting(host);
-		SettingsManager.registerSetting(user);
-		SettingsManager.registerSetting(password);
+		ClientSettingSaver.registerSetting(host);
+		ClientSettingSaver.registerSetting(user);
+		ClientSettingSaver.registerSetting(password);
 	}
 
 	public static List<Server> getServers(ServerFilters filters, int max) {

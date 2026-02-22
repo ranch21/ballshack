@@ -5,7 +5,7 @@ import org.ranch.ballshack.debug.renderers.BallGridDebugRenderer;
 import org.ranch.ballshack.debug.renderers.PlayerSimDebugRenderer;
 import org.ranch.ballshack.debug.renderers.ScaffoldDebugRenderer;
 import org.ranch.ballshack.debug.renderers.VecDebugRenderer;
-import org.ranch.ballshack.setting.Setting;
+import org.ranch.ballshack.setting.ClientSetting;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -15,8 +15,7 @@ public class DebugRenderers {
 
 	private static final LinkedHashMap<String, DebugRenderer> renderers = new LinkedHashMap<>();
 
-	public static final Setting<List<Boolean>> enabled = new Setting<>(new ArrayList<>(), "debugRenderers", new TypeToken<List<Boolean>>() {
-	}.getType());
+	public static final ClientSetting<List<Boolean>> enabled = new ClientSetting<>("other.debugRenderers", new ArrayList<>());
 
 	public static void registerRenderer(String id, DebugRenderer renderer) {
 		renderers.put(id, renderer);

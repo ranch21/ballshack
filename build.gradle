@@ -25,7 +25,7 @@ dependencies {
     implementation 'com.github.JnCrMx:discord-game-sdk4j:v1.0.0'
     include "com.github.JnCrMx:discord-game-sdk4j:v1.0.0"
     include implementation("org.postgresql:postgresql:42.7.1")
-    include implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-toml:2.18.1")
+    include implementation("com.electronwill.night-config:toml:3.8.1")
 
     // To change the versions see the gradle.properties file
     minecraft "com.mojang:minecraft:${project.minecraft_version}"

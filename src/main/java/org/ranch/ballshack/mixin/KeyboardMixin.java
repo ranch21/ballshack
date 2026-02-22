@@ -26,7 +26,7 @@ public class KeyboardMixin {
 			BallsHack.eventBus.post(new EventKeyPress(input));
 		}
 
-		if (action == GLFW.GLFW_PRESS && input.getKeycode() == CommandManager.prefix.getValue() && mc.world != null) {
+		if (action == GLFW.GLFW_PRESS && input.getKeycode() == CommandManager.prefix.getValue() && mc.world != null && mc.currentScreen == null) {
 			mc.setScreen(new ChatScreen("", true));
 		}
 	}

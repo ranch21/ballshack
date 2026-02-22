@@ -1,7 +1,7 @@
 package org.ranch.ballshack;
 
 import com.google.gson.reflect.TypeToken;
-import org.ranch.ballshack.setting.Setting;
+import org.ranch.ballshack.setting.ClientSetting;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,8 +9,7 @@ import java.util.List;
 public class FriendManager {
 
 	private static List<String> friends = new ArrayList<>();
-	public static final Setting<List<String>> setting = new Setting<>(friends, "friends", new TypeToken<List<String>>() {
-	}.getType());
+	public static final ClientSetting<List<String>> setting = new ClientSetting<>("friends", friends);
 
 	public static boolean add(String name) {
 		name = name.toLowerCase();

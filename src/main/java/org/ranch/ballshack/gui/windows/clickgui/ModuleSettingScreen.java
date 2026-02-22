@@ -46,7 +46,7 @@ public class ModuleSettingScreen extends WindowScreen {
 		super.render(context, mouseX, mouseY, delta);
 
 		TextRenderer textRend = MinecraftClient.getInstance().textRenderer;
-		context.drawText(textRend, BallsHack.title.getValue(), 5, 5, Colors.PALETTE_1.getColor().hashCode(), true);
+		context.drawText(textRend, BallsHack.title.getValue(), 5, 5, 0xFFFFFFFF, true);
 		context.drawText(textRend, BallsHack.version, 5 + textRend.getWidth(BallsHack.title.getValue() + " "), 5, Color.WHITE.hashCode(), true);
 	}
 

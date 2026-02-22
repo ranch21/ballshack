@@ -4,10 +4,6 @@ import java.awt.*;
 
 public class Colors {
 
-	// wgat a mess
-	public static final ThemeManager.SavedColor PALETTE_1 = new ThemeManager.SavedColor(new Color(74, 89, 66, 255), "palette_1");
-	public static final ThemeManager.SavedColor PALETTE_2 = new ThemeManager.SavedColor(new Color(148, 138, 49, 255), "palette_2");
-
 	public static final ThemeManager.SavedColor HUD_BACKGROUND = new ThemeManager.SavedColor(new Color(0, 0, 0, 50), "hud_background");
 
 	public static final ThemeManager.SavedColor TITLE_START = new ThemeManager.SavedColor(new Color(74, 89, 66, 255), "title_start");
