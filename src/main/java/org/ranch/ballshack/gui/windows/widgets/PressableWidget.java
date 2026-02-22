@@ -23,9 +23,9 @@ public abstract class PressableWidget extends Widget {
 	@Override
 	protected void drawBackground(DrawContext context, double mouseX, double mouseY) {
 		if (overlaps(mouseX, mouseY)) {
-			fill(0, 0, getWidth(), getHeight(), Colors.SELECTABLE.getColor().darker().hashCode());
+			fill(0, 0, getWidth(), getHeight(), Colors.SELECTABLE.getColor().hashCode());
 		} else {
-			fill(0, 0, getWidth(), getHeight(), Colors.CLICKGUI_2.getColor().hashCode());
+			fill(0, 0, getWidth(), getHeight(), Colors.FILL.getColor().hashCode());
 		}
 	}
 

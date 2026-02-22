@@ -2,6 +2,7 @@ package org.ranch.ballshack.gui.windows.widgets.setting;
 
 import net.minecraft.client.gui.Click;
 import net.minecraft.client.gui.DrawContext;
+import org.ranch.ballshack.gui.Colors;
 import org.ranch.ballshack.gui.windows.widgets.Widget;
 import org.ranch.ballshack.setting.ISetting;
 
@@ -16,7 +17,7 @@ public class CheckboxWidget extends SettingWidget<Boolean> {
 		super.render(context, mouseX, mouseY);
 
 		if (setting.getValue())
-			fill(1, 1, getWidth() - 1, getHeight() - 1, 0xFFFFFFFF);
+			fill(1, 1, getWidth() - 1, getHeight() - 1, Colors.SELECTED.getColor().hashCode());
 	}
 
 	@Override

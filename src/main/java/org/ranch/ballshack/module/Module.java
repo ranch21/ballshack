@@ -8,7 +8,7 @@ import org.jetbrains.annotations.Nullable;
 import org.ranch.ballshack.BallsHack;
 import org.ranch.ballshack.BallsLogger;
 import org.ranch.ballshack.setting.ModuleSettingsGroup;
-import org.ranch.ballshack.setting.SettingSaver;
+import org.ranch.ballshack.setting.ModuleSettingSaver;
 import org.ranch.ballshack.setting.settings.BindSetting;
 import org.ranch.ballshack.setting.settings.BooleanSetting;
 
@@ -53,19 +53,17 @@ public abstract class Module {
 	}
 
 	public void onEnable() {
-		if (ModuleManager.printToggle) BallsLogger.info("Enabled module " + name);
 		subscribed = BallsHack.eventBus.subscribe(this);
+		ModuleSettingSaver.markDirty();
 		enabled = true;
-		SettingSaver.SCHEDULE_SAVE.set(true);
 	}
 
 	public void onDisable() {
-		if (ModuleManager.printToggle) BallsLogger.info("Enabled module " + name);
 		if (subscribed) {
 			subscribed = !BallsHack.eventBus.unsubscribe(this);
 		}
+		ModuleSettingSaver.markDirty();
 		enabled = false;
-		SettingSaver.SCHEDULE_SAVE.set(true);
 	}
 
 	public int getBind() {
@@ -99,7 +97,8 @@ public abstract class Module {
 		} else {
 			onEnable();
 		}
-		logToggle(enabled);
+		if (alertSetting.getValue())
+			logToggle(enabled);
 	}
 
 	private void logToggle(boolean state) {

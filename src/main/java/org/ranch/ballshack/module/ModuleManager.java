@@ -19,9 +19,7 @@ import java.util.List;
 
 public class ModuleManager {
 
-	public static final boolean printToggle = false;
-
-	static final List<Module> modules = new ArrayList<>();
+	private static final List<Module> modules = new ArrayList<>();
 
 	private static void register(Module module) {
 		modules.add(module);

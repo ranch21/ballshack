@@ -36,13 +36,13 @@ public class Debug extends Module {
 
 		//test shapes
 		Vec3d offset1 = lpos.add(3, 0, 3);
-		renderer.queueCube(new Box(offset1, offset1.add(1, 1, 1)), Colors.CLICKGUI_BACKGROUND_1.getColor(), matrices);
+		renderer.queueCube(new Box(offset1, offset1.add(1, 1, 1)), Colors.HUD_BACKGROUND.getColor(), matrices);
 		renderer.queueCubeOutline(new Box(offset1, offset1.add(1, 1, 1)), Colors.PALETTE_1.getColor(), matrices);
 
 		//stresstest
 		Vec3d offset2 = lpos.add(3, 0, -3);
 		for (int i = 0; i < 10000; i++) {
-			renderer.queueCube(new Box(offset2.add((double) i / 100, i % 100, 0), offset2.add((double) i / 100 + 0.5, i % 100 + 0.5, 0.5)), Colors.CLICKGUI_BACKGROUND_1.getColor(), matrices);
+			renderer.queueCube(new Box(offset2.add((double) i / 100, i % 100, 0), offset2.add((double) i / 100 + 0.5, i % 100 + 0.5, 0.5)), Colors.HUD_BACKGROUND.getColor(), matrices);
 		}
 	}
 }

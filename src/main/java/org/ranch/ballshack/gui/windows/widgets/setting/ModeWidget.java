@@ -8,6 +8,7 @@ import org.ranch.ballshack.gui.GuiUtil;
 import org.ranch.ballshack.gui.windows.RemovalReason;
 import org.ranch.ballshack.gui.windows.widgets.Widget;
 import org.ranch.ballshack.setting.settings.ModeSetting;
+import org.ranch.ballshack.util.rendering.BallColor;
 
 public class ModeWidget<E extends Enum<?>> extends SettingWidget<E> {
 
@@ -74,7 +75,7 @@ public class ModeWidget<E extends Enum<?>> extends SettingWidget<E> {
 			int i = 0;
 			for (E mode : ((ModeSetting<E>) setting).getEnumValues()) {
 
-				int col = Colors.CLICKGUI_2.getColor().hashCode();
+				int col = BallColor.of(Colors.FILL.getColor()).hashCode();
 				if (GuiUtil.mouseOverlap(mouseX, mouseY, getX(), getY() + i * h, getWidth(), h))
 					col = Colors.SELECTABLE.getColor().darker().hashCode();
 				if (setting.getValue() == mode) col = Colors.SELECTABLE.getColor().hashCode();

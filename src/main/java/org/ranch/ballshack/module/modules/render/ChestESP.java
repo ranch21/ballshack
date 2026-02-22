@@ -55,8 +55,8 @@ public class ChestESP extends Module {
 
 			for (Box box : shape.getBoundingBoxes()) {
 				box = box.offset(blockPos);
-				renderer.queueCube(box, BallColor.fromColor(c).setAlpha(alpha.getValueFloat()), matrices);
-				renderer.queueCubeOutline(box, BallColor.fromColor(c).setAlpha(alpha.getValueFloat()), matrices);
+				renderer.queueCube(box, BallColor.of(c).setAlpha(alpha.getValueFloat()), matrices);
+				renderer.queueCubeOutline(box, BallColor.of(c).setAlpha(alpha.getValueFloat()), matrices);
 			}
 		}
 	}

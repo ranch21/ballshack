@@ -1,6 +1,6 @@
 package org.ranch.ballshack.setting;
 
-import com.google.gson.JsonObject;
+import com.google.gson.JsonElement;
 import org.ranch.ballshack.gui.windows.widgets.Widget;
 
 import java.util.function.Supplier;
@@ -45,7 +45,7 @@ public abstract class ModuleSetting<T, SELF extends ModuleSetting<T, SELF>> impl
 
 	public void setValue(T value) {
 		this.value = value;
-		SettingSaver.SCHEDULE_SAVE.set(true);
+		ModuleSettingSaver.markDirty();
 	}
 
 	public String getName() {
@@ -72,7 +72,7 @@ public abstract class ModuleSetting<T, SELF extends ModuleSetting<T, SELF>> impl
 
 	public abstract String getFormattedValue();
 
-	public abstract JsonObject getJson();
+	public abstract JsonElement getJson();
 
-	public abstract void readJson(JsonObject jsonObject);
+	public abstract void readJson(JsonElement jsonElement);
 }

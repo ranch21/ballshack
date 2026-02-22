@@ -22,7 +22,7 @@ public class SliderWidget extends SettingWidget<Double> {
 	public void render(DrawContext context, double mouseX, double mouseY) {
 		super.render(context, mouseX, mouseY);
 
-		fill(0, 0, getWidth(), getHeight(), Colors.CLICKGUI_2.getColor().hashCode());
+		fill(0, 0, getWidth(), getHeight(), Colors.FILL.getColor().hashCode());
 
 		if (holding) {
 			double mousePercent = (mouseX - getX()) / (double) getWidth();

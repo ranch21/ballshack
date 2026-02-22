@@ -93,10 +93,10 @@ public class Trajectories extends Module {
 
 				if (pos == traj.positions().get(traj.positions().size() - 1)) {
 					Box box = new Box(pos.subtract(0.1), pos.add(0.1));
-					renderer.queueCube(box, BallColor.fromColor(c).setAlpha(0.2f), matrices);
-					renderer.queueCubeOutline(box, BallColor.fromColor(c).setAlpha(0.7f), matrices);
+					renderer.queueCube(box, BallColor.of(c).setAlpha(0.2f), matrices);
+					renderer.queueCubeOutline(box, BallColor.of(c).setAlpha(0.7f), matrices);
 				} else {
-					renderer.queueLine(prevPos, pos, BallColor.fromColor(c).setAlpha(alpha.getValueFloat()), matrices);
+					renderer.queueLine(prevPos, pos, BallColor.of(c).setAlpha(alpha.getValueFloat()), matrices);
 				}
 
 				prevPos = pos;

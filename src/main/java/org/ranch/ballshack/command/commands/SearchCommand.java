@@ -15,6 +15,7 @@ import org.ranch.ballshack.command.Command;
 import org.ranch.ballshack.command.CommandType;
 import org.ranch.ballshack.module.ModuleManager;
 import org.ranch.ballshack.module.modules.render.Search;
+import org.ranch.ballshack.setting.ModuleSettingSaver;
 
 public class SearchCommand extends Command {
 	public SearchCommand() {
@@ -36,6 +37,7 @@ public class SearchCommand extends Command {
 									Identifier id = Registries.BLOCK.getId(context.getArgument("block", BlockStateArgument.class).getBlockState().getBlock());
 									search.blocks.getValue().add(id);
 									search.reload();
+									ModuleSettingSaver.markDirty();
 									log(CMD(": ").append(Text.literal("Added " + id).formatted(Formatting.GRAY)));
 									return 0;
 								})))
@@ -53,6 +55,7 @@ public class SearchCommand extends Command {
 									if (search.blocks.getValue().contains(id)) {
 										search.blocks.getValue().remove(id);
 										search.reload();
+										ModuleSettingSaver.markDirty();
 										log(CMD(": ").append(Text.literal("Removed " + id).formatted(Formatting.GRAY)));
 									} else {
 										log(CMD(": ").append(Text.literal("Block not on list").formatted(Formatting.GRAY)));
@@ -71,6 +74,7 @@ public class SearchCommand extends Command {
 							Search search = ModuleManager.getModuleByClass(Search.class);
 							search.blocks.getValue().clear();
 							search.reload();
+							ModuleSettingSaver.markDirty();
 							log(CMD(": ").append(Text.literal("Cleared blocks").formatted(Formatting.GRAY)));
 							return 0;
 						}))

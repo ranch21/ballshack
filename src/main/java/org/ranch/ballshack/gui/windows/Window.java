@@ -78,8 +78,6 @@ public class Window implements IWindow, Element {
 	public void render(DrawContext context, double mouseX, double mouseY) {
 		this.drawContext = context;
 
-		handleDrag(mouseX, mouseY);
-
 		if ((style & NO_BORDER) == 0)
 			drawOutline(context, mouseX, mouseY);
 
@@ -112,7 +110,7 @@ public class Window implements IWindow, Element {
 	}
 
 	protected void drawTitle(DrawContext context, double mouseX, double mouseY) {
-		DrawUtil.drawHorizontalGradient(context, getX(), getY() - BAR_HEIGHT, getWidth() - 1, BAR_HEIGHT, Colors.CLICKGUI_TITLE_START.getColor(), Colors.CLICKGUI_TITLE_END.getColor(), getWidth() / 10);
+		DrawUtil.drawHorizontalGradient(context, getX(), getY() - BAR_HEIGHT, getWidth() - 1, BAR_HEIGHT, Colors.TITLE_START.getColor(), Colors.TITLE_END.getColor(), getWidth() / 10);
 		TextRenderer textRend = MinecraftClient.getInstance().textRenderer;
 		int textInset = (BAR_HEIGHT - textRend.fontHeight) / 2;
 		context.drawText(textRend, title, getX() + 2, getY() + textInset - BAR_HEIGHT + 1, Color.WHITE.hashCode(), true);
@@ -159,7 +157,7 @@ public class Window implements IWindow, Element {
 	}
 
 	protected void drawBackground(DrawContext context, double mouseX, double mouseY) {
-		context.fill(getX(), getY(), getX() + getWidth(), getY() + getHeight(), Colors.CLICKGUI_2.getColor().hashCode());
+		context.fill(getX(), getY(), getX() + getWidth(), getY() + getHeight(), Colors.FILL.getColor().hashCode());
 	}
 
 	public RemovalReason getRemovalReason() {
@@ -288,18 +286,6 @@ public class Window implements IWindow, Element {
 	public boolean charTyped(CharInput input) {
 		children.forEach(window -> window.charTyped(input));
 		return false;
-	}
-
-	protected void handleDrag(double mouseX, double mouseY) {
-		if (dragging) {
-			x = (int) (mouseX - dragX);
-			y = (int) (mouseY - dragY);
-		}
-
-		/*x = Math.max(x, 0);
-		y = Math.max(y, BAR_HEIGHT);
-		x = Math.min(x, parent.getWidth() - width);
-		y = Math.min(y, parent.getHeight());*/
 	}
 
 	protected void fill(int x1, int y1, int x2, int y2, int color) {

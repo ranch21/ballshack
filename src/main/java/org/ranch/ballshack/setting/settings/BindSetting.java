@@ -1,6 +1,7 @@
 package org.ranch.ballshack.setting.settings;
 
-import com.google.gson.JsonObject;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonPrimitive;
 import org.ranch.ballshack.gui.windows.widgets.Widget;
 import org.ranch.ballshack.gui.windows.widgets.setting.BindWidget;
 import org.ranch.ballshack.setting.ModuleSetting;
@@ -24,12 +25,12 @@ public class BindSetting extends ModuleSetting<Integer, BindSetting> {
 	}
 
 	@Override
-	public JsonObject getJson() {
-		return null;
+	public JsonElement getJson() {
+		return new JsonPrimitive(getValue());
 	}
 
 	@Override
-	public void readJson(JsonObject jsonObject) {
-
+	public void readJson(JsonElement jsonElement) {
+		setValue(jsonElement.getAsInt());
 	}
 }

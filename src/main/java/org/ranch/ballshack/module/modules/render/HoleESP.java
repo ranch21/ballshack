@@ -58,8 +58,8 @@ public class HoleESP extends Module {
 				c = Color.RED;
 			}
 
-			renderer.queueCube(box, BallColor.fromColor(c).setAlpha(alpha.getValueFloat()), matrices);
-			renderer.queueCubeOutline(box, BallColor.fromColor(c).setAlpha(0.7f), matrices);
+			renderer.queueCube(box, BallColor.of(c).setAlpha(alpha.getValueFloat()), matrices);
+			renderer.queueCubeOutline(box, BallColor.of(c).setAlpha(0.7f), matrices);
 		}
 	}
 

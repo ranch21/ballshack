@@ -123,22 +123,26 @@ public class DrawUtil {
 		return new Color(Math.min(red, 255), Math.min(green, 255), Math.min(blue, 255));
 	}
 
-	public static void drawOutlineWithCorners(DrawContext context, int x, int y, int width, int height, Color color) {
-		context.drawHorizontalLine(x, x + width, y, color.hashCode()); // top
-		context.drawHorizontalLine(x, x + width, y + height, color.hashCode()); // bottom
-		context.drawVerticalLine(x, y, y + height, color.hashCode()); // left
-		context.drawVerticalLine(x + width, y, y + height, color.hashCode()); // right
+	public static void drawOutlineWithCorners(DrawContext context, int x, int y, int width, int height, Color top, Color bottom) {
+		context.drawHorizontalLine(x - 1, x + width - 1, y - 1, top.hashCode()); // top
+		context.drawHorizontalLine(x - 1, x + width, y + height, bottom.hashCode()); // bottom
+		context.drawVerticalLine(x - 1, y - 1, y + height, top.hashCode()); // left
+		context.drawVerticalLine(x + width, y - 2, y + height, bottom.hashCode()); // right
 	}
 
-	public static void drawOutline(DrawContext context, int x, int y, int width, int height, Color color) {
-		context.drawHorizontalLine(x, x + width - 1, y - 1, color.hashCode()); // top
-		context.drawHorizontalLine(x, x + width - 1, y + height, color.hashCode()); // bottom
-		context.drawVerticalLine(x - 1, y - 1, y + height, color.hashCode()); // left
-		context.drawVerticalLine(x + width, y - 1, y + height, color.hashCode()); // right
+	public static void drawOutline(DrawContext context, int x, int y, int width, int height, Color top, Color bottom) {
+		drawOutlineWithCorners(context, x, y, width, height, top, bottom);
 	}
+
+	/*public static void drawOutline(DrawContext context, int x, int y, int width, int height, Color top, Color bottom) {
+		context.drawHorizontalLine(x, x + width - 1, y - 1, top.hashCode()); // top
+		context.drawHorizontalLine(x, x + width - 1, y + height, bottom.hashCode()); // bottom
+		context.drawVerticalLine(x - 1, y - 1, y + height, top.hashCode()); // left
+		context.drawVerticalLine(x + width, y - 1, y + height, bottom.hashCode()); // right
+	}*/
 
 	public static void drawOutline(DrawContext context, int x, int y, int width, int height) {
-		drawOutline(context, x, y, width, height, Colors.BORDER.getColor());
+		drawOutline(context, x, y, width, height, Colors.BORDER_TOP.getColor(), Colors.BORDER_BOTTOM.getColor());
 	}
 
 	public static Vector2f worldToScreen(Vec3d pos, Matrix4f modelViewMatrix, float partialTicks) {

@@ -1,6 +1,7 @@
 package org.ranch.ballshack.setting.settings;
 
-import com.google.gson.JsonObject;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonPrimitive;
 import org.ranch.ballshack.gui.windows.widgets.Widget;
 import org.ranch.ballshack.gui.windows.widgets.setting.ModeWidget;
 import org.ranch.ballshack.setting.ModuleSetting;
@@ -33,12 +34,12 @@ public class ModeSetting<E extends Enum<?>> extends ModuleSetting<E, ModeSetting
 	}
 
 	@Override
-	public JsonObject getJson() {
-		return null;
+	public JsonElement getJson() {
+		return new JsonPrimitive(getValue().ordinal());
 	}
 
 	@Override
-	public void readJson(JsonObject jsonObject) {
-
+	public void readJson(JsonElement jsonElement) {
+		setValue(enumValues[jsonElement.getAsInt()]);
 	}
 }

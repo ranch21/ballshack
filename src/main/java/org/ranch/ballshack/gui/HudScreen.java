@@ -69,17 +69,17 @@ public class HudScreen extends Screen {
 		}
 		clampPositions();
 
-		drawAnchorRegions(context, Colors.CLICKGUI_BACKGROUND_2.getColor());
+		drawAnchorRegions(context, Color.DARK_GRAY);
 
 		for (ModuleHud module : modules) {
 
 			if (!module.isEnabled()) continue;
-			DrawUtil.drawOutline(context, module.X() - module.xOffset(), module.Y() - module.yOffset(), module.getWidth(), module.getHeight(), Colors.CLICKGUI_1.getColor());
+			DrawUtil.drawOutline(context, module.X() - module.xOffset(), module.Y() - module.yOffset(), module.getWidth(), module.getHeight(), Color.WHITE, Color.WHITE);
 			//context.fill(module.X() - module.xOffset(), module.Y() - module.yOffset(), module.X() - module.xOffset() + module.getWidth(), module.Y() - module.yOffset() + module.getHeight(), Colors.CLICKGUI_1.getColor().hashCode());
-			DrawUtil.drawPoint(context, module.X() - 1, module.Y(), Colors.BORDER.getColor());
-			DrawUtil.drawPoint(context, module.X() + 1, module.Y(), Colors.BORDER.getColor());
-			DrawUtil.drawPoint(context, module.X(), module.Y() - 1, Colors.BORDER.getColor());
-			DrawUtil.drawPoint(context, module.X(), module.Y() + 1, Colors.BORDER.getColor());
+			DrawUtil.drawPoint(context, module.X() - 1, module.Y(), Color.WHITE);
+			DrawUtil.drawPoint(context, module.X() + 1, module.Y(), Color.WHITE);
+			DrawUtil.drawPoint(context, module.X(), module.Y() - 1, Color.WHITE);
+			DrawUtil.drawPoint(context, module.X(), module.Y() + 1, Color.WHITE);
 			DrawUtil.drawLine(context, module.getAnchorPoint().getX(width), module.getAnchorPoint().getY(height), module.X(), module.Y(), Colors.PALETTE_1.getColor());
 		}
 	}

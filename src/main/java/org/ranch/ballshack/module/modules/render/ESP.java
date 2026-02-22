@@ -43,7 +43,7 @@ public class ESP extends Module {
 
 				Box box = new Box(c1, c1.add(size));
 
-				renderer.queueCube(box, BallColor.fromColor(type.getColor()).setAlpha(alpha.getValueFloat()), matrices);
+				renderer.queueCube(box, BallColor.of(type.getColor()).setAlpha(alpha.getValueFloat()), matrices);
 				renderer.queueCubeOutline(box, type.getColor(), matrices);
 			}
 		}

@@ -7,7 +7,7 @@ import org.ranch.ballshack.command.Command;
 import org.ranch.ballshack.command.CommandManager;
 import org.ranch.ballshack.command.CommandType;
 import org.ranch.ballshack.command.arguments.CharacterArgumentType;
-import org.ranch.ballshack.setting.SettingSaver;
+import org.ranch.ballshack.setting.ModuleSettingSaver;
 
 public class PrefixCommand extends Command {
 	public PrefixCommand() {
@@ -20,7 +20,6 @@ public class PrefixCommand extends Command {
 				.then(RequiredArgumentBuilder.<ClientCommandSource, Character>argument("prefix", new CharacterArgumentType())
 						.executes(context -> {
 							CommandManager.prefix.setValue(CharacterArgumentType.getCharacter(context, "prefix"));
-							SettingSaver.SCHEDULE_SAVE.set(true);
 							return 1;
 						}));
 	}

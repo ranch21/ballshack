@@ -27,7 +27,6 @@ public class Setting<T> implements ISetting<T> {
 
 	public void setValue(T value) {
 		this.value = value;
-		SettingSaver.SCHEDULE_SAVE.set(true);
 	}
 
 	@Override

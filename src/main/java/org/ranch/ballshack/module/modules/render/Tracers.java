@@ -38,7 +38,7 @@ public class Tracers extends Module {
 
 				Vec3d pos = e.getLerpedPos(event.tickDelta);
 
-				renderer.queueTracer(pos, BallColor.fromColor(type.getColor()).setAlpha(alpha.getValueFloat()), matrices);
+				renderer.queueTracer(pos, BallColor.of(type.getColor()).setAlpha(alpha.getValueFloat()), matrices);
 			}
 		}
 	}

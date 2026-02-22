@@ -71,10 +71,10 @@ public class Search extends Module {
 
 			for (Box box : shape.getBoundingBoxes()) {
 				box = box.offset(foundBlock);
-				renderer.queueCube(box, BallColor.fromColor(color).setAlpha(alpha.getValueFloat()), matrices);
+				renderer.queueCube(box, BallColor.of(color).setAlpha(alpha.getValueFloat()), matrices);
 				renderer.queueCubeOutline(box, color, matrices);
 				if (tracers.getValue())
-					renderer.queueTracer(box.getCenter(), BallColor.fromColor(color).setAlpha(0.7f), matrices);
+					renderer.queueTracer(box.getCenter(), BallColor.of(color).setAlpha(0.7f), matrices);
 			}
 		}
 	}

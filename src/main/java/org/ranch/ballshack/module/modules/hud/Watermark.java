@@ -35,7 +35,7 @@ public class Watermark extends ModuleHud {
 		height = mc.textRenderer.fontHeight + 1;
 
 		if (backdrop.getValue())
-			context.fill(x, y, x + width, y + height, Colors.CLICKGUI_BACKGROUND_2.getColor().hashCode());
+			context.fill(x, y, x + width, y + height, Colors.HUD_BACKGROUND.getColor().hashCode());
 
 		context.drawText(mc.textRenderer, text, x + 1, y + 1, Color.WHITE.hashCode(), shadow.getValue());
 	}

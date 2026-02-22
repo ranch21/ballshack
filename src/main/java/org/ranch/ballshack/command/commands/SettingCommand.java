@@ -11,7 +11,7 @@ import org.ranch.ballshack.command.Command;
 import org.ranch.ballshack.command.CommandType;
 import org.ranch.ballshack.command.suggestors.SettingSuggestor;
 import org.ranch.ballshack.setting.Setting;
-import org.ranch.ballshack.setting.SettingSaver;
+import org.ranch.ballshack.setting.ModuleSettingSaver;
 import org.ranch.ballshack.setting.SettingsManager;
 
 import java.util.Map;
@@ -46,7 +46,6 @@ public class SettingCommand extends Command {
 												log(CMD(": ").append(Text.literal("Could not parse value").formatted(Formatting.GRAY)));
 											}
 
-											SettingSaver.SCHEDULE_SAVE.set(true);
 											return 1;
 										}))))
 				.then(LiteralArgumentBuilder.<ClientCommandSource>literal("list")

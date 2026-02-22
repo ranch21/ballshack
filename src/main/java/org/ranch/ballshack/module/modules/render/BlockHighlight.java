@@ -24,7 +24,7 @@ public class BlockHighlight extends Module {
 	public final NumberSetting alpha = dGroup.add(new NumberSetting("Alpha", 0.2f).min(0).max(1).step(0.1));
 
 	public BlockHighlight() {
-		super("BlockHighlight", ModuleCategory.RENDER, 0, "look its purple now!");
+		super("BlockOutline", ModuleCategory.RENDER, 0, "look its purple now!");
 	}
 
 	@EventSubscribe
@@ -54,7 +54,7 @@ public class BlockHighlight extends Module {
 
 					for (Box box : shape.getBoundingBoxes()) {
 						box = box.offset(blockPos);
-						renderer.queueCube(box, BallColor.fromColor(c).setAlpha(alpha.getValueFloat()), matrices);
+						renderer.queueCube(box, BallColor.of(c).setAlpha(alpha.getValueFloat()), matrices);
 						renderer.queueCubeOutline(box, c, matrices);
 					}
 				}

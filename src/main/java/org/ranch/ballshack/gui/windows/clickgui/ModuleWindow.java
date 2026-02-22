@@ -41,9 +41,9 @@ public class ModuleWindow extends ButtonWidget {
 		if (overlaps(mouseX, mouseY)) {
 			fill(0, 0, getWidth(), getHeight(), Colors.SELECTABLE.getColor().hashCode());
 		} else if (module.isEnabled()) {
-			fill(0, 0, getWidth(), getHeight(), Colors.SELECTABLE.getColor().darker().hashCode());
+			fill(0, 0, getWidth(), getHeight(), Colors.SELECTABLE.getColor().hashCode());
 		} else {
-			fill(0, 0, getWidth(), getHeight(), Colors.CLICKGUI_2.getColor().hashCode());
+			fill(0, 0, getWidth(), getHeight(), Colors.FILL.getColor().hashCode());
 		}
 	}
 }

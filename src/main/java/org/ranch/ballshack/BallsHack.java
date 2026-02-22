@@ -9,6 +9,8 @@ import org.ranch.ballshack.event.EventBus;
 import org.ranch.ballshack.gui.ThemeManager;
 import org.ranch.ballshack.gui.neko.Neko;
 import org.ranch.ballshack.gui.windows.clickgui.ClickGuiScreen;
+import org.ranch.ballshack.module.ModuleManager;
+import org.ranch.ballshack.setting.ModuleSettingSaver;
 import org.ranch.ballshack.setting.Setting;
 import org.ranch.ballshack.setting.SettingsManager;
 import org.ranch.ballshack.util.DatabaseFetcher;
@@ -18,7 +20,7 @@ import java.nio.file.Paths;
 
 public class BallsHack implements ModInitializer {
 
-	public static final EventBus eventBus = new EventBus();
+	public static final EventBus eventBus = new EventBus();;
 
 	public static final Setting<String> title = new Setting<>("BallsHack", "watermark", new TypeToken<String>() {
 	}.getType());
@@ -46,6 +48,7 @@ public class BallsHack implements ModInitializer {
 
 		FriendManager.set();
 		DebugRenderers.load();
+		ModuleSettingSaver.load();
 	}
 
 	public static Path getSaveDir() {
