@@ -7,8 +7,6 @@ import net.minecraft.client.network.ClientCommandSource;
 import org.ranch.ballshack.command.Command;
 import org.ranch.ballshack.command.CommandType;
 import org.ranch.ballshack.gui.ThemeManager;
-import org.ranch.ballshack.module.ModuleManager;
-import org.ranch.ballshack.module.modules.client.Themes;
 
 public class ThemeCommand extends Command {
 	public ThemeCommand() {
@@ -23,7 +21,7 @@ public class ThemeCommand extends Command {
 								.executes(context -> {
 									String theme = StringArgumentType.getString(context, "theme");
 									ThemeManager.loadTheme(theme);
-									((Themes) ModuleManager.getModuleByName("themes")).theme.setValue(theme);
+									//((Themes) ModuleManager.getModuleByName("themes")).theme.setValue(theme);
 									return 1;
 								})))
 

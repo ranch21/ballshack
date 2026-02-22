@@ -12,8 +12,8 @@ import org.ranch.ballshack.event.events.EventWorldRender;
 import org.ranch.ballshack.gui.Colors;
 import org.ranch.ballshack.module.Module;
 import org.ranch.ballshack.module.ModuleCategory;
-import org.ranch.ballshack.setting.moduleSettings.SettingSlider;
-import org.ranch.ballshack.setting.moduleSettings.SettingToggle;
+import org.ranch.ballshack.setting.settings.BooleanSetting;
+import org.ranch.ballshack.setting.settings.NumberSetting;
 import org.ranch.ballshack.util.ProjectileSim;
 import org.ranch.ballshack.util.rendering.BallColor;
 import org.ranch.ballshack.util.rendering.Renderer;
@@ -25,8 +25,8 @@ import java.util.List;
 public class Trajectories extends Module {
 	private final List<ProjectileSim.Trajectory> trajectories = new ArrayList<>();
 
-	public final SettingToggle players = dGroup.add(new SettingToggle("Players", true));
-	public final SettingSlider alpha = dGroup.add(new SettingSlider("Alpha", 1, 0, 1, 0.1));
+	public final BooleanSetting players = dGroup.add(new BooleanSetting("Players", true));
+	public final NumberSetting alpha = dGroup.add(new NumberSetting("Alpha", 1).min(0).max(1).step(0.1));
 
 	public Trajectories() {
 		super("Trajectories", ModuleCategory.RENDER, 0, "i dont see you but now i see where my arrows are heading towards");
@@ -76,11 +76,7 @@ public class Trajectories extends Module {
 
 		for (ProjectileSim.Trajectory traj : trajectories) {
 
-			Color c = Colors.PALETTE_1.getColor();
-
-			float r = c.getRed() / 255.0f;
-			float g = c.getGreen() / 255.0f;
-			float b = c.getBlue() / 255.0f;
+			Color c = Colors.SELECTED.getColor();
 
 			Vec3d prevPos = null;
 
@@ -93,10 +89,10 @@ public class Trajectories extends Module {
 
 				if (pos == traj.positions().get(traj.positions().size() - 1)) {
 					Box box = new Box(pos.subtract(0.1), pos.add(0.1));
-					renderer.queueCube(box, BallColor.fromColor(c).setAlpha(0.2f), matrices);
-					renderer.queueCubeOutline(box, BallColor.fromColor(c).setAlpha(0.7f), matrices);
+					renderer.queueCube(box, BallColor.of(c).setAlpha(0.2f), matrices);
+					renderer.queueCubeOutline(box, BallColor.of(c).setAlpha(0.7f), matrices);
 				} else {
-					renderer.queueLine(prevPos, pos, BallColor.fromColor(c).setAlpha(alpha.getValueFloat()), matrices);
+					renderer.queueLine(prevPos, pos, BallColor.of(c).setAlpha(alpha.getValueFloat()), matrices);
 				}
 
 				prevPos = pos;

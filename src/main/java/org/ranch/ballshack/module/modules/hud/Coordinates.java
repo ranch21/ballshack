@@ -12,15 +12,15 @@ import org.ranch.ballshack.gui.Colors;
 import org.ranch.ballshack.module.ModuleAnchor;
 import org.ranch.ballshack.module.ModuleCategory;
 import org.ranch.ballshack.module.ModuleHud;
-import org.ranch.ballshack.setting.moduleSettings.SettingToggle;
+import org.ranch.ballshack.setting.settings.BooleanSetting;
 
 import java.awt.*;
 
 public class Coordinates extends ModuleHud {
 
-	public final SettingToggle backdrop = dGroup.add(new SettingToggle("Backdrop", true));
-	public final SettingToggle shadow = dGroup.add(new SettingToggle("Shadow", true));
-	public final SettingToggle scaled = dGroup.add(new SettingToggle("Scaled", false));
+	public final BooleanSetting backdrop = dGroup.add(new BooleanSetting("Backdrop", true));
+	public final BooleanSetting shadow = dGroup.add(new BooleanSetting("Shadow", true));
+	public final BooleanSetting scaled = dGroup.add(new BooleanSetting("Scaled", false));
 
 	public Coordinates() {
 		super("Coords", ModuleCategory.HUD, 0, 0, 0, "f3 wgat is it", ModuleAnchor.BOTTOM_LEFT);
@@ -57,7 +57,7 @@ public class Coordinates extends ModuleHud {
 		height = mc.textRenderer.fontHeight + 1;
 
 		if (backdrop.getValue())
-			context.fill(x, y, x + width, y + height, Colors.CLICKGUI_BACKGROUND_2.getColor().hashCode());
+			context.fill(x, y, x + width, y + height, Colors.HUD_BACKGROUND.getColor().hashCode());
 
 		context.drawText(mc.textRenderer, data, x + 1, y + 1, Color.WHITE.hashCode(), shadow.getValue());
 	}

@@ -4,16 +4,16 @@ import org.ranch.ballshack.event.EventSubscribe;
 import org.ranch.ballshack.event.events.EventCameraExtend;
 import org.ranch.ballshack.module.Module;
 import org.ranch.ballshack.module.ModuleCategory;
-import org.ranch.ballshack.setting.moduleSettings.SettingSlider;
+import org.ranch.ballshack.setting.settings.NumberSetting;
 
 public class ThirdPersonCam extends Module {
 
-	public final SettingSlider xOffset = dGroup.add(new SettingSlider("XOffset", 4, 0, 10, 0.25));
-	public final SettingSlider yOffset = dGroup.add(new SettingSlider("YOffset", 0, -5, 5, 0.25));
-	public final SettingSlider zOffset = dGroup.add(new SettingSlider("ZOffset", 0, -5, 5, 0.25));
+	public final NumberSetting xOffset = dGroup.add(new NumberSetting("XOffset", 4).min(0).max(10).step(0.25));
+	public final NumberSetting yOffset = dGroup.add(new NumberSetting("YOffset", 0).min(-5).max(5).step(0.25));
+	public final NumberSetting zOffset = dGroup.add(new NumberSetting("ZOffset", 0).min(-5).max(5).step(0.25));
 
 	public ThirdPersonCam() {
-		super("ThirdPersonCam", ModuleCategory.RENDER, 0, "stuff it into the wall");
+		super("BetterF5", ModuleCategory.RENDER, 0, "stuff it into the wall");
 	}
 
 	@EventSubscribe

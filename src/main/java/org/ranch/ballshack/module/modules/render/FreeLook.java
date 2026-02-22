@@ -4,13 +4,13 @@ import org.ranch.ballshack.event.EventSubscribe;
 import org.ranch.ballshack.event.events.EventTick;
 import org.ranch.ballshack.module.Module;
 import org.ranch.ballshack.module.ModuleCategory;
-import org.ranch.ballshack.setting.moduleSettings.SettingToggle;
+import org.ranch.ballshack.setting.settings.BooleanSetting;
 import org.ranch.ballshack.util.FreelookHandler;
 
 public class FreeLook extends Module {
 
-	public final SettingToggle rotateInput = dGroup.add(new SettingToggle("RotateInput", true));
-	public final SettingToggle snapInput = dGroup.add(new SettingToggle("SnapInput", false).depends(rotateInput::getValue));
+	public final BooleanSetting rotateInput = dGroup.add(new BooleanSetting("RotateInput", true));
+	public final BooleanSetting snapInput = dGroup.add(new BooleanSetting("SnapInput", false).depends(rotateInput::getValue));
 
 	public FreeLook() {
 		super("FreeLook", ModuleCategory.RENDER, 0, "goteteds");

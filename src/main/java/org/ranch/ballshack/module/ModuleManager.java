@@ -1,6 +1,7 @@
 package org.ranch.ballshack.module;
 
 import net.minecraft.client.input.KeyInput;
+import org.lwjgl.glfw.GLFW;
 import org.ranch.ballshack.module.modules.client.*;
 import org.ranch.ballshack.module.modules.combat.*;
 import org.ranch.ballshack.module.modules.fun.TestModule;
@@ -18,9 +19,7 @@ import java.util.List;
 
 public class ModuleManager {
 
-	public static final boolean printToggle = false;
-
-	static final List<Module> modules = new ArrayList<>();
+	private static final List<Module> modules = new ArrayList<>();
 
 	private static void register(Module module) {
 		modules.add(module);
@@ -49,9 +48,20 @@ public class ModuleManager {
 		return null;
 	}
 
-	public static void handleKeyPress(KeyInput key) {
+	public static <T extends Module> T getModuleByClass(Class<T> clazz) {
 		for (Module module : modules) {
-			if (module.getBind() == key.key()) {
+			if (module.getClass() == clazz) {
+				return (T) module;
+			}
+		}
+		return null;
+	}
+
+	public static void handleKeyPress(KeyInput key, int action) {
+		for (Module module : modules) {
+			if (module.getBind() == key.key() && action == GLFW.GLFW_PRESS) {
+				module.toggle();
+			} else if (module.holdSetting.getValue() && action == GLFW.GLFW_RELEASE) {
 				module.toggle();
 			}
 		}
@@ -60,20 +70,18 @@ public class ModuleManager {
 	static {
 		// client
 		register(new ClickGui());
+		register(new NekoModule());
 		register(new DiscordRP());
 		register(new HudEditor());
 		register(new Rainbow());
-		register(new PacketLogger());
 		register(new Themes());
-		register(new NekoModule());
 
 		// combat
 		register(new AimAssist());
 		register(new AutoTotem());
 		register(new Criticals());
-		register(new KillAura());
-		register(new TriggerBot());
 		register(new CrystalAura());
+		register(new KillAura());
 
 		// fun
 		register(new TestModule());
@@ -89,14 +97,11 @@ public class ModuleManager {
 		register(new Flight());
 		register(new InfiniteElytraGlide());
 		register(new Jesus());
-		//register(new ProjectileEvade());
 		register(new SafeWalk());
-		register(new Speed());
 		register(new Sprint());
 
 		// player
 		register(new AntiHunger());
-		//register(new AutoReconnect());
 		register(new AutoRespawn());
 		register(new AutoTool());
 		register(new AutoWalk());

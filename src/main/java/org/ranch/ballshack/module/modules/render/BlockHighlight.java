@@ -13,7 +13,7 @@ import org.ranch.ballshack.event.events.EventWorldRender;
 import org.ranch.ballshack.gui.Colors;
 import org.ranch.ballshack.module.Module;
 import org.ranch.ballshack.module.ModuleCategory;
-import org.ranch.ballshack.setting.moduleSettings.SettingSlider;
+import org.ranch.ballshack.setting.settings.NumberSetting;
 import org.ranch.ballshack.util.rendering.BallColor;
 import org.ranch.ballshack.util.rendering.Renderer;
 
@@ -21,10 +21,10 @@ import java.awt.*;
 
 public class BlockHighlight extends Module {
 
-	public final SettingSlider alpha = dGroup.add(new SettingSlider("Alpha", 0.2f, 0, 1, 0.1));
+	public final NumberSetting alpha = dGroup.add(new NumberSetting("Alpha", 0.2f).min(0).max(1).step(0.1));
 
 	public BlockHighlight() {
-		super("BlockHighlight", ModuleCategory.RENDER, 0, "look its purple now!");
+		super("BlockOutline", ModuleCategory.RENDER, 0, "look its yellow now!");
 	}
 
 	@EventSubscribe
@@ -38,7 +38,7 @@ public class BlockHighlight extends Module {
 		if (mc.world == null) // duh
 			return;
 
-		Color c = Colors.PALETTE_1.getColor();
+		Color c = Colors.SELECTED.getColor();
 
 		Renderer renderer = Renderer.getInstance();
 
@@ -54,7 +54,7 @@ public class BlockHighlight extends Module {
 
 					for (Box box : shape.getBoundingBoxes()) {
 						box = box.offset(blockPos);
-						renderer.queueCube(box, BallColor.fromColor(c).setAlpha(alpha.getValueFloat()), matrices);
+						renderer.queueCube(box, BallColor.of(c).setAlpha(alpha.getValueFloat()), matrices);
 						renderer.queueCubeOutline(box, c, matrices);
 					}
 				}

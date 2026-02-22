@@ -6,7 +6,7 @@ import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 import org.ranch.ballshack.BallsHack;
 import org.ranch.ballshack.BallsLogger;
-import org.ranch.ballshack.setting.Setting;
+import org.ranch.ballshack.setting.ClientSetting;
 
 import java.awt.*;
 import java.io.FileReader;
@@ -17,8 +17,7 @@ public class ThemeManager {
 
 	public static final String folder = "themes/";
 
-	public static final Setting<Boolean> loaded = new Setting<>(false, "theme_loaded", new TypeToken<Boolean>() {
-	}.getType());
+	public static final ClientSetting<Boolean> loaded = new ClientSetting<>("other.theme_loaded", false);
 
 	private static JsonObject themeJson;
 

@@ -5,8 +5,8 @@ import org.ranch.ballshack.event.events.EventMouseUpdate;
 import org.ranch.ballshack.event.events.EventTick;
 import org.ranch.ballshack.module.Module;
 import org.ranch.ballshack.module.ModuleCategory;
-import org.ranch.ballshack.setting.moduleSettings.SettingSlider;
-import org.ranch.ballshack.setting.moduleSettings.SettingToggle;
+import org.ranch.ballshack.setting.settings.BooleanSetting;
+import org.ranch.ballshack.setting.settings.NumberSetting;
 import org.ranch.ballshack.util.Rotation;
 import org.ranch.ballshack.util.RotationUtil;
 
@@ -19,9 +19,9 @@ public class InfiniteElytraGlide extends Module {
 
 	private int stage = 0;
 
-	public final SettingSlider maxHeight = dGroup.add(new SettingSlider("Max Height", 200, 1, 1000, 1).featured());
-	public final SettingToggle instantTurn = dGroup.add(new SettingToggle("Instant Turn", true));
-	public final SettingSlider turnSpeed = dGroup.add(new SettingSlider("Turn Speed", 1, 1, 10, 1));
+	public final NumberSetting maxHeight = dGroup.add(new NumberSetting("Max Height", 200).min(1).max(1000).step(10).featured());
+	public final BooleanSetting instantTurn = dGroup.add(new BooleanSetting("Instant Turn", true));
+	public final NumberSetting turnSpeed = dGroup.add(new NumberSetting("Turn Speed", 1).min(1).max(10).step(1));
 
 	public InfiniteElytraGlide() {
 		super("ElytraGlide", ModuleCategory.MOVEMENT, 0, "ion need sum hacks to do this");

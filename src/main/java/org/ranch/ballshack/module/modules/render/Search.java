@@ -18,15 +18,14 @@ import org.ranch.ballshack.event.events.EventTick;
 import org.ranch.ballshack.event.events.EventWorldRender;
 import org.ranch.ballshack.module.Module;
 import org.ranch.ballshack.module.ModuleCategory;
-import org.ranch.ballshack.setting.moduleSettings.SettingBlocks;
-import org.ranch.ballshack.setting.moduleSettings.SettingSlider;
-import org.ranch.ballshack.setting.moduleSettings.SettingToggle;
+import org.ranch.ballshack.setting.settings.BlocksSetting;
+import org.ranch.ballshack.setting.settings.BooleanSetting;
+import org.ranch.ballshack.setting.settings.NumberSetting;
 import org.ranch.ballshack.util.WorldUtil;
 import org.ranch.ballshack.util.rendering.BallColor;
 import org.ranch.ballshack.util.rendering.Renderer;
 
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
@@ -41,9 +40,9 @@ public class Search extends Module {
 
 	private final ExecutorService executorService = Executors.newFixedThreadPool(2);
 
-	public final SettingSlider alpha = dGroup.add(new SettingSlider("Alpha", 0.2f, 0, 1, 0.1));
-	public final SettingToggle tracers = dGroup.add(new SettingToggle("Tracers", true));
-	public final SettingBlocks blocks = dGroup.add(new SettingBlocks("Blocks", new ArrayList<>()));
+	public final NumberSetting alpha = dGroup.add(new NumberSetting("Alpha", 0.2f).min(0).max(1).step(0.1));
+	public final BooleanSetting tracers = dGroup.add(new BooleanSetting("Tracers", true));
+	public final BlocksSetting blocks = dGroup.add(new BlocksSetting("Blocks"));
 
 
 	public Search() {
@@ -72,10 +71,10 @@ public class Search extends Module {
 
 			for (Box box : shape.getBoundingBoxes()) {
 				box = box.offset(foundBlock);
-				renderer.queueCube(box, BallColor.fromColor(color).setAlpha(alpha.getValueFloat()), matrices);
+				renderer.queueCube(box, BallColor.of(color).setAlpha(alpha.getValueFloat()), matrices);
 				renderer.queueCubeOutline(box, color, matrices);
 				if (tracers.getValue())
-					renderer.queueTracer(box.getCenter(), BallColor.fromColor(color).setAlpha(0.7f), matrices);
+					renderer.queueTracer(box.getCenter(), BallColor.of(color).setAlpha(0.7f), matrices);
 			}
 		}
 	}

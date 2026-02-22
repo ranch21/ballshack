@@ -12,7 +12,7 @@ import org.lwjgl.glfw.GLFW;
 import org.ranch.ballshack.module.*;
 import org.ranch.ballshack.module.Module;
 import org.ranch.ballshack.setting.HudElementData;
-import org.ranch.ballshack.setting.Setting;
+import org.ranch.ballshack.setting.ClientSetting;
 import org.ranch.ballshack.util.rendering.DrawUtil;
 
 import java.awt.*;
@@ -30,8 +30,7 @@ public class HudScreen extends Screen {
 	final int snapRange = 2;
 	ModuleHud draggingModule = null;
 	final ArrayList<ModuleHud> modules = new ArrayList<>();
-	Setting<ArrayList<HudElementData>> hudData = new Setting<>(new ArrayList<>(), "hudElements", new TypeToken<List<HudElementData>>() {
-	}.getType());
+	ClientSetting<ArrayList<HudElementData>> hudData = new ClientSetting<>("hudElements", new ArrayList<>());
 
 	public HudScreen() {
 		super(NarratorManager.EMPTY);
@@ -60,27 +59,27 @@ public class HudScreen extends Screen {
 			List<Snap> snaps = handleDrag(mouseX, mouseY);
 			if (snaps != null) {
 				if (snaps.get(0) != null) {
-					snaps.get(0).drawSnap(context, Colors.PALETTE_2.getColor());
+					snaps.get(0).drawSnap(context, Color.WHITE);
 				}
 				if (snaps.get(1) != null) {
-					snaps.get(1).drawSnap(context, Colors.PALETTE_2.getColor());
+					snaps.get(1).drawSnap(context, Color.WHITE);
 				}
 			}
 		}
 		clampPositions();
 
-		drawAnchorRegions(context, Colors.CLICKGUI_BACKGROUND_2.getColor());
+		drawAnchorRegions(context, Color.DARK_GRAY);
 
 		for (ModuleHud module : modules) {
 
 			if (!module.isEnabled()) continue;
-			DrawUtil.drawOutline(context, module.X() - module.xOffset(), module.Y() - module.yOffset(), module.getWidth(), module.getHeight(), Colors.CLICKGUI_1.getColor());
+			DrawUtil.drawOutline(context, module.X() - module.xOffset(), module.Y() - module.yOffset(), module.getWidth(), module.getHeight(), Color.WHITE, Color.WHITE);
 			//context.fill(module.X() - module.xOffset(), module.Y() - module.yOffset(), module.X() - module.xOffset() + module.getWidth(), module.Y() - module.yOffset() + module.getHeight(), Colors.CLICKGUI_1.getColor().hashCode());
-			DrawUtil.drawPoint(context, module.X() - 1, module.Y(), Colors.BORDER.getColor());
-			DrawUtil.drawPoint(context, module.X() + 1, module.Y(), Colors.BORDER.getColor());
-			DrawUtil.drawPoint(context, module.X(), module.Y() - 1, Colors.BORDER.getColor());
-			DrawUtil.drawPoint(context, module.X(), module.Y() + 1, Colors.BORDER.getColor());
-			DrawUtil.drawLine(context, module.getAnchorPoint().getX(width), module.getAnchorPoint().getY(height), module.X(), module.Y(), Colors.PALETTE_1.getColor());
+			DrawUtil.drawPoint(context, module.X() - 1, module.Y(), Color.WHITE);
+			DrawUtil.drawPoint(context, module.X() + 1, module.Y(), Color.WHITE);
+			DrawUtil.drawPoint(context, module.X(), module.Y() - 1, Color.WHITE);
+			DrawUtil.drawPoint(context, module.X(), module.Y() + 1, Color.WHITE);
+			DrawUtil.drawLine(context, module.getAnchorPoint().getX(width), module.getAnchorPoint().getY(height), module.X(), module.Y(), Color.GRAY);
 		}
 	}
 

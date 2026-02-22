@@ -9,27 +9,31 @@ import org.ranch.ballshack.event.EventSubscribe;
 import org.ranch.ballshack.event.events.EventTick;
 import org.ranch.ballshack.module.Module;
 import org.ranch.ballshack.module.ModuleCategory;
-import org.ranch.ballshack.setting.moduleSettings.*;
+import org.ranch.ballshack.setting.ModuleSettingsGroup;
+import org.ranch.ballshack.setting.TargetsSettingGroup;
+import org.ranch.ballshack.setting.settings.BooleanSetting;
+import org.ranch.ballshack.setting.settings.NumberSetting;
+import org.ranch.ballshack.setting.settings.RotateModeSetting;
+import org.ranch.ballshack.setting.settings.SortModeSetting;
 import org.ranch.ballshack.util.*;
-
-import java.util.Arrays;
 
 public class KillAura extends Module {
 
-	public final SettingSlider range = dGroup.add(new SettingSlider("Range", 4, 1, 8, 0.5));
+	public final NumberSetting range = dGroup.add(new NumberSetting("Range", 4).min(1).max(8).step(0.5));
 
-	public final DropDown multiDD = dGroup.add(new DropDown("Multi"));
-	public final SettingToggle mEnabled = multiDD.add(new SettingToggle("Enabled", false));
-	public final SettingSlider mTargetMax = multiDD.add(new SettingSlider("Targets", 2, 2, 10, 1));
+	public final ModuleSettingsGroup mGroup = addGroup(new ModuleSettingsGroup("Multi"));
+	public final BooleanSetting mEnabled = mGroup.add(new BooleanSetting("Enabled", false));
+	public final NumberSetting mTargetMax = mGroup.add(new NumberSetting("Targets", 2).min(2).max(10).step(1));
 
-	public final TargetsDropDown targets = dGroup.add(new TargetsDropDown("Targets"));
-	public final SettingMode rotate = dGroup.add(new SettingMode("Rotate", 0, Arrays.asList("None", "Packet", "True")).featured());
-	public final SettingToggle randomNoise = dGroup.add(new SettingToggle("Noise", true).depends(() -> rotate.getValue() == 2));
-	public final SettingToggle freeLook = dGroup.add(new SettingToggle("FreeLook", true).depends(() -> rotate.getValue() == 2));
-	public final SettingToggle slowRotate = dGroup.add(new SettingToggle("SlowRotate", true).depends(() -> rotate.getValue() == 2));
-	public final SettingSlider rotSpeed = dGroup.add(new SettingSlider("RotateSpeed", 5, 2, 60, 1).depends(slowRotate::getValue));
-	public final SettingToggle swing = dGroup.add(new SettingToggle("Swing", true));
-	public final SortMode sort = dGroup.add(new SortMode("Sort"));
+	public final TargetsSettingGroup targets = addGroup(new TargetsSettingGroup("Targets"));
+	public final RotateModeSetting rotate = dGroup.add(new RotateModeSetting("Rotate"));
+
+	public final BooleanSetting randomNoise = dGroup.add(new BooleanSetting("Noise", true).depends(() -> rotate.getValue() == RotateModeSetting.RotateMode.TRUE));
+	public final BooleanSetting freeLook = dGroup.add(new BooleanSetting("FreeLook", true).depends(() -> rotate.getValue() == RotateModeSetting.RotateMode.TRUE));
+	public final BooleanSetting slowRotate = dGroup.add(new BooleanSetting("SlowRotate", true).depends(() -> rotate.getValue() == RotateModeSetting.RotateMode.TRUE));
+	public final NumberSetting rotSpeed = dGroup.add(new NumberSetting("RotateSpeed", 5).min(2).max(60).step(1).depends(slowRotate::getValue));
+	public final BooleanSetting swing = dGroup.add(new BooleanSetting("Swing", true));
+	public final SortModeSetting sort = dGroup.add(new SortModeSetting("Sort"));
 
 	public KillAura() {
 		super("KillAura", ModuleCategory.COMBAT, 0, "Repel players");
@@ -47,19 +51,19 @@ public class KillAura extends Module {
 
 			FreelookHandler.setEnabled(freeLook.getValue() && freeLook.dependencyMet());
 
-			int mode = rotate.getValue();
+			RotateModeSetting.RotateMode mode = rotate.getValue();
 			boolean attack = false;
 
 			switch (mode) {
-				case 0:
+				case NONE:
 					attack = canAttack;
 					break;
-				case 1:
+				case PACKET:
 					if (canAttack)
 						PlayerUtil.facePosPacket(EntityUtil.getCenter(e));
 					attack = canAttack;
 					break;
-				case 2:
+				case TRUE:
 					if (mc.crosshairTarget.getType() == HitResult.Type.ENTITY) {
 						EntityHitResult result = (EntityHitResult) mc.crosshairTarget;
 						attack = result.getEntity().equals(e) && canAttack;

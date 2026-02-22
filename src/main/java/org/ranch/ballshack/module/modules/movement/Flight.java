@@ -6,7 +6,7 @@ import org.ranch.ballshack.event.events.EventSetSneaking;
 import org.ranch.ballshack.event.events.EventTick;
 import org.ranch.ballshack.module.Module;
 import org.ranch.ballshack.module.ModuleCategory;
-import org.ranch.ballshack.setting.moduleSettings.SettingSlider;
+import org.ranch.ballshack.setting.settings.NumberSetting;
 import org.ranch.ballshack.util.PlayerUtil;
 
 import static org.ranch.ballshack.util.EntityUtil.getMaxAllowedFloatingTicks;
@@ -15,8 +15,8 @@ public class Flight extends Module {
 
 	private int antiKick = 0;
 
-	public final SettingSlider hSpeed = dGroup.add(new SettingSlider("Hspeed", 2, 0.5, 10, 0.5).featured());
-	public final SettingSlider vSpeed = dGroup.add(new SettingSlider("Vspeed", 2, 0.5, 5, 0.5));
+	public final NumberSetting hSpeed = dGroup.add(new NumberSetting("Hspeed", 2).min(0.5).max(10).step(0.5).featured());
+	public final NumberSetting vSpeed = dGroup.add(new NumberSetting("Vspeed", 2).min(0.5).max(5).step(0.5));
 
 	public Flight() {
 		super("Flight", ModuleCategory.MOVEMENT, 0, "hawk tuah man!");

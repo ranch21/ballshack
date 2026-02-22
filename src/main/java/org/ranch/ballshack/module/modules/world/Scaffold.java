@@ -13,12 +13,16 @@ import org.ranch.ballshack.event.EventSubscribe;
 import org.ranch.ballshack.event.events.EventTick;
 import org.ranch.ballshack.module.Module;
 import org.ranch.ballshack.module.ModuleCategory;
-import org.ranch.ballshack.setting.moduleSettings.SettingMode;
-import org.ranch.ballshack.setting.moduleSettings.SettingSlider;
-import org.ranch.ballshack.setting.moduleSettings.SettingToggle;
+import org.ranch.ballshack.setting.settings.BooleanSetting;
+import org.ranch.ballshack.setting.settings.ModeSetting;
+import org.ranch.ballshack.setting.settings.NumberSetting;
+import org.ranch.ballshack.setting.settings.RotateModeSetting;
 import org.ranch.ballshack.util.*;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Optional;
 
 public class Scaffold extends Module {
 
@@ -33,11 +37,11 @@ public class Scaffold extends Module {
 	private final double EPSILON = 0.001;
 	private int delay = 1;
 
-	public final SettingMode rotate = dGroup.add(new SettingMode("Rotate", 2, Arrays.asList("None", "Packet", "True")).featured());
-	public final SettingToggle freeLook = dGroup.add(new SettingToggle("FreeLook", true).depends(() -> rotate.getValue() == 2));
-	public final SettingToggle slowRotate = dGroup.add(new SettingToggle("SlowRotate", true).depends(() -> rotate.getValue() == 2));
-	public final SettingSlider rotSpeed = dGroup.add(new SettingSlider("RotateSpeed", 5, 2, 40, 1).depends(slowRotate::getValue));
-	public final SettingSlider delaySlider = dGroup.add(new SettingSlider("Delay", 1, 0, 10, 1));
+	public final ModeSetting<RotateModeSetting.RotateMode> rotate = dGroup.add(new RotateModeSetting("Rotate").featured());
+	public final BooleanSetting freeLook = dGroup.add(new BooleanSetting("FreeLook", true).depends(() -> rotate.getValue() == RotateModeSetting.RotateMode.TRUE));
+	public final BooleanSetting slowRotate = dGroup.add(new BooleanSetting("SlowRotate", true).depends(() -> rotate.getValue() == RotateModeSetting.RotateMode.TRUE));
+	public final NumberSetting rotSpeed = dGroup.add(new NumberSetting("RotateSpeed", 5).min(2).max(40).step(1).depends(slowRotate::getValue));
+	public final NumberSetting delaySlider = dGroup.add(new NumberSetting("Delay", 1).min(0).max(10).step(1));
 
 	public Scaffold() {
 		super("Scaffold", ModuleCategory.WORLD, 0);
@@ -54,7 +58,6 @@ public class Scaffold extends Module {
 		if (!(mc.player.getStackInHand(Hand.MAIN_HAND).getItem() instanceof BlockItem))
 			return;
 
-		int mode = rotate.getValue();
 		int delayS = (int) (double) delaySlider.getValue();
 
 		List<PlayerSim.PlayerPoint> future = PlayerSim.simulatePlayer(mc.player, 10);
@@ -82,15 +85,15 @@ public class Scaffold extends Module {
 
 		boolean canPlace = false;
 
-		switch (mode) {
-			case 0:
+		switch (rotate.getValue()) {
+			case NONE:
 				canPlace = true;
 				break;
-			case 1:
+			case PACKET:
 				canPlace = true;
 				PlayerUtil.facePosPacket(faceMiddleAnticipated);
 				break;
-			case 2:
+			case TRUE:
 				if (slowRotate.getValue()) {
 					Rotation target = PlayerUtil.getPosRotation(mc.player, faceMiddleAnticipated);
 					Rotation step = RotationUtil.slowlyTurnTowards(target, rotSpeed.getValueFloat());

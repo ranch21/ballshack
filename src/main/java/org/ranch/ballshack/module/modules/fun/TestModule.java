@@ -7,18 +7,28 @@ import org.ranch.ballshack.event.events.EventTick;
 import org.ranch.ballshack.module.Module;
 import org.ranch.ballshack.module.ModuleCategory;
 import org.ranch.ballshack.setting.ModuleSettingsGroup;
-import org.ranch.ballshack.setting.moduleSettings.DropDown;
-import org.ranch.ballshack.setting.moduleSettings.SettingSlider;
-import org.ranch.ballshack.setting.moduleSettings.SettingToggle;
+import org.ranch.ballshack.setting.settings.BooleanSetting;
+import org.ranch.ballshack.setting.settings.ModeSetting;
+import org.ranch.ballshack.setting.settings.NumberSetting;
+import org.ranch.ballshack.setting.settings.StringSetting;
 import org.ranch.ballshack.util.PlayerUtil;
 
 public class TestModule extends Module {
 
-	final ModuleSettingsGroup defaultGroup = settings.getDefaultGroup();
+	public static enum EnumTest {
+		ONE, TWO, THREE
+	}
 
-	private final SettingSlider testSlider = defaultGroup.add(new SettingSlider("test", 1, 0, 10, 1));
-	private final DropDown dropDown = defaultGroup.add(new DropDown("YOOOWHAT i luv this new system this is going off the side of the window"));
-	private final SettingToggle testToggle = dropDown.settings.add(new SettingToggle("testToggle", false));
+	public final NumberSetting slider = dGroup.add(new NumberSetting("Slider", 10).min(0).max(20));
+	public final BooleanSetting toggle = dGroup.add(new BooleanSetting("Toggle", false));
+	public final ModeSetting<EnumTest> mode = dGroup.add(new ModeSetting<>("Mode", EnumTest.ONE, EnumTest.values()));
+	public final StringSetting string = dGroup.add(new StringSetting("String", "hello balls"));
+
+	public final ModuleSettingsGroup oGroup = addGroup(new ModuleSettingsGroup("Other"));
+	public final NumberSetting slider2 = oGroup.add(new NumberSetting("Slider", 10).min(0).max(20));
+	public final BooleanSetting toggle2 = oGroup.add(new BooleanSetting("Toggle", false));
+	public final NumberSetting slider3 = oGroup.add(new NumberSetting("Slider", 10).min(0).max(20));
+	public final BooleanSetting toggle4 = oGroup.add(new BooleanSetting("Toggle", false));
 
 	public TestModule() {
 		super("Test", ModuleCategory.FUN, 0, "Testingh ahwdhghfi");

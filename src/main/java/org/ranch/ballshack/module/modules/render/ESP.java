@@ -8,16 +8,16 @@ import org.ranch.ballshack.event.EventSubscribe;
 import org.ranch.ballshack.event.events.EventWorldRender;
 import org.ranch.ballshack.module.Module;
 import org.ranch.ballshack.module.ModuleCategory;
-import org.ranch.ballshack.setting.moduleSettings.SettingSlider;
-import org.ranch.ballshack.setting.moduleSettings.TargetsDropDown;
+import org.ranch.ballshack.setting.TargetsSettingGroup;
+import org.ranch.ballshack.setting.settings.NumberSetting;
 import org.ranch.ballshack.util.EntityUtil;
 import org.ranch.ballshack.util.rendering.BallColor;
 import org.ranch.ballshack.util.rendering.Renderer;
 
 public class ESP extends Module {
 
-	public final SettingSlider alpha = dGroup.add(new SettingSlider("Alpha", 0.2, 0, 1, 0.1));
-	public final TargetsDropDown targets = dGroup.add(new TargetsDropDown("Targets"));
+	public final NumberSetting alpha = dGroup.add(new NumberSetting("Alpha", 0.2).min(0).max(1).step(0.1));
+	public final TargetsSettingGroup targets = addGroup(new TargetsSettingGroup("Targets"));
 
 	public ESP() {
 		super("ESP", ModuleCategory.RENDER, 0, "i see you");
@@ -43,7 +43,7 @@ public class ESP extends Module {
 
 				Box box = new Box(c1, c1.add(size));
 
-				renderer.queueCube(box, BallColor.fromColor(type.getColor()).setAlpha(alpha.getValueFloat()), matrices);
+				renderer.queueCube(box, BallColor.of(type.getColor()).setAlpha(alpha.getValueFloat()), matrices);
 				renderer.queueCubeOutline(box, type.getColor(), matrices);
 			}
 		}

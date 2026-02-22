@@ -54,7 +54,7 @@ public class LegacyClickGuiScreen extends Screen {
 	public boolean mouseClicked(Click click, boolean doubled) {
 
 		if (LegacyGuiUtil.mouseOverlap(click.x(), click.y(), width - 50, height - 10, 50, 10)) { //NOTLEGACY
-			((ClickGui) ModuleManager.getModuleByName("ClickGui")).legacy.setValue(false); //NOTLEGACY
+			ModuleManager.getModuleByClass(ClickGui.class).legacy.setValue(false); //NOTLEGACY
 		} //NOTLEGACY
 
 		for (LegacyCategoryWindow window : windows) {

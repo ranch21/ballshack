@@ -12,7 +12,7 @@ import org.ranch.ballshack.event.events.EventWorldRender;
 import org.ranch.ballshack.gui.Colors;
 import org.ranch.ballshack.module.Module;
 import org.ranch.ballshack.module.ModuleCategory;
-import org.ranch.ballshack.setting.moduleSettings.SettingSlider;
+import org.ranch.ballshack.setting.settings.NumberSetting;
 import org.ranch.ballshack.util.WorldUtil;
 import org.ranch.ballshack.util.rendering.BallColor;
 import org.ranch.ballshack.util.rendering.Renderer;
@@ -22,7 +22,7 @@ import java.util.stream.Stream;
 
 public class ChestESP extends Module {
 
-	public final SettingSlider alpha = dGroup.add(new SettingSlider("Alpha", 0.2f, 0, 1, 0.1));
+	public final NumberSetting alpha = dGroup.add(new NumberSetting("Alpha", 0.2f).min(0).max(1).step(0.1));
 
 	public ChestESP() {
 		super("ChestESP", ModuleCategory.RENDER, 0, "\"i found a spawner\"");
@@ -55,8 +55,8 @@ public class ChestESP extends Module {
 
 			for (Box box : shape.getBoundingBoxes()) {
 				box = box.offset(blockPos);
-				renderer.queueCube(box, BallColor.fromColor(c).setAlpha(alpha.getValueFloat()), matrices);
-				renderer.queueCubeOutline(box, BallColor.fromColor(c).setAlpha(alpha.getValueFloat()), matrices);
+				renderer.queueCube(box, BallColor.of(c).setAlpha(alpha.getValueFloat()), matrices);
+				renderer.queueCubeOutline(box, BallColor.of(c).setAlpha(alpha.getValueFloat()), matrices);
 			}
 		}
 	}

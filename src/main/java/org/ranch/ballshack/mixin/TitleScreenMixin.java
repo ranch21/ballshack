@@ -6,8 +6,9 @@ import net.minecraft.client.gui.tooltip.Tooltip;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.text.Text;
 import org.ranch.ballshack.BallsHack;
-import org.ranch.ballshack.gui.ClickGuiScreen;
 import org.ranch.ballshack.gui.scanner.ServerScannerScreen;
+import org.ranch.ballshack.module.ModuleManager;
+import org.ranch.ballshack.module.modules.client.ClickGui;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -34,8 +35,7 @@ public abstract class TitleScreenMixin extends Screen {
 			BallsHack.mc.setScreen(screen);
 		}).dimensions(this.width / 2 - 100, y += spacingY, 98, 20).tooltip(tooltip).build())).active = bl;
 		(addDrawableChild(ButtonWidget.builder(Text.literal("ClickGUI"), (button) -> {
-			Screen screen = new ClickGuiScreen();
-			BallsHack.mc.setScreen(screen);
+			ModuleManager.getModuleByClass(ClickGui.class).onEnable();
 		}).dimensions(this.width / 2 + 2, y, 98, 20).tooltip(tooltip).build())).active = bl;
 
 		cir.setReturnValue(y);

@@ -10,9 +10,8 @@ import net.minecraft.util.Formatting;
 import org.ranch.ballshack.command.Command;
 import org.ranch.ballshack.command.CommandType;
 import org.ranch.ballshack.command.suggestors.SettingSuggestor;
-import org.ranch.ballshack.setting.Setting;
-import org.ranch.ballshack.setting.SettingSaver;
-import org.ranch.ballshack.setting.SettingsManager;
+import org.ranch.ballshack.setting.ClientSetting;
+import org.ranch.ballshack.setting.ClientSettingSaver;
 
 import java.util.Map;
 
@@ -33,30 +32,29 @@ public class SettingCommand extends Command {
 										.executes(context -> {
 											String settingName = StringArgumentType.getString(context, "setting");
 											String settingValue = StringArgumentType.getString(context, "value");
-											Setting<?> setting = SettingsManager.getSettings().get(settingName);
+											ClientSetting<?> setting = ClientSettingSaver.getSettings().get(settingName);
 											if (setting == null) return 0;
 
 											if (setting.getValue() instanceof String) {
-												((Setting<String>) setting).setValue(settingValue);
+												((ClientSetting<String>) setting).setValue(settingValue);
 											} else if (setting.getValue() instanceof Boolean) {
-												((Setting<Boolean>) setting).setValue(Boolean.valueOf(settingValue));
+												((ClientSetting<Boolean>) setting).setValue(Boolean.valueOf(settingValue));
 											} else if (setting.getValue() instanceof Number) {
-												((Setting<Number>) setting).setValue(Double.valueOf(settingValue));
+												((ClientSetting<Number>) setting).setValue(Double.valueOf(settingValue));
 											} else {
 												log(CMD(": ").append(Text.literal("Could not parse value").formatted(Formatting.GRAY)));
 											}
 
-											SettingSaver.SCHEDULE_SAVE.set(true);
 											return 1;
 										}))))
 				.then(LiteralArgumentBuilder.<ClientCommandSource>literal("list")
 						.executes(context -> {
-							JsonObject json = SettingsManager.getJson();
+							//JsonObject json = ClientSettingSaver.getJson();
 							log(CMD(": "));
-							for (Map.Entry<String, Setting<?>> entry : SettingsManager.getSettings().entrySet()) {
-								String valRaw = json.get(entry.getKey()).toString();
-								String val = valRaw.length() > 20 ? valRaw.substring(0, 20) + "..." : valRaw;
-								log(Text.literal(entry.getKey() + ": ").append(Text.literal(val).formatted(Formatting.GRAY)));
+							for (Map.Entry<String, ClientSetting<?>> entry : ClientSettingSaver.getSettings().entrySet()) {
+								//String valRaw = json.get(entry.getKey()).toString();
+								//String val = valRaw.length() > 20 ? valRaw.substring(0, 20) + "..." : valRaw;
+								//log(Text.literal(entry.getKey() + ": ").append(Text.literal(val).formatted(Formatting.GRAY)));
 							}
 							return 1;
 						}));

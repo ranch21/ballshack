@@ -3,7 +3,6 @@ package org.ranch.ballshack.module.modules.render;
 import com.google.common.collect.Streams;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.screen.ingame.InventoryScreen;
 import net.minecraft.client.network.OtherClientPlayerEntity;
 import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.entity.Entity;
@@ -12,38 +11,44 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.math.Vec3d;
-import org.joml.*;
-import org.ranch.ballshack.BallsLogger;
+import org.joml.Matrix3x2fStack;
+import org.joml.Matrix4f;
+import org.joml.Vector2f;
 import org.ranch.ballshack.event.EventSubscribe;
 import org.ranch.ballshack.event.events.EventHudRender;
 import org.ranch.ballshack.event.events.EventWorldRender;
 import org.ranch.ballshack.gui.Colors;
 import org.ranch.ballshack.module.Module;
 import org.ranch.ballshack.module.ModuleCategory;
-import org.ranch.ballshack.setting.moduleSettings.SettingMode;
-import org.ranch.ballshack.setting.moduleSettings.SettingSlider;
-import org.ranch.ballshack.setting.moduleSettings.SettingToggle;
-import org.ranch.ballshack.setting.moduleSettings.TargetsDropDown;
+import org.ranch.ballshack.setting.TargetsSettingGroup;
+import org.ranch.ballshack.setting.settings.BooleanSetting;
+import org.ranch.ballshack.setting.settings.ModeSetting;
+import org.ranch.ballshack.setting.settings.NumberSetting;
 import org.ranch.ballshack.util.EntityUtil;
 import org.ranch.ballshack.util.InvUtil;
 import org.ranch.ballshack.util.TextUtil;
-import org.ranch.ballshack.util.WorldUtil;
 import org.ranch.ballshack.util.rendering.DrawUtil;
 
 import java.awt.*;
-import java.lang.Math;
-import java.util.*;
+import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 public class Nametags extends Module {
 
-	public final SettingSlider minSize = dGroup.add(new SettingSlider("MinSize", 0.5, 0.1, 2, 0.1).tooltip("(its not inverted)"));
-	public final SettingSlider size = dGroup.add(new SettingSlider("Size", 4, 0.5, 8, 0.5));
-	public final SettingToggle items = dGroup.add(new SettingToggle("Items", true));
-	public final SettingToggle ping = dGroup.add(new SettingToggle("Ping", true));
-	public final TargetsDropDown targets = dGroup.add(new TargetsDropDown("Targets"));
-	public final SettingMode health = dGroup.add(new SettingMode("Health", 0, "None", "Num", "Fraction"));
+	public final NumberSetting minSize = dGroup.add(new NumberSetting("MinSize", 0.5).min(0.1).max(2).step(0.1).tooltip("(its not inverted)"));
+	public final NumberSetting size = dGroup.add(new NumberSetting("Size", 4).min(0.5).max(8).step(0.5));
+	public final BooleanSetting items = dGroup.add(new BooleanSetting("Items", true));
+	public final BooleanSetting ping = dGroup.add(new BooleanSetting("Ping", true));
+	public final TargetsSettingGroup targets = addGroup(new TargetsSettingGroup("Targets"));
+
+	public static enum HealthMode {
+		NONE, NUM, FRACTION
+	}
+
+	public final ModeSetting<HealthMode> health = dGroup.add(new ModeSetting<>("Health", HealthMode.FRACTION, HealthMode.values()));
 
 	public Nametags() {
 		super("Nametags", ModuleCategory.RENDER, 0, "wgat is your name?");
@@ -95,15 +100,15 @@ public class Nametags extends Module {
 		EntityUtil.EntityType type = EntityUtil.getEntityType(e);
 
 		Text tagT = Text.empty().append(e.getName().copy().withColor(type.getColor().hashCode()));
-		if ((health.getValue() == 1 || health.getValue() == 2) && e instanceof LivingEntity le) {
+		if ((health.getValue() == HealthMode.FRACTION || health.getValue() == HealthMode.NUM) && e instanceof LivingEntity le) {
 			tagT = tagT.copy()
 					.append(Text.literal(" " + TextUtil.formatDecimal(le.getHealth(), "#.#"))
 							.withColor(EntityUtil.getHPCol(le).hashCode()));
 		}
-		if (health.getValue() == 2 && e instanceof LivingEntity le) {
+		if (health.getValue() == HealthMode.FRACTION && e instanceof LivingEntity le) {
 			tagT = tagT.copy()
 					.append(Text.literal("/")
-					.formatted(Formatting.WHITE)).append(TextUtil.formatDecimal(le.getMaxHealth(), "#.#"))
+							.formatted(Formatting.WHITE)).append(TextUtil.formatDecimal(le.getMaxHealth(), "#.#"))
 					.withColor(Colors.DULL_GREEN.hashCode());
 		}
 
@@ -123,8 +128,8 @@ public class Nametags extends Module {
 		stack.scale(scale, scale);
 		stack.translate((float) -mc.textRenderer.getWidth(tagT) / 2, -(float) mc.textRenderer.fontHeight / 2);
 
-		DrawUtil.drawOutlineWithCorners(context, -2, -2, mc.textRenderer.getWidth(tagT) + 3, mc.textRenderer.fontHeight + 2, Color.DARK_GRAY);
-		context.fill(-1, -1, mc.textRenderer.getWidth(tagT) + 1, mc.textRenderer.fontHeight, Colors.CLICKGUI_BACKGROUND_2.getColor().hashCode());
+		DrawUtil.drawOutlineWithCorners(context, -2, -2, mc.textRenderer.getWidth(tagT) + 3, mc.textRenderer.fontHeight + 2, Color.DARK_GRAY, Color.DARK_GRAY);
+		context.fill(-1, -1, mc.textRenderer.getWidth(tagT) + 1, mc.textRenderer.fontHeight, Colors.HUD_BACKGROUND.getColor().hashCode());
 		context.drawText(mc.textRenderer, tagT, 0, 0, 0xFFFFFFFF, true);
 
 		if (e instanceof LivingEntity le && items.getValue()) {
@@ -141,7 +146,10 @@ public class Nametags extends Module {
 		if (!mh.isEmpty()) w += 8;
 		if (!oh.isEmpty()) w += 8;
 		int j = 0;
-		if (!mh.isEmpty()) { drawItem(context, x - w, y, mh, Colors.DULL_GREEN); j++; }
+		if (!mh.isEmpty()) {
+			drawItem(context, x - w, y, mh, Colors.DULL_GREEN);
+			j++;
+		}
 		for (int i = armorItems.size() - 1; i >= 0; i--) {
 			drawItem(context, x - w + (j * 16), y, armorItems.get(i), Color.ORANGE);
 			j++;

@@ -9,13 +9,18 @@ import org.ranch.ballshack.event.events.EventMouseUpdate;
 import org.ranch.ballshack.event.events.EventTick;
 import org.ranch.ballshack.module.Module;
 import org.ranch.ballshack.module.ModuleCategory;
-import org.ranch.ballshack.setting.moduleSettings.*;
+import org.ranch.ballshack.setting.ModuleSettingsGroup;
+import org.ranch.ballshack.setting.TargetsSettingGroup;
+import org.ranch.ballshack.setting.settings.BooleanSetting;
+import org.ranch.ballshack.setting.settings.ModeSetting;
+import org.ranch.ballshack.setting.settings.NumberSetting;
+import org.ranch.ballshack.setting.settings.SortModeSetting;
 import org.ranch.ballshack.util.EntityUtil;
 import org.ranch.ballshack.util.PlayerUtil;
 import org.ranch.ballshack.util.Rotation;
 import org.ranch.ballshack.util.RotationUtil;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 public class AimAssist extends Module {
@@ -29,19 +34,25 @@ public class AimAssist extends Module {
 	private static Vec3d offset = Vec3d.ZERO;
 	private static Vec3d prevOffset = Vec3d.ZERO;
 
-	public final SettingMode mode = dGroup.add(new SettingMode("Mode", 0, Arrays.asList("Linear", "\"natural\"", "Momentum")).featured());
-	public final SettingSlider range = dGroup.add(new SettingSlider("Range", 4, 1, 8, 0.5));
-	public final SettingSlider speed = dGroup.add(new SettingSlider("Speed", 8, 1, 25, 1));
+	public static enum MoveMode {
+		LINEAR,
+		NATURAL,
+		MOMENTUM
+	}
 
-	public final DropDown randNoiseDD = dGroup.add(new DropDown("Random Noise"));
-	public final SettingToggle rnEnabled = randNoiseDD.add(new SettingToggle("Enabled", true));
-	public final SettingSlider rnAmount = randNoiseDD.add(new SettingSlider("Amount", 0.4, 0.1, 1, 0.1));
-	public final SettingSlider rnSpeed = randNoiseDD.add(new SettingSlider("Speed", 0.7, 0.1, 10, 0.1));
-	public final SettingToggle rnSBR = randNoiseDD.add(new SettingToggle("SBR", false));
-	public final SettingSlider rnSBRInfluence = randNoiseDD.add(new SettingSlider("SBR Influence", 0.8, 0.1, 2, 0.1));
+	public final ModeSetting<MoveMode> mode = dGroup.add(new ModeSetting<>("Mode", MoveMode.LINEAR, MoveMode.values()).featured());
+	public final NumberSetting range = dGroup.add(new NumberSetting("Range", 4).min(1).max(8).step(0.5));
+	public final NumberSetting speed = dGroup.add(new NumberSetting("Speed", 8).min(1).max(25).step(1));
 
-	public final TargetsDropDown targetsDD = dGroup.add(new TargetsDropDown("Targets"));
-	public final SortMode sortMode = dGroup.add((SortMode) new SortMode("Sort").featured());
+	public final ModuleSettingsGroup rGroup = addGroup(new ModuleSettingsGroup("Random Noise"));
+	public final BooleanSetting rnEnabled = rGroup.add(new BooleanSetting("Enabled", true));
+	public final NumberSetting rnAmount = rGroup.add(new NumberSetting("Amount", 0.4).min(0.1).max(1).step(0.1));
+	public final NumberSetting rnSpeed = rGroup.add(new NumberSetting("Speed", 0.7).min(0.1).max(10).step(0.1));
+	public final BooleanSetting rnSBR = rGroup.add(new BooleanSetting("SBR", false));
+	public final NumberSetting rnSBRInfluence = rGroup.add(new NumberSetting("SBR Influence", 0.8).min(0.1).max(2).step(0.1));
+
+	public final ModuleSettingsGroup tGroup = addGroup(new TargetsSettingGroup("Targets"));
+	public final ModeSetting<SortModeSetting.SortMode> sortMode = dGroup.add(new SortModeSetting("Sort").featured());
 
 	public AimAssist() {
 		super("AimAssist", ModuleCategory.COMBAT, 0, "Controller player mode");
@@ -56,8 +67,6 @@ public class AimAssist extends Module {
 
 		if (targetPos == null) return;
 
-		int moveMode = mode.getValue();
-
 		double speed = this.speed.getValue();
 
 		if (rnEnabled.getValue())
@@ -68,7 +77,7 @@ public class AimAssist extends Module {
 		float pdelta = RotationUtil.getDegreeChange(mc.player.lastPitch, desired.pitch);
 		float ydelta = RotationUtil.getDegreeChange(mc.player.lastYaw, desired.yaw);
 
-		if (moveMode == 1) {
+		if (mode.getValue() == MoveMode.LINEAR) {
 			float combined = Math.max((ydelta + pdelta) / 25, 1);
 
 			combined = combined * combined;
@@ -79,7 +88,7 @@ public class AimAssist extends Module {
 
 		Rotation step = RotationUtil.slowlyTurnTowards(desired, (float) speed);
 
-		if (moveMode == 2) {
+		if (mode.getValue() == MoveMode.MOMENTUM) {
 			yvel += step.yaw - mc.player.getYaw();
 			pvel += step.pitch - mc.player.getPitch();
 
@@ -109,7 +118,9 @@ public class AimAssist extends Module {
 		boolean SBR = rnSBR.getValue();
 		double SBRinf = rnSBRInfluence.getValue();
 
-		List<Entity> entities = EntityUtil.getEntities(distance, targetsDD, sortMode.getComparator(), true);
+		//List<Entity> entities = EntityUtil.getEntities(distance, targetsDD, sortMode.getComparator(), true);
+		List<Entity> entities = new ArrayList<>();
+
 
 		if (entities.isEmpty()) {
 			targetPos = null;

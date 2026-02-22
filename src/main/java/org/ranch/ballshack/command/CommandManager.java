@@ -13,7 +13,7 @@ import org.jetbrains.annotations.Nullable;
 import org.ranch.ballshack.BallsHack;
 import org.ranch.ballshack.BallsLogger;
 import org.ranch.ballshack.command.commands.*;
-import org.ranch.ballshack.setting.Setting;
+import org.ranch.ballshack.setting.ClientSetting;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,8 +24,7 @@ public class CommandManager {
 
 	public static final SimpleCommandExceptionType CREATIVE_EXCEPTION = new SimpleCommandExceptionType(Text.literal("Command requires creative!"));
 
-	public static final Setting<Character> prefix = new Setting<>('.', "prefix", new TypeToken<Character>() {
-	}.getType());
+	public static final ClientSetting<Character> prefix = new ClientSetting<>("prefix", '.');
 
 	private static @Nullable CommandDispatcher<ClientCommandSource> dispatcher;
 

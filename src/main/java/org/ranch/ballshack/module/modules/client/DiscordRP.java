@@ -10,37 +10,37 @@ import org.ranch.ballshack.event.events.EventScreen;
 import org.ranch.ballshack.event.events.EventTick;
 import org.ranch.ballshack.module.Module;
 import org.ranch.ballshack.module.ModuleCategory;
-import org.ranch.ballshack.setting.moduleSettings.*;
+import org.ranch.ballshack.setting.ModuleSettingsGroup;
+import org.ranch.ballshack.setting.settings.BooleanSetting;
+import org.ranch.ballshack.setting.settings.ModeSetting;
+import org.ranch.ballshack.setting.settings.NumberSetting;
+import org.ranch.ballshack.setting.settings.StringSetting;
 
 import java.time.Instant;
-import java.util.Arrays;
 
 import static org.ranch.ballshack.util.TextUtil.applyFormatting;
 
-
 public class DiscordRP extends Module {
+	public DiscordRP(String name, ModuleCategory category, int bind) {
+		super(name, category, bind);
+	}
+
 	private static Core core;
 	private static Activity activity;
 
-	public final SettingMode activityType = dGroup.add(new SettingMode("Type", 0, Arrays.asList(
-			"Playing",
-			"Streaming",
-			"Listening",
-			"Watching",
-			"Competing"
-	)));
-	public final SettingString details = dGroup.add(new SettingString("Details", "funny name i know"));
-	public final SettingString state = dGroup.add(new SettingString("State", "yay"));
+	public final ModeSetting<ActivityType> activityType = dGroup.add(new ModeSetting<>("Type", ActivityType.PLAYING, ActivityType.values()));
+	public final StringSetting details = dGroup.add(new StringSetting("Details", "funny name i know"));
+	public final StringSetting state = dGroup.add(new StringSetting("State", "yay"));
 
-	public final DropDown partyDD = dGroup.add(new DropDown("Party"));
-	public final SettingToggle pEnabled = partyDD.add(new SettingToggle("Enabled", true));
-	public final SettingToggle pUsePCount = partyDD.add(new SettingToggle("UsePCount", false));
-	public final SettingSlider pCurrent = partyDD.add(new SettingSlider("Current", 1, 0, 100, 1));
-	public final SettingSlider pMax = partyDD.add(new SettingSlider("Max", 2, 1, 100, 1));
+	public final ModuleSettingsGroup pGroup = addGroup(new ModuleSettingsGroup("Party"));
+	public final BooleanSetting pEnabled = pGroup.add(new BooleanSetting("Enabled", true));
+	public final BooleanSetting pUsePCount = pGroup.add(new BooleanSetting("UsePCount", false));
+	public final NumberSetting pCurrent = pGroup.add(new NumberSetting("Current", 1).min(0).max(100).step(1));
+	public final NumberSetting pMax = pGroup.add(new NumberSetting("Max", 2).min(1).max(100).step(1));
 
-	public final DropDown assetsDD = dGroup.add(new DropDown("Assets"));
-	public final SettingString aLarge = assetsDD.add(new SettingString("Large", "icon").maxLen(10));
-	public final SettingString aSmall = assetsDD.add(new SettingString("Small", "me").maxLen(10));
+	public final ModuleSettingsGroup assetsDD = addGroup(new ModuleSettingsGroup("Assets"));
+	public final StringSetting aLarge = assetsDD.add(new StringSetting("Large", "icon").maxLen(10));
+	public final StringSetting aSmall = assetsDD.add(new StringSetting("Small", "me").maxLen(10));
 
 	public DiscordRP() {
 		super("DiscordRP", ModuleCategory.CLIENT, 0, "answer my call at ONCE kitten!!");
@@ -103,7 +103,7 @@ public class DiscordRP extends Module {
 		String state = applyFormatting(stateRaw == null ? "" : stateRaw);
 		activity.setDetails(details);
 		activity.setState(state);
-		ActivityType type = ActivityType.values()[activityType.getValue()];
+		ActivityType type = activityType.getValue();
 		activity.setType(type == ActivityType.CUSTOM ? ActivityType.COMPETING : type);
 		boolean party = pEnabled.getValue();
 		boolean useServerPlayerCount = pUsePCount.getValue();

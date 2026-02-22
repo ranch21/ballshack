@@ -8,15 +8,15 @@ import org.ranch.ballshack.event.events.EventTick;
 import org.ranch.ballshack.mixin.PlayerMoveC2SPacketAccessor;
 import org.ranch.ballshack.module.Module;
 import org.ranch.ballshack.module.ModuleCategory;
-import org.ranch.ballshack.setting.moduleSettings.SettingToggle;
+import org.ranch.ballshack.setting.settings.BooleanSetting;
 
 public class AntiHunger extends Module {
 
 	private boolean prevOnGround = false;
 	private boolean ignorePacket = false;
 
-	public final SettingToggle sprint = dGroup.add(new SettingToggle("Sprint", true));
-	public final SettingToggle ground = dGroup.add(new SettingToggle("Ground", true));
+	public final BooleanSetting sprint = dGroup.add(new BooleanSetting("Sprint", true));
+	public final BooleanSetting ground = dGroup.add(new BooleanSetting("Ground", true));
 
 	public AntiHunger() {
 		super("AntiHunger", ModuleCategory.PLAYER, 0, "mmmmmmgghhh im soooo full");

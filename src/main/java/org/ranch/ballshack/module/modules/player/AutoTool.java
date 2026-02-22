@@ -13,7 +13,7 @@ import org.ranch.ballshack.event.events.EventTick;
 import org.ranch.ballshack.mixin.ClientPlayerInteractionManagerAccessor;
 import org.ranch.ballshack.module.Module;
 import org.ranch.ballshack.module.ModuleCategory;
-import org.ranch.ballshack.setting.moduleSettings.SettingToggle;
+import org.ranch.ballshack.setting.settings.BooleanSetting;
 import org.ranch.ballshack.util.InvUtil;
 
 public class AutoTool extends Module {
@@ -21,7 +21,7 @@ public class AutoTool extends Module {
 		super("AutoTool", ModuleCategory.PLAYER, 0, "Selects tool for you in an automatic fashion");
 	}
 
-	public final SettingToggle goBack = dGroup.add(new SettingToggle("Return", true));
+	public final BooleanSetting goBack = dGroup.add(new BooleanSetting("Return", true));
 
 	private int originalSlot = -1;
 	private boolean switched = false;

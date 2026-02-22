@@ -13,10 +13,7 @@ public class NoFall extends Module {
 
 	@EventSubscribe
 	public void onTick(EventTick event) {
-
 		if (mc.player.isCreative()) return;
-
 		mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.OnGroundOnly(true, mc.player.horizontalCollision));
-
 	}
 }

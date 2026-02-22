@@ -1,18 +1,29 @@
 package org.ranch.ballshack.module;
 
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.text.MutableText;
+import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 import org.jetbrains.annotations.Nullable;
 import org.ranch.ballshack.BallsHack;
 import org.ranch.ballshack.BallsLogger;
-import org.ranch.ballshack.setting.ModuleSettings;
 import org.ranch.ballshack.setting.ModuleSettingsGroup;
-import org.ranch.ballshack.setting.SettingSaver;
+import org.ranch.ballshack.setting.ModuleSettingSaver;
+import org.ranch.ballshack.setting.settings.BindSetting;
+import org.ranch.ballshack.setting.settings.BooleanSetting;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class Module {
 
 	protected final MinecraftClient mc = MinecraftClient.getInstance();
-	protected final ModuleSettings settings = new ModuleSettings();
-	protected final ModuleSettingsGroup dGroup = settings.getDefaultGroup();
+	protected final List<ModuleSettingsGroup> settings = new ArrayList<>();
+	public final ModuleSettingsGroup dGroup = new ModuleSettingsGroup("General");
+	public final ModuleSettingsGroup bGroup = new ModuleSettingsGroup("Bind");
+	public final BindSetting bindSetting = bGroup.add(new BindSetting("Bind", BindSetting.NONE));
+	public final BooleanSetting alertSetting = bGroup.add(new BooleanSetting("Notify", true));
+	public final BooleanSetting holdSetting = bGroup.add(new BooleanSetting("Hold", false));
 	private final String name;
 	private final ModuleCategory category;
 	private Boolean subscribed;
@@ -31,31 +42,32 @@ public abstract class Module {
 	}
 
 	public Module(String name, ModuleCategory category, int bind, @Nullable String tooltip, boolean isMeta) {
+		bindSetting.setValue(bind);
+		settings.add(dGroup);
+		settings.add(bGroup);
 		this.name = name;
 		this.category = category;
-		settings.getBind().setValue(bind);
+		//settings.getBind().setValue(bind);
 		this.tooltip = tooltip;
 		this.isMeta = isMeta;
 	}
 
 	public void onEnable() {
-		if (ModuleManager.printToggle) BallsLogger.info("Enabled module " + name);
 		subscribed = BallsHack.eventBus.subscribe(this);
+		ModuleSettingSaver.markDirty();
 		enabled = true;
-		SettingSaver.SCHEDULE_SAVE.set(true);
 	}
 
 	public void onDisable() {
-		if (ModuleManager.printToggle) BallsLogger.info("Enabled module " + name);
 		if (subscribed) {
 			subscribed = !BallsHack.eventBus.unsubscribe(this);
 		}
+		ModuleSettingSaver.markDirty();
 		enabled = false;
-		SettingSaver.SCHEDULE_SAVE.set(true);
 	}
 
 	public int getBind() {
-		return settings.getBind().getValue();
+		return bindSetting.getValue();
 	}
 
 	public ModuleCategory getCategory() {
@@ -66,8 +78,13 @@ public abstract class Module {
 		return name;
 	}
 
-	public ModuleSettings getSettings() {
+	public List<ModuleSettingsGroup> getSettings() {
 		return settings;
+	}
+
+	public <G extends ModuleSettingsGroup> G addGroup(G group) {
+		settings.add(group);
+		return group;
 	}
 
 	public String getTooltip() {
@@ -80,6 +97,15 @@ public abstract class Module {
 		} else {
 			onEnable();
 		}
+		if (alertSetting.getValue())
+			logToggle(enabled);
+	}
+
+	private void logToggle(boolean state) {
+		MutableText text = Text.literal(name + " has been ")
+				.append(Text.literal(state ? "enabled" : "disabled")
+						.formatted(state ? Formatting.GREEN : Formatting.RED));
+		BallsLogger.info(text);
 	}
 
 	public boolean isEnabled() {

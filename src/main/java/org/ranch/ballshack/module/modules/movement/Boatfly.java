@@ -9,8 +9,8 @@ import org.ranch.ballshack.event.events.EventPlayerInput;
 import org.ranch.ballshack.event.events.EventTick;
 import org.ranch.ballshack.module.Module;
 import org.ranch.ballshack.module.ModuleCategory;
-import org.ranch.ballshack.setting.moduleSettings.SettingSlider;
-import org.ranch.ballshack.setting.moduleSettings.SettingToggle;
+import org.ranch.ballshack.setting.settings.BooleanSetting;
+import org.ranch.ballshack.setting.settings.NumberSetting;
 
 import static org.ranch.ballshack.util.EntityUtil.getMaxAllowedFloatingTicks;
 
@@ -18,9 +18,9 @@ public class Boatfly extends Module {
 
 	private int antiKick = 0;
 
-	public final SettingSlider hSpeed = dGroup.add(new SettingSlider("Hspeed", 2, 1, 10, 0.5).featured());
-	public final SettingSlider vSpeed = dGroup.add(new SettingSlider("Vspeed", 2, 1, 4, 0.5));
-	public final SettingToggle antiSuffocate = dGroup.add(new SettingToggle("AntiSuffocate", true));
+	public final NumberSetting hSpeed = dGroup.add(new NumberSetting("Hspeed", 2).min(1).max(10).step(0.5).featured());
+	public final NumberSetting vSpeed = dGroup.add(new NumberSetting("Vspeed", 2).min(1).max(4).step(0.5));
+	public final BooleanSetting antiSuffocate = dGroup.add(new BooleanSetting("AntiSuffocate", true));
 
 	public Boatfly() {
 		super("BoatFly", ModuleCategory.MOVEMENT, 0, "popboat (sprint to dismount)");

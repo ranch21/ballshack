@@ -5,13 +5,13 @@ import org.ranch.ballshack.event.events.EventTick;
 import org.ranch.ballshack.gui.Colors;
 import org.ranch.ballshack.module.Module;
 import org.ranch.ballshack.module.ModuleCategory;
-import org.ranch.ballshack.setting.moduleSettings.SettingSlider;
+import org.ranch.ballshack.setting.settings.NumberSetting;
 
 public class Rainbow extends Module {
 
-	public final SettingSlider saturation = dGroup.add(new SettingSlider("Sat", 0.5, 0, 1, 0.05));
-	public final SettingSlider brightness = dGroup.add(new SettingSlider("Bri", 1, 0, 1, 0.05));
-	public final SettingSlider speed = dGroup.add(new SettingSlider("Speed", 1, 0, 5, 0.5));
+	public final NumberSetting saturation = dGroup.add(new NumberSetting("Sat", 0.5).min(0).max(1).step(0.05));
+	public final NumberSetting brightness = dGroup.add(new NumberSetting("Bri", 1).min(0).max(1).step(0.05));
+	public final NumberSetting speed = dGroup.add(new NumberSetting("Speed", 1).min(0).max(5).step(0.5));
 
 	public Rainbow() {
 		super("Rainbow", ModuleCategory.CLIENT, 0, "Taste the rainbow", true);

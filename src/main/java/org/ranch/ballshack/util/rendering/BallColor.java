@@ -33,7 +33,7 @@ public class BallColor extends Color {
 		super(cspace, components, alpha);
 	}
 
-	public static BallColor fromColor(Color c) {
+	public static BallColor of(Color c) {
 		return new BallColor(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha());
 	}
 

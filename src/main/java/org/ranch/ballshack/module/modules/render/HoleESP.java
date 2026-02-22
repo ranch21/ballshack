@@ -9,7 +9,7 @@ import org.ranch.ballshack.event.EventSubscribe;
 import org.ranch.ballshack.event.events.EventWorldRender;
 import org.ranch.ballshack.module.Module;
 import org.ranch.ballshack.module.ModuleCategory;
-import org.ranch.ballshack.setting.moduleSettings.SettingSlider;
+import org.ranch.ballshack.setting.settings.NumberSetting;
 import org.ranch.ballshack.util.rendering.BallColor;
 import org.ranch.ballshack.util.rendering.Renderer;
 
@@ -19,8 +19,8 @@ import java.util.Set;
 
 public class HoleESP extends Module {
 
-	public final SettingSlider alpha = dGroup.add(new SettingSlider("Alpha", 0.2f, 0, 1, 0.1));
-	public final SettingSlider range = dGroup.add(new SettingSlider("Range", 5, 1, 10, 1));
+	public final NumberSetting alpha = dGroup.add(new NumberSetting("Alpha", 0.2f).min(0).max(1).step(0.1));
+	public final NumberSetting range = dGroup.add(new NumberSetting("Range", 5).min(1).max(10).step(1));
 
 	private final Direction[] directions = {
 			Direction.DOWN,
@@ -58,8 +58,8 @@ public class HoleESP extends Module {
 				c = Color.RED;
 			}
 
-			renderer.queueCube(box, BallColor.fromColor(c).setAlpha(alpha.getValueFloat()), matrices);
-			renderer.queueCubeOutline(box, BallColor.fromColor(c).setAlpha(0.7f), matrices);
+			renderer.queueCube(box, BallColor.of(c).setAlpha(alpha.getValueFloat()), matrices);
+			renderer.queueCubeOutline(box, BallColor.of(c).setAlpha(0.7f), matrices);
 		}
 	}
 

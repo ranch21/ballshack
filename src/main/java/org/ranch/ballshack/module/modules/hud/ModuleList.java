@@ -9,11 +9,11 @@ import org.ranch.ballshack.gui.Colors;
 import org.ranch.ballshack.module.*;
 import org.ranch.ballshack.module.Module;
 import org.ranch.ballshack.setting.ModuleSetting;
-import org.ranch.ballshack.setting.moduleSettings.SettingMode;
-import org.ranch.ballshack.setting.moduleSettings.SettingToggle;
+import org.ranch.ballshack.setting.ModuleSettingsGroup;
+import org.ranch.ballshack.setting.settings.BooleanSetting;
+import org.ranch.ballshack.setting.settings.ModeSetting;
 
 import java.awt.*;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
@@ -22,10 +22,14 @@ import java.util.stream.Stream;
 public class ModuleList extends ModuleHud {
 	float totalTicks = 0;
 
-	public final SettingMode colorMode = dGroup.add(new SettingMode("ColMode", 1, Arrays.asList("Cat", "Rand", "Rain")));
-	public final SettingToggle backdrop = dGroup.add(new SettingToggle("Backdrop", true));
-	public final SettingToggle shadow = dGroup.add(new SettingToggle("Shadow", true));
-	public final SettingToggle line = dGroup.add(new SettingToggle("Line", true));
+	public static enum ColorMode {
+		CATEGORY, RANDOM, RAINBOW
+	}
+
+	public final ModeSetting<ColorMode> colorMode = dGroup.add(new ModeSetting<>("ColMode", ColorMode.RANDOM, ColorMode.values()));
+	public final BooleanSetting backdrop = dGroup.add(new BooleanSetting("Backdrop", true));
+	public final BooleanSetting shadow = dGroup.add(new BooleanSetting("Shadow", true));
+	public final BooleanSetting line = dGroup.add(new BooleanSetting("Line", true));
 
 	public ModuleList() {
 		super("ModuleList", ModuleCategory.HUD, 0, 0, 0, "Incase you forgor what you enabled", ModuleAnchor.TOP_RIGHT);
@@ -73,7 +77,7 @@ public class ModuleList extends ModuleHud {
 		int baseY = Y() - yOffset() + (mc.textRenderer.fontHeight + 1) * index + 1;
 
 		if (background) {
-			context.fill(baseX - 1, baseY - 1, baseX + textWidth + 1, baseY + mc.textRenderer.fontHeight, Colors.CLICKGUI_BACKGROUND_2.getColor().hashCode());
+			context.fill(baseX - 1, baseY - 1, baseX + textWidth + 1, baseY + mc.textRenderer.fontHeight, Colors.HUD_BACKGROUND.getColor().hashCode());
 		}
 
 		if (line && !getAnchorPoint().isCenter()) {
@@ -83,17 +87,16 @@ public class ModuleList extends ModuleHud {
 		context.drawText(mc.textRenderer, text, baseX, baseY, Color.WHITE.hashCode(), shadow);
 	}
 
-	private Color getModuleColor(Module module, int cMode, int i) {
+	private Color getModuleColor(Module module, ColorMode cMode, int i) {
 		Color col;
 		Random r = new Random();
 		col = switch (cMode) {
-			case 0 -> module.getCategory().getColor();
-			case 1 -> {
+			case CATEGORY -> module.getCategory().getColor();
+			case RANDOM -> {
 				r.setSeed(module.getName().hashCode());
 				yield Color.getHSBColor(r.nextFloat(), 0.7f, 1.0f);
 			}
-			case 2 -> Colors.getRainbowColorGlobal(totalTicks + i * 10);
-			default -> Color.WHITE;
+			case RAINBOW -> Colors.getRainbowColorGlobal(totalTicks + i * 10);
 		};
 		return col;
 	}
@@ -112,12 +115,14 @@ public class ModuleList extends ModuleHud {
 
 	private String getFeaturedSettings(Module module) {
 		StringBuilder feat = new StringBuilder();
-		for (ModuleSetting<?, ?> m : module.getSettings().getSettings()) {
-			if (m.isFeatured()) {
-				if (!feat.isEmpty()) {
-					feat.append(", ");
+		for (ModuleSettingsGroup g : module.getSettings()) {
+			for (ModuleSetting<?, ?> m : g.getSettings()) {
+				if (m.isFeatured()) {
+					if (!feat.isEmpty()) {
+						feat.append(", ");
+					}
+					feat.append(m.getFormattedValue());
 				}
-				feat.append(m.getFormattedValue());
 			}
 		}
 		return feat.toString();
