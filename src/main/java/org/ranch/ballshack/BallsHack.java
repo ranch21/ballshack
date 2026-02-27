@@ -23,7 +23,7 @@ public class BallsHack implements ModInitializer {
 	;
 
 	public static final ClientSetting<String> title = new ClientSetting<>("watermark", "BallsHack").tooltip("the name of the client");
-	public static final String version = "1.33";
+	public static final String version = "1.34";
 
 	public static final String ID = "ballshack";
 
