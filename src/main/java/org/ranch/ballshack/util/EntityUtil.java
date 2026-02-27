@@ -20,7 +20,7 @@ import net.minecraft.util.math.noise.PerlinNoiseSampler;
 import net.minecraft.util.math.random.Random;
 import org.ranch.ballshack.FriendManager;
 import org.ranch.ballshack.gui.Colors;
-import org.ranch.ballshack.setting.TargetsSettingGroup;
+import org.ranch.ballshack.setting.module.TargetsSettingGroup;
 
 import java.awt.*;
 import java.util.ArrayList;

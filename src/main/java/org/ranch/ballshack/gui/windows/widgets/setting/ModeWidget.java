@@ -7,7 +7,7 @@ import org.ranch.ballshack.gui.Colors;
 import org.ranch.ballshack.gui.GuiUtil;
 import org.ranch.ballshack.gui.windows.RemovalReason;
 import org.ranch.ballshack.gui.windows.widgets.Widget;
-import org.ranch.ballshack.setting.settings.ModeSetting;
+import org.ranch.ballshack.setting.module.settings.ModeSetting;
 import org.ranch.ballshack.util.rendering.BallColor;
 
 public class ModeWidget<E extends Enum<?>> extends SettingWidget<E> {

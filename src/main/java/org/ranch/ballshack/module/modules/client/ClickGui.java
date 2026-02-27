@@ -7,8 +7,8 @@ import org.ranch.ballshack.gui.windows.clickgui.ClickGuiScreen;
 import org.ranch.ballshack.module.Module;
 import org.ranch.ballshack.module.ModuleCategory;
 import org.ranch.ballshack.module.ModuleManager;
-import org.ranch.ballshack.setting.settings.BooleanSetting;
-import org.ranch.ballshack.setting.settings.NumberSetting;
+import org.ranch.ballshack.setting.module.settings.BooleanSetting;
+import org.ranch.ballshack.setting.module.settings.NumberSetting;
 
 public class ClickGui extends Module {
 

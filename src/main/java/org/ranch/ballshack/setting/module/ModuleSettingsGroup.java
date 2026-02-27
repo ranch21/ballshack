@@ -1,9 +1,9 @@
-package org.ranch.ballshack.setting;
+package org.ranch.ballshack.setting.module;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ModuleSettingsGroup implements SettingsList {
+public class ModuleSettingsGroup {
 
 	protected final List<ModuleSetting<?, ?>> settings = new ArrayList<>();
 	public final String name;

@@ -1,9 +1,12 @@
 package org.ranch.ballshack.mixin;
 
+import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.client.render.Camera;
+import net.minecraft.util.math.Vec3d;
 import org.ranch.ballshack.BallsHack;
 import org.ranch.ballshack.event.events.EventCameraExtend;
 import org.ranch.ballshack.event.events.EventCameraRot;
+import org.ranch.ballshack.event.events.EventCameraUpdate;
 import org.ranch.ballshack.util.FreelookHandler;
 import org.ranch.ballshack.util.Rotation;
 import org.spongepowered.asm.mixin.Mixin;
@@ -26,6 +29,15 @@ public class CameraMixin {
 		BallsHack.eventBus.post(event);
 		args.set(0, event.rot.yaw);
 		args.set(1, event.rot.pitch);
+	}
+
+	@ModifyArgs(method = "update", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/Camera;setPos(DDD)V"))
+	public void setPos(Args args, @Local(argsOnly = true) float tickProgress) {
+		EventCameraUpdate event = new EventCameraUpdate(new Vec3d(args.get(0), args.get(1), args.get(2)), tickProgress);
+		BallsHack.eventBus.post(event);
+		args.set(0, event.pos.x);
+		args.set(1, event.pos.y);
+		args.set(2, event.pos.z);
 	}
 
 	@ModifyArgs(method = "update", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/Camera;moveBy(FFF)V", ordinal = 0))

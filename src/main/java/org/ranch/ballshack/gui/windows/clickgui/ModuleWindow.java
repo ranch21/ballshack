@@ -3,7 +3,6 @@ package org.ranch.ballshack.gui.windows.clickgui;
 import net.minecraft.client.gui.DrawContext;
 import org.lwjgl.glfw.GLFW;
 import org.ranch.ballshack.BallsHack;
-import org.ranch.ballshack.gui.Colors;
 import org.ranch.ballshack.gui.windows.widgets.ButtonWidget;
 import org.ranch.ballshack.module.Module;
 import org.ranch.ballshack.module.ModuleManager;

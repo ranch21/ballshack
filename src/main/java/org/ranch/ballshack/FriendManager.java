@@ -1,7 +1,6 @@
 package org.ranch.ballshack;
 
-import com.google.gson.reflect.TypeToken;
-import org.ranch.ballshack.setting.ClientSetting;
+import org.ranch.ballshack.setting.client.ClientSetting;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,9 +1,6 @@
 package org.ranch.ballshack.gui.windows.widgets;
 
-import net.minecraft.client.gui.DrawContext;
-import org.ranch.ballshack.gui.Colors;
 import org.ranch.ballshack.gui.windows.Window;
-import org.ranch.ballshack.util.rendering.DrawUtil;
 
 public class Widget extends Window {
 

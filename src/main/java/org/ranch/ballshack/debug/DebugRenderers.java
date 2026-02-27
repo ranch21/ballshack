@@ -1,11 +1,10 @@
 package org.ranch.ballshack.debug;
 
-import com.google.gson.reflect.TypeToken;
 import org.ranch.ballshack.debug.renderers.BallGridDebugRenderer;
 import org.ranch.ballshack.debug.renderers.PlayerSimDebugRenderer;
 import org.ranch.ballshack.debug.renderers.ScaffoldDebugRenderer;
 import org.ranch.ballshack.debug.renderers.VecDebugRenderer;
-import org.ranch.ballshack.setting.ClientSetting;
+import org.ranch.ballshack.setting.client.ClientSetting;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;

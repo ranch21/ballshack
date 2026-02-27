@@ -6,11 +6,11 @@ import org.ranch.ballshack.event.events.EventPlayerMovementVector;
 import org.ranch.ballshack.event.events.EventTick;
 import org.ranch.ballshack.module.Module;
 import org.ranch.ballshack.module.ModuleCategory;
-import org.ranch.ballshack.setting.ModuleSettingsGroup;
-import org.ranch.ballshack.setting.settings.BooleanSetting;
-import org.ranch.ballshack.setting.settings.ModeSetting;
-import org.ranch.ballshack.setting.settings.NumberSetting;
-import org.ranch.ballshack.setting.settings.StringSetting;
+import org.ranch.ballshack.setting.module.ModuleSettingsGroup;
+import org.ranch.ballshack.setting.module.settings.BooleanSetting;
+import org.ranch.ballshack.setting.module.settings.ModeSetting;
+import org.ranch.ballshack.setting.module.settings.NumberSetting;
+import org.ranch.ballshack.setting.module.settings.StringSetting;
 import org.ranch.ballshack.util.PlayerUtil;
 
 public class TestModule extends Module {

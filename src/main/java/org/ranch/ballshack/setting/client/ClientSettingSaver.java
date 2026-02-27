@@ -1,11 +1,8 @@
-package org.ranch.ballshack.setting;
+package org.ranch.ballshack.setting.client;
 
 import com.electronwill.nightconfig.core.file.CommentedFileConfig;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import org.ranch.ballshack.BallsHack;
+import org.ranch.ballshack.setting.module.ModuleSettingSaver;
 
 import java.nio.file.Path;
 import java.util.HashMap;
@@ -15,6 +12,8 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+
+//todo maybe change to another toml lib (JToml)
 public class ClientSettingSaver {
 	private static final Map<String, ClientSetting<?>> settings = new HashMap<>();
 	private static final Path file = BallsHack.getSaveDir().resolve("config.toml");
@@ -23,7 +22,7 @@ public class ClientSettingSaver {
 			.sync()
 			.build();
 
-	public static final AtomicBoolean SHOULD_SAVE = new  AtomicBoolean(false);
+	public static final AtomicBoolean SHOULD_SAVE = new AtomicBoolean(false);
 	private static final ScheduledExecutorService SAVE_EXECUTOR = Executors.newSingleThreadScheduledExecutor();
 
 
@@ -76,6 +75,8 @@ public class ClientSettingSaver {
 			} else {
 				config.set(entry.getKey(), value);
 			}
+
+			config.setComment(entry.getKey(), entry.getValue().getTooltip());
 		}
 
 		config.save();

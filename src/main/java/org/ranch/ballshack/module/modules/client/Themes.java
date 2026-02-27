@@ -3,9 +3,9 @@ package org.ranch.ballshack.module.modules.client;
 import org.ranch.ballshack.gui.ThemeManager;
 import org.ranch.ballshack.module.Module;
 import org.ranch.ballshack.module.ModuleCategory;
-import org.ranch.ballshack.setting.ModuleSettingSaver;
-import org.ranch.ballshack.setting.settings.BooleanSetting;
-import org.ranch.ballshack.setting.settings.StringSetting;
+import org.ranch.ballshack.setting.module.ModuleSettingSaver;
+import org.ranch.ballshack.setting.module.settings.BooleanSetting;
+import org.ranch.ballshack.setting.module.settings.StringSetting;
 
 public class Themes extends Module {
 

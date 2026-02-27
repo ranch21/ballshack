@@ -5,7 +5,7 @@ import org.ranch.ballshack.event.events.EventTick;
 import org.ranch.ballshack.gui.Colors;
 import org.ranch.ballshack.module.Module;
 import org.ranch.ballshack.module.ModuleCategory;
-import org.ranch.ballshack.setting.settings.NumberSetting;
+import org.ranch.ballshack.setting.module.settings.NumberSetting;
 
 public class Rainbow extends Module {
 

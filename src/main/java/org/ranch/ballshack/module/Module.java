@@ -7,10 +7,10 @@ import net.minecraft.util.Formatting;
 import org.jetbrains.annotations.Nullable;
 import org.ranch.ballshack.BallsHack;
 import org.ranch.ballshack.BallsLogger;
-import org.ranch.ballshack.setting.ModuleSettingsGroup;
-import org.ranch.ballshack.setting.ModuleSettingSaver;
-import org.ranch.ballshack.setting.settings.BindSetting;
-import org.ranch.ballshack.setting.settings.BooleanSetting;
+import org.ranch.ballshack.setting.module.ModuleSettingSaver;
+import org.ranch.ballshack.setting.module.ModuleSettingsGroup;
+import org.ranch.ballshack.setting.module.settings.BindSetting;
+import org.ranch.ballshack.setting.module.settings.BooleanSetting;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +26,7 @@ public abstract class Module {
 	public final BooleanSetting holdSetting = bGroup.add(new BooleanSetting("Hold", false));
 	private final String name;
 	private final ModuleCategory category;
-	private Boolean subscribed;
+	private boolean subscribed;
 	private final boolean isMeta;
 
 	private final String tooltip;
@@ -47,6 +47,7 @@ public abstract class Module {
 		settings.add(bGroup);
 		this.name = name;
 		this.category = category;
+		this.subscribed = false;
 		//settings.getBind().setValue(bind);
 		this.tooltip = tooltip;
 		this.isMeta = isMeta;

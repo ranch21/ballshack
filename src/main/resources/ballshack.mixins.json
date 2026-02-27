@@ -12,6 +12,7 @@
     "PlayerMoveC2SPacketAccessor"
   ],
   "client": [
+    "CameraInvoker",
     "ChatInputSuggestorMixin",
     "ChatScreenMixin",
     "ClientCommonNetworkHandlerMixin",

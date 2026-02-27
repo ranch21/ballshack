@@ -7,7 +7,6 @@ import org.ranch.ballshack.command.Command;
 import org.ranch.ballshack.command.CommandManager;
 import org.ranch.ballshack.command.CommandType;
 import org.ranch.ballshack.command.arguments.CharacterArgumentType;
-import org.ranch.ballshack.setting.ModuleSettingSaver;
 
 public class PrefixCommand extends Command {
 	public PrefixCommand() {

@@ -6,4 +6,6 @@ public interface ISetting<T> {
 	void setValue(T value);
 
 	String getFormattedValue();
+
+	String getTooltip();
 }

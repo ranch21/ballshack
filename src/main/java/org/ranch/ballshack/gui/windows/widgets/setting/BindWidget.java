@@ -5,7 +5,7 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.input.KeyInput;
 import org.lwjgl.glfw.GLFW;
 import org.ranch.ballshack.gui.windows.widgets.Widget;
-import org.ranch.ballshack.setting.settings.BindSetting;
+import org.ranch.ballshack.setting.module.settings.BindSetting;
 
 public class BindWidget extends SettingWidget<Integer> {
 

@@ -1,4 +1,4 @@
-package org.ranch.ballshack.setting.settings;
+package org.ranch.ballshack.setting.module.settings;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -9,7 +9,7 @@ import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.Identifier;
 import org.ranch.ballshack.gui.windows.widgets.Widget;
-import org.ranch.ballshack.setting.ModuleSetting;
+import org.ranch.ballshack.setting.module.ModuleSetting;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +48,7 @@ public class BlocksSetting extends ModuleSetting<List<Identifier>, BlocksSetting
 
 	@Override
 	public void readJson(JsonElement jsonElement) {
-		List<Identifier> ids = new  ArrayList<>();
+		List<Identifier> ids = new ArrayList<>();
 		jsonElement.getAsJsonArray().forEach((element) -> {
 			ids.add(Identifier.tryParse(element.getAsString()));
 		});

@@ -8,10 +8,10 @@ import org.ranch.ballshack.event.events.EventHudRender;
 import org.ranch.ballshack.gui.Colors;
 import org.ranch.ballshack.module.*;
 import org.ranch.ballshack.module.Module;
-import org.ranch.ballshack.setting.ModuleSetting;
-import org.ranch.ballshack.setting.ModuleSettingsGroup;
-import org.ranch.ballshack.setting.settings.BooleanSetting;
-import org.ranch.ballshack.setting.settings.ModeSetting;
+import org.ranch.ballshack.setting.module.ModuleSetting;
+import org.ranch.ballshack.setting.module.ModuleSettingsGroup;
+import org.ranch.ballshack.setting.module.settings.BooleanSetting;
+import org.ranch.ballshack.setting.module.settings.ModeSetting;
 
 import java.awt.*;
 import java.util.Comparator;

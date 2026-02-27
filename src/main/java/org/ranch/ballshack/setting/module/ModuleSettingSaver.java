@@ -1,4 +1,4 @@
-package org.ranch.ballshack.setting;
+package org.ranch.ballshack.setting.module;
 
 import com.google.gson.*;
 import org.ranch.ballshack.BallsHack;
@@ -24,7 +24,7 @@ public class ModuleSettingSaver {
 	private static final Path path = BallsHack.getSaveDir();
 	private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
-	public static final AtomicBoolean SHOULD_SAVE = new  AtomicBoolean(false);
+	public static final AtomicBoolean SHOULD_SAVE = new AtomicBoolean(false);
 	private static final ScheduledExecutorService SAVE_EXECUTOR = Executors.newSingleThreadScheduledExecutor();
 
 	static {
@@ -58,7 +58,10 @@ public class ModuleSettingSaver {
 		for (ModuleSettingsGroup group : module.getSettings()) {
 			JsonObject groupJson = moduleJson.getAsJsonObject(group.name);
 			for (ModuleSetting<?, ?> setting : group.getSettings()) {
-				setting.readJson(groupJson.get(setting.getName()));
+				JsonElement element = groupJson.get(setting.getName());
+				if (element != null && !element.isJsonNull()) {
+					setting.readJson(groupJson.get(setting.getName()));
+				}
 			}
 		}
 	}

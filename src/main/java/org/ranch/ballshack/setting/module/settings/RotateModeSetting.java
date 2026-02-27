@@ -1,4 +1,4 @@
-package org.ranch.ballshack.setting.settings;
+package org.ranch.ballshack.setting.module.settings;
 
 public class RotateModeSetting extends ModeSetting<RotateModeSetting.RotateMode> {
 

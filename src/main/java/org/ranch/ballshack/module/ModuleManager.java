@@ -17,6 +17,7 @@ import org.ranch.ballshack.module.modules.world.Scaffold;
 import java.util.ArrayList;
 import java.util.List;
 
+//todo multiple hud modules active at the same time
 public class ModuleManager {
 
 	private static final List<Module> modules = new ArrayList<>();
@@ -120,6 +121,7 @@ public class ModuleManager {
 		register(new ThirdPersonCam());
 		register(new HoleESP());
 		register(new Environment());
+		register(new Freecam());
 
 		// world
 		register(new Scaffold());

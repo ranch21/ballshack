@@ -5,8 +5,8 @@ import org.ranch.ballshack.event.events.EventMouseUpdate;
 import org.ranch.ballshack.event.events.EventTick;
 import org.ranch.ballshack.module.Module;
 import org.ranch.ballshack.module.ModuleCategory;
-import org.ranch.ballshack.setting.settings.BooleanSetting;
-import org.ranch.ballshack.setting.settings.NumberSetting;
+import org.ranch.ballshack.setting.module.settings.BooleanSetting;
+import org.ranch.ballshack.setting.module.settings.NumberSetting;
 import org.ranch.ballshack.util.Rotation;
 import org.ranch.ballshack.util.RotationUtil;
 
@@ -64,7 +64,7 @@ public class InfiniteElytraGlide extends Module {
 	}
 
 	@EventSubscribe
-	public void onMouseUpdate(EventMouseUpdate event) {
+	public void onMouseUpdate(EventMouseUpdate.Mouse event) {
 
 		if (mc.player.hasVehicle() || instantTurn.getValue()) return;
 		if (!mc.player.isGliding()) {

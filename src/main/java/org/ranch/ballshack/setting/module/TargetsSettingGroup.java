@@ -1,6 +1,6 @@
-package org.ranch.ballshack.setting;
+package org.ranch.ballshack.setting.module;
 
-import org.ranch.ballshack.setting.settings.BooleanSetting;
+import org.ranch.ballshack.setting.module.settings.BooleanSetting;
 import org.ranch.ballshack.util.EntityUtil;
 
 public class TargetsSettingGroup extends ModuleSettingsGroup {

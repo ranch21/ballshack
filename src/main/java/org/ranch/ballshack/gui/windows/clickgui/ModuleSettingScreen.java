@@ -7,10 +7,9 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.input.KeyInput;
 import org.lwjgl.glfw.GLFW;
 import org.ranch.ballshack.BallsHack;
-import org.ranch.ballshack.gui.Colors;
 import org.ranch.ballshack.gui.windows.WindowScreen;
 import org.ranch.ballshack.module.Module;
-import org.ranch.ballshack.setting.ModuleSettingsGroup;
+import org.ranch.ballshack.setting.module.ModuleSettingsGroup;
 
 import java.awt.*;
 

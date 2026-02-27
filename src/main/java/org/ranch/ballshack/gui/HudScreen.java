@@ -1,6 +1,5 @@
 package org.ranch.ballshack.gui;
 
-import com.google.gson.reflect.TypeToken;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.Click;
 import net.minecraft.client.gui.DrawContext;
@@ -11,8 +10,6 @@ import net.minecraft.client.util.NarratorManager;
 import org.lwjgl.glfw.GLFW;
 import org.ranch.ballshack.module.*;
 import org.ranch.ballshack.module.Module;
-import org.ranch.ballshack.setting.HudElementData;
-import org.ranch.ballshack.setting.ClientSetting;
 import org.ranch.ballshack.util.rendering.DrawUtil;
 
 import java.awt.*;
@@ -30,7 +27,6 @@ public class HudScreen extends Screen {
 	final int snapRange = 2;
 	ModuleHud draggingModule = null;
 	final ArrayList<ModuleHud> modules = new ArrayList<>();
-	ClientSetting<ArrayList<HudElementData>> hudData = new ClientSetting<>("hudElements", new ArrayList<>());
 
 	public HudScreen() {
 		super(NarratorManager.EMPTY);

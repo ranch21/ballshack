@@ -5,7 +5,7 @@ import com.mojang.brigadier.suggestion.SuggestionProvider;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import net.minecraft.client.network.ClientCommandSource;
-import org.ranch.ballshack.setting.ClientSettingSaver;
+import org.ranch.ballshack.setting.client.ClientSettingSaver;
 
 import java.util.concurrent.CompletableFuture;
 

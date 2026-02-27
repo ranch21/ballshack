@@ -7,7 +7,7 @@ import net.minecraft.client.render.state.WorldRenderState;
 import net.minecraft.client.util.math.MatrixStack;
 import org.ranch.ballshack.event.Event;
 
-public class EventWorldRender extends Event {
+public abstract class EventWorldRender extends Event {
 
 	public MatrixStack matrixStack;
 	public float tickDelta;

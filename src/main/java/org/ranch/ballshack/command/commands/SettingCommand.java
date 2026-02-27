@@ -1,6 +1,5 @@
 package org.ranch.ballshack.command.commands;
 
-import com.google.gson.JsonObject;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.builder.RequiredArgumentBuilder;
@@ -10,8 +9,8 @@ import net.minecraft.util.Formatting;
 import org.ranch.ballshack.command.Command;
 import org.ranch.ballshack.command.CommandType;
 import org.ranch.ballshack.command.suggestors.SettingSuggestor;
-import org.ranch.ballshack.setting.ClientSetting;
-import org.ranch.ballshack.setting.ClientSettingSaver;
+import org.ranch.ballshack.setting.client.ClientSetting;
+import org.ranch.ballshack.setting.client.ClientSettingSaver;
 
 import java.util.Map;
 

@@ -1,6 +1,5 @@
 package org.ranch.ballshack.command;
 
-import com.google.gson.reflect.TypeToken;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.ParseResults;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
@@ -13,7 +12,7 @@ import org.jetbrains.annotations.Nullable;
 import org.ranch.ballshack.BallsHack;
 import org.ranch.ballshack.BallsLogger;
 import org.ranch.ballshack.command.commands.*;
-import org.ranch.ballshack.setting.ClientSetting;
+import org.ranch.ballshack.setting.client.ClientSetting;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +23,7 @@ public class CommandManager {
 
 	public static final SimpleCommandExceptionType CREATIVE_EXCEPTION = new SimpleCommandExceptionType(Text.literal("Command requires creative!"));
 
-	public static final ClientSetting<Character> prefix = new ClientSetting<>("prefix", '.');
+	public static final ClientSetting<Character> prefix = new ClientSetting<>("prefix", '.').tooltip("the command prefix");
 
 	private static @Nullable CommandDispatcher<ClientCommandSource> dispatcher;
 
