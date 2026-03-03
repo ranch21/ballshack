@@ -20,7 +20,6 @@ import java.nio.file.Paths;
 public class BallsHack implements ModInitializer {
 
 	public static final EventBus eventBus = new EventBus();
-	;
 
 	public static final ClientSetting<String> title = new ClientSetting<>("watermark", "BallsHack").tooltip("the name of the client");
 	public static final String version = "1.34";

@@ -23,14 +23,23 @@ public class ClickGuiScreen extends WindowScreen {
 	// update: its back
 	ButtonWidget button;
 
-	public ClickGuiScreen(Screen parent) {
+	private static ClickGuiScreen instance;
+
+	private ClickGuiScreen(Screen parent) {
 		super(parent);
 	}
 
-	@Override
-	public void init() {
-		super.init();
+	public static ClickGuiScreen getInstance(Screen parent) {
+		if (instance == null) {
+			instance = new ClickGuiScreen(parent);
+			instance.setup();
+		} else {
+			instance.parent = parent;
+		}
+		return instance;
+	}
 
+	public void setup() {
 		int s = 10;
 		int w = 70;
 		int i = 0;
@@ -49,6 +58,12 @@ public class ClickGuiScreen extends WindowScreen {
 	}
 
 	@Override
+	public void init() {
+		//super.init();
+		//setup();
+	}
+
+	@Override
 	public void render(DrawContext context, int mouseX, int mouseY, float delta) {
 		super.render(context, mouseX, mouseY, delta);
 
@@ -59,8 +74,10 @@ public class ClickGuiScreen extends WindowScreen {
 
 	@Override
 	public boolean keyPressed(KeyInput input) {
-		if (input.getKeycode() == GLFW.GLFW_KEY_ESCAPE)
+		if (input.getKeycode() == GLFW.GLFW_KEY_ESCAPE) {
 			client.setScreen(null);
+			return true;
+		}
 		return super.keyPressed(input);
 	}
 }

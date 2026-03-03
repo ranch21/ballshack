@@ -12,9 +12,6 @@ import org.ranch.ballshack.setting.module.settings.NumberSetting;
 
 public class ClickGui extends Module {
 
-	private ClickGuiScreen screen;
-
-	public final BooleanSetting darken = dGroup.add(new BooleanSetting("Darken", true));
 	public final BooleanSetting legacy = dGroup.add(new BooleanSetting("Legacy", false));
 
 	public final NumberSetting scale = dGroup.add(new NumberSetting("Scale", 1).min(0.5).max(2).step(0.1));
@@ -31,8 +28,7 @@ public class ClickGui extends Module {
 			LegacyClickGuiScreen screen = new LegacyClickGuiScreen();
 			MinecraftClient.getInstance().setScreen(screen);
 		} else {
-			ClickGuiScreen screen = new ClickGuiScreen(null);
-			this.screen = screen;
+			ClickGuiScreen screen = ClickGuiScreen.getInstance(null);
 			screen.setScale(ModuleManager.getModuleByClass(ClickGui.class).scale.getValueFloat());
 			MinecraftClient.getInstance().setScreen(screen);
 		}

@@ -46,8 +46,8 @@ public class ModuleSettingWindow extends AutoFitWindow {
 
 	@Override
 	public void remove(RemovalReason reason) {
-		super.remove(reason);
-		mc.setScreen(getRootScreen().parent);
+		mc.setScreen(ClickGuiScreen.getInstance(null));
+		//super.remove(reason);
 	}
 
 	private void addWidget(ModuleSetting<?, ?> setting) {

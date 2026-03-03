@@ -14,7 +14,7 @@ import java.util.List;
 
 public class WindowScreen extends Screen implements IWindow {
 
-	private static final List<Window> windows = new ArrayList<>();
+	private final List<Window> windows = new ArrayList<>();
 	public Screen parent;
 	private float scale = 0.5F;
 
@@ -25,7 +25,6 @@ public class WindowScreen extends Screen implements IWindow {
 
 	@Override
 	public void init() {
-		super.init();
 		windows.clear();
 	}
 
