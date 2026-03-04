@@ -122,6 +122,7 @@ public class ModuleManager {
 		register(new HoleESP());
 		register(new Environment());
 		register(new Freecam());
+		register(new Fullbright());
 
 		// world
 		register(new Scaffold());

@@ -28,6 +28,7 @@
     "InputAccessor",
     "KeyboardInputMixin",
     "KeyboardMixin",
+    "LightmapTextureManagerMixin",
     "MinecraftClientMixin",
     "MouseMixin",
     "MultiplayerScreenAccessor",
