@@ -25,6 +25,6 @@ public class VecDebugRenderer extends DebugRenderer {
 
 		Renderer renderer = Renderer.getInstance();
 
-		renderer.queueArrow(pos, pos.add(vec), 4, color, event.matrixStack);
+		renderer.queueArrow(pos, pos.add(vec), 0.2f, color, event.matrixStack);
 	}
 }

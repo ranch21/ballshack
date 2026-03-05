@@ -23,7 +23,7 @@ public class FriendCommand extends Command {
 	public LiteralArgumentBuilder<ClientCommandSource> onRegister(LiteralArgumentBuilder<ClientCommandSource> builder) {
 		return builder
 				.then(LiteralArgumentBuilder.<ClientCommandSource>literal("add")
-						.then(RequiredArgumentBuilder.<ClientCommandSource, String>argument("name", StringArgumentType.string())
+						.then(RequiredArgumentBuilder.<ClientCommandSource, String>argument("name", StringArgumentType.greedyString())
 								.suggests(new PlayerSuggester())
 								.executes(context -> {
 									String name = StringArgumentType.getString(context, "name");
@@ -34,7 +34,7 @@ public class FriendCommand extends Command {
 								})))
 
 				.then(LiteralArgumentBuilder.<ClientCommandSource>literal("remove")
-						.then(RequiredArgumentBuilder.<ClientCommandSource, String>argument("name", StringArgumentType.string())
+						.then(RequiredArgumentBuilder.<ClientCommandSource, String>argument("name", StringArgumentType.greedyString())
 								.suggests(new PlayerSuggester())
 								.executes(context -> {
 									String name = StringArgumentType.getString(context, "name");

@@ -7,14 +7,12 @@ import java.util.List;
 
 public class FriendManager {
 
-	private static List<String> friends = new ArrayList<>();
-	public static final ClientSetting<List<String>> setting = new ClientSetting<>("friends", friends);
+	public static final ClientSetting<List<String>> setting = new ClientSetting<>("friends", new ArrayList<>());
 
 	public static boolean add(String name) {
 		name = name.toLowerCase();
-		if (!friends.contains(name)) {
-			friends.add(name);
-			setting.setValue(friends);
+		if (!setting.getValue().contains(name)) {
+			setting.getValue().add(name);
 			return true;
 		}
 		return false;
@@ -22,30 +20,23 @@ public class FriendManager {
 
 	public static boolean remove(String name) {
 		name = name.toLowerCase();
-		if (friends.contains(name)) {
+		if (setting.getValue().contains(name)) {
 			String finalName = name;
-			friends.removeIf(s -> s.equals(finalName));
-			setting.setValue(friends);
-
+			setting.getValue().removeIf(s -> s.equals(finalName));
 			return true;
 		}
 		return false;
 	}
 
 	public static void clear() {
-		friends.clear();
-		setting.setValue(friends);
-	}
-
-	public static void set() {
-		friends = setting.getValue();
+		setting.getValue().clear();
 	}
 
 	public static boolean has(String name) {
-		return friends.contains(name.toLowerCase());
+		return setting.getValue().contains(name.toLowerCase());
 	}
 
 	public static List<String> getFriends() {
-		return friends;
+		return setting.getValue();
 	}
 }

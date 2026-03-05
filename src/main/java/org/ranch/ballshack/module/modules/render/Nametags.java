@@ -70,7 +70,7 @@ public class Nametags extends Module {
 
 				if (!targets.selected(type)) continue;
 
-				Vec3d pos = e.getLerpedPos(event.tickCounter.getTickProgress(true)).add(0, e.getHeight(), 0);
+				Vec3d pos = e.getLerpedPos(event.tickCounter.getTickProgress(true)).add(0, e.getHeight() + 0.1, 0);
 
 				Vector2f screenPos = toHudPos(DrawUtil.worldToScreen(pos, prevMatrix, event.tickCounter.getTickProgress(true)));
 				if (screenPos == null) continue;
@@ -128,7 +128,7 @@ public class Nametags extends Module {
 		stack.scale(scale, scale);
 		stack.translate((float) -mc.textRenderer.getWidth(tagT) / 2, -(float) mc.textRenderer.fontHeight / 2);
 
-		DrawUtil.drawOutlineWithCorners(context, -2, -2, mc.textRenderer.getWidth(tagT) + 3, mc.textRenderer.fontHeight + 2, Color.DARK_GRAY, Color.DARK_GRAY);
+		DrawUtil.drawOutlineWithCorners(context, -1, -1, mc.textRenderer.getWidth(tagT) + 2, mc.textRenderer.fontHeight + 1, Color.DARK_GRAY, Color.DARK_GRAY);
 		context.fill(-1, -1, mc.textRenderer.getWidth(tagT) + 1, mc.textRenderer.fontHeight, Colors.HUD_BACKGROUND.getColor().hashCode());
 		context.drawText(mc.textRenderer, tagT, 0, 0, 0xFFFFFFFF, true);
 

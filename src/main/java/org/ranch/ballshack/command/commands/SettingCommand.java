@@ -4,11 +4,12 @@ import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.builder.RequiredArgumentBuilder;
 import net.minecraft.client.network.ClientCommandSource;
+import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import org.ranch.ballshack.command.Command;
 import org.ranch.ballshack.command.CommandType;
-import org.ranch.ballshack.command.suggestors.SettingSuggestor;
+import org.ranch.ballshack.command.suggestors.SettingSuggester;
 import org.ranch.ballshack.setting.client.ClientSetting;
 import org.ranch.ballshack.setting.client.ClientSettingSaver;
 
@@ -26,7 +27,7 @@ public class SettingCommand extends Command {
 		return builder
 				.then(LiteralArgumentBuilder.<ClientCommandSource>literal("set")
 						.then(RequiredArgumentBuilder.<ClientCommandSource, String>argument("setting", StringArgumentType.string())
-								.suggests(new SettingSuggestor())
+								.suggests(new SettingSuggester())
 								.then(RequiredArgumentBuilder.<ClientCommandSource, String>argument("value", StringArgumentType.string())
 										.executes(context -> {
 											String settingName = StringArgumentType.getString(context, "setting");
@@ -48,12 +49,12 @@ public class SettingCommand extends Command {
 										}))))
 				.then(LiteralArgumentBuilder.<ClientCommandSource>literal("list")
 						.executes(context -> {
-							//JsonObject json = ClientSettingSaver.getJson();
 							log(CMD(": "));
 							for (Map.Entry<String, ClientSetting<?>> entry : ClientSettingSaver.getSettings().entrySet()) {
-								//String valRaw = json.get(entry.getKey()).toString();
-								//String val = valRaw.length() > 20 ? valRaw.substring(0, 20) + "..." : valRaw;
-								//log(Text.literal(entry.getKey() + ": ").append(Text.literal(val).formatted(Formatting.GRAY)));
+								String valRaw = entry.getValue().getFormattedValue();
+								MutableText val = Text.literal(valRaw.length() > 40 ? valRaw.substring(0, 40) + "..." : valRaw)
+										.formatted(Formatting.GRAY);
+								log(Text.literal(entry.getKey() + ": ").append(val));
 							}
 							return 1;
 						}));

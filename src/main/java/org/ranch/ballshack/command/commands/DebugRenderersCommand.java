@@ -9,7 +9,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import org.ranch.ballshack.command.Command;
 import org.ranch.ballshack.command.CommandType;
-import org.ranch.ballshack.command.suggestors.DebugRendererSuggestor;
+import org.ranch.ballshack.command.suggestors.DebugRendererSuggester;
 import org.ranch.ballshack.debug.DebugRenderers;
 
 import java.util.List;
@@ -24,7 +24,7 @@ public class DebugRenderersCommand extends Command {
 		return builder
 				.then(LiteralArgumentBuilder.<ClientCommandSource>literal("enable")
 						.then(RequiredArgumentBuilder.<ClientCommandSource, String>argument("renderer", StringArgumentType.string())
-								.suggests(new DebugRendererSuggestor())
+								.suggests(new DebugRendererSuggester())
 								.executes(context -> {
 									String renderer = StringArgumentType.getString(context, "renderer");
 									if (DebugRenderers.setEnabled(renderer, true)) {
@@ -35,7 +35,7 @@ public class DebugRenderersCommand extends Command {
 
 				.then(LiteralArgumentBuilder.<ClientCommandSource>literal("disable")
 						.then(RequiredArgumentBuilder.<ClientCommandSource, String>argument("renderer", StringArgumentType.string())
-								.suggests(new DebugRendererSuggestor())
+								.suggests(new DebugRendererSuggester())
 								.executes(context -> {
 									String renderer = StringArgumentType.getString(context, "renderer");
 									if (DebugRenderers.setEnabled(renderer, false)) {
