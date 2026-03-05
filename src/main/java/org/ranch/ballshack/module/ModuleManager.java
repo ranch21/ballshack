@@ -100,6 +100,7 @@ public class ModuleManager {
 		register(new Jesus());
 		register(new SafeWalk());
 		register(new Sprint());
+		register(new NoSlow());
 
 		// player
 		register(new AntiHunger());

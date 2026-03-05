@@ -17,8 +17,8 @@ public class Fullbright extends Module {
 		NIGHT_VISION
 	}
 
-	public ModeSetting<Mode> mode = dGroup.add(new ModeSetting<>("Mode", Mode.GAMMA, Mode.values()));
-	public NumberSetting gamma = dGroup.add(new NumberSetting("Gamma", 10).min(0).max(20).step(0.5).depends(() -> mode.getValue() == Mode.GAMMA));
+	public final ModeSetting<Mode> mode = dGroup.add(new ModeSetting<>("Mode", Mode.GAMMA, Mode.values()));
+	public final NumberSetting gamma = dGroup.add(new NumberSetting("Gamma", 10).min(0).max(20).step(0.5).depends(() -> mode.getValue() == Mode.GAMMA));
 
 	public Fullbright() {
 		super("Fullbright", ModuleCategory.RENDER, 0);
