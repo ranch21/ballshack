@@ -40,7 +40,7 @@ public class WindowScreen extends Screen implements IWindow {
 		sortChildren();
 
 		for (int i = windows.size() - 1; i >= 0; i--) {
-			windows.get(i).render(context, mouseX / scale, mouseY / scale);
+			windows.get(i).render(context, mouseX / scale, mouseY / scale, delta);
 		}
 		DrawUtil.drawTooltip(context);
 		DrawUtil.clearTooltip();
@@ -109,6 +109,11 @@ public class WindowScreen extends Screen implements IWindow {
 	public boolean charTyped(CharInput input) {
 		windows.forEach(window -> window.charTyped(input));
 		return false;
+	}
+
+	@Override
+	public void applyBlur(DrawContext context) {
+
 	}
 
 	@Override

@@ -27,7 +27,7 @@ public class CategoryWindow extends AutoFitWindow {
 
 		int i = 0;
 		for (Module module : modules) {
-			addChild(new ModuleWindow(module, 5, i++ * (s + h) + s, 65, h));
+			addChild(new ModuleWidget(module, 5, i++ * (s + h) + s, 65, h));
 		}
 	}
 }

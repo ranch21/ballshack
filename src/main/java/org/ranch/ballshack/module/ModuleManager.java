@@ -69,6 +69,14 @@ public class ModuleManager {
 	}
 
 	static {
+		/*
+		todo
+			autoRespawn
+			autoReconnect
+			elytraMace
+			autoCrystal
+		*/
+
 		// client
 		register(new ClickGui());
 		register(new NekoModule());
@@ -104,7 +112,7 @@ public class ModuleManager {
 
 		// player
 		register(new AntiHunger());
-		register(new AutoRespawn());
+		//register(new AutoRespawn());
 		register(new AutoTool());
 		register(new AutoWalk());
 		register(new NoFall());
@@ -112,7 +120,6 @@ public class ModuleManager {
 		// render
 		register(new BlockHighlight());
 		register(new ChestESP());
-		register(new Debug());
 		register(new ESP());
 		register(new Tracers());
 		register(new Trajectories());
@@ -124,6 +131,7 @@ public class ModuleManager {
 		register(new Environment());
 		register(new Freecam());
 		register(new Fullbright());
+		register(new NoRender());
 
 		// world
 		register(new Scaffold());

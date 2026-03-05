@@ -108,7 +108,7 @@ public class ModuleList extends ModuleHud {
 
 		String feat = getFeaturedSettings(module);
 		if (!feat.isEmpty()) {
-			text.append(Text.of(" [" + feat + "]").copy().withColor(Colors.DULL_GRAY.hashCode()));
+			text.append(Text.of(" [" + feat + "]").copy().withColor(Color.LIGHT_GRAY.hashCode()));
 		}
 		return text;
 	}

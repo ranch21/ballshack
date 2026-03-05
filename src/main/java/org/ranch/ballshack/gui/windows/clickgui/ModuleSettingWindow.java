@@ -28,7 +28,7 @@ public class ModuleSettingWindow extends AutoFitWindow {
 	}
 
 	@Override
-	public void render(DrawContext context, double mouseX, double mouseY) {
+	public void render(DrawContext context, double mouseX, double mouseY, float delta) {
 		fit();
 		Window prev = null;
 		for (Window widget : getChildren()) {
@@ -41,7 +41,7 @@ public class ModuleSettingWindow extends AutoFitWindow {
 			if (!(widget instanceof TextWidget))
 				prev = widget;
 		}
-		super.render(context, mouseX, mouseY);
+		super.render(context, mouseX, mouseY, delta);
 	}
 
 	@Override

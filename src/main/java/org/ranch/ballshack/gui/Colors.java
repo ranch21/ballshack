@@ -6,17 +6,17 @@ public class Colors {
 
 	public static final ThemeManager.SavedColor HUD_BACKGROUND = new ThemeManager.SavedColor(new Color(0, 0, 0, 50), "hud_background");
 
-	public static final ThemeManager.SavedColor TITLE_START = new ThemeManager.SavedColor(new Color(74, 89, 66, 255), "title_start");
-	public static final ThemeManager.SavedColor TITLE_END = new ThemeManager.SavedColor(new Color(74, 89, 66, 255), "title_end");
+	public static final ThemeManager.SavedColor TITLE_START = new ThemeManager.SavedColor(new Color(0, 0, 128, 255), "title_start");
+	public static final ThemeManager.SavedColor TITLE_END = new ThemeManager.SavedColor(new Color(16, 132, 208, 255), "title_end");
 
-	public static final ThemeManager.SavedColor FILL = new ThemeManager.SavedColor(new Color(74, 89, 66, 255), "fill");
-	public static final ThemeManager.SavedColor FILL_DARK = new ThemeManager.SavedColor(new Color(57, 69, 49, 255), "fill_dark");
+	public static final ThemeManager.SavedColor FILL = new ThemeManager.SavedColor(new Color(192, 192, 192, 255), "fill");
+	public static final ThemeManager.SavedColor FILL_DARK = new ThemeManager.SavedColor(new Color(192, 192, 192, 255), "fill_dark");
 
-	public static final ThemeManager.SavedColor BORDER_TOP = new ThemeManager.SavedColor(new Color(140, 146, 132, 255), "border_top");
-	public static final ThemeManager.SavedColor BORDER_BOTTOM = new ThemeManager.SavedColor(new Color(41, 44, 33, 255), "border_bottom");
+	public static final ThemeManager.SavedColor BORDER_TOP = new ThemeManager.SavedColor(new Color(255, 255, 255, 255), "border_top");
+	public static final ThemeManager.SavedColor BORDER_BOTTOM = new ThemeManager.SavedColor(new Color(128, 128, 128, 255), "border_bottom");
 
-	public static final ThemeManager.SavedColor SELECTABLE = new ThemeManager.SavedColor(new Color(112, 105, 37, 255), "selectable");
-	public static final ThemeManager.SavedColor SELECTED = new ThemeManager.SavedColor(new Color(148, 138, 49, 255), "selected");
+	public static final ThemeManager.SavedColor SELECTABLE = new ThemeManager.SavedColor(new Color(150, 150, 150, 255), "selectable");
+	public static final ThemeManager.SavedColor SELECTED = new ThemeManager.SavedColor(new Color(16, 132, 208, 255), "selected");
 
 	public static final Color DULL_RED = new Color(255, 124, 119, 255);
 	public static final Color DULL_GREEN = new Color(184, 255, 171, 255);

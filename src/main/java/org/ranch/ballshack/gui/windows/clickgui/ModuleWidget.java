@@ -3,17 +3,20 @@ package org.ranch.ballshack.gui.windows.clickgui;
 import net.minecraft.client.gui.DrawContext;
 import org.lwjgl.glfw.GLFW;
 import org.ranch.ballshack.BallsHack;
+import org.ranch.ballshack.gui.Colors;
 import org.ranch.ballshack.gui.windows.widgets.ButtonWidget;
 import org.ranch.ballshack.module.Module;
 import org.ranch.ballshack.module.ModuleManager;
 import org.ranch.ballshack.module.modules.client.ClickGui;
 import org.ranch.ballshack.util.rendering.DrawUtil;
 
-public class ModuleWindow extends ButtonWidget {
+import java.awt.*;
+
+public class ModuleWidget extends ButtonWidget {
 
 	private final Module module;
 
-	public ModuleWindow(Module module, int x, int y, int width, int height) {
+	public ModuleWidget(Module module, int x, int y, int width, int height) {
 		super(module.getName(), x, y, width, height);
 		setCallback((button, click) -> {
 			if (click.button() == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
@@ -28,8 +31,8 @@ public class ModuleWindow extends ButtonWidget {
 	}
 
 	@Override
-	public void render(DrawContext context, double mouseX, double mouseY) {
-		super.render(context, mouseX, mouseY);
+	public void render(DrawContext context, double mouseX, double mouseY, float delta) {
+		super.render(context, mouseX, mouseY, delta);
 		if (module.isEnabled()) {
 			addFlags(INDENTED);
 		} else {
@@ -41,7 +44,11 @@ public class ModuleWindow extends ButtonWidget {
 	}
 
 	@Override
-	protected void drawBackground(DrawContext context, double mouseX, double mouseY) {
-		super.drawBackground(context, mouseX, mouseY);
+	protected void drawBackground(DrawContext context, double mouseX, double mouseY, float delta) {
+		if (module.isEnabled()) {
+			fill(0, 0, getWidth(), getHeight(), Colors.SELECTABLE.getColor().hashCode());
+		} else {
+			fill(0, 0, getWidth(), getHeight(), Colors.FILL.getColor().hashCode());
+		}
 	}
 }

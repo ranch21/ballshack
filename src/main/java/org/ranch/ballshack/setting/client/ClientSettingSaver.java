@@ -29,13 +29,6 @@ public class ClientSettingSaver {
 	static {
 		config.load();
 		Runtime.getRuntime().addShutdownHook(new Thread(ModuleSettingSaver::save));
-		SAVE_EXECUTOR.scheduleAtFixedRate(
-				() -> {
-					if (SHOULD_SAVE.getAndSet(false)) {
-						save();
-					}
-				}, 5, 5, TimeUnit.SECONDS
-		);
 	}
 
 	public static void registerSetting(ClientSetting<?> setting) {
@@ -63,6 +56,14 @@ public class ClientSettingSaver {
 
 			setting.setRawValue(value);
 		}
+
+		SAVE_EXECUTOR.scheduleAtFixedRate(
+				() -> {
+					if (SHOULD_SAVE.getAndSet(false)) {
+						save();
+					}
+				}, 5, 5, TimeUnit.SECONDS
+		);
 	}
 
 	public static void save() {

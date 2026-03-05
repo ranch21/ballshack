@@ -40,13 +40,13 @@ public class BallsHack implements ModInitializer {
 		DatabaseFetcher.registerSettings();
 
 		ClientSettingSaver.load();
+		ModuleSettingSaver.load();
 
 		if (ThemeManager.loaded.getValue()) {
 			ThemeManager.loadTheme((ModuleManager.getModuleByClass(Themes.class)).theme.getValue());
 		}
 
 		DebugRenderers.load();
-		ModuleSettingSaver.load();
 	}
 
 	public static Path getSaveDir() {

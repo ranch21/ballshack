@@ -29,13 +29,6 @@ public class ModuleSettingSaver {
 
 	static {
 		Runtime.getRuntime().addShutdownHook(new Thread(ModuleSettingSaver::save));
-		SAVE_EXECUTOR.scheduleAtFixedRate(
-				() -> {
-					if (SHOULD_SAVE.getAndSet(false)) {
-						save();
-					}
-				}, 5, 5, TimeUnit.SECONDS
-		);
 	}
 
 	private static JsonObject getModuleJson(Module module) {
@@ -54,6 +47,7 @@ public class ModuleSettingSaver {
 	}
 
 	private static void setModule(JsonObject moduleJson, Module module) {
+		if (module == null) return;
 		if (moduleJson.get("enabled").getAsBoolean() && !module.isMeta()) module.onEnable();
 		for (ModuleSettingsGroup group : module.getSettings()) {
 			JsonObject groupJson = moduleJson.getAsJsonObject(group.name);
@@ -95,6 +89,14 @@ public class ModuleSettingSaver {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+
+		SAVE_EXECUTOR.scheduleAtFixedRate(
+				() -> {
+					if (SHOULD_SAVE.getAndSet(false)) {
+						save();
+					}
+				}, 5, 5, TimeUnit.SECONDS
+		);
 	}
 
 	public static void save() {

@@ -48,13 +48,13 @@ public class ConsoleWindow extends Window {
 	}
 
 	@Override
-	public void render(DrawContext context, double mouseX, double mouseY) {
+	public void render(DrawContext context, double mouseX, double mouseY, float delta) {
 		syncMessages();
-		super.render(context, mouseX, mouseY);
+		super.render(context, mouseX, mouseY, delta);
 	}
 
 	@Override
-	protected void drawBackground(DrawContext context, double mouseX, double mouseY) {
+	protected void drawBackground(DrawContext context, double mouseX, double mouseY, float delta) {
 		fill(0, 0, getWidth(), getHeight(), 0xFF000000);
 	}
 }

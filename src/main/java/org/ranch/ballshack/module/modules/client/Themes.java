@@ -1,5 +1,6 @@
 package org.ranch.ballshack.module.modules.client;
 
+import com.google.gson.JsonElement;
 import org.ranch.ballshack.gui.ThemeManager;
 import org.ranch.ballshack.module.Module;
 import org.ranch.ballshack.module.ModuleCategory;
@@ -17,6 +18,11 @@ public class Themes extends Module {
 			ModuleSettingSaver.markDirty();
 			this.value = false;
 		}
+
+		@Override
+		public void readJson(JsonElement jsonElement) {
+
+		}
 	});
 	public final BooleanSetting unload = dGroup.add(new BooleanSetting("Unload", false) {
 		@Override
@@ -24,6 +30,11 @@ public class Themes extends Module {
 			ThemeManager.clearTheme();
 			ModuleSettingSaver.markDirty();
 			this.value = false;
+		}
+
+		@Override
+		public void readJson(JsonElement jsonElement) {
+
 		}
 	});
 

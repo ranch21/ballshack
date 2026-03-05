@@ -21,6 +21,7 @@
     "ClientPlayNetworkHandlerMixin",
     "ClientWorldMixin",
     "EntityRendererMixin",
+    "FogRendererMixin",
     "GameRendererAccessor",
     "GameRendererInvoker",
     "GameRendererMixin",

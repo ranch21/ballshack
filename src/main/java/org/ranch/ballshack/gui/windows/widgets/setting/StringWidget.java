@@ -35,8 +35,8 @@ public class StringWidget extends SettingWidget<String> {
 	}
 
 	@Override
-	public void render(DrawContext context, double mouseX, double mouseY) {
-		super.render(context, mouseX, mouseY);
+	public void render(DrawContext context, double mouseX, double mouseY, float delta) {
+		super.render(context, mouseX, mouseY, delta);
 
 		String value = getText();
 		if (isFocused()) {
