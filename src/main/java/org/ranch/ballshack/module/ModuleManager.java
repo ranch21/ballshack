@@ -17,6 +17,7 @@ import org.ranch.ballshack.module.modules.world.Scaffold;
 import java.util.ArrayList;
 import java.util.List;
 
+//todo multiple hud modules active at the same time
 public class ModuleManager {
 
 	private static final List<Module> modules = new ArrayList<>();
@@ -68,6 +69,14 @@ public class ModuleManager {
 	}
 
 	static {
+		/*
+		todo
+			autoRespawn
+			autoReconnect
+			elytraMace
+			autoCrystal
+		*/
+
 		// client
 		register(new ClickGui());
 		register(new NekoModule());
@@ -99,10 +108,11 @@ public class ModuleManager {
 		register(new Jesus());
 		register(new SafeWalk());
 		register(new Sprint());
+		register(new NoSlow());
 
 		// player
 		register(new AntiHunger());
-		register(new AutoRespawn());
+		//register(new AutoRespawn());
 		register(new AutoTool());
 		register(new AutoWalk());
 		register(new NoFall());
@@ -110,7 +120,6 @@ public class ModuleManager {
 		// render
 		register(new BlockHighlight());
 		register(new ChestESP());
-		register(new Debug());
 		register(new ESP());
 		register(new Tracers());
 		register(new Trajectories());
@@ -120,6 +129,9 @@ public class ModuleManager {
 		register(new ThirdPersonCam());
 		register(new HoleESP());
 		register(new Environment());
+		register(new Freecam());
+		register(new Fullbright());
+		register(new NoRender());
 
 		// world
 		register(new Scaffold());

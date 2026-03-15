@@ -134,7 +134,6 @@ public class Renderer {
 	}
 
 	public void queueTracer(Vec3d end, Color color, MatrixStack matrixStack) {
-
 		Vec3d tracerStart = new Vec3d(0, 0, 100)
 				.rotateX(-(float) Math.toRadians(mc.gameRenderer.getCamera().getPitch()))
 				.rotateY(-(float) Math.toRadians(mc.gameRenderer.getCamera().getYaw()))

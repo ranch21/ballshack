@@ -6,7 +6,7 @@ import com.mojang.brigadier.builder.RequiredArgumentBuilder;
 import net.minecraft.client.network.ClientCommandSource;
 import org.ranch.ballshack.command.Command;
 import org.ranch.ballshack.command.CommandType;
-import org.ranch.ballshack.command.suggestors.FormatSuggestor;
+import org.ranch.ballshack.command.suggestors.FormatSuggester;
 import org.ranch.ballshack.util.Formatters;
 import org.ranch.ballshack.util.TextUtil;
 
@@ -29,7 +29,7 @@ public class FormatCommand extends Command {
 							return 1;
 						}))
 				.then(RequiredArgumentBuilder.<ClientCommandSource, String>argument("string", StringArgumentType.greedyString())
-						.suggests(new FormatSuggestor())
+						.suggests(new FormatSuggester())
 						.executes(context -> {
 							String string = StringArgumentType.getString(context, "string");
 							log(TextUtil.applyFormatting(string));

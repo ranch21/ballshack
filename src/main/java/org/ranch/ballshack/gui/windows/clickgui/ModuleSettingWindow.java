@@ -28,7 +28,7 @@ public class ModuleSettingWindow extends AutoFitWindow {
 	}
 
 	@Override
-	public void render(DrawContext context, double mouseX, double mouseY) {
+	public void render(DrawContext context, double mouseX, double mouseY, float delta) {
 		fit();
 		Window prev = null;
 		for (Window widget : getChildren()) {
@@ -41,30 +41,29 @@ public class ModuleSettingWindow extends AutoFitWindow {
 			if (!(widget instanceof TextWidget))
 				prev = widget;
 		}
-		super.render(context, mouseX, mouseY);
+		super.render(context, mouseX, mouseY, delta);
 	}
 
 	@Override
 	public void remove(RemovalReason reason) {
-		super.remove(reason);
-		mc.setScreen(getRootScreen().parent);
+		mc.setScreen(ClickGuiScreen.getInstance(null));
+		//super.remove(reason);
 	}
 
 	private void addWidget(ModuleSetting<?, ?> setting) {
-		Widget widget = setting.getWidget(
+		Widget w = setting.getWidget(
 				mc.textRenderer.getWidth(setting.getName()) + 4,
 				0,
 				getWidth() - mc.textRenderer.getWidth(setting.getName()) - 8, 10
 		);
-		if (widget == null) {
-			return;
-		}
+		if (w == null) return;
+
 		addChild(new TextWidget(
 				setting.getName(),
 				2, 0,
 				10, 10
 		));
 
-		addChild(widget);
+		addChild(w);
 	}
 }

@@ -3,10 +3,9 @@ package org.ranch.ballshack.gui;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.google.gson.reflect.TypeToken;
 import org.ranch.ballshack.BallsHack;
 import org.ranch.ballshack.BallsLogger;
-import org.ranch.ballshack.setting.ClientSetting;
+import org.ranch.ballshack.setting.client.ClientSetting;
 
 import java.awt.*;
 import java.io.FileReader;

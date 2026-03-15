@@ -1,6 +1,5 @@
 package org.ranch.ballshack.gui.windows.clickgui;
 
-import com.google.gson.reflect.TypeToken;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
@@ -9,17 +8,13 @@ import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.input.KeyInput;
 import org.lwjgl.glfw.GLFW;
 import org.ranch.ballshack.BallsHack;
-import org.ranch.ballshack.gui.Colors;
-import org.ranch.ballshack.gui.WindowData;
 import org.ranch.ballshack.gui.windows.ConsoleWindow;
 import org.ranch.ballshack.gui.windows.WindowScreen;
 import org.ranch.ballshack.module.Module;
 import org.ranch.ballshack.module.ModuleCategory;
 import org.ranch.ballshack.module.ModuleManager;
-import org.ranch.ballshack.setting.ClientSetting;
 
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ClickGuiScreen extends WindowScreen {
@@ -28,14 +23,23 @@ public class ClickGuiScreen extends WindowScreen {
 	// update: its back
 	ButtonWidget button;
 
-	public ClickGuiScreen(Screen parent) {
+	private static ClickGuiScreen instance;
+
+	private ClickGuiScreen(Screen parent) {
 		super(parent);
 	}
 
-	@Override
-	public void init() {
-		super.init();
+	public static ClickGuiScreen getInstance(Screen parent) {
+		if (instance == null) {
+			instance = new ClickGuiScreen(parent);
+			instance.setup();
+		} else {
+			instance.parent = parent;
+		}
+		return instance;
+	}
 
+	public void setup() {
 		int s = 10;
 		int w = 70;
 		int i = 0;
@@ -54,6 +58,12 @@ public class ClickGuiScreen extends WindowScreen {
 	}
 
 	@Override
+	public void init() {
+		//super.init();
+		//setup();
+	}
+
+	@Override
 	public void render(DrawContext context, int mouseX, int mouseY, float delta) {
 		super.render(context, mouseX, mouseY, delta);
 
@@ -64,8 +74,10 @@ public class ClickGuiScreen extends WindowScreen {
 
 	@Override
 	public boolean keyPressed(KeyInput input) {
-		if (input.getKeycode() == GLFW.GLFW_KEY_ESCAPE)
+		if (input.getKeycode() == GLFW.GLFW_KEY_ESCAPE) {
 			client.setScreen(null);
+			return true;
+		}
 		return super.keyPressed(input);
 	}
 }

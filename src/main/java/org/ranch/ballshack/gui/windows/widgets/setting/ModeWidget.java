@@ -7,8 +7,9 @@ import org.ranch.ballshack.gui.Colors;
 import org.ranch.ballshack.gui.GuiUtil;
 import org.ranch.ballshack.gui.windows.RemovalReason;
 import org.ranch.ballshack.gui.windows.widgets.Widget;
-import org.ranch.ballshack.setting.settings.ModeSetting;
+import org.ranch.ballshack.setting.module.settings.ModeSetting;
 import org.ranch.ballshack.util.rendering.BallColor;
+import org.ranch.ballshack.util.rendering.DrawUtil;
 
 public class ModeWidget<E extends Enum<?>> extends SettingWidget<E> {
 
@@ -22,12 +23,25 @@ public class ModeWidget<E extends Enum<?>> extends SettingWidget<E> {
 	}
 
 	@Override
-	public void render(DrawContext context, double mouseX, double mouseY) {
+	public void render(DrawContext context, double mouseX, double mouseY, float delta) {
 		if (dropdown != null && dropdown.getRemovalReason() != null) dropdown = null;
-		super.render(context, mouseX, mouseY);
+		super.render(context, mouseX, mouseY, delta);
 
-		if (dropdown == null)
+		if (dropdown == null) {
 			text(setting.getFormattedValue(), 2, (h - mc.textRenderer.fontHeight) / 2 + 1, 0xFFFFFFFF, true);
+			int x = getX() + getWidth() - 10;
+			int y = getY() + 2;
+			DrawUtil.drawLine(
+					context,
+					x + 1, y + 1, x + 4, y + 4,
+					Colors.BORDER_BOTTOM.getColor()
+			);
+			DrawUtil.drawLine(
+					context,
+					x + 7, y + 1, x + 4, y + 4,
+					Colors.BORDER_BOTTOM.getColor()
+			);
+		}
 	}
 
 	@Override
@@ -71,8 +85,8 @@ public class ModeWidget<E extends Enum<?>> extends SettingWidget<E> {
 		}
 
 		@Override
-		public void render(DrawContext context, double mouseX, double mouseY) {
-			super.render(context, mouseX, mouseY);
+		public void render(DrawContext context, double mouseX, double mouseY, float delta) {
+			super.render(context, mouseX, mouseY, delta);
 			int i = 0;
 			for (E mode : ((ModeSetting<E>) setting).getEnumValues()) {
 
@@ -87,7 +101,7 @@ public class ModeWidget<E extends Enum<?>> extends SettingWidget<E> {
 		}
 
 		@Override
-		protected void drawBackground(DrawContext context, double mouseX, double mouseY) {
+		protected void drawBackground(DrawContext context, double mouseX, double mouseY, float delta) {
 			//super.drawBackground(context, mouseX, mouseY);
 		}
 

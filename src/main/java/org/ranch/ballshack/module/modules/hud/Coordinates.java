@@ -12,7 +12,7 @@ import org.ranch.ballshack.gui.Colors;
 import org.ranch.ballshack.module.ModuleAnchor;
 import org.ranch.ballshack.module.ModuleCategory;
 import org.ranch.ballshack.module.ModuleHud;
-import org.ranch.ballshack.setting.settings.BooleanSetting;
+import org.ranch.ballshack.setting.module.settings.BooleanSetting;
 
 import java.awt.*;
 

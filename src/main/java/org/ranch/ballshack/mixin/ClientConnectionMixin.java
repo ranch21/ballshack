@@ -12,9 +12,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ClientConnection.class)
 public class ClientConnectionMixin {
-	@Inject(method = "handlePacket", at = @At(value = "HEAD"))
+	@Inject(method = "handlePacket", at = @At(value = "HEAD"), cancellable = true)
 	private static <T extends PacketListener> void handlePacket(Packet<T> packet, PacketListener listener, CallbackInfo ci) {
 		EventPacket.Receive event = new EventPacket.Receive(packet);
 		BallsHack.eventBus.post(event);
+		if (event.isCancelled())
+			ci.cancel(); //WHUDWUAHDHUIABHUIBEGHYUIMIJKUIJKUIJNHUIJ
 	}
 }

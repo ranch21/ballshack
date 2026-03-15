@@ -3,7 +3,7 @@ package org.ranch.ballshack.module.modules.client;
 import org.ranch.ballshack.BallsHack;
 import org.ranch.ballshack.module.Module;
 import org.ranch.ballshack.module.ModuleCategory;
-import org.ranch.ballshack.setting.settings.NumberSetting;
+import org.ranch.ballshack.setting.module.settings.NumberSetting;
 
 import static org.ranch.ballshack.gui.neko.NekoTextures.TEXTURE_SIZE;
 

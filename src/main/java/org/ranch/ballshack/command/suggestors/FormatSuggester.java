@@ -5,15 +5,15 @@ import com.mojang.brigadier.suggestion.SuggestionProvider;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import net.minecraft.client.network.ClientCommandSource;
-import org.ranch.ballshack.debug.DebugRenderers;
+import org.ranch.ballshack.util.Formatters;
 
 import java.util.concurrent.CompletableFuture;
 
-public class DebugRendererSuggestor implements SuggestionProvider<ClientCommandSource> {
+public class FormatSuggester implements SuggestionProvider<ClientCommandSource> {
 	@Override
 	public CompletableFuture<Suggestions> getSuggestions(CommandContext<ClientCommandSource> context, SuggestionsBuilder builder) {
-		for (String r : DebugRenderers.getIdList()) {
-			builder.suggest(r);
+		for (String s : Formatters.FORMATTERS.keySet()) {
+			builder.suggest(s);
 		}
 		return builder.buildFuture();
 	}

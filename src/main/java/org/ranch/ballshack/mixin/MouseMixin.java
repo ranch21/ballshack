@@ -25,14 +25,28 @@ public class MouseMixin {
 
 	@Inject(method = "updateMouse", at = @At(value = "HEAD"))
 	public void updateMouse(double timeDelta, CallbackInfo ci) {
-		EventMouseUpdate event = new EventMouseUpdate(cursorDeltaX, cursorDeltaY, timeDelta);
+		EventMouseUpdate event = new EventMouseUpdate.Mouse(cursorDeltaX, cursorDeltaY, timeDelta);
 		BallsHack.eventBus.post(event);
-		cursorDeltaX = event.deltaX;
-		cursorDeltaY = event.deltaY;
+		if (event.isCancelled()) {
+			cursorDeltaX = 0;
+			cursorDeltaY = 0;
+		} else {
+			cursorDeltaX = event.deltaX;
+			cursorDeltaY = event.deltaY;
+		}
 	}
 
 	@Redirect(method = "updateMouse", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;changeLookDirection(DD)V"))
 	public void changeLookDirection(ClientPlayerEntity instance, double yaw, double pitch) {
+		EventMouseUpdate event = new EventMouseUpdate.Entity(yaw, pitch);
+		BallsHack.eventBus.post(event);
+		if (event.isCancelled()) {
+			yaw = 0;
+			pitch = 0;
+		} else {
+			yaw = event.deltaX;
+			pitch = event.deltaY;
+		}
 		if (FreelookHandler.getEnabled()) {
 			FreelookHandler.updateDirection(yaw, pitch);
 		} else {

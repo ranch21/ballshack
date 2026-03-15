@@ -10,7 +10,7 @@ import net.minecraft.util.Formatting;
 import org.ranch.ballshack.command.Command;
 import org.ranch.ballshack.command.CommandType;
 import org.ranch.ballshack.command.arguments.CharacterArgumentType;
-import org.ranch.ballshack.command.suggestors.ModuleSuggestor;
+import org.ranch.ballshack.command.suggestors.ModuleSuggester;
 import org.ranch.ballshack.module.Module;
 import org.ranch.ballshack.module.ModuleManager;
 
@@ -27,7 +27,7 @@ public class BindCommand extends Command {
 
 				.then(LiteralArgumentBuilder.<ClientCommandSource>literal("set")
 						.then(RequiredArgumentBuilder.<ClientCommandSource, String>argument("module", StringArgumentType.word())
-								.suggests(new ModuleSuggestor())
+								.suggests(new ModuleSuggester())
 								.then(RequiredArgumentBuilder.<ClientCommandSource, Character>argument("key", new CharacterArgumentType())
 										.executes(context -> {
 

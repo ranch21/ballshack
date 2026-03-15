@@ -1,16 +1,19 @@
 package org.ranch.ballshack.mixin;
 
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.render.Camera;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.WorldRenderer;
 import net.minecraft.client.render.command.OrderedRenderCommandQueue;
 import net.minecraft.client.render.state.WorldRenderState;
 import net.minecraft.client.util.math.MatrixStack;
 import org.ranch.ballshack.BallsHack;
+import org.ranch.ballshack.event.events.EventRenderSelf;
 import org.ranch.ballshack.event.events.EventWorldRender;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(WorldRenderer.class)
@@ -35,5 +38,12 @@ public class WorldRendererMixin {
 		if (event.isCancelled()) {
 			ci.cancel();
 		}
+	}
+
+	@Redirect(method = "fillEntityRenderStates", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/Camera;isThirdPerson()Z"))
+	public boolean isThirdPerson(Camera instance) {
+		EventRenderSelf event = new EventRenderSelf(instance.isThirdPerson());
+		BallsHack.eventBus.post(event);
+		return event.render;
 	}
 }

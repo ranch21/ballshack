@@ -12,6 +12,7 @@
     "PlayerMoveC2SPacketAccessor"
   ],
   "client": [
+    "CameraInvoker",
     "ChatInputSuggestorMixin",
     "ChatScreenMixin",
     "ClientCommonNetworkHandlerMixin",
@@ -20,6 +21,7 @@
     "ClientPlayNetworkHandlerMixin",
     "ClientWorldMixin",
     "EntityRendererMixin",
+    "FogRendererMixin",
     "GameRendererAccessor",
     "GameRendererInvoker",
     "GameRendererMixin",
@@ -27,6 +29,7 @@
     "InputAccessor",
     "KeyboardInputMixin",
     "KeyboardMixin",
+    "LightmapTextureManagerMixin",
     "MinecraftClientMixin",
     "MouseMixin",
     "MultiplayerScreenAccessor",

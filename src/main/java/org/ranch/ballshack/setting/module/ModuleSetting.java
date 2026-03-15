@@ -1,7 +1,9 @@
-package org.ranch.ballshack.setting;
+package org.ranch.ballshack.setting.module;
 
 import com.google.gson.JsonElement;
 import org.ranch.ballshack.gui.windows.widgets.Widget;
+import org.ranch.ballshack.setting.Dependency;
+import org.ranch.ballshack.setting.ISetting;
 
 import java.util.function.Supplier;
 
@@ -52,6 +54,7 @@ public abstract class ModuleSetting<T, SELF extends ModuleSetting<T, SELF>> impl
 		return name;
 	}
 
+	@Override
 	public String getTooltip() {
 		return tooltip;
 	}

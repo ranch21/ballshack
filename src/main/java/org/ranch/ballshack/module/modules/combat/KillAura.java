@@ -9,12 +9,12 @@ import org.ranch.ballshack.event.EventSubscribe;
 import org.ranch.ballshack.event.events.EventTick;
 import org.ranch.ballshack.module.Module;
 import org.ranch.ballshack.module.ModuleCategory;
-import org.ranch.ballshack.setting.ModuleSettingsGroup;
-import org.ranch.ballshack.setting.TargetsSettingGroup;
-import org.ranch.ballshack.setting.settings.BooleanSetting;
-import org.ranch.ballshack.setting.settings.NumberSetting;
-import org.ranch.ballshack.setting.settings.RotateModeSetting;
-import org.ranch.ballshack.setting.settings.SortModeSetting;
+import org.ranch.ballshack.setting.module.ModuleSettingsGroup;
+import org.ranch.ballshack.setting.module.TargetsSettingGroup;
+import org.ranch.ballshack.setting.module.settings.BooleanSetting;
+import org.ranch.ballshack.setting.module.settings.NumberSetting;
+import org.ranch.ballshack.setting.module.settings.RotateModeSetting;
+import org.ranch.ballshack.setting.module.settings.SortModeSetting;
 import org.ranch.ballshack.util.*;
 
 public class KillAura extends Module {

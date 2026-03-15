@@ -15,7 +15,7 @@ import org.ranch.ballshack.command.Command;
 import org.ranch.ballshack.command.CommandType;
 import org.ranch.ballshack.module.ModuleManager;
 import org.ranch.ballshack.module.modules.render.Search;
-import org.ranch.ballshack.setting.ModuleSettingSaver;
+import org.ranch.ballshack.setting.module.ModuleSettingSaver;
 
 public class SearchCommand extends Command {
 	public SearchCommand() {

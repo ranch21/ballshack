@@ -1,10 +1,10 @@
-package org.ranch.ballshack.setting.settings;
+package org.ranch.ballshack.setting.module.settings;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
 import org.ranch.ballshack.gui.windows.widgets.Widget;
 import org.ranch.ballshack.gui.windows.widgets.setting.BindWidget;
-import org.ranch.ballshack.setting.ModuleSetting;
+import org.ranch.ballshack.setting.module.ModuleSetting;
 
 public class BindSetting extends ModuleSetting<Integer, BindSetting> {
 

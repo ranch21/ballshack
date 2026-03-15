@@ -2,7 +2,7 @@ package org.ranch.ballshack.event.events;
 
 import org.ranch.ballshack.event.Event;
 
-public class EventMouseUpdate extends Event {
+public abstract class EventMouseUpdate extends Event {
 
 	public double deltaX;
 	public double deltaY;
@@ -18,5 +18,17 @@ public class EventMouseUpdate extends Event {
 		this.deltaX = deltaX;
 		this.deltaY = deltaY;
 		this.timeDelta = timeDelta;
+	}
+
+	public static class Mouse extends EventMouseUpdate {
+		public Mouse(double deltaX, double deltaY, double timeDelta) {
+			super(deltaX, deltaY, timeDelta);
+		}
+	}
+
+	public static class Entity extends EventMouseUpdate {
+		public Entity(double deltaX, double deltaY) {
+			super(deltaX, deltaY, 1);
+		}
 	}
 }

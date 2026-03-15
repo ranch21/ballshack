@@ -1,4 +1,4 @@
-package org.ranch.ballshack.setting;
+package org.ranch.ballshack.setting.module;
 
 import com.google.gson.*;
 import org.ranch.ballshack.BallsHack;
@@ -24,18 +24,11 @@ public class ModuleSettingSaver {
 	private static final Path path = BallsHack.getSaveDir();
 	private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
-	public static final AtomicBoolean SHOULD_SAVE = new  AtomicBoolean(false);
+	public static final AtomicBoolean SHOULD_SAVE = new AtomicBoolean(false);
 	private static final ScheduledExecutorService SAVE_EXECUTOR = Executors.newSingleThreadScheduledExecutor();
 
 	static {
 		Runtime.getRuntime().addShutdownHook(new Thread(ModuleSettingSaver::save));
-		SAVE_EXECUTOR.scheduleAtFixedRate(
-				() -> {
-					if (SHOULD_SAVE.getAndSet(false)) {
-						save();
-					}
-				}, 5, 5, TimeUnit.SECONDS
-		);
 	}
 
 	private static JsonObject getModuleJson(Module module) {
@@ -54,11 +47,15 @@ public class ModuleSettingSaver {
 	}
 
 	private static void setModule(JsonObject moduleJson, Module module) {
+		if (module == null) return;
 		if (moduleJson.get("enabled").getAsBoolean() && !module.isMeta()) module.onEnable();
 		for (ModuleSettingsGroup group : module.getSettings()) {
 			JsonObject groupJson = moduleJson.getAsJsonObject(group.name);
 			for (ModuleSetting<?, ?> setting : group.getSettings()) {
-				setting.readJson(groupJson.get(setting.getName()));
+				JsonElement element = groupJson.get(setting.getName());
+				if (element != null && !element.isJsonNull()) {
+					setting.readJson(groupJson.get(setting.getName()));
+				}
 			}
 		}
 	}
@@ -92,6 +89,14 @@ public class ModuleSettingSaver {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+
+		SAVE_EXECUTOR.scheduleAtFixedRate(
+				() -> {
+					if (SHOULD_SAVE.getAndSet(false)) {
+						save();
+					}
+				}, 5, 5, TimeUnit.SECONDS
+		);
 	}
 
 	public static void save() {

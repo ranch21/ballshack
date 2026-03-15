@@ -10,7 +10,7 @@ import net.minecraft.util.math.MathHelper;
 import org.lwjgl.glfw.GLFW;
 import org.ranch.ballshack.gui.windows.widgets.Widget;
 import org.ranch.ballshack.setting.ISetting;
-import org.ranch.ballshack.setting.settings.StringSetting;
+import org.ranch.ballshack.setting.module.settings.StringSetting;
 import org.ranch.ballshack.util.TextUtil;
 
 import java.awt.*;
@@ -35,8 +35,8 @@ public class StringWidget extends SettingWidget<String> {
 	}
 
 	@Override
-	public void render(DrawContext context, double mouseX, double mouseY) {
-		super.render(context, mouseX, mouseY);
+	public void render(DrawContext context, double mouseX, double mouseY, float delta) {
+		super.render(context, mouseX, mouseY, delta);
 
 		String value = getText();
 		if (isFocused()) {

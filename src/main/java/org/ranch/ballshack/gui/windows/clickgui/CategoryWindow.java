@@ -22,12 +22,12 @@ public class CategoryWindow extends AutoFitWindow {
 		super.init();
 		List<Module> modules = ModuleManager.getModulesByCategory(category);
 
-		int s = 5;
+		int s = 3;
 		int h = mc.textRenderer.fontHeight + 2;
 
 		int i = 0;
 		for (Module module : modules) {
-			addChild(new ModuleWindow(module, 5, i++ * (s + h) + s, 65, h));
+			addChild(new ModuleWidget(module, 5, i++ * (s + h) + s, 65, h));
 		}
 	}
 }

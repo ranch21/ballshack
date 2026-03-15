@@ -9,12 +9,12 @@ import org.ranch.ballshack.event.events.EventMouseUpdate;
 import org.ranch.ballshack.event.events.EventTick;
 import org.ranch.ballshack.module.Module;
 import org.ranch.ballshack.module.ModuleCategory;
-import org.ranch.ballshack.setting.ModuleSettingsGroup;
-import org.ranch.ballshack.setting.TargetsSettingGroup;
-import org.ranch.ballshack.setting.settings.BooleanSetting;
-import org.ranch.ballshack.setting.settings.ModeSetting;
-import org.ranch.ballshack.setting.settings.NumberSetting;
-import org.ranch.ballshack.setting.settings.SortModeSetting;
+import org.ranch.ballshack.setting.module.ModuleSettingsGroup;
+import org.ranch.ballshack.setting.module.TargetsSettingGroup;
+import org.ranch.ballshack.setting.module.settings.BooleanSetting;
+import org.ranch.ballshack.setting.module.settings.ModeSetting;
+import org.ranch.ballshack.setting.module.settings.NumberSetting;
+import org.ranch.ballshack.setting.module.settings.SortModeSetting;
 import org.ranch.ballshack.util.EntityUtil;
 import org.ranch.ballshack.util.PlayerUtil;
 import org.ranch.ballshack.util.Rotation;
@@ -60,7 +60,7 @@ public class AimAssist extends Module {
 	}
 
 	@EventSubscribe
-	public void onMouseUpdate(EventMouseUpdate event) {
+	public void onMouseUpdate(EventMouseUpdate.Mouse event) {
 
 		if (mc.player == null || mc.world == null)
 			return;

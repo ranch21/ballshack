@@ -14,8 +14,8 @@ public class CheckboxWidget extends SettingWidget<Boolean> {
 	}
 
 	@Override
-	public void render(DrawContext context, double mouseX, double mouseY) {
-		super.render(context, mouseX, mouseY);
+	public void render(DrawContext context, double mouseX, double mouseY, float delta) {
+		super.render(context, mouseX, mouseY, delta);
 
 		if (setting.getValue())
 			fill(1, 1, getWidth() - 1, getHeight() - 1, Colors.SELECTED.getColor().hashCode());

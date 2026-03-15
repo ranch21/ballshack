@@ -45,7 +45,7 @@ public class Window implements IWindow, Element {
 	private int insideOffsetX;
 	private int insideOffsetY;
 
-	public final int BAR_HEIGHT = 11;
+	public final int BAR_HEIGHT = 13;
 
 	public final String title;
 
@@ -76,33 +76,33 @@ public class Window implements IWindow, Element {
 
 	}
 
-	public void render(DrawContext context, double mouseX, double mouseY) {
+	public void render(DrawContext context, double mouseX, double mouseY, float delta) {
 		this.drawContext = context;
 
 		handleDrag(mouseX, mouseY);
 
 		if ((style & NO_BORDER) == 0)
-			drawOutline(context, mouseX, mouseY);
+			drawOutline(context, mouseX, mouseY, delta);
 
 		if ((style & NO_TITLE) == 0) {
-			if ((style & NO_CLOSE) == 0 && GuiUtil.mouseOverlap(mouseX, mouseY, getX() + getWidth() - 10, getY() - BAR_HEIGHT + 1, 9, 9)) {
+			if ((style & NO_CLOSE) == 0 && GuiUtil.mouseOverlap(mouseX, mouseY, getX() + getWidth() - 11, getY() - BAR_HEIGHT + 2, 9, 9)) {
 				context.setCursor(StandardCursors.POINTING_HAND);
 			}
-			drawTitle(context, mouseX, mouseY);
+			drawTitle(context, mouseX, mouseY, delta);
 		}
 
 		if ((style & NO_BORDER) == 0)
-			drawBackground(context, mouseX, mouseY);
+			drawBackground(context, mouseX, mouseY, delta);
 
 		if ((style & NO_SCROLL) == 0)
-			drawScrollBars(context, mouseX, mouseY);
+			drawScrollBars(context, mouseX, mouseY, delta);
 
 		context.enableScissor(getX(), getY(), getX() + getWidth(), getY() + getHeight());
 
 		children.removeIf(window -> window.getRemovalReason() != null);
 
 		for (int i = children.size() - 1; i >= 0; i--) {
-			children.get(i).render(context, mouseX, mouseY);
+			children.get(i).render(context, mouseX, mouseY, delta);
 		}
 		context.disableScissor();
 	}
@@ -112,25 +112,35 @@ public class Window implements IWindow, Element {
 		children.sort((a, b) -> Boolean.compare(b.alwaysOnTop(), a.alwaysOnTop()));
 	}
 
-	protected void drawTitle(DrawContext context, double mouseX, double mouseY) {
-		DrawUtil.drawHorizontalGradient(context, getX(), getY() - BAR_HEIGHT, getWidth() - 1, BAR_HEIGHT, Colors.TITLE_START.getColor(), Colors.TITLE_END.getColor(), getWidth() / 10);
+	protected void drawTitle(DrawContext context, double mouseX, double mouseY, float delta) {
+		fill(0, -BAR_HEIGHT, getWidth(), 0, Colors.FILL.getColor().hashCode());
+		DrawUtil.drawHorizontalGradient(context, getX() + 1, getY() - BAR_HEIGHT + 1, getWidth() - 3, BAR_HEIGHT - 2, Colors.TITLE_START.getColor(), Colors.TITLE_END.getColor(), getWidth() / 20);
 		TextRenderer textRend = MinecraftClient.getInstance().textRenderer;
 		int textInset = (BAR_HEIGHT - textRend.fontHeight) / 2;
 		context.drawText(textRend, title, getX() + 2, getY() + textInset - BAR_HEIGHT + 1, Color.WHITE.hashCode(), true);
 		if ((style & NO_CLOSE) == 0) {
-			context.drawTexture(
-					RenderPipelines.GUI_TEXTURED,
-					CLOSE_TEXTURE,
-					getX() + getWidth() - 10,
-					getY() - BAR_HEIGHT + 1,
-					0, 0,
-					9, 9,
-					9, 9
+			int x = getX() + getWidth() - 10;
+			int y = getY() - BAR_HEIGHT + 3;
+			context.fill(x,y,x+7,y+7,Colors.FILL.getColor().hashCode());
+			DrawUtil.drawOutline(
+					context,
+					x, y,
+					7, 7
+			);
+			DrawUtil.drawLine(
+					context,
+					x + 1, y + 1, x + 5, y + 5,
+					Colors.BORDER_BOTTOM.getColor()
+			);
+			DrawUtil.drawLine(
+					context,
+					x + 5, y + 1, x + 1, y + 5,
+					Colors.BORDER_BOTTOM.getColor()
 			);
 		}
 	}
 
-	protected void drawScrollBars(DrawContext context, double mouseX, double mouseY) {
+	protected void drawScrollBars(DrawContext context, double mouseX, double mouseY, float delta) {
 		if (needsScrollY()) {
 			int maxScroll = getMaxScrollY();
 			int scrollH = (int) (((float) getHeight() / maxScroll) * getHeight());
@@ -155,19 +165,24 @@ public class Window implements IWindow, Element {
 		}
 	}
 
-	protected void drawOutline(DrawContext context, double mouseX, double mouseY) {
+	protected void drawOutline(DrawContext context, double mouseX, double mouseY, float delta) {
 		if ((style & INDENTED) == 0) {
-			DrawUtil.drawOutline(context, getX(), getY() - ((style & NO_TITLE) == 0 ? BAR_HEIGHT : 0), getWidth(), getHeight() + ((style & NO_TITLE) == 0 ? BAR_HEIGHT : 0));
+			DrawUtil.drawOutline(
+					context,
+					getX(), getY() - ((style & NO_TITLE) == 0 ? BAR_HEIGHT : 0),
+					getWidth(), getHeight() + ((style & NO_TITLE) == 0 ? BAR_HEIGHT : 0)
+			);
 		} else {
 			DrawUtil.drawOutline(
 					context,
 					getX(), getY() - ((style & NO_TITLE) == 0 ? BAR_HEIGHT : 0),
 					getWidth(), getHeight() + ((style & NO_TITLE) == 0 ? BAR_HEIGHT : 0),
-					Colors.BORDER_BOTTOM.getColor(), Colors.BORDER_TOP.getColor());
+					Colors.BORDER_BOTTOM.getColor(), Colors.BORDER_TOP.getColor()
+			);
 		}
 	}
 
-	protected void drawBackground(DrawContext context, double mouseX, double mouseY) {
+	protected void drawBackground(DrawContext context, double mouseX, double mouseY, float delta) {
 		if ((style & INDENTED) == 0) {
 			context.fill(getX(), getY(), getX() + getWidth(), getY() + getHeight(), Colors.FILL.getColor().hashCode());
 		} else {

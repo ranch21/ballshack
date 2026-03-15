@@ -12,8 +12,8 @@ public abstract class PressableWidget extends Widget {
 	}
 
 	@Override
-	public void render(DrawContext context, double mouseX, double mouseY) {
-		super.render(context, mouseX, mouseY);
+	public void render(DrawContext context, double mouseX, double mouseY, float delta) {
+		super.render(context, mouseX, mouseY, delta);
 
 		if (overlaps(mouseX, mouseY)) {
 			context.setCursor(StandardCursors.POINTING_HAND);
@@ -21,11 +21,11 @@ public abstract class PressableWidget extends Widget {
 	}
 
 	@Override
-	protected void drawBackground(DrawContext context, double mouseX, double mouseY) {
+	protected void drawBackground(DrawContext context, double mouseX, double mouseY, float delta) {
 		if (overlaps(mouseX, mouseY)) {
 			fill(0, 0, getWidth(), getHeight(), Colors.SELECTABLE.getColor().hashCode());
 		} else {
-			super.drawBackground(context, mouseX, mouseY);
+			super.drawBackground(context, mouseX, mouseY, delta);
 		}
 	}
 

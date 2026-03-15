@@ -5,15 +5,16 @@ import com.mojang.brigadier.suggestion.SuggestionProvider;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import net.minecraft.client.network.ClientCommandSource;
-import org.ranch.ballshack.setting.ClientSettingSaver;
+import org.ranch.ballshack.module.Module;
+import org.ranch.ballshack.module.ModuleManager;
 
 import java.util.concurrent.CompletableFuture;
 
-public class SettingSuggestor implements SuggestionProvider<ClientCommandSource> {
+public class ModuleSuggester implements SuggestionProvider<ClientCommandSource> {
 	@Override
 	public CompletableFuture<Suggestions> getSuggestions(CommandContext<ClientCommandSource> context, SuggestionsBuilder builder) {
-		for (String s : ClientSettingSaver.getSettings().keySet()) {
-			builder.suggest(s);
+		for (Module m : ModuleManager.getModules()) {
+			builder.suggest(m.getName().toLowerCase());
 		}
 		return builder.buildFuture();
 	}

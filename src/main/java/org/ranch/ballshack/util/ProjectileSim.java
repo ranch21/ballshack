@@ -5,8 +5,13 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.*;
-import net.minecraft.entity.projectile.thrown.*;
+import net.minecraft.entity.projectile.ArrowEntity;
+import net.minecraft.entity.projectile.ProjectileEntity;
+import net.minecraft.entity.projectile.TridentEntity;
+import net.minecraft.entity.projectile.WindChargeEntity;
+import net.minecraft.entity.projectile.thrown.ExperienceBottleEntity;
+import net.minecraft.entity.projectile.thrown.SnowballEntity;
+import net.minecraft.entity.projectile.thrown.SplashPotionEntity;
 import net.minecraft.item.*;
 import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.util.Hand;
@@ -39,40 +44,55 @@ public class ProjectileSim {
 			stack = oHand;
 		} else return null;
 
-		if (stack.getItem() instanceof RangedWeaponItem) {
+		switch (stack.getItem()) {
+			case RangedWeaponItem rangedWeaponItem -> {
 
-			float charged = stack.getItem() == Items.CROSSBOW && CrossbowItem.isCharged(stack) ? 1f
-					: stack.getItem() == Items.CROSSBOW ? 0f : BowItem.getPullProgress(player.getItemUseTime());
+				float charged = stack.getItem() == Items.CROSSBOW && CrossbowItem.isCharged(stack) ? 1f
+						: stack.getItem() == Items.CROSSBOW ? 0f : BowItem.getPullProgress(player.getItemUseTime());
 
-			if (charged > 0f) {
-				ProjectileEntity e = new ArrowEntity(EntityType.ARROW, mc.world);
-				initProjectile(e, player, 0f, charged * 3);
-				return e;
+				if (charged > 0f) {
+					ProjectileEntity e = new ArrowEntity(EntityType.ARROW, mc.world);
+					initProjectile(e, player, 0f, charged * 3);
+					return e;
+				}
 			}
-		} else if (stack.getItem() instanceof ExperienceBottleItem) {
+			case ExperienceBottleItem experienceBottleItem -> {
 
-			ProjectileEntity e = new ExperienceBottleEntity(EntityType.EXPERIENCE_BOTTLE, mc.world);
-			initProjectile(e, player, -20f, 0.7f);
-			return e;
+				ProjectileEntity e = new ExperienceBottleEntity(EntityType.EXPERIENCE_BOTTLE, mc.world);
+				initProjectile(e, player, -20f, 0.7f);
+				return e;
 
-		} else if (stack.getItem() instanceof ThrowablePotionItem) {
+			}
+			case ThrowablePotionItem throwablePotionItem -> {
 
-			ProjectileEntity e = new SplashPotionEntity(EntityType.SPLASH_POTION, mc.world);
-			initProjectile(e, player, -20f, 0.5f);
-			return e;
+				ProjectileEntity e = new SplashPotionEntity(EntityType.SPLASH_POTION, mc.world);
+				initProjectile(e, player, -20f, 0.5f);
+				return e;
 
-		} else if (stack.getItem() instanceof TridentItem) {
+			}
+			case TridentItem tridentItem -> {
 
-			ProjectileEntity e = new TridentEntity(EntityType.TRIDENT, mc.world);
-			initProjectile(e, player, 0f, 2.5f);
-			return e;
+				ProjectileEntity e = new TridentEntity(EntityType.TRIDENT, mc.world);
+				initProjectile(e, player, 0f, 2.5f);
+				return e;
 
-		} else if (stack.getItem() instanceof ProjectileItem) {
+			}
+			case WindChargeItem windChargeItem -> {
 
-			ProjectileEntity e = new SnowballEntity(EntityType.SNOWBALL, mc.world);
-			initProjectile(e, player, 0f, 1.5f);
-			return e;
+				ProjectileEntity e = new WindChargeEntity(EntityType.WIND_CHARGE, mc.world);
+				initProjectile(e, player, 0f, 1.5f);
+				return e;
 
+			}
+			case ProjectileItem projectileItem -> {
+
+				ProjectileEntity e = new SnowballEntity(EntityType.SNOWBALL, mc.world);
+				initProjectile(e, player, 0f, 1.5f);
+				return e;
+
+			}
+			default -> {
+			}
 		}
 
 		return null;
@@ -114,7 +134,7 @@ public class ProjectileSim {
 
 			proj.applyDrag();
 
-			double grav = getGravity(e);
+			double grav = e.getFinalGravity();
 
 			proj.velocity = proj.velocity.add(0, -grav, 0);
 
@@ -124,22 +144,6 @@ public class ProjectileSim {
 		}
 
 		return new Trajectory(traj, null, null, fake, thrower, proj);
-	}
-
-	public static double getGravity(ProjectileEntity e) {
-		if (e instanceof PersistentProjectileEntity) {
-			return 0.05;
-		} else if (e instanceof PotionEntity) {
-			return 0.05;
-		} else if (e instanceof ExperienceBottleEntity) {
-			return 0.07;
-		} else if (e instanceof LlamaSpitEntity) {
-			return 0.06;
-		} else if (e instanceof ThrownEntity) {
-			return 0.03;
-		} else {
-			return 0;
-		}
 	}
 
 	public record Trajectory(List<Vec3d> positions, Entity entity, BlockPos pos, boolean fake, Entity thrower,
@@ -152,8 +156,6 @@ public class ProjectileSim {
 			this.thrower = thrower;
 			this.projectile = projectile;
 		}
-
-
 	}
 
 	public static class Projectile {

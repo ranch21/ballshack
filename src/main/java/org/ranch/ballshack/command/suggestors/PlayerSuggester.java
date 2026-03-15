@@ -17,7 +17,7 @@ public class PlayerSuggester implements SuggestionProvider<ClientCommandSource> 
 	public CompletableFuture<Suggestions> getSuggestions(CommandContext<ClientCommandSource> context, SuggestionsBuilder builder) {
 		for (PlayerListEntry p : mc.player.networkHandler.getPlayerList()) {
 			GameProfile profile = p.getProfile();
-			builder.suggest(profile.name().toLowerCase());
+			builder.suggest(profile.name());
 		}
 		return builder.buildFuture();
 	}

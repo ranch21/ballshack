@@ -22,8 +22,8 @@ public class SliderWidget extends SettingWidget<Double> {
 	}
 
 	@Override
-	public void render(DrawContext context, double mouseX, double mouseY) {
-		super.render(context, mouseX, mouseY);
+	public void render(DrawContext context, double mouseX, double mouseY, float delta) {
+		super.render(context, mouseX, mouseY, delta);
 
 		fill(0, 0, getWidth(), getHeight(), Colors.FILL_DARK.getColor().hashCode());
 

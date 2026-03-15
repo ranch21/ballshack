@@ -7,7 +7,6 @@ import net.minecraft.client.network.ClientCommandSource;
 import org.ranch.ballshack.BallsHack;
 import org.ranch.ballshack.command.Command;
 import org.ranch.ballshack.command.CommandType;
-import org.ranch.ballshack.setting.ModuleSettingSaver;
 
 public class WatermarkCommand extends Command {
 

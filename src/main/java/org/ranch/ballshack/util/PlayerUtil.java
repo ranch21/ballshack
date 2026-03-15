@@ -22,6 +22,8 @@ import org.ranch.ballshack.event.events.EventPlayerMovementVector;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDate;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -61,6 +63,14 @@ public class PlayerUtil {
 						mc.player.getPitch() + MathHelper.wrapDegrees(rot.pitch - mc.player.getPitch()), mc.player.isOnGround(), mc.player.horizontalCollision));
 	}
 
+	private static float getMovementMultiplier(boolean positive, boolean negative) {
+		if (positive == negative) {
+			return 0.0F;
+		} else {
+			return positive ? 1.0F : -1.0F;
+		}
+	}
+
 	public static Vec3d getMovementVector(double horizontalSpeed, double verticalSpeed) {
 		double xVel = 0;
 		double yVel = 0;
@@ -72,10 +82,10 @@ public class PlayerUtil {
 			yVel = -verticalSpeed;
 		}
 
-		float yawRad = mc.player.getYaw() * MathHelper.RADIANS_PER_DEGREE;
+		float yawRad = mc.gameRenderer.getCamera().getYaw() * MathHelper.RADIANS_PER_DEGREE;
 
-		float sideways = mc.player.input.getMovementInput().x;
-		float forwards = mc.player.input.getMovementInput().y;
+		float forwards = getMovementMultiplier(mc.options.forwardKey.isPressed(), mc.options.backKey.isPressed());
+		float sideways = getMovementMultiplier(mc.options.leftKey.isPressed(), mc.options.rightKey.isPressed());
 
 		if (!(sideways == 0 && forwards == 0)) {
 			float moveAngle = (float) Math.atan2(sideways, forwards);
@@ -171,7 +181,10 @@ public class PlayerUtil {
 	}
 
 	public static String getCape(UUID uuid) {
-		if (uuid.equals(UUID.fromString("b21498e5-f45b-4c64-a860-a64941ca4e44"))) {
+		LocalDate date = LocalDate.now();
+		if (date.getMonth() == Month.FEBRUARY && date.getDayOfMonth() == 27) {
+			return "cake";
+		} else if (uuid.equals(UUID.fromString("b21498e5-f45b-4c64-a860-a64941ca4e44"))) {
 			return "jeffito";
 		} else if (uuid.equals(UUID.fromString("39590f72-cdfb-4bd8-b32e-69d82a020ae6"))) {
 			return "walinchi";

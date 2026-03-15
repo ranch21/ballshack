@@ -6,7 +6,7 @@ import org.ranch.ballshack.event.events.EventSetSneaking;
 import org.ranch.ballshack.event.events.EventTick;
 import org.ranch.ballshack.module.Module;
 import org.ranch.ballshack.module.ModuleCategory;
-import org.ranch.ballshack.setting.settings.NumberSetting;
+import org.ranch.ballshack.setting.module.settings.NumberSetting;
 import org.ranch.ballshack.util.PlayerUtil;
 
 import static org.ranch.ballshack.util.EntityUtil.getMaxAllowedFloatingTicks;

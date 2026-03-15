@@ -1,11 +1,10 @@
 package org.ranch.ballshack.util;
 
-import com.google.gson.reflect.TypeToken;
 import net.minecraft.client.network.ServerInfo;
 import org.ranch.ballshack.BallsLogger;
 import org.ranch.ballshack.gui.scanner.ScannedServerInfo;
-import org.ranch.ballshack.setting.ClientSetting;
-import org.ranch.ballshack.setting.ClientSettingSaver;
+import org.ranch.ballshack.setting.client.ClientSetting;
+import org.ranch.ballshack.setting.client.ClientSettingSaver;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -13,9 +12,9 @@ import java.util.List;
 
 public class DatabaseFetcher {
 
-	public static final ClientSetting<String> host = new ClientSetting<>("database.host", "");
-	public static final ClientSetting<String> user = new ClientSetting<>("database.user", "");
-	public static final ClientSetting<String> password = new ClientSetting<>("database.password", "");
+	public static final ClientSetting<String> host = new ClientSetting<>("database.host", "").tooltip("the server database host");
+	public static final ClientSetting<String> user = new ClientSetting<>("database.user", "").tooltip("the server database user");
+	public static final ClientSetting<String> password = new ClientSetting<>("database.password", "").tooltip("the server database password");
 
 	public record Server(String address, int port, boolean canJoin, boolean modded, int id) {
 		public ScannedServerInfo getServerInfo() {

@@ -1,4 +1,4 @@
-package org.ranch.ballshack.setting.settings;
+package org.ranch.ballshack.setting.module.settings;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;

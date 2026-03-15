@@ -6,7 +6,7 @@ import org.ranch.ballshack.event.events.EventPlayerInput;
 import org.ranch.ballshack.event.events.EventTick;
 import org.ranch.ballshack.module.Module;
 import org.ranch.ballshack.module.ModuleCategory;
-import org.ranch.ballshack.setting.settings.BooleanSetting;
+import org.ranch.ballshack.setting.module.settings.BooleanSetting;
 import org.ranch.ballshack.util.PlayerSim;
 
 public class SafeWalk extends Module {

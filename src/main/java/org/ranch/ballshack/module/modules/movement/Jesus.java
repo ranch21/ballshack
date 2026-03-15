@@ -10,7 +10,7 @@ import org.ranch.ballshack.event.events.EventTick;
 import org.ranch.ballshack.event.events.EventWalkOnFluid;
 import org.ranch.ballshack.module.Module;
 import org.ranch.ballshack.module.ModuleCategory;
-import org.ranch.ballshack.setting.settings.ModeSetting;
+import org.ranch.ballshack.setting.module.settings.ModeSetting;
 
 public class Jesus extends Module {
 
