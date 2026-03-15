@@ -20,9 +20,8 @@ public class KeyboardMixin {
 	@Inject(method = "onKey", at = @At(value = "TAIL"))
 	public void onKey(long window, int action, KeyInput input, CallbackInfo ci) {
 
-		ModuleManager.handleKeyPress(input, action);
-
 		if (action == GLFW.GLFW_PRESS && mc.currentScreen == null) {
+			ModuleManager.handleKeyPress(input, action);
 			BallsHack.eventBus.post(new EventKeyPress(input));
 		}
 

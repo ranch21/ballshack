@@ -5,6 +5,7 @@ import org.ranch.ballshack.gui.windows.RemovalReason;
 import org.ranch.ballshack.gui.windows.Window;
 import org.ranch.ballshack.gui.windows.widgets.AutoFitWindow;
 import org.ranch.ballshack.gui.windows.widgets.TextWidget;
+import org.ranch.ballshack.gui.windows.widgets.Widget;
 import org.ranch.ballshack.setting.ModuleSetting;
 import org.ranch.ballshack.setting.ModuleSettingsGroup;
 
@@ -50,16 +51,20 @@ public class ModuleSettingWindow extends AutoFitWindow {
 	}
 
 	private void addWidget(ModuleSetting<?, ?> setting) {
+		Widget widget = setting.getWidget(
+				mc.textRenderer.getWidth(setting.getName()) + 4,
+				0,
+				getWidth() - mc.textRenderer.getWidth(setting.getName()) - 8, 10
+		);
+		if (widget == null) {
+			return;
+		}
 		addChild(new TextWidget(
 				setting.getName(),
 				2, 0,
 				10, 10
 		));
 
-		addChild(setting.getWidget(
-				mc.textRenderer.getWidth(setting.getName()) + 4,
-				0,
-				getWidth() - mc.textRenderer.getWidth(setting.getName()) - 8, 10
-		));
+		addChild(widget);
 	}
 }
