@@ -94,4 +94,20 @@ public class TextUtil {
 	private static String safeString(Object o) {
 		return o == null ? null : String.valueOf(o);
 	}
+
+	public static String fmt(String format, Object... args) {
+		StringBuilder builder = new StringBuilder();
+		int i, j;
+		for (i = j = 0; i < format.length() - 1; i++) {
+			char c = format.charAt(i);
+			if (c == '{' && format.charAt(i + 1) == '}') {
+				i++;
+				builder.append(args[j++]);
+				continue;
+			}
+			builder.append(c);
+		}
+
+		return builder.toString();
+	}
 }

@@ -25,12 +25,6 @@ public class ClientSettingSaver {
 	public static final AtomicBoolean SHOULD_SAVE = new AtomicBoolean(false);
 	private static final ScheduledExecutorService SAVE_EXECUTOR = Executors.newSingleThreadScheduledExecutor();
 
-
-	static {
-		config.load();
-		Runtime.getRuntime().addShutdownHook(new Thread(ModuleSettingSaver::save));
-	}
-
 	public static void registerSetting(ClientSetting<?> setting) {
 		settings.put(setting.getKey(), setting);
 	}
@@ -40,6 +34,9 @@ public class ClientSettingSaver {
 	}
 
 	public static void load() {
+		config.load();
+		Runtime.getRuntime().addShutdownHook(new Thread(ModuleSettingSaver::save));
+
 		for (Map.Entry<String, ClientSetting<?>> entry : settings.entrySet()) {
 			ClientSetting<?> setting = entry.getValue();
 			String key = entry.getKey();

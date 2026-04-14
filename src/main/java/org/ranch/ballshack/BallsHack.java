@@ -14,6 +14,8 @@ import org.ranch.ballshack.setting.client.ClientSettingSaver;
 import org.ranch.ballshack.setting.module.ModuleSettingSaver;
 import org.ranch.ballshack.util.DatabaseFetcher;
 
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -32,7 +34,12 @@ public class BallsHack implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-		ClientSettingSaver.registerSetting(ThemeManager.loaded);
+        try {
+            Files.createDirectories(getSaveDir());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        ClientSettingSaver.registerSetting(ThemeManager.loaded);
 		ClientSettingSaver.registerSetting(FriendManager.setting);
 		ClientSettingSaver.registerSetting(DebugRenderers.enabled);
 		ClientSettingSaver.registerSetting(title);

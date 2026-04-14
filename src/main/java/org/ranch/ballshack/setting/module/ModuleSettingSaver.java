@@ -27,10 +27,6 @@ public class ModuleSettingSaver {
 	public static final AtomicBoolean SHOULD_SAVE = new AtomicBoolean(false);
 	private static final ScheduledExecutorService SAVE_EXECUTOR = Executors.newSingleThreadScheduledExecutor();
 
-	static {
-		Runtime.getRuntime().addShutdownHook(new Thread(ModuleSettingSaver::save));
-	}
-
 	private static JsonObject getModuleJson(Module module) {
 		JsonObject moduleJson = new JsonObject();
 		moduleJson.addProperty("enabled", module.isEnabled());
@@ -65,6 +61,8 @@ public class ModuleSettingSaver {
 	}
 
 	public static void load() {
+		Runtime.getRuntime().addShutdownHook(new Thread(ModuleSettingSaver::save));
+
 		if (!Files.exists(path.resolve("settings.json"))) {
 			BallsLogger.warn("No settings file found, skipping loading.");
 			return;

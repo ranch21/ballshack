@@ -7,7 +7,6 @@ import org.ranch.ballshack.util.rendering.DrawUtil;
 
 public class ModuleHud extends Module {
 
-	//public int originx, originy;
 	public int width, height;
 
 	private final HudSetting hsetting = dGroup.add(new HudSetting("Hud data", new HudElementData(0, 0, ModuleAnchor.TOP_LEFT)));
@@ -31,7 +30,7 @@ public class ModuleHud extends Module {
 
 	public int xOffset() {
 		int off;
-		if (hsetting.getValue().anchor.isCenter()) off = getWidth() / 2;
+		if (hsetting.getValue().anchor.h == 0) off = getWidth() / 2;
 		else if (hsetting.getValue().anchor.isRight()) off = getWidth();
 		else off = 0;
 		return off;
@@ -39,9 +38,8 @@ public class ModuleHud extends Module {
 
 	public int yOffset() {
 		int off;
-		if (hsetting.getValue().anchor.isBottom()) off = getHeight();
-		else if (hsetting.getValue().anchor.isTop()) off = 0;
-		else if (hsetting.getValue().anchor.isCenter()) off = getHeight() / 2;
+		if (hsetting.getValue().anchor.isTop()) off = getHeight();
+		else if (hsetting.getValue().anchor.v == 0) off = getHeight() / 2;
 		else off = 0;
 		return off;
 	}

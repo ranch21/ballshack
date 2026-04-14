@@ -6,8 +6,8 @@ import org.ranch.ballshack.gui.windows.Window;
 import org.ranch.ballshack.gui.windows.widgets.AutoFitWindow;
 import org.ranch.ballshack.gui.windows.widgets.TextWidget;
 import org.ranch.ballshack.gui.windows.widgets.Widget;
-import org.ranch.ballshack.setting.ModuleSetting;
-import org.ranch.ballshack.setting.ModuleSettingsGroup;
+import org.ranch.ballshack.setting.module.ModuleSetting;
+import org.ranch.ballshack.setting.module.ModuleSettingsGroup;
 
 public class ModuleSettingWindow extends AutoFitWindow {
 
