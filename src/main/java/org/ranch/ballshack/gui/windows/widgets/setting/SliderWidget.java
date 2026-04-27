@@ -3,7 +3,6 @@ package org.ranch.ballshack.gui.windows.widgets.setting;
 import net.minecraft.client.gui.Click;
 import net.minecraft.client.gui.DrawContext;
 import org.ranch.ballshack.gui.Colors;
-import org.ranch.ballshack.gui.windows.widgets.Widget;
 import org.ranch.ballshack.setting.ISetting;
 
 import java.awt.*;
@@ -71,8 +70,9 @@ public class SliderWidget extends SettingWidget<Double> {
 	}
 
 	@Override
-	public void onPress(Widget widget, Click click) {
+	public boolean mouseClicked(Click click, boolean doubled) {
 		holding = true;
+		return true;
 	}
 
 	@Override

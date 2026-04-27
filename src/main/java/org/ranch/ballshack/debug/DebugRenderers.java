@@ -1,9 +1,9 @@
 package org.ranch.ballshack.debug;
 
-import org.ranch.ballshack.debug.renderers.BallGridDebugRenderer;
 import org.ranch.ballshack.debug.renderers.PlayerSimDebugRenderer;
 import org.ranch.ballshack.debug.renderers.ScaffoldDebugRenderer;
 import org.ranch.ballshack.debug.renderers.VecDebugRenderer;
+import org.ranch.ballshack.debug.renderers.WindowsDebugRenderer;
 import org.ranch.ballshack.setting.client.ClientSetting;
 
 import java.util.ArrayList;
@@ -54,7 +54,7 @@ public class DebugRenderers {
 	}
 
 	static {
-		registerRenderer("ballgrid", new BallGridDebugRenderer());
+		registerRenderer("windows", new WindowsDebugRenderer());
 		registerRenderer("input", new VecDebugRenderer());
 		registerRenderer("velocity", new VecDebugRenderer());
 		registerRenderer("scaffold", new ScaffoldDebugRenderer());

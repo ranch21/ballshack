@@ -2,7 +2,6 @@ package org.ranch.ballshack.gui.windows;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
-import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gui.Click;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.Element;
@@ -10,9 +9,7 @@ import net.minecraft.client.gui.cursor.StandardCursors;
 import net.minecraft.client.input.CharInput;
 import net.minecraft.client.input.KeyInput;
 import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
 import org.lwjgl.glfw.GLFW;
-import org.ranch.ballshack.BallsHack;
 import org.ranch.ballshack.gui.Colors;
 import org.ranch.ballshack.gui.GuiUtil;
 import org.ranch.ballshack.util.rendering.DrawUtil;
@@ -29,8 +26,6 @@ public class Window implements IWindow, Element {
 	public static final int NO_SCROLL = 8;
 	public static final int NO_CLOSE = 16;
 	public static final int INDENTED = 32;
-
-	protected Identifier CLOSE_TEXTURE = Identifier.of(BallsHack.ID, "textures/gui/close.png");
 
 	private final List<Window> children = new ArrayList<>();
 	private IWindow parent;
@@ -99,12 +94,16 @@ public class Window implements IWindow, Element {
 
 		context.enableScissor(getX(), getY(), getX() + getWidth(), getY() + getHeight());
 
-		children.removeIf(window -> window.getRemovalReason() != null);
+		purgeDead();
 
 		for (int i = children.size() - 1; i >= 0; i--) {
 			children.get(i).render(context, mouseX, mouseY, delta);
 		}
 		context.disableScissor();
+	}
+
+	protected void purgeDead() {
+		children.removeIf(window -> window.getRemovalReason() != null);
 	}
 
 	protected void sortChildren() {
@@ -121,7 +120,7 @@ public class Window implements IWindow, Element {
 		if ((style & NO_CLOSE) == 0) {
 			int x = getX() + getWidth() - 10;
 			int y = getY() - BAR_HEIGHT + 3;
-			context.fill(x,y,x+7,y+7,Colors.FILL.getColor().hashCode());
+			context.fill(x, y, x + 7, y + 7, Colors.FILL.getColor().hashCode());
 			DrawUtil.drawOutline(
 					context,
 					x, y,
@@ -258,13 +257,14 @@ public class Window implements IWindow, Element {
 				return true;
 			}
 		}
-		if (GuiUtil.mouseOverlap(click.x(), click.y(), getX(), getY(), getWidth(), getHeight())) {
-			setFocused(true);
-			for (Window window : children) {
-				window.mouseClicked(click, doubled);
+		for (Window window : children) {
+			if (GuiUtil.mouseOverlap(click.x(), click.y(), window.getX(), window.getY(), window.getWidth(), window.getHeight())) {
+				window.setFocused(true);
+				if (window.mouseClicked(click, doubled))
+					return true;
 			}
-			return true;
 		}
+
 		return false;
 	}
 
@@ -286,12 +286,12 @@ public class Window implements IWindow, Element {
 	@Override
 	public boolean mouseScrolled(double mouseX, double mouseY, double horizontalAmount, double verticalAmount) {
 		if (needsScrollX()) {
-			insideOffsetX += (int) horizontalAmount * 2;
+			insideOffsetX += (int) horizontalAmount * 4;
 			insideOffsetX = Math.min(insideOffsetX, 0);
 			insideOffsetX = Math.max(insideOffsetX, -getMaxScrollX());
 		}
 		if (needsScrollY()) {
-			insideOffsetY += (int) verticalAmount * 2;
+			insideOffsetY += (int) verticalAmount * 4;
 			insideOffsetY = Math.min(insideOffsetY, 0);
 			insideOffsetY = Math.max(insideOffsetY, -getMaxScrollY() + getHeight());
 		}
@@ -441,6 +441,11 @@ public class Window implements IWindow, Element {
 		this.insideOffsetY = insideOffsetY;
 	}
 
+	/*
+		yay, lets make it so
+		setX(10);
+		assert getX() != 10;
+	*/
 	@Override
 	public int getX() {
 		return x + parent.getX() + parent.getInsideOffsetX();

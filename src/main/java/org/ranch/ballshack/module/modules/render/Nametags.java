@@ -72,7 +72,7 @@ public class Nametags extends Module {
 
 				Vec3d pos = e.getLerpedPos(event.tickCounter.getTickProgress(true)).add(0, e.getHeight() + 0.1, 0);
 
-				Vector2f screenPos = toHudPos(DrawUtil.worldToScreen(pos, prevMatrix, event.tickCounter.getTickProgress(true)));
+				Vector2f screenPos = DrawUtil.toHudPos(DrawUtil.worldToScreen(pos, prevMatrix, event.tickCounter.getTickProgress(true)));
 				if (screenPos == null) continue;
 
 				float scale = (1 / (float) pos.distanceTo(mc.gameRenderer.getCamera().getCameraPos())) * size.getValueFloat();
@@ -86,13 +86,6 @@ public class Nametags extends Module {
 				stack.popMatrix();
 			}
 		}
-	}
-
-	public Vector2f toHudPos(Vector2f ndc) {
-		if (ndc == null) return null;
-		float x = (ndc.x + 1.0f) / 2.0f * DrawUtil.getScreenWidth();
-		float y = (1.0f - ndc.y) / 2.0f * DrawUtil.getScreenHeight();
-		return new Vector2f(x, y);
 	}
 
 	private void drawNametag(DrawContext context, Entity e, Matrix3x2fStack stack, float scale) {

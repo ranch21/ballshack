@@ -1,11 +1,5 @@
 package org.ranch.ballshack.gui;
 
-import static org.ranch.ballshack.module.ModuleAnchor.MARGIN;
-
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.Click;
 import net.minecraft.client.gui.DrawContext;
@@ -18,6 +12,13 @@ import org.lwjgl.glfw.GLFW;
 import org.ranch.ballshack.module.*;
 import org.ranch.ballshack.module.Module;
 import org.ranch.ballshack.util.rendering.DrawUtil;
+
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import static org.ranch.ballshack.module.ModuleAnchor.MARGIN;
 
 public class HudScreen extends Screen {
 
@@ -36,7 +37,7 @@ public class HudScreen extends Screen {
 	protected void init() {
 		modules.clear();
 		for (Module module : ModuleManager.getModulesByCategory(
-			ModuleCategory.HUD
+				ModuleCategory.HUD
 		)) {
 			if (module instanceof ModuleHud moduleHud) {
 				modules.add(moduleHud);
@@ -53,10 +54,10 @@ public class HudScreen extends Screen {
 
 	@Override
 	public void render(
-		DrawContext context,
-		int mouseX,
-		int mouseY,
-		float delta
+			DrawContext context,
+			int mouseX,
+			int mouseY,
+			float delta
 	) {
 		if (dragging) {
 			List<Snap> snaps = handleDrag(mouseX, mouseY);
@@ -76,46 +77,46 @@ public class HudScreen extends Screen {
 		for (ModuleHud module : modules) {
 			if (!module.isEnabled()) continue;
 			DrawUtil.drawOutline(
-				context,
-				module.X() - module.xOffset(),
-				module.Y() - module.yOffset(),
-				module.getWidth(),
-				module.getHeight(),
-				Color.WHITE,
-				Color.WHITE
+					context,
+					module.X() - module.xOffset(),
+					module.Y() - module.yOffset(),
+					module.getWidth(),
+					module.getHeight(),
+					Color.WHITE,
+					Color.WHITE
 			);
 			//context.fill(module.X() - module.xOffset(), module.Y() - module.yOffset(), module.X() - module.xOffset() + module.getWidth(), module.Y() - module.yOffset() + module.getHeight(), Colors.CLICKGUI_1.getColor().hashCode());
 			DrawUtil.drawPoint(
-				context,
-				module.X() - 1,
-				module.Y(),
-				Color.WHITE
+					context,
+					module.X() - 1,
+					module.Y(),
+					Color.WHITE
 			);
 			DrawUtil.drawPoint(
-				context,
-				module.X() + 1,
-				module.Y(),
-				Color.WHITE
+					context,
+					module.X() + 1,
+					module.Y(),
+					Color.WHITE
 			);
 			DrawUtil.drawPoint(
-				context,
-				module.X(),
-				module.Y() - 1,
-				Color.WHITE
+					context,
+					module.X(),
+					module.Y() - 1,
+					Color.WHITE
 			);
 			DrawUtil.drawPoint(
-				context,
-				module.X(),
-				module.Y() + 1,
-				Color.WHITE
+					context,
+					module.X(),
+					module.Y() + 1,
+					Color.WHITE
 			);
 			DrawUtil.drawLine(
-				context,
-				module.getAnchorPoint().getX(width),
-				module.getAnchorPoint().getY(height),
-				module.X(),
-				module.Y(),
-				Color.GRAY
+					context,
+					module.getAnchorPoint().getX(width),
+					module.getAnchorPoint().getY(height),
+					module.X(),
+					module.Y(),
+					Color.GRAY
 			);
 		}
 	}
@@ -134,14 +135,14 @@ public class HudScreen extends Screen {
 				if (!module.isEnabled()) continue;
 
 				if (
-					GuiUtil.mouseOverlap(
-						click.x(),
-						click.y(),
-						module.X() - module.xOffset(),
-						module.Y() - module.yOffset(),
-						module.getWidth(),
-						module.getHeight()
-					)
+						GuiUtil.mouseOverlap(
+								click.x(),
+								click.y(),
+								module.X() - module.xOffset(),
+								module.Y() - module.yOffset(),
+								module.getWidth(),
+								module.getHeight()
+						)
 				) {
 					dragging = true;
 					draggingModule = module;
@@ -201,18 +202,18 @@ public class HudScreen extends Screen {
 	private void clampPositions() {
 		for (ModuleHud module : modules) {
 			module.setPos(
-				Math.min(
-					module.X(),
-					width - module.getWidth() + module.xOffset()
-				),
-				Math.min(
-					module.Y(),
-					height - module.getHeight() + module.yOffset()
-				)
+					Math.min(
+							module.X(),
+							width - module.getWidth() + module.xOffset()
+					),
+					Math.min(
+							module.Y(),
+							height - module.getHeight() + module.yOffset()
+					)
 			);
 			module.setPos(
-				Math.max(module.X(), module.xOffset()),
-				Math.max(module.Y(), module.yOffset())
+					Math.max(module.X(), module.xOffset()),
+					Math.max(module.Y(), module.yOffset())
 			);
 		}
 	}
@@ -234,8 +235,8 @@ public class HudScreen extends Screen {
 			Snap ySnap = getSnap(y, h, sy, sh, Axis.Y);
 
 			if (xSnap != null || ySnap != null) return Arrays.asList(
-				xSnap,
-				ySnap
+					xSnap,
+					ySnap
 			);
 		}
 		return null;
@@ -277,17 +278,17 @@ public class HudScreen extends Screen {
 		public void drawSnap(DrawContext context, Color color) {
 			if (axis == Axis.X) {
 				context.drawVerticalLine(
-					p,
-					0,
-					DrawUtil.getScreenHeight(),
-					color.hashCode()
+						p,
+						0,
+						DrawUtil.getScreenHeight(),
+						color.hashCode()
 				);
 			} else {
 				context.drawHorizontalLine(
-					0,
-					DrawUtil.getScreenWidth(),
-					p,
-					color.hashCode()
+						0,
+						DrawUtil.getScreenWidth(),
+						p,
+						color.hashCode()
 				);
 			}
 		}
@@ -299,5 +300,6 @@ public class HudScreen extends Screen {
 	}
 
 	@Override
-	protected void applyBlur(DrawContext context) {}
+	protected void applyBlur(DrawContext context) {
+	}
 }

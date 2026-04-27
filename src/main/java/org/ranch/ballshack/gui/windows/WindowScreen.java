@@ -7,6 +7,8 @@ import net.minecraft.client.input.CharInput;
 import net.minecraft.client.input.KeyInput;
 import net.minecraft.text.Text;
 import org.joml.Matrix3x2fStack;
+import org.ranch.ballshack.debug.DebugRenderers;
+import org.ranch.ballshack.debug.renderers.WindowsDebugRenderer;
 import org.ranch.ballshack.util.rendering.DrawUtil;
 
 import java.util.ArrayList;
@@ -30,6 +32,9 @@ public class WindowScreen extends Screen implements IWindow {
 
 	@Override
 	public void render(DrawContext context, int mouseX, int mouseY, float delta) {
+
+		WindowsDebugRenderer winDebug = (WindowsDebugRenderer) DebugRenderers.getRenderer("windows");
+		if (winDebug.getEnabled()) winDebug.setData(this);
 
 		Matrix3x2fStack stack = context.getMatrices();
 		stack.pushMatrix();

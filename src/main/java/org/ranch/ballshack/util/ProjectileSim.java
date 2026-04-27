@@ -147,7 +147,7 @@ public class ProjectileSim {
 	}
 
 	public record Trajectory(List<Vec3d> positions, Entity entity, BlockPos pos, boolean fake, Entity thrower,
-							 Projectile projectile) {
+	                         Projectile projectile) {
 		public Trajectory(List<Vec3d> positions, @Nullable Entity entity, @Nullable BlockPos pos, boolean fake, @Nullable Entity thrower, Projectile projectile) {
 			this.positions = positions;
 			this.entity = entity;

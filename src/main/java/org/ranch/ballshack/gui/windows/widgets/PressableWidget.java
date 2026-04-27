@@ -1,6 +1,5 @@
 package org.ranch.ballshack.gui.windows.widgets;
 
-import net.minecraft.client.gui.Click;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.cursor.StandardCursors;
 import org.ranch.ballshack.gui.Colors;
@@ -28,16 +27,4 @@ public abstract class PressableWidget extends Widget {
 			super.drawBackground(context, mouseX, mouseY, delta);
 		}
 	}
-
-	@Override
-	public boolean mouseClicked(Click click, boolean doubled) {
-		super.mouseClicked(click, doubled);
-		if (overlaps(click)) {
-			onPress(this, click);
-			return true;
-		}
-		return false;
-	}
-
-	public abstract void onPress(Widget widget, Click click);
 }

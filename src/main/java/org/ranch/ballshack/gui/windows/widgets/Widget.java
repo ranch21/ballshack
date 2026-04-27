@@ -6,6 +6,6 @@ public class Widget extends Window {
 
 	public Widget(String title, int x, int y, int width, int height) {
 		super(title, x, y, width, height);
-		addFlags(NO_TITLE | NO_SCROLL);
+		addFlags(NO_TITLE);
 	}
 }

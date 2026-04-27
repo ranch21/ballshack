@@ -3,7 +3,6 @@ package org.ranch.ballshack.gui.windows.widgets.setting;
 import net.minecraft.client.gui.Click;
 import net.minecraft.client.gui.DrawContext;
 import org.ranch.ballshack.gui.Colors;
-import org.ranch.ballshack.gui.windows.widgets.Widget;
 import org.ranch.ballshack.setting.ISetting;
 
 public class CheckboxWidget extends SettingWidget<Boolean> {
@@ -22,7 +21,11 @@ public class CheckboxWidget extends SettingWidget<Boolean> {
 	}
 
 	@Override
-	public void onPress(Widget widget, Click click) {
+	public boolean mouseClicked(Click click, boolean doubled) {
+		//if (inside((int) click.x(), (int) click.y())) {
 		setting.setValue(!setting.getValue());
+		return true;
+		//}
+		//return false;
 	}
 }

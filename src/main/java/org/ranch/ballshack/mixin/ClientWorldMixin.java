@@ -6,8 +6,6 @@ import org.ranch.ballshack.BallsLogger;
 import org.ranch.ballshack.debug.DebugRenderers;
 import org.ranch.ballshack.debug.renderers.PlayerSimDebugRenderer;
 import org.ranch.ballshack.event.events.EventTick;
-import org.ranch.ballshack.module.ModuleManager;
-import org.ranch.ballshack.module.modules.render.Environment;
 import org.ranch.ballshack.util.EntityUtil;
 import org.ranch.ballshack.util.FreelookHandler;
 import org.ranch.ballshack.util.PlayerSim;

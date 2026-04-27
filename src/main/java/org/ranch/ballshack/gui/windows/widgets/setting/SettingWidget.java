@@ -1,9 +1,9 @@
 package org.ranch.ballshack.gui.windows.widgets.setting;
 
-import org.ranch.ballshack.gui.windows.widgets.PressableWidget;
+import org.ranch.ballshack.gui.windows.widgets.Widget;
 import org.ranch.ballshack.setting.ISetting;
 
-public abstract class SettingWidget<T> extends PressableWidget {
+public abstract class SettingWidget<T> extends Widget {
 
 	protected ISetting<T> setting;
 

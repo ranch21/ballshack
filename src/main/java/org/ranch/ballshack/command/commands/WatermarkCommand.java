@@ -8,6 +8,8 @@ import org.ranch.ballshack.BallsHack;
 import org.ranch.ballshack.command.Command;
 import org.ranch.ballshack.command.CommandType;
 
+import java.util.Random;
+
 public class WatermarkCommand extends Command {
 
 	public WatermarkCommand() {
@@ -20,7 +22,6 @@ public class WatermarkCommand extends Command {
 				.then(RequiredArgumentBuilder.<ClientCommandSource, String>argument("watermark", StringArgumentType.string())
 						.executes(context -> {
 							String watermark = StringArgumentType.getString(context, "watermark");
-
 							BallsHack.title.setValue(watermark);
 							return 1;
 						}));

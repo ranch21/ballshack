@@ -1,6 +1,5 @@
 package org.ranch.ballshack.module.modules.render;
 
-import net.fabricmc.api.Environment;
 import net.minecraft.block.enums.CameraSubmersionType;
 import org.ranch.ballshack.event.EventSubscribe;
 import org.ranch.ballshack.event.events.EventFog;

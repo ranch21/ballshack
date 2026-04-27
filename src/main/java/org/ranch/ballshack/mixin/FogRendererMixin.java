@@ -2,10 +2,7 @@ package org.ranch.ballshack.mixin;
 
 import net.minecraft.block.enums.CameraSubmersionType;
 import net.minecraft.client.render.Camera;
-import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.client.render.fog.FogRenderer;
-import net.minecraft.client.world.ClientWorld;
-import org.joml.Vector4f;
 import org.ranch.ballshack.BallsHack;
 import org.ranch.ballshack.event.events.EventFog;
 import org.spongepowered.asm.mixin.Mixin;

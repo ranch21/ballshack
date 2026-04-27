@@ -6,7 +6,6 @@ import org.lwjgl.glfw.GLFW;
 import org.ranch.ballshack.gui.Colors;
 import org.ranch.ballshack.gui.GuiUtil;
 import org.ranch.ballshack.gui.windows.RemovalReason;
-import org.ranch.ballshack.gui.windows.widgets.Widget;
 import org.ranch.ballshack.setting.module.settings.ModeSetting;
 import org.ranch.ballshack.util.rendering.BallColor;
 import org.ranch.ballshack.util.rendering.DrawUtil;
@@ -45,7 +44,7 @@ public class ModeWidget<E extends Enum<?>> extends SettingWidget<E> {
 	}
 
 	@Override
-	public void onPress(Widget widget, Click click) {
+	public boolean mouseClicked(Click click, boolean doubled) {
 		if (click.button() == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
 			if (dropdown != null) {
 				dropdown.remove(RemovalReason.KILLED);
@@ -59,6 +58,7 @@ public class ModeWidget<E extends Enum<?>> extends SettingWidget<E> {
 
 			getRoot().addChild(dropdown);
 		}
+		return true;
 	}
 
 	public class Dropdown extends SettingWidget<E> {
@@ -74,14 +74,17 @@ public class ModeWidget<E extends Enum<?>> extends SettingWidget<E> {
 		}
 
 		@Override
-		public void onPress(Widget widget, Click click) {
-			int i = 0;
-			for (E mode : ((ModeSetting<E>) setting).getEnumValues()) {
-				if (GuiUtil.mouseOverlap(click.x(), click.y(), getX(), getY() + i++ * h, getWidth(), h)) {
-					setting.setValue(mode);
+		public boolean mouseClicked(Click click, boolean doubled) {
+			if (overlaps(click)) {
+				int i = 0;
+				for (E mode : ((ModeSetting<E>) setting).getEnumValues()) {
+					if (GuiUtil.mouseOverlap(click.x(), click.y(), getX(), getY() + i++ * h, getWidth(), h)) {
+						setting.setValue(mode);
+					}
 				}
-			}
-			remove(RemovalReason.CLOSED);
+				remove(RemovalReason.CLOSED);
+				return true;
+			} else return false;
 		}
 
 		@Override

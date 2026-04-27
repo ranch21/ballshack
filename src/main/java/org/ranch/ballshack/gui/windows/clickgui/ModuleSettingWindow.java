@@ -52,17 +52,19 @@ public class ModuleSettingWindow extends AutoFitWindow {
 
 	private void addWidget(ModuleSetting<?, ?> setting) {
 		Widget w = setting.getWidget(
-				mc.textRenderer.getWidth(setting.getName()) + 4,
+				(setting.hasLabel() ? mc.textRenderer.getWidth(setting.getName()) + 4 : 2),
 				0,
-				getWidth() - mc.textRenderer.getWidth(setting.getName()) - 8, 10
+				getWidth() - (setting.hasLabel() ? mc.textRenderer.getWidth(setting.getName()) + 8 : 4), 10
 		);
 		if (w == null) return;
 
-		addChild(new TextWidget(
-				setting.getName(),
-				2, 0,
-				10, 10
-		));
+		if (setting.hasLabel()) {
+			addChild(new TextWidget(
+					setting.getName(),
+					2, 0,
+					10, 10
+			));
+		}
 
 		addChild(w);
 	}

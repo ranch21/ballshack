@@ -44,6 +44,13 @@ public class DrawUtil {
 		}
 	}
 
+	public static Vector2f toHudPos(Vector2f ndc) {
+		if (ndc == null) return null;
+		float x = (ndc.x + 1.0f) / 2.0f * DrawUtil.getScreenWidth();
+		float y = (1.0f - ndc.y) / 2.0f * DrawUtil.getScreenHeight();
+		return new Vector2f(x, y);
+	}
+
 	public static void drawPoint(DrawContext context, int x, int y, Color color) {
 		context.fill(x, y, x + 1, y + 1, color.hashCode());
 	}

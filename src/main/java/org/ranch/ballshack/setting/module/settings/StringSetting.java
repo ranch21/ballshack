@@ -25,7 +25,7 @@ public class StringSetting extends ModuleSetting<String, StringSetting> {
 
 	@Override
 	public Widget getWidget(int x, int y, int width, int height) {
-		return new StringWidget(getName(), x, y, width, height, this);
+		return new StringWidget(getName(), x, y, width, height, true, this);
 	}
 
 	@Override

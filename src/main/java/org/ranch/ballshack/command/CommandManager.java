@@ -59,6 +59,7 @@ public class CommandManager {
 		registerCommand(new WatermarkCommand());
 		registerCommand(new ThemeCommand());
 		registerCommand(new SearchCommand());
+		registerCommand(new WaypointCommand());
 
 		registerCommand(new ToggleCommand());
 

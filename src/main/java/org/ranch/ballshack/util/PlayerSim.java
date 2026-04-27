@@ -24,7 +24,7 @@ public class PlayerSim {
 	private static final MinecraftClient mc = BallsHack.mc;
 
 	public record PlayerPoint(Vec3d position, Box boundingBox, Vec3d velocity,
-							  boolean onGround, Optional<BlockPos> supportingBlock, Vec3d eyePos) implements Position {
+	                          boolean onGround, Optional<BlockPos> supportingBlock, Vec3d eyePos) implements Position {
 
 		@Override
 		public double getX() {

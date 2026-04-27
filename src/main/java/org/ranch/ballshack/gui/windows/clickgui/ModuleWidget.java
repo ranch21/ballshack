@@ -10,8 +10,6 @@ import org.ranch.ballshack.module.ModuleManager;
 import org.ranch.ballshack.module.modules.client.ClickGui;
 import org.ranch.ballshack.util.rendering.DrawUtil;
 
-import java.awt.*;
-
 public class ModuleWidget extends ButtonWidget {
 
 	private final Module module;

@@ -13,12 +13,14 @@ public abstract class ModuleSetting<T, SELF extends ModuleSetting<T, SELF>> impl
 	private String tooltip;
 	private Supplier<Boolean> dependencyCondition;
 	private boolean featured;
+	private boolean label;
 
 	protected T value;
 
 	public ModuleSetting(String name, T value) {
 		this.name = name;
 		this.value = value;
+		this.label = true;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -39,6 +41,15 @@ public abstract class ModuleSetting<T, SELF extends ModuleSetting<T, SELF>> impl
 	public SELF depends(Supplier<Boolean> condition) {
 		setDependency(condition);
 		return self();
+	}
+
+	public SELF label(boolean label) {
+		this.label = label;
+		return self();
+	}
+
+	public boolean hasLabel() {
+		return label;
 	}
 
 	public T getValue() {

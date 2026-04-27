@@ -34,12 +34,12 @@ public class BallsHack implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-        try {
-            Files.createDirectories(getSaveDir());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        ClientSettingSaver.registerSetting(ThemeManager.loaded);
+		try {
+			Files.createDirectories(getSaveDir());
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+		ClientSettingSaver.registerSetting(ThemeManager.loaded);
 		ClientSettingSaver.registerSetting(FriendManager.setting);
 		ClientSettingSaver.registerSetting(DebugRenderers.enabled);
 		ClientSettingSaver.registerSetting(title);

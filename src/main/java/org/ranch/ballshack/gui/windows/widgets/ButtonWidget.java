@@ -32,7 +32,8 @@ public class ButtonWidget extends PressableWidget {
 	}
 
 	@Override
-	public void onPress(Widget widget, Click click) {
-		callback.accept(widget, click);
+	public boolean mouseClicked(Click click, boolean doubled) {
+		callback.accept(this, click);
+		return true;
 	}
 }

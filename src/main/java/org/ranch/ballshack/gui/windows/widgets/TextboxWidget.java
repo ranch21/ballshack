@@ -1,4 +1,4 @@
-package org.ranch.ballshack.gui.windows.widgets.setting;
+package org.ranch.ballshack.gui.windows.widgets;
 
 import net.minecraft.client.gui.Click;
 import net.minecraft.client.gui.DrawContext;
@@ -8,31 +8,30 @@ import net.minecraft.util.StringHelper;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.MathHelper;
 import org.lwjgl.glfw.GLFW;
-import org.ranch.ballshack.setting.ISetting;
-import org.ranch.ballshack.setting.module.settings.StringSetting;
 import org.ranch.ballshack.util.TextUtil;
 
 import java.awt.*;
 import java.util.List;
 
-public class StringWidget extends SettingWidget<String> {
+public class TextboxWidget extends Widget {
+
+	private String value;
+	private int maxLength;
 
 	private int selectionStart;
 	private int selectionEnd;
-	private final boolean multiline;
 
-	public StringWidget(String title, int x, int y, int width, int height, boolean multiline, ISetting<String> setting) {
-		super(title, x, y, width, height, setting);
+	public TextboxWidget(String title, int x, int y, int width, int height) {
+		super(title, x, y, width, height);
 		addFlags(INDENTED);
-		this.multiline = multiline;
+		value = "";
 	}
 
 	@Override
 	public void init() {
 		super.init();
-		List<String> splitLines = TextUtil.wrapText(setting.getValue(), getWidth() - 4);
-		if (multiline)
-			setHeight(Math.max(mc.textRenderer.fontHeight, splitLines.size() * mc.textRenderer.fontHeight + 1 + 1));
+		List<String> splitLines = TextUtil.wrapText(value, getWidth() - 4);
+		setHeight(Math.max(mc.textRenderer.fontHeight, splitLines.size() * mc.textRenderer.fontHeight + 1 + 1));
 		setSelection();
 	}
 
@@ -45,23 +44,15 @@ public class StringWidget extends SettingWidget<String> {
 			value = new StringBuilder(value).insert(selectionStart, "_").toString();
 		}
 
-		context.enableScissor(getX(), getY(), getX() + getWidth(), getY() + getHeight());
+		List<String> splitLines = TextUtil.wrapText(value, getWidth() - 4);
 
-		if (multiline) {
-			List<String> splitLines = TextUtil.wrapText(value, getWidth() - 4);
+		int lineHeight = mc.textRenderer.fontHeight + 1;
 
-			int lineHeight = mc.textRenderer.fontHeight + 1;
-
-			int i = 0;
-			for (String line : splitLines) {
-				text(line, 2, i++ * lineHeight + 1, Color.WHITE.hashCode(), true);
-			}
-			setHeight(Math.max(mc.textRenderer.fontHeight, i * lineHeight + 1));
-		} else {
-			text(value, 2, 1, Color.WHITE.hashCode(), true);
+		int i = 0;
+		for (String line : splitLines) {
+			text(line, 2, i++ * lineHeight + 1, Color.WHITE.hashCode(), true);
 		}
-
-		context.disableScissor();
+		setHeight(Math.max(mc.textRenderer.fontHeight, i * lineHeight + 1));
 	}
 
 	private void setSelection() {
@@ -117,13 +108,13 @@ public class StringWidget extends SettingWidget<String> {
 	}
 
 	public String getText() {
-		return setting.getValue() == null ? "" : setting.getValue();
+		return value == null ? "" : value;
 	}
 
 	public void write(String text) {
 		int i = Math.min(this.selectionStart, this.selectionEnd);
 		int j = Math.max(this.selectionStart, this.selectionEnd);
-		int k = ((StringSetting) setting).getMaxLength() - getText().length() - (i - j);
+		int k = maxLength - getText().length() - (i - j);
 		if (k > 0) {
 			String string = StringHelper.stripInvalidChars(text);
 			int l = string.length();
@@ -137,7 +128,7 @@ public class StringWidget extends SettingWidget<String> {
 			}
 
 			String string2 = new StringBuilder(getText()).replace(i, j, string).toString();
-			setting.setValue(string2);
+			value = string2;
 			setSelectionStart(i + l);
 			setSelectionEnd(selectionStart);
 		}
@@ -154,7 +145,7 @@ public class StringWidget extends SettingWidget<String> {
 				int j = Math.max(pos, this.selectionStart);
 				if (i != j) {
 					String string = new StringBuilder(getText()).delete(i, j).toString();
-					setting.setValue(string);
+					value = string;
 					setSelectionStart(i);
 					setSelectionEnd(i);
 				}

@@ -1,10 +1,8 @@
 package org.ranch.ballshack.gui.windows.widgets.setting;
 
-import net.minecraft.client.gui.Click;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.input.KeyInput;
 import org.lwjgl.glfw.GLFW;
-import org.ranch.ballshack.gui.windows.widgets.Widget;
 import org.ranch.ballshack.setting.module.settings.BindSetting;
 
 public class BindWidget extends SettingWidget<Integer> {
@@ -18,11 +16,6 @@ public class BindWidget extends SettingWidget<Integer> {
 	public void render(DrawContext context, double mouseX, double mouseY, float delta) {
 		super.render(context, mouseX, mouseY, delta);
 		text(setting.getFormattedValue(), 2, (getHeight() - mc.textRenderer.fontHeight) / 2 + 1, 0xFFFFFFFF, true);
-	}
-
-	@Override
-	public void onPress(Widget widget, Click click) {
-
 	}
 
 	@Override

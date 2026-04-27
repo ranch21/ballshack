@@ -16,12 +16,12 @@ public enum ModuleAnchor {
 
 	public static final float MARGIN = 0.25f;
 
-    ModuleAnchor(int h, int v) {
-        this.h = h;
-        this.v = v;
-    }
+	ModuleAnchor(int h, int v) {
+		this.h = h;
+		this.v = v;
+	}
 
-    public boolean isRight() {
+	public boolean isRight() {
 		return this.h > 0;
 	}
 
